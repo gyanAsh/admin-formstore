@@ -1,12 +1,15 @@
-"use client"
+"use client";
 
+import { SidebarProvider } from "@/components/ui/sidebar";
 import {
   QueryCache,
   QueryClient,
   QueryClientProvider,
-} from "@tanstack/react-query"
-import { HTTPException } from "hono/http-exception"
-import { PropsWithChildren, useState } from "react"
+} from "@tanstack/react-query";
+import { HTTPException } from "hono/http-exception";
+import { ThemeProvider } from "next-themes";
+import { PropsWithChildren, useState } from "react";
+import { toast } from "sonner";
 
 export const Providers = ({ children }: PropsWithChildren) => {
   const [queryClient] = useState(
@@ -16,13 +19,25 @@ export const Providers = ({ children }: PropsWithChildren) => {
           onError: (err) => {
             if (err instanceof HTTPException) {
               // global error handling, e.g. toast notification ...
+              toast.error(JSON.stringify({ Error: err.message }));
+              return;
             }
+            toast.error("Something went wrong.");
           },
         }),
       })
-  )
+  );
 
   return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  )
-}
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <SidebarProvider className="">{children}</SidebarProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
+  );
+};
