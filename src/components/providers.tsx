@@ -1,6 +1,5 @@
 "use client";
 
-import { SidebarProvider } from "@/components/ui/sidebar";
 import {
   QueryCache,
   QueryClient,
@@ -36,7 +35,7 @@ export const Providers = ({ children }: PropsWithChildren) => {
         enableSystem
         disableTransitionOnChange
       >
-        <SidebarProvider className="">{children}</SidebarProvider>
+        {children}
       </ThemeProvider>
     </QueryClientProvider>
   );

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import "./globals.css";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
-import { Providers } from "@/components/providers";
+import { AppSidebar } from "@/components/app-sidebar";
 
 export const metadata: Metadata = {
   title: "JStack App",
@@ -18,10 +18,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="antialiased">
-        <Providers>
+        <SidebarProvider>
+          <AppSidebar />
+          <SidebarTrigger />
           {children}
           <Toaster />
-        </Providers>
+        </SidebarProvider>
       </body>
     </html>
   );
