@@ -1,10 +1,10 @@
-import { posts } from "@/server/db/schema";
 import { desc } from "drizzle-orm";
 import { z } from "zod";
-import { j, publicProcedure } from "../jstack";
+import { j, authenticatedProcedure } from "../jstack";
+import { posts } from "../db/schema";
 
 export const postRouter = j.router({
-  recent: publicProcedure.query(async ({ c, ctx }) => {
+  recent: authenticatedProcedure.query(async ({ c, ctx }) => {
     const { db } = ctx;
 
     const [recentPost] = await db
@@ -16,7 +16,7 @@ export const postRouter = j.router({
     return c.superjson(recentPost ?? null);
   }),
 
-  create: publicProcedure
+  create: authenticatedProcedure
     .input(z.object({ name: z.string().min(1) }))
     .mutation(async ({ ctx, c, input }) => {
       const { name } = input;

@@ -1,3 +1,4 @@
+import SignIn from "@/components/sign-in-btn";
 import { cn } from "@/lib/utils";
 
 export default async function Home() {
@@ -22,6 +23,7 @@ export default async function Home() {
             end-to-end typesafe Next.js apps.
           </span>
         </p>
+        <SignIn />
       </div>
     </main>
   );

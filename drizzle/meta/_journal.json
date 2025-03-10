@@ -15,6 +15,13 @@
       "when": 1741435313512,
       "tag": "0001_fat_calypso",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1741620447497,
+      "tag": "0002_wonderful_changeling",
+      "breakpoints": true
     }
   ]
 }

@@ -1,6 +1,6 @@
 import { j } from "./jstack";
 import { postRouter } from "./routers/post-router";
-
+import { getAuth } from "@/lib/getAuth";
 /**
  * This is your base API.
  * Here, you can handle errors, not-found responses, cors and more.
@@ -11,6 +11,10 @@ const api = j
   .router()
   .basePath("/api")
   .use(j.defaults.cors)
+  .on(["GET", "POST"], "/auth/**", (c) => {
+    const auth = getAuth(c);
+    return auth.handler(c.req.raw);
+  })
   .onError(j.defaults.errorHandler);
 
 /**
