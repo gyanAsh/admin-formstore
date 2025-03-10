@@ -4,14 +4,13 @@ import { z } from "zod";
 import { j, publicProcedure } from "../jstack";
 
 export const workspaceRouter = j.router({
-  all: publicProcedure.query(async ({ c, ctx }) => {
+  all: publicProcedure.get(async ({ c, ctx }) => {
     const { db } = ctx;
-
-    await db
+    const workspaceList = await db
       .select()
       .from(workspaces);
 
-    return c.superjson(recentPost ?? null);
+    return c.superjson(workspaceList ?? null);
   }),
 
   create: publicProcedure
