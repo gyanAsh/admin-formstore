@@ -1,6 +1,8 @@
 import { j } from "./jstack";
 import { postRouter } from "./routers/post-router";
 import { getAuth } from "@/lib/getAuth";
+import { workspaceRouter } from "./routers/workspace-router";
+
 /**
  * This is your base API.
  * Here, you can handle errors, not-found responses, cors and more.
@@ -23,6 +25,7 @@ const api = j
  */
 const appRouter = j.mergeRouters(api, {
   post: postRouter,
+  workspace: workspaceRouter,
 });
 
 export type AppRouter = typeof appRouter;
