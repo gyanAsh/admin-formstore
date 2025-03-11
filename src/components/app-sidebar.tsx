@@ -17,7 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { MoveUpRight, Plus, Send, WorkflowIcon } from "lucide-react";
+import { MoveUpRight, Plus, WorkflowIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "./theme-toggle";
 import {
@@ -35,18 +35,23 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useEffect } from "react";
 import { client } from "@/lib/client";
+import { authClient } from "@/lib/auth-clinet";
+import { useRouter } from "next/navigation";
 
 export function AppSidebar() {
-  useEffect(() => {
-    client.workspace.all
-      .$get()
-      .then((res) => res.json())
-      .then((data) => console.log(data));
-  }, []);
+  const router = useRouter();
+  const { data: all_workspace, isPending: loading_workspace } = useQuery({
+    queryKey: ["get-all-workspace"],
+    queryFn: async () => {
+      const res = await client.workspace.all.$get();
+      return await res.json();
+    },
+  });
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -76,15 +81,15 @@ export function AppSidebar() {
                 <Button
                   variant={"outline"}
                   effect={"small_scale"}
-                  className="grow justify-start "
+                  className="grow justify-start border-accent-foreground/30 "
                 >
                   <WorkflowIcon /> My First Workspace{" "}
                 </Button>
               </DropdownMenuTrigger>
               <Dialog>
                 <DialogTrigger>
-                  <div className="p-[6px] border rounded-lg hover:scale-105 active:scale-95 bg-accent cursor-pointer duration-75">
-                    <Plus />
+                  <div className="p-[6px] border rounded-lg hover:scale-105 active:scale-95 bg-foreground cursor-pointer duration-75">
+                    <Plus className="text-background" />
                   </div>
                 </DialogTrigger>
                 <DialogContent>
@@ -145,6 +150,19 @@ export function AppSidebar() {
         <SidebarGroup>a</SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
+        <Button
+          onClick={async () => {
+            await authClient.signOut({
+              fetchOptions: {
+                onSuccess: () => {
+                  router.push("/"); // redirect to login page
+                },
+              },
+            });
+          }}
+        >
+          Sign Out
+        </Button>
         <ModeToggle className="w-full" />
       </SidebarFooter>
     </Sidebar>
