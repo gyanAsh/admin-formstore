@@ -18,19 +18,16 @@ export const workspaceRouter = j.router({
           .string()
           .min(3, { message: "Name must be between 3 to 20 characters" })
           .max(20, { message: "Name must be between 3 to 20 characters" })
-          .regex(/^[a-zA-Z0-9_]+$/, {
-            message: "Name can only include letters, numbers, and underscores",
+          .regex(/^[a-zA-Z0-9_\ ]+$/, {
+            message:
+              "Name can only include letters, numbers, and underscores and space",
           }),
-      })
+      }),
     )
     .mutation(async ({ ctx, c, input }) => {
       const { name } = input;
       const { db } = ctx;
-      console.log({ name });
-      //  const workspace = await db.insert(tables.workspace).values({ name });
-
-      const userId = 0; // this wall fail so change it later when we have a user
-      // const res = await db.insert(workspaces).values({ name, ownerId: userId });
+      const workspace = await db.insert(tables.workspace).values({ name });
 
       return c.superjson({});
     }),
