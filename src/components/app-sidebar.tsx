@@ -5,19 +5,22 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarHeader,
+  SidebarMenuButton,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
-import { MoveUpRight, Plus, WorkflowIcon } from "lucide-react";
+import {
+  ChevronDown,
+  LogOut,
+  MoveUpRight,
+  Plus,
+  WandSparkles,
+  WorkflowIcon,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "./theme-toggle";
 import {
@@ -42,6 +45,11 @@ import { client } from "@/lib/client";
 import { authClient } from "@/lib/auth-clinet";
 import { useRouter } from "next/navigation";
 import React from "react";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "./ui/collapsible";
 
 export function AppSidebar() {
   const router = useRouter();
@@ -57,7 +65,7 @@ export function AppSidebar() {
   }
 
   return (
-    <Sidebar>
+    <Sidebar variant="floating" collapsible="offcanvas">
       <SidebarHeader>
         <TooltipProvider>
           <Tooltip>
@@ -79,48 +87,55 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <DropdownMenu>
-            <section className="flex items-center gap-2">
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant={"outline"}
-                  effect={"small_scale"}
-                  className="grow justify-start border-accent-foreground/30 "
-                >
-                  <WorkflowIcon /> My First Workspace{" "}
-                </Button>
-              </DropdownMenuTrigger>
-              <Dialog>
-                <DialogTrigger>
-                  <div className="p-[6px] border rounded-lg hover:scale-105 active:scale-95 bg-foreground cursor-pointer duration-75">
-                    <Plus className="text-background" />
-                  </div>
-                </DialogTrigger>
-                <DialogContent>
-                  <NewWorkspaceDialogBox />
-                </DialogContent>
-              </Dialog>
-            </section>
-            <DropdownMenuContent className="w-52">
-              <DropdownMenuLabel>Your Workspace</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-
-              <DropdownMenuItem className="hover:shadow-sm hover:bg-accent duration-75 font-semibold cursor-not-allowed">
-                My First Workspace
-              </DropdownMenuItem>
-              <DropdownMenuItem className="hover:shadow-sm hover:bg-accent cursor-pointer duration-75">
-                My Second Workspace
-              </DropdownMenuItem>
-              <DropdownMenuItem className="hover:shadow-sm hover:bg-accent cursor-pointer duration-75">
-                My Third Workspace
-              </DropdownMenuItem>
-              <DropdownMenuItem className="hover:shadow-sm hover:bg-accent cursor-pointer duration-75">
-                My Fourth Workspace
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Button
+            variant={"outline"}
+            effect={"small_scale"}
+            className="grow justify-start border-accent-foreground/30 "
+          >
+            <WandSparkles />
+            But Premium{" "}
+          </Button>
         </SidebarGroup>
-        <SidebarGroup>a</SidebarGroup>
+        <SidebarGroup>
+          <Collapsible defaultOpen className="group/collapsible">
+            <CollapsibleTrigger asChild>
+              <SidebarMenuButton className="flex items-center justify-between w-full text-sidebar-accent-foreground/50 text-sm gap-2">
+                <WorkflowIcon width={16} height={16} /> My First Workspace{" "}
+                <ChevronDown
+                  width={16}
+                  height={16}
+                  className="ml-auto translate-y-0.5 transition-transform group-data-[state=open]/collapsible:rotate-180"
+                />
+              </SidebarMenuButton>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <SidebarMenuSub>
+                <SidebarMenuSubItem>
+                  <SidebarMenuSubButton>dsf</SidebarMenuSubButton>
+                </SidebarMenuSubItem>
+                <SidebarMenuSubItem>
+                  <SidebarMenuSubButton>dsf</SidebarMenuSubButton>
+                </SidebarMenuSubItem>
+                <SidebarMenuSubItem>
+                  <Dialog>
+                    <DialogTrigger asChild className="w-full">
+                      <Button
+                        effect={"small_scale"}
+                        className="flex items-center h-7"
+                      >
+                        <Plus className="text-background" />{" "}
+                        <h2>Create Workspace</h2>
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <NewWorkspaceDialogBox />
+                    </DialogContent>
+                  </Dialog>
+                </SidebarMenuSubItem>
+              </SidebarMenuSub>
+            </CollapsibleContent>
+          </Collapsible>
+        </SidebarGroup>
         <SidebarGroup>a</SidebarGroup>
         <SidebarGroup>a</SidebarGroup>
       </SidebarContent>
@@ -137,7 +152,7 @@ export function AppSidebar() {
             });
           }}
         >
-          Sign Out
+          <LogOut /> Sign Out
         </Button>
         <ModeToggle effect={"small_scale"} className="w-full" />
       </SidebarFooter>
