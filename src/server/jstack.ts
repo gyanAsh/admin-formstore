@@ -44,9 +44,9 @@ const authenticationMiddleware = j.middleware(async ({ c, ctx, next }) => {
 /*                               Procedures                                      */
 /* ----------------------------------------------------------------------------- */
 export const publicProcedure = j.procedure.use(databaseMiddleware);
-export const authenticatedProcedure = publicProcedure.use(
-  authenticationMiddleware
-);
+export const authenticatedProcedure = publicProcedure
+  .use(databaseMiddleware)
+  .use(authenticationMiddleware);
 // authorization middleware (ownership, organizations)
 // paywall middleware (premium users)
 // sudo middleware (admin users)
