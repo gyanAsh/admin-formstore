@@ -105,18 +105,22 @@ export function AppSidebar() {
               <DropdownMenuLabel>Your Workspace</DropdownMenuLabel>
               <DropdownMenuSeparator />
 
-              <DropdownMenuItem className="hover:shadow-sm hover:bg-accent duration-75 font-semibold cursor-not-allowed">
-                My First Workspace
-              </DropdownMenuItem>
-              <DropdownMenuItem className="hover:shadow-sm hover:bg-accent cursor-pointer duration-75">
-                My Second Workspace
-              </DropdownMenuItem>
-              <DropdownMenuItem className="hover:shadow-sm hover:bg-accent cursor-pointer duration-75">
-                My Third Workspace
-              </DropdownMenuItem>
-              <DropdownMenuItem className="hover:shadow-sm hover:bg-accent cursor-pointer duration-75">
-                My Fourth Workspace
-              </DropdownMenuItem>
+              {!loading_workspace &&
+                all_workspace.map((workspace, i) => {
+                  if (i === 0) {
+                    return (
+                      <DropdownMenuItem className="hover:shadow-sm hover:bg-accent duration-75 font-semibold cursor-not-allowed" key={workspace.id}>
+                        {workspace.name}
+                      </DropdownMenuItem>
+                    );
+                  }
+                  return (
+                    <DropdownMenuItem className="hover:shadow-sm hover:bg-accent cursor-pointer duration-75" key={workspace.id}>
+                      {workspace.name}
+                    </DropdownMenuItem>
+                  );
+                })
+              }
             </DropdownMenuContent>
           </DropdownMenu>
         </SidebarGroup>
