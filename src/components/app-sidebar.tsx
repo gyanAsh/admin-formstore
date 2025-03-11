@@ -50,6 +50,8 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "./ui/collapsible";
+import { cn } from "@/lib/utils";
+import { ScrollArea } from "./ui/scroll-area";
 
 export function AppSidebar() {
   const router = useRouter();
@@ -99,33 +101,49 @@ export function AppSidebar() {
         <SidebarGroup>
           <Collapsible defaultOpen className="group/collapsible">
             <CollapsibleTrigger asChild>
-              <SidebarMenuButton className="flex items-center justify-between w-full text-sidebar-accent-foreground/50 text-sm gap-2">
+              <SidebarMenuButton className="flex items-center justify-between w-full text-sidebar-accent-foreground/90 text-sm gap-2">
                 <WorkflowIcon width={16} height={16} /> My First Workspace{" "}
                 <ChevronDown
                   width={16}
                   height={16}
-                  className="ml-auto translate-y-0.5 transition-transform group-data-[state=open]/collapsible:rotate-180"
+                  className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180"
                 />
               </SidebarMenuButton>
             </CollapsibleTrigger>
             <CollapsibleContent>
               <SidebarMenuSub>
-                <SidebarMenuSubItem>
-                  <SidebarMenuSubButton>dsf</SidebarMenuSubButton>
-                </SidebarMenuSubItem>
-                <SidebarMenuSubItem>
-                  <SidebarMenuSubButton>dsf</SidebarMenuSubButton>
-                </SidebarMenuSubItem>
+                <ScrollArea className="max-h-[200px]">
+                  {!loading_workspace ? (
+                    all_workspace?.map((workspace, i) => {
+                      return (
+                        <SidebarMenuSubItem
+                          key={i}
+                          className={cn({ "font-semibold": i === 0 })}
+                        >
+                          <SidebarMenuSubButton>
+                            {workspace.name}
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      );
+                    })
+                  ) : (
+                    <SidebarMenuSubItem className="animate-pulse bg-accent rounded-lg">
+                      <SidebarMenuSubButton></SidebarMenuSubButton>
+                    </SidebarMenuSubItem>
+                  )}
+                </ScrollArea>
                 <SidebarMenuSubItem>
                   <Dialog>
                     <DialogTrigger asChild className="w-full">
-                      <Button
-                        effect={"small_scale"}
-                        className="flex items-center h-7"
-                      >
-                        <Plus className="text-background" />{" "}
-                        <h2>Create Workspace</h2>
-                      </Button>
+                      <SidebarMenuSubButton asChild>
+                        <Button
+                          variant={"outline"}
+                          effect={"small_scale"}
+                          className="w-full"
+                        >
+                          <Plus className="" /> <h2>Create Workspace</h2>
+                        </Button>
+                      </SidebarMenuSubButton>
                     </DialogTrigger>
                     <DialogContent>
                       <NewWorkspaceDialogBox />
