@@ -37,8 +37,16 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useEffect } from "react";
+import { client } from "@/lib/client";
 
 export function AppSidebar() {
+  useEffect(() => {
+    client.workspace.all
+      .$get()
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  }, []);
   return (
     <Sidebar>
       <SidebarHeader>
