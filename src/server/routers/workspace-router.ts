@@ -1,16 +1,16 @@
-// import { workspaces } from "@/server/db/schema";
+import * as tables from "@/server/db/schema";
 import { desc } from "drizzle-orm";
 import { z } from "zod";
-import { j, publicProcedure } from "../jstack";
+import { j, publicProcedure, authenticatedProcedure } from "../jstack";
 
 export const workspaceRouter = j.router({
-  all: publicProcedure.get(async ({ c, ctx }) => {
+  all: authenticatedProcedure.get(async ({ c, ctx }) => {
     const { db } = ctx;
-    // const workspaceList = await db
-    //   .select()
-    //   .from(workspaces);
+    const workspaceList = await db
+      .select()
+      .from(tables.workspace);
 
-    // return c.superjson(workspaceList ?? null);
+    return c.superjson(workspaceList ?? null);
   }),
 
   create: publicProcedure
