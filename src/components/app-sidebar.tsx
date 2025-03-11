@@ -35,12 +35,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { client } from "@/lib/client";
 import { authClient } from "@/lib/auth-clinet";
 import { useRouter } from "next/navigation";
+import React from "react";
 
 export function AppSidebar() {
   const router = useRouter();
@@ -51,6 +52,9 @@ export function AppSidebar() {
       return await res.json();
     },
   });
+  {
+    console.log({ all_workspace });
+  }
 
   return (
     <Sidebar>
@@ -93,43 +97,14 @@ export function AppSidebar() {
                   </div>
                 </DialogTrigger>
                 <DialogContent>
-                  <DialogHeader className="text-start">
-                    <DialogTitle>Create New Workspace</DialogTitle>
-                    <DialogDescription>
-                      Please provide a unique name for the new workspace. Names
-                      can include letters, numbers, and underscores, and should
-                      be between 3 and 20 characters long.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="grid gap-4 py-4">
-                    <div className="flex items-center gap-4">
-                      <Label htmlFor="name" className="text-right">
-                        Name
-                      </Label>
-                      <Input
-                        id="name"
-                        placeholder="Please enter a name for the new workspace..."
-                        defaultValue=""
-                        type="text"
-                      />
-                    </div>
-                  </div>
-                  <DialogFooter>
-                    <Button
-                      className="w-full relative flex items-center"
-                      type="submit"
-                    >
-                      Create Workspace
-                      <MoveUpRight className="absolute right-3" />
-                    </Button>
-                  </DialogFooter>
+                  <NewWorkspaceDialogBox />
                 </DialogContent>
               </Dialog>
             </section>
-
             <DropdownMenuContent className="w-52">
               <DropdownMenuLabel>Your Workspace</DropdownMenuLabel>
               <DropdownMenuSeparator />
+
               <DropdownMenuItem className="hover:shadow-sm hover:bg-accent duration-75 font-semibold cursor-not-allowed">
                 My First Workspace
               </DropdownMenuItem>
@@ -151,6 +126,7 @@ export function AppSidebar() {
       </SidebarContent>
       <SidebarFooter>
         <Button
+          effect={"small_scale"}
           onClick={async () => {
             await authClient.signOut({
               fetchOptions: {
@@ -163,8 +139,71 @@ export function AppSidebar() {
         >
           Sign Out
         </Button>
-        <ModeToggle className="w-full" />
+        <ModeToggle effect={"small_scale"} className="w-full" />
       </SidebarFooter>
     </Sidebar>
   );
 }
+
+const NewWorkspaceDialogBox = () => {
+  const [name, setName] = React.useState<string>("");
+  const queryClient = useQueryClient();
+
+  const { mutate: createWorkspace, isPending } = useMutation({
+    mutationFn: async ({ name }: { name: string }) => {
+      const res = await client.workspace.create.$post({ name });
+      return await res.json();
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["get-all-workspace"] });
+      setName("");
+    },
+  });
+  return (
+    <>
+      {" "}
+      <DialogHeader className="text-start">
+        <DialogTitle>Create New Workspace</DialogTitle>
+        <DialogDescription>
+          Please provide a unique name for the new workspace. Names can include
+          letters, numbers, and underscores, and should be between 3 and 20
+          characters long.
+        </DialogDescription>
+      </DialogHeader>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          createWorkspace({ name });
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            createWorkspace({ name });
+          }
+        }}
+      >
+        {" "}
+        <div className="grid gap-4 py-4">
+          <div className="flex items-center gap-4">
+            <Label htmlFor="name" className="text-right">
+              Name
+            </Label>
+            <Input
+              id="name"
+              placeholder="Please enter a name for the new workspace..."
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              type="text"
+            />
+          </div>
+        </div>
+        <DialogFooter>
+          <Button className="w-full relative flex items-center" type="submit">
+            Create Workspace
+            <MoveUpRight className="absolute right-3" />
+          </Button>
+        </DialogFooter>
+      </form>
+    </>
+  );
+};

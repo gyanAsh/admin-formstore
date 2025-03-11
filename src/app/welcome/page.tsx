@@ -11,7 +11,7 @@ export default function MyComponent() {
   if (!session) return <div>You are not logged in.</div>;
 
   return (
-    <div>
+    <div className="flex gap-1">
       Welcome, {session.user?.name}! Your email is {session.user?.email}
       <Button onClick={() => router.push("/dashboard")}>Dashboard</Button>
     </div>

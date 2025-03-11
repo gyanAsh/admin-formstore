@@ -30,6 +30,7 @@ export default function SignIn() {
           >
             <Button
               variant="outline"
+              effect={"scale"}
               className={cn("w-full gap-2")}
               onClick={async () => {
                 await authClient.signIn.social({
