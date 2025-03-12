@@ -6,6 +6,7 @@ import {
   boolean,
   serial,
   index,
+  primaryKey,
 } from "drizzle-orm/pg-core";
 
 export const posts = pgTable(
@@ -75,4 +76,9 @@ export const workspace = pgTable("workspace", {
   description: text("description"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const current_workspace = pgTable("current_workspace", {
+  userId: text("user_id").notNull().references(() => user.id).primaryKey(),
+  workspaceId: integer("workspace_id").notNull().references(()=> workspace.id),
 });
