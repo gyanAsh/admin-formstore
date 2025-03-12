@@ -2,6 +2,7 @@ import * as tables from "@/server/db/schema";
 import { desc } from "drizzle-orm";
 import { z } from "zod";
 import { j, authenticatedProcedure } from "../jstack";
+import { eq } from "drizzle-orm";
 
 export const workspaceRouter = j.router({
   all: authenticatedProcedure.get(async ({ c, ctx }) => {
@@ -31,4 +32,18 @@ export const workspaceRouter = j.router({
 
       return c.superjson({});
     }),
+
+  current: authenticatedProcedure.get(async ({ c, ctx }) => {
+    const { db, session } = ctx;
+    console.log(session.user.id);
+    const currentWorkspace = await db
+      .select()
+      .from(tables.current_workspace)
+      .innerJoin(
+        tables.workspace,
+        eq(tables.workspace.id, tables.current_workspace.workspaceId),
+      )
+      .where(eq(tables.current_workspace.userId, session.user.id));
+    return c.superjson({ currentWorkspace });
+  }),
 });
