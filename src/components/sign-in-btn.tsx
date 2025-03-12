@@ -9,7 +9,7 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { authClient } from "@/lib/auth-clinet";
+import { authClient } from "@/lib/auth-client";
 
 export default function SignIn() {
   return (
