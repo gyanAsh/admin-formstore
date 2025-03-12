@@ -1,4 +1,3 @@
-"use client";
 import {
   Sidebar,
   SidebarContent,
@@ -54,10 +53,9 @@ import {
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "./ui/scroll-area";
 import { WorkspaceArea } from "./sidebar/workspace-area";
+import { Footer } from "./sidebar/footer";
 
 export function AppSidebar() {
-  const router = useRouter();
-
   return (
     <Sidebar variant="inset" collapsible="offcanvas">
       <SidebarHeader>
@@ -97,21 +95,7 @@ export function AppSidebar() {
         <SidebarGroup>a</SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <Button
-          effect={"click"}
-          onClick={async () => {
-            await authClient.signOut({
-              fetchOptions: {
-                onSuccess: () => {
-                  router.push("/"); // redirect to login page
-                },
-              },
-            });
-          }}
-        >
-          <LogOut /> Sign Out
-        </Button>
-        <ModeToggle effect="click" className="w-full" />
+        <Footer />
       </SidebarFooter>
     </Sidebar>
   );
