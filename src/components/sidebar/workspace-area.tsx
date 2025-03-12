@@ -1,36 +1,19 @@
 "use client";
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarHeader,
   SidebarMenuButton,
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
 import {
   ChevronDown,
-  LogOut,
-  Ellipsis,
   LoaderCircle,
   MoveUpRight,
   Plus,
-  WandSparkles,
   WorkflowIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ModeToggle } from "./theme-toggle";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import {
   Dialog,
   DialogContent,
@@ -44,8 +27,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { client } from "@/lib/client";
-import { authClient } from "@/lib/auth-clinet";
-import { useRouter } from "next/navigation";
 import React from "react";
 import {
   Collapsible,
@@ -58,7 +39,6 @@ import { toast } from "sonner";
 import { HTTPException } from "hono/http-exception";
 
 export function WorkspaceArea() {
-  const router = useRouter();
   const { data: all_workspace, isPending: loading_workspace } = useQuery({
     queryKey: ["get-all-workspace"],
     queryFn: async () => {
