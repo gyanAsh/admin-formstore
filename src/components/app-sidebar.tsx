@@ -62,8 +62,17 @@ export function AppSidebar() {
       return await res.json();
     },
   });
+
+  const { data: current_workspace, isPending: loading_current_workspace } = useQuery({
+    queryKey: ["get-current-workspace"],
+    queryFn: async () => {
+      const res = await client.workspace.current.$get();
+      return await res.json();
+    }
+  });
+
   {
-    console.log({ all_workspace });
+    console.log(current_workspace);
   }
 
   return (
