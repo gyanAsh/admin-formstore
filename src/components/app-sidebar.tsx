@@ -84,7 +84,11 @@ export function AppSidebar() {
   }
 
   return (
-    <Sidebar variant="floating" collapsible="offcanvas">
+    <Sidebar
+      variant="floating"
+      className="bg-zinc-50 dark:bg-zinc-950"
+      collapsible="offcanvas"
+    >
       <SidebarHeader>
         <TooltipProvider>
           <Tooltip>
@@ -108,7 +112,7 @@ export function AppSidebar() {
         <SidebarGroup>
           <Button
             variant={"outline"}
-            effect={"small_scale"}
+            effect="click"
             className="grow justify-start border-accent-foreground/30 "
           >
             <WandSparkles />
@@ -185,7 +189,7 @@ export function AppSidebar() {
       </SidebarContent>
       <SidebarFooter>
         <Button
-          effect={"small_scale"}
+          effect={"click"}
           onClick={async () => {
             await authClient.signOut({
               fetchOptions: {
@@ -198,7 +202,7 @@ export function AppSidebar() {
         >
           <LogOut /> Sign Out
         </Button>
-        <ModeToggle effect={"small_scale"} className="w-full" />
+        <ModeToggle effect="click" className="w-full" />
       </SidebarFooter>
     </Sidebar>
   );
