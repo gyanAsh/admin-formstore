@@ -33,21 +33,12 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "../ui/collapsible";
-import { cn } from "@/lib/utils";
 import { ScrollArea } from "../ui/scroll-area";
 import { toast } from "sonner";
 import { HTTPException } from "hono/http-exception";
+import { WorkspaceAll } from "./workspaces-all";
 
 export function WorkspaceArea() {
-  const { data: all_workspace, isPending: loading_workspace } = useQuery({
-    queryKey: ["get-all-workspace"],
-    queryFn: async () => {
-      const res = await client.workspace.all.$get();
-      return await res.json();
-    },
-    refetchOnWindowFocus: false,
-  });
-
   const { data: current_workspace, isPending: loading_current_workspace } = useQuery({
     queryKey: ["get-current-workspace"],
     queryFn: async () => {
@@ -56,10 +47,6 @@ export function WorkspaceArea() {
     },
     refetchOnWindowFocus: false,
   });
-
-  {
-    console.log(current_workspace);
-  }
 
   return (
     <>
@@ -77,33 +64,7 @@ export function WorkspaceArea() {
         <CollapsibleContent>
           <SidebarMenuSub>
             <ScrollArea className="max-h-[200px] gap-2">
-              {!loading_workspace ? (
-                all_workspace?.map((workspace, i) => {
-                  return (
-                    <SidebarMenuSubItem key={i} className="mt-0.5">
-                      <SidebarMenuSubButton asChild>
-                        <Button
-                          variant={"ghost"}
-                          effect={"click"}
-                          className={cn(
-                            "w-full text-xs flex justify-start cursor-pointer",
-                            {
-                              "font-medium bg-sidebar-accent": i === 0,
-                              "font-normal": i !== 0,
-                            }
-                          )}
-                        >
-                          <h1>{workspace.name}</h1>
-                        </Button>
-                      </SidebarMenuSubButton>
-                    </SidebarMenuSubItem>
-                  );
-                })
-              ) : (
-                  <SidebarMenuSubItem className="animate-pulse bg-accent rounded-lg">
-                    <SidebarMenuSubButton></SidebarMenuSubButton>
-                  </SidebarMenuSubItem>
-                )}
+              <WorkspaceAll ssr_all_workspace_data={[]} />
             </ScrollArea>
             <SidebarMenuSubItem>
               <Dialog>
