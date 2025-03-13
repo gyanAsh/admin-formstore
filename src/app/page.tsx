@@ -1,3 +1,4 @@
+import NavPage from "@/components/nav-page";
 import SignIn from "@/components/sign-in-btn";
 import { cn } from "@/lib/utils";
 
@@ -23,7 +24,10 @@ export default async function Home() {
             end-to-end typesafe Next.js apps.
           </span>
         </p>
-        <SignIn />
+        <div className="flex gap-2">
+          <SignIn />
+          <NavPage />
+        </div>
       </div>
     </main>
   );
