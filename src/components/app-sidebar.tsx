@@ -84,11 +84,7 @@ export function AppSidebar() {
   }
 
   return (
-    <Sidebar
-      variant="floating"
-      className="bg-zinc-50 dark:bg-zinc-950"
-      collapsible="offcanvas"
-    >
+    <Sidebar variant="inset" collapsible="offcanvas">
       <SidebarHeader>
         <TooltipProvider>
           <Tooltip>
