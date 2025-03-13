@@ -34,6 +34,7 @@ export default function NavPage() {
                 variant="outline"
                 effect={"scale"}
                 className={cn("w-full gap-2")}
+                asChild
               >
                 <a href={_.path}>{_.name}</a>
               </Button>
