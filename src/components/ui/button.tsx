@@ -32,6 +32,7 @@ const buttonVariants = cva(
           "hover:shadow-sm hover:scale-[1.03] active:scale-[0.97] cursor-pointer duration-75",
         scale:
           "hover:shadow-sm hover:scale-[1.05] active:scale-[0.95] cursor-pointer duration-75",
+        click: "hover:shadow-sm active:scale-[0.95] cursor-pointer duration-75",
       },
     },
     defaultVariants: {

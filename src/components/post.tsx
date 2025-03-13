@@ -14,6 +14,7 @@ export const RecentPost = () => {
       const res = await client.post.recent.$get();
       return await res.json();
     },
+    refetchOnWindowFocus: false,
   });
 
   const { mutate: createPost, isPending } = useMutation({

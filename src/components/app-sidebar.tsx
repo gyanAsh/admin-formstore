@@ -5,6 +5,7 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarHeader,
+  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuSub,
   SidebarMenuSubButton,
@@ -15,6 +16,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import {
   ChevronDown,
+  Ellipsis,
+  LoaderCircle,
   LogOut,
   MoveUpRight,
   Plus,
@@ -52,6 +55,8 @@ import {
 } from "./ui/collapsible";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "./ui/scroll-area";
+import { toast } from "sonner";
+import { HTTPException } from "hono/http-exception";
 
 export function AppSidebar() {
   const router = useRouter();
@@ -61,15 +66,18 @@ export function AppSidebar() {
       const res = await client.workspace.all.$get();
       return await res.json();
     },
+    refetchOnWindowFocus: false,
   });
 
-  const { data: current_workspace, isPending: loading_current_workspace } = useQuery({
-    queryKey: ["get-current-workspace"],
-    queryFn: async () => {
-      const res = await client.workspace.current.$get();
-      return await res.json();
-    }
-  });
+  const { data: current_workspace, isPending: loading_current_workspace } =
+    useQuery({
+      queryKey: ["get-current-workspace"],
+      queryFn: async () => {
+        const res = await client.workspace.current.$get();
+        return await res.json();
+      },
+      refetchOnWindowFocus: false,
+    });
 
   {
     console.log(current_workspace);
@@ -121,16 +129,25 @@ export function AppSidebar() {
             </CollapsibleTrigger>
             <CollapsibleContent>
               <SidebarMenuSub>
-                <ScrollArea className="max-h-[200px]">
+                <ScrollArea className="max-h-[200px] gap-2">
                   {!loading_workspace ? (
                     all_workspace?.map((workspace, i) => {
                       return (
-                        <SidebarMenuSubItem
-                          key={i}
-                          className={cn({ "font-semibold": i === 0 })}
-                        >
-                          <SidebarMenuSubButton>
-                            {workspace.name}
+                        <SidebarMenuSubItem key={i} className="mt-0.5">
+                          <SidebarMenuSubButton asChild>
+                            <Button
+                              variant={"ghost"}
+                              effect={"click"}
+                              className={cn(
+                                "w-full text-xs flex justify-start cursor-pointer",
+                                {
+                                  "font-medium bg-sidebar-accent": i === 0,
+                                  "font-normal": i !== 0,
+                                }
+                              )}
+                            >
+                              <h1>{workspace.name}</h1>
+                            </Button>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                       );
@@ -147,7 +164,7 @@ export function AppSidebar() {
                       <SidebarMenuSubButton asChild>
                         <Button
                           variant={"outline"}
-                          effect={"small_scale"}
+                          effect={"click"}
                           className="w-full"
                         >
                           <Plus className="" /> <h2>Create Workspace</h2>
@@ -191,16 +208,23 @@ const NewWorkspaceDialogBox = () => {
   const [name, setName] = React.useState<string>("");
   const queryClient = useQueryClient();
 
-  const { mutate: createWorkspace, isPending } = useMutation({
-    mutationFn: async ({ name }: { name: string }) => {
-      const res = await client.workspace.create.$post({ name });
-      return await res.json();
-    },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["get-all-workspace"] });
-      setName("");
-    },
-  });
+  const { mutate: createWorkspace, isPending: creating_workspace } =
+    useMutation({
+      mutationFn: async ({ name }: { name: string }) => {
+        const res = await client.workspace.create.$post({ name });
+        return await res.json();
+      },
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({
+          queryKey: ["get-all-workspace"],
+        });
+        setName("");
+        toast.success("Workspace created! 🎉");
+      },
+      onError: (err: HTTPException) => {
+        toast.error(`Failed to create Workspace: ${err.message}`);
+      },
+    });
   return (
     <>
       {" "}
@@ -240,9 +264,20 @@ const NewWorkspaceDialogBox = () => {
           </div>
         </div>
         <DialogFooter>
-          <Button className="w-full relative flex items-center" type="submit">
-            Create Workspace
-            <MoveUpRight className="absolute right-3" />
+          <Button
+            className="w-full relative flex items-center"
+            effect={"click"}
+            disabled={creating_workspace}
+            type="submit"
+          >
+            {creating_workspace ? (
+              <LoaderCircle className="size-5 animate-spin " />
+            ) : (
+              "Create Workspace"
+            )}
+            {!creating_workspace && (
+              <MoveUpRight className="absolute right-3" />
+            )}
           </Button>
         </DialogFooter>
       </form>
