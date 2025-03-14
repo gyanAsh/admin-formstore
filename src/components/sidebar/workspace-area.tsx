@@ -37,6 +37,12 @@ import { ScrollArea } from "../ui/scroll-area";
 import { toast } from "sonner";
 import { HTTPException } from "hono/http-exception";
 import { WorkspaceAll } from "./workspaces-all";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
 
 export function WorkspaceArea() {
   const { data: current_workspace, isPending: loading_current_workspace } =
@@ -52,39 +58,50 @@ export function WorkspaceArea() {
   return (
     <>
       <Collapsible defaultOpen className="group/collapsible">
-        <CollapsibleTrigger asChild>
-          <SidebarMenuButton className="flex items-center justify-between w-full text-sidebar-accent-foreground/90 text-sm gap-2">
-            <WorkflowIcon width={16} height={16} /> My First Workspace{" "}
-            <ChevronDown
-              width={16}
-              height={16}
-              className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180"
-            />
-          </SidebarMenuButton>
-        </CollapsibleTrigger>
+        <div className="flex gap-1">
+          <CollapsibleTrigger asChild>
+            <SidebarMenuButton className="flex items-center justify-between w-full text-sidebar-accent-foreground/90 text-sm gap-2">
+              <WorkflowIcon width={16} height={16} /> My Workspace{" "}
+              <ChevronDown
+                width={16}
+                height={16}
+                className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180"
+              />
+            </SidebarMenuButton>
+          </CollapsibleTrigger>
+          <Dialog>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <DialogTrigger asChild>
+                    <SidebarMenuSubButton asChild>
+                      <Button
+                        variant={"outline"}
+                        effect={"click"}
+                        className="w-8 h-8"
+                      >
+                        <Plus className="" />
+                      </Button>
+                    </SidebarMenuSubButton>
+                  </DialogTrigger>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Create New Workspace</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+            <DialogContent>
+              <NewWorkspaceDialogBox />
+            </DialogContent>
+          </Dialog>
+        </div>
         <CollapsibleContent>
           <SidebarMenuSub>
-            <ScrollArea className="h-[100px] gap-2">
+            <section className="max-h-[150px] overflow-y-scroll ">
               <WorkspaceAll ssr_all_workspace_data={[]} />
-            </ScrollArea>
-            <SidebarMenuSubItem>
-              <Dialog>
-                <DialogTrigger asChild className="w-full">
-                  <SidebarMenuSubButton asChild>
-                    <Button
-                      variant={"outline"}
-                      effect={"click"}
-                      className="w-full"
-                    >
-                      <Plus className="" /> <h2>Create Workspace</h2>
-                    </Button>
-                  </SidebarMenuSubButton>
-                </DialogTrigger>
-                <DialogContent>
-                  <NewWorkspaceDialogBox />
-                </DialogContent>
-              </Dialog>
-            </SidebarMenuSubItem>
+            </section>
+            <SidebarMenuSubItem></SidebarMenuSubItem>
           </SidebarMenuSub>
         </CollapsibleContent>
       </Collapsible>

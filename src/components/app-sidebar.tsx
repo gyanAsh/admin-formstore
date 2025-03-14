@@ -8,9 +8,7 @@ import {
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-import {
-  WandSparkles,
-} from "lucide-react";
+import { WandSparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -58,8 +56,9 @@ export function AppSidebar() {
         <SidebarGroup>
           <WorkspaceArea />
         </SidebarGroup>
-        <SidebarGroup>a</SidebarGroup>
-        <SidebarGroup>a</SidebarGroup>
+        <SidebarGroup>View Submissions Analysis Page</SidebarGroup>
+        <SidebarGroup>Try Template</SidebarGroup>
+        <SidebarGroup>Create Workspace Form</SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
         <Footer />
