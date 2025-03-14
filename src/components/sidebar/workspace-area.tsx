@@ -39,14 +39,15 @@ import { HTTPException } from "hono/http-exception";
 import { WorkspaceAll } from "./workspaces-all";
 
 export function WorkspaceArea() {
-  const { data: current_workspace, isPending: loading_current_workspace } = useQuery({
-    queryKey: ["get-current-workspace"],
-    queryFn: async () => {
-      const res = await client.workspace.current.$get();
-      return await res.json();
-    },
-    refetchOnWindowFocus: false,
-  });
+  const { data: current_workspace, isPending: loading_current_workspace } =
+    useQuery({
+      queryKey: ["get-current-workspace"],
+      queryFn: async () => {
+        const res = await client.workspace.current.$get();
+        return await res.json();
+      },
+      refetchOnWindowFocus: false,
+    });
 
   return (
     <>
@@ -63,7 +64,7 @@ export function WorkspaceArea() {
         </CollapsibleTrigger>
         <CollapsibleContent>
           <SidebarMenuSub>
-            <ScrollArea className="max-h-[200px] gap-2">
+            <ScrollArea className="h-[100px] gap-2">
               <WorkspaceAll ssr_all_workspace_data={[]} />
             </ScrollArea>
             <SidebarMenuSubItem>

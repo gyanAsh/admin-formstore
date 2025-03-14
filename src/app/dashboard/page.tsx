@@ -9,25 +9,25 @@ export default async function Home() {
       className="min-h-screen w-full grid p-4 grid-cols-2 gap-4 bg-gradient-to-br from-zinc-50 dark:from-zinc-950 via-zinc-200 dark:via-zinc-800
     to-zinc-50 dark:to-zinc-900 relative isolate"
     >
-      <Card className="flex flex-col justify-between hover:-translate-y-1.5 duration-200">
+      <Card className="flex flex-col justify-between hover:-translate-y-1.5 active:scale-95 hover:cursor-pointer duration-200">
         <CardHeader className="text-4xl">Create Form</CardHeader>
         <CardFooter className="self-end">
           <ArrowTopRight />
         </CardFooter>
       </Card>
-      <Card className="flex flex-col justify-between hover:-translate-y-1.5 duration-200">
+      <Card className="flex flex-col justify-between hover:-translate-y-1.5 active:scale-95 hover:cursor-pointer duration-200">
         <CardHeader className="text-4xl">Create Workspace</CardHeader>
         <CardFooter className="self-end">
           <ArrowTopRight />
         </CardFooter>
       </Card>
-      <Card className="flex flex-col justify-between hover:-translate-y-1.5 duration-200">
+      <Card className="flex flex-col justify-between hover:-translate-y-1.5 active:scale-95 hover:cursor-pointer duration-200">
         <CardHeader className="text-4xl">View Submissions Analysis</CardHeader>
         <CardFooter className="self-end">
           <ArrowTopRight />
         </CardFooter>
       </Card>
-      <Card className="flex flex-col justify-between hover:-translate-y-1.5 duration-200">
+      <Card className="flex flex-col justify-between hover:-translate-y-1.5 active:scale-95 hover:cursor-pointer duration-200">
         <CardHeader className="text-4xl">Try Templates</CardHeader>
         <CardFooter className="self-end">
           <ArrowTopRight />
