@@ -58,7 +58,6 @@ export function AppSidebar() {
         </SidebarGroup>
         <SidebarGroup>View Submissions Analysis Page</SidebarGroup>
         <SidebarGroup>Try Template</SidebarGroup>
-        <SidebarGroup>Create Workspace Form</SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
         <Footer />

@@ -45,15 +45,15 @@ import {
 } from "../ui/tooltip";
 
 export function WorkspaceArea() {
-  const { data: current_workspace, isPending: loading_current_workspace } =
-    useQuery({
-      queryKey: ["get-current-workspace"],
-      queryFn: async () => {
-        const res = await client.workspace.current.$get();
-        return await res.json();
-      },
-      refetchOnWindowFocus: false,
-    });
+  // const { data: current_workspace, isPending: loading_current_workspace } =
+  //   useQuery({
+  //     queryKey: ["get-current-workspace"],
+  //     queryFn: async () => {
+  //       const res = await client.workspace.current.$get();
+  //       return await res.json();
+  //     },
+  //     refetchOnWindowFocus: false,
+  //   });
 
   return (
     <>
@@ -98,9 +98,9 @@ export function WorkspaceArea() {
         </div>
         <CollapsibleContent>
           <SidebarMenuSub>
-            <section className="max-h-[150px] overflow-y-scroll ">
-              <WorkspaceAll ssr_all_workspace_data={[]} />
-            </section>
+            {/* <section className="max-h-[50dvh] overflow-y-auto "> */}
+            <WorkspaceAll ssr_all_workspace_data={[]} />
+            {/* </section> */}
             <SidebarMenuSubItem></SidebarMenuSubItem>
           </SidebarMenuSub>
         </CollapsibleContent>

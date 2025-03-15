@@ -1,5 +1,5 @@
 "use client";
-import { Loader2Icon } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 import NavPage from "./nav-page";
 import SignIn from "./sign-in-btn";
 import { authClient } from "@/lib/auth-client";
@@ -11,7 +11,7 @@ export const HomeScreen = () => {
   return (
     <div className="flex gap-2">
       {checking_auth ? (
-        <Loader2Icon />
+        <LoaderCircle className="size-5 animate-spin " />
       ) : login_data?.session?.id ? (
         <NavPage />
       ) : (

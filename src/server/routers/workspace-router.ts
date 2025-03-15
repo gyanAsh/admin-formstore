@@ -7,7 +7,10 @@ import { eq } from "drizzle-orm";
 export const workspaceRouter = j.router({
   all: authenticatedProcedure.get(async ({ c, ctx }) => {
     const { db } = ctx;
-    const workspaceList = await db.select().from(tables.workspace);
+    const workspaceList = await db
+      .select()
+      .from(tables.workspace)
+      .orderBy(desc(tables.workspace.updatedAt));
 
     return c.superjson(workspaceList ?? null);
   }),
@@ -23,12 +26,28 @@ export const workspaceRouter = j.router({
             message:
               "Name can only include letters, numbers, and underscores and space",
           }),
-      }),
+      })
     )
     .mutation(async ({ ctx, c, input }) => {
       const { name } = input;
-      const { db } = ctx;
-      const workspace = await db.insert(tables.workspace).values({ name });
+      const { db, session } = ctx;
+      await db.transaction(async (tx) => {
+        const workspace = await tx
+          .insert(tables.workspace)
+          .values({ name })
+          .returning({ id: tables.workspace.id });
+        // Validate the insertion result
+        const workspaceId = workspace[0]?.id;
+        if (!workspaceId) {
+          throw new Error(
+            "Failed to create workspace: ID is null or undefined."
+          );
+        }
+        await tx
+          .insert(tables.current_workspace)
+          .values({ userId: session.user.id, workspaceId: workspaceId });
+        console.log({ workspace });
+      });
 
       return c.superjson({});
     }),
@@ -41,7 +60,7 @@ export const workspaceRouter = j.router({
       .from(tables.current_workspace)
       .innerJoin(
         tables.workspace,
-        eq(tables.workspace.id, tables.current_workspace.workspaceId),
+        eq(tables.workspace.id, tables.current_workspace.workspaceId)
       )
       .where(eq(tables.current_workspace.userId, session.user.id));
     return c.superjson({ currentWorkspace });

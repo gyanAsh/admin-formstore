@@ -23,9 +23,9 @@ function WorkspaceList({ all_workspace }: { all_workspace: Workspace[] }) {
                 variant={"ghost"}
                 effect={"click"}
                 className={cn(
-                  "w-full text-xs flex justify-start cursor-pointer",
+                  "w-full pl-3 text-xs flex justify-start cursor-pointer",
                   {
-                    "font-medium bg-sidebar-accent": i === 0,
+                    "font-medium bg-background": i === 0,
                     "font-normal": i !== 0,
                   }
                 )}
@@ -52,7 +52,7 @@ export function WorkspaceAll({
     gcTime: 1000,
     refetchOnWindowFocus: false,
   });
-
+  console.log({ all_workspace });
   return (
     <>
       {!loading_workspace ? (
