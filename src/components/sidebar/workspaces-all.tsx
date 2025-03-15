@@ -1,8 +1,9 @@
 import { client } from "@/lib/client";
-import { SidebarMenuSubButton, SidebarMenuSubItem } from "../ui/sidebar";
+import { SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
 import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "../ui/button";
+import { usePathname, useRouter } from "next/navigation";
 
 async function queryWorkspaces() {
   const res = await client.workspace.all.$get();
@@ -13,27 +14,28 @@ type InferArrayType<T> = T extends (infer U)[] ? U : never;
 type Workspace = InferArrayType<Awaited<ReturnType<typeof queryWorkspaces>>>;
 
 function WorkspaceList({ all_workspace }: { all_workspace: Workspace[] }) {
+  const router = useRouter();
+
   return (
     <>
       {all_workspace?.map((workspace, i) => {
         return (
-          <SidebarMenuSubItem key={i} className="mt-0.5">
-            <SidebarMenuSubButton asChild>
+          <SidebarMenuItem key={i} className="">
+            <SidebarMenuButton asChild>
               <Button
                 variant={"ghost"}
                 effect={"click"}
                 className={cn(
-                  "w-full pl-3 text-xs flex justify-start cursor-pointer",
-                  {
-                    "font-medium bg-background": i === 0,
-                    "font-normal": i !== 0,
-                  }
+                  "w-full pl-3 text-xs flex justify-start cursor-pointer active:bg-background font-normal duration-75"
                 )}
+                onClick={() => {
+                  router.push(workspace.name);
+                }}
               >
                 <h1>{workspace.name}</h1>
               </Button>
-            </SidebarMenuSubButton>
-          </SidebarMenuSubItem>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
         );
       })}
     </>
@@ -58,9 +60,9 @@ export function WorkspaceAll({
       {!loading_workspace ? (
         <WorkspaceList all_workspace={all_workspace} />
       ) : (
-        <SidebarMenuSubItem className="animate-pulse bg-accent rounded-lg">
-          <SidebarMenuSubButton></SidebarMenuSubButton>
-        </SidebarMenuSubItem>
+        <SidebarMenuItem className="animate-pulse bg-accent rounded-lg">
+          <SidebarMenuButton></SidebarMenuButton>
+        </SidebarMenuItem>
       )}
     </>
   );

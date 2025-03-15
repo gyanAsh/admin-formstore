@@ -19,6 +19,7 @@ import {
 import React from "react";
 import { WorkspaceArea } from "./sidebar/workspace-area";
 import { Footer } from "./sidebar/footer";
+import { ScrollArea } from "./ui/scroll-area";
 
 export function AppSidebar() {
   return (
@@ -42,22 +43,24 @@ export function AppSidebar() {
           </Tooltip>
         </TooltipProvider>
       </SidebarHeader>
-      <SidebarContent>
-        <SidebarGroup>
-          <Button
-            variant={"outline"}
-            effect="click"
-            className="grow justify-start border-accent-foreground/30 "
-          >
-            <WandSparkles />
-            But Premium{" "}
-          </Button>
-        </SidebarGroup>
-        <SidebarGroup>
-          <WorkspaceArea />
-        </SidebarGroup>
-        <SidebarGroup>View Submissions Analysis Page</SidebarGroup>
-        <SidebarGroup>Try Template</SidebarGroup>
+      <SidebarContent className="sno-scrollbar">
+        <ScrollArea className="min-h-[150px]">
+          <SidebarGroup>
+            <Button
+              variant={"outline"}
+              effect="click"
+              className="grow justify-start border-accent-foreground/30 "
+            >
+              <WandSparkles />
+              But Premium{" "}
+            </Button>
+          </SidebarGroup>
+          <SidebarGroup>
+            <WorkspaceArea />
+          </SidebarGroup>
+          <SidebarGroup>View Submissions Analysis Page</SidebarGroup>
+          <SidebarGroup>Try Template</SidebarGroup>
+        </ScrollArea>
       </SidebarContent>
       <SidebarFooter>
         <Footer />

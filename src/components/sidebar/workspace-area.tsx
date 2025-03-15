@@ -1,5 +1,6 @@
 "use client";
 import {
+  SidebarMenu,
   SidebarMenuButton,
   SidebarMenuSub,
   SidebarMenuSubButton,
@@ -56,56 +57,42 @@ export function WorkspaceArea() {
   //   });
 
   return (
-    <>
-      <Collapsible defaultOpen className="group/collapsible">
-        <div className="flex gap-1">
-          <CollapsibleTrigger asChild>
-            <SidebarMenuButton className="flex items-center justify-between w-full text-sidebar-accent-foreground/90 text-sm gap-2">
-              <WorkflowIcon width={16} height={16} /> My Workspace{" "}
-              <ChevronDown
-                width={16}
-                height={16}
-                className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180"
-              />
-            </SidebarMenuButton>
-          </CollapsibleTrigger>
-          <Dialog>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <DialogTrigger asChild>
-                    <SidebarMenuSubButton asChild>
-                      <Button
-                        variant={"outline"}
-                        effect={"click"}
-                        className="w-8 h-8"
-                      >
-                        <Plus className="" />
-                      </Button>
-                    </SidebarMenuSubButton>
-                  </DialogTrigger>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Create New Workspace</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-
-            <DialogContent>
-              <NewWorkspaceDialogBox />
-            </DialogContent>
-          </Dialog>
+    <section className="flex flex-col gap-1.5">
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex gap-1 items-center text-accent-foreground/50 text-sm font-semibold">
+          <WorkflowIcon width={14} height={14} /> My Workspace{" "}
         </div>
-        <CollapsibleContent>
-          <SidebarMenuSub>
-            {/* <section className="max-h-[50dvh] overflow-y-auto "> */}
-            <WorkspaceAll ssr_all_workspace_data={[]} />
-            {/* </section> */}
-            <SidebarMenuSubItem></SidebarMenuSubItem>
-          </SidebarMenuSub>
-        </CollapsibleContent>
-      </Collapsible>
-    </>
+        <Dialog>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <DialogTrigger asChild>
+                  <SidebarMenuSubButton asChild>
+                    <Button
+                      variant={"outline"}
+                      effect={"click"}
+                      className="size-7"
+                    >
+                      <Plus className="" />
+                    </Button>
+                  </SidebarMenuSubButton>
+                </DialogTrigger>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Create New Workspace</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
+          <DialogContent>
+            <NewWorkspaceDialogBox />
+          </DialogContent>
+        </Dialog>
+      </div>
+      <SidebarMenu>
+        <WorkspaceAll ssr_all_workspace_data={[]} />
+      </SidebarMenu>
+    </section>
   );
 }
 
