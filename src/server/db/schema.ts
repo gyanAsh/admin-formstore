@@ -76,6 +76,7 @@ export const workspace = pgTable("workspace", {
   description: text("description"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  ownerId: text("user_id").notNull().references(()=> user.id, { onDelete: "cascade" }),
 });
 
 export const current_workspace = pgTable("current_workspace", {
