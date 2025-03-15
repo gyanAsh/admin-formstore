@@ -80,5 +80,5 @@ export const workspace = pgTable("workspace", {
 
 export const current_workspace = pgTable("current_workspace", {
   userId: text("user_id").notNull().references(() => user.id).primaryKey(),
-  workspaceId: integer("workspace_id").notNull().references(()=> workspace.id),
+  workspaceId: integer("workspace_id").notNull().references(()=> workspace.id, {onDelete: 'cascade'}),
 });
