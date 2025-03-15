@@ -34,7 +34,7 @@ export const workspaceRouter = j.router({
       await db.transaction(async (tx) => {
         const workspace = await tx
           .insert(tables.workspace)
-          .values({ name })
+          .values({ name, ownerId: session.user.id })
           .returning({ id: tables.workspace.id });
         // Validate the insertion result
         const workspaceId = workspace[0]?.id;
@@ -45,8 +45,8 @@ export const workspaceRouter = j.router({
         }
         await tx
           .insert(tables.current_workspace)
-          .values({ userId: session.user.id, workspaceId: workspaceId });
-        console.log({ workspace });
+          .values({ userId: session.user.id, workspaceId: workspaceId })
+          .onConflictDoUpdate({ target: tables.current_workspace.userId, set: { workspaceId: workspaceId } });
       });
 
       return c.superjson({});
