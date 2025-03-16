@@ -19,6 +19,11 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        lemon_primary: cn(
+          "text-black bg-custom-lemon hover:bg-custom-lemon transition ease-in-out hover:translate-y-0.5 duration-150",
+          "shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)]",
+          "dark:shadow-[4px_4px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)]"
+        ),
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
@@ -32,7 +37,7 @@ const buttonVariants = cva(
           "hover:shadow-sm hover:scale-[1.03] active:scale-[0.97] cursor-pointer duration-75",
         scale:
           "hover:shadow-sm hover:scale-[1.05] active:scale-[0.95] cursor-pointer duration-75",
-        click: "hover:shadow-sm active:scale-[0.95] cursor-pointer duration-75",
+        click: "active:scale-[0.95] cursor-pointer duration-75",
       },
     },
     defaultVariants: {

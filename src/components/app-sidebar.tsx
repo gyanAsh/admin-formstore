@@ -48,41 +48,31 @@ export function AppSidebar() {
       <SidebarContent>
         <ScrollArea className="min-h-[150px]">
           <SidebarGroup>
-            <SidebarMenuButton asChild>
-              <Button
-                variant={"secondary"}
-                effect="click"
-                // className="grow justify-start border-accent-foreground/30 "
-              >
-                <Crown className="text-yellow-500" />
-                But Premium{" "}
-              </Button>
-            </SidebarMenuButton>
+            <Button variant="lemon_primary" effect="click" className=" ">
+              <Crown className="text-yellow-500" />
+              Get Premium{" "}
+            </Button>
           </SidebarGroup>
           <SidebarGroup>
             <WorkspaceArea />
           </SidebarGroup>
           <SidebarGroup>
-            <SidebarMenuButton asChild>
-              <Button
-                variant={"secondary"}
-                effect="click"
-                className="flex justify-start font-medium"
-              >
-                Submission Insights
-              </Button>
-            </SidebarMenuButton>
+            <Button
+              variant="lemon_primary"
+              effect="click"
+              className="flex justify-start font-medium"
+            >
+              Submission Insights
+            </Button>
           </SidebarGroup>
           <SidebarGroup>
-            <SidebarMenuButton asChild>
-              <Button
-                variant={"secondary"}
-                effect="click"
-                className="flex justify-start font-medium"
-              >
-                Explore Templates
-              </Button>
-            </SidebarMenuButton>
+            <Button
+              variant="lemon_primary"
+              effect="click"
+              className="flex justify-start font-medium"
+            >
+              Explore Templates
+            </Button>
           </SidebarGroup>
         </ScrollArea>
       </SidebarContent>

@@ -152,6 +152,9 @@
   --color-cooler-primary-button: var(--primary-buttons);
   --color-cooler-background: var(--secondary-buttons);
   --color-cooler-card-elements: var(--card-ui-elements);
+
+  /* new variable */
+  --color-custom-lemon: #e7f900;
 }
 
 @layer base {
