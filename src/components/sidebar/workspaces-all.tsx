@@ -29,7 +29,7 @@ function WorkspaceList({ all_workspace }: { all_workspace: Workspace[] }) {
                   "w-full pl-3 text-xs flex justify-start cursor-pointer active:bg-background font-normal duration-75"
                 )}
                 onClick={() => {
-                  router.push(workspace.name);
+                  router.push(`/dashboard/${workspace.id.toString()}`);
                 }}
               >
                 <h1>{workspace.name}</h1>

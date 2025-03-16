@@ -36,6 +36,13 @@
       "when": 1741868618121,
       "tag": "0004_lazy_old_lace",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1742107888967,
+      "tag": "0005_opposite_spiral",
+      "breakpoints": true
     }
   ]
 }
