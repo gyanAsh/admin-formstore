@@ -24,7 +24,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { SidebarToggleButton_Custom } from "../sidebar/toggle-sidebar";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
@@ -265,7 +264,7 @@ function SidebarTrigger({
       size="icon"
       effect="click"
       className={cn(
-        "h-7 w-7 rounded-full bg-primary-violet-light translate-y-2",
+        "h-7 w-7 rounded-full hover:bg-accent bg-violet-300 dark:bg-violet-400 translate-y-2 border-violet-700 dark:border-violet-800",
         className
       )}
       onClick={(event) => {
