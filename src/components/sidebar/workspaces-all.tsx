@@ -21,20 +21,18 @@ function WorkspaceList({ all_workspace }: { all_workspace: Workspace[] }) {
       {all_workspace?.map((workspace, i) => {
         return (
           <SidebarMenuItem key={i} className="">
-            <SidebarMenuButton asChild>
-              <Button
-                variant={"ghost"}
-                effect={"click"}
-                className={cn(
-                  "w-full pl-3 text-xs flex justify-start cursor-pointer active:bg-background font-normal duration-75"
-                )}
-                onClick={() => {
-                  router.push(`/dashboard/${workspace.id.toString()}`);
-                }}
-              >
-                <h1>{workspace.name}</h1>
-              </Button>
-            </SidebarMenuButton>
+            <Button
+              variant="violet_secondary"
+              effect={"click"}
+              className={cn(
+                "w-full text-xs flex justify-start cursor-pointer font-semibold duration-75"
+              )}
+              onClick={() => {
+                router.push(`/dashboard/${workspace.id.toString()}`);
+              }}
+            >
+              <h1>{workspace.name}</h1>
+            </Button>
           </SidebarMenuItem>
         );
       })}

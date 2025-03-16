@@ -24,6 +24,8 @@ const buttonVariants = cva(
           "shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)]",
           "dark:shadow-[4px_4px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)]"
         ),
+        violet_secondary:
+          "bg-violet-200 dark:bg-violet-400/80  hover:bg-violet-300 dark:hover:bg-violet-500/80 shadow-sm",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
@@ -43,6 +45,7 @@ const buttonVariants = cva(
     defaultVariants: {
       variant: "default",
       size: "default",
+      effect: "default",
     },
   }
 );

@@ -29,12 +29,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { client } from "@/lib/client";
 import React from "react";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "../ui/collapsible";
-import { ScrollArea } from "../ui/scroll-area";
 import { toast } from "sonner";
 import { HTTPException } from "hono/http-exception";
 import { WorkspaceAll } from "./workspaces-all";
@@ -59,7 +53,7 @@ export function WorkspaceArea() {
   return (
     <section className="flex flex-col gap-1.5">
       <div className="flex items-center justify-between gap-2">
-        <div className="flex gap-1 items-center text-accent-foreground/50 text-sm font-semibold">
+        <div className="flex gap-1 items-center text-sm font-semibold">
           <WorkflowIcon width={14} height={14} /> My Workspace{" "}
         </div>
         <Dialog>
@@ -69,7 +63,7 @@ export function WorkspaceArea() {
                 <DialogTrigger asChild>
                   <SidebarMenuSubButton asChild>
                     <Button
-                      variant={"outline"}
+                      variant="outline"
                       effect={"click"}
                       className="size-7"
                     >
