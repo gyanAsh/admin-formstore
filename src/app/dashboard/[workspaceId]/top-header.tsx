@@ -1,47 +1,48 @@
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
+import { FileChartColumn, FolderPlus, Plus } from "lucide-react";
 
 export const TopHeader = () => {
   return (
     <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-      <Card className="relative h-20 lg:h-28 py-2 md:py-4 hover:-translate-y-1.5 active:scale-95 hover:cursor-pointer duration-200">
+      <Card className="relative h-20 lg:h-28 py-2 md:py-4 hover:-translate-y-1 active:scale-95 hover:cursor-pointer hover:shadow-lg duration-200 border-0 bg-cooler-card-elements text-cooler-primary-text">
         <CardHeader className="text-sm md:text-base lg:text-xl px-2 md:px-4 ">
-          Create Form
+          New Form{" "}
         </CardHeader>
         <CardFooter className="self-end">
-          <ArrowTopRight
+          <Plus
             className={
               "absolute w-3.5 h-3.5 md:w-4 lg:w-5 md:h-4 lg:h-5 bottom-2 right-2 md:bottom-4 md:right-4"
             }
           />
         </CardFooter>
       </Card>
-      <Card className="relative h-20 lg:h-28 py-2 md:py-4 hover:-translate-y-1.5 active:scale-95 hover:cursor-pointer duration-200">
+      <Card className="relative h-20 lg:h-28 py-2 md:py-4 hover:-translate-y-1 active:scale-95 hover:cursor-pointer hover:shadow-lg duration-200 border-0 bg-cooler-card-elements text-cooler-primary-text">
         <CardHeader className="text-sm md:text-base lg:text-xl px-2 md:px-4 ">
-          Create Workspace
+          New Workspace{" "}
         </CardHeader>
         <CardFooter className="self-end">
-          <ArrowTopRight
+          <FolderPlus
             className={
               "absolute w-3.5 h-3.5 md:w-4 lg:w-5 md:h-4 lg:h-5 bottom-2 right-2 md:bottom-4 md:right-4"
             }
           />
         </CardFooter>
       </Card>
-      <Card className="relative h-20 lg:h-28 py-2 md:py-4 hover:-translate-y-1.5 active:scale-95 hover:cursor-pointer duration-200">
+      <Card className="relative h-20 lg:h-28 py-2 md:py-4 hover:-translate-y-1 active:scale-95 hover:cursor-pointer hover:shadow-lg duration-200 border-0 bg-cooler-card-elements text-cooler-primary-text">
         <CardHeader className="text-sm md:text-base lg:text-xl px-2 md:px-4 ">
-          View Submissions Analysis
+          Submission Insights{" "}
         </CardHeader>
         <CardFooter className="self-end">
-          <ArrowTopRight
+          <FileChartColumn
             className={
               "absolute w-3.5 h-3.5 md:w-4 lg:w-5 md:h-4 lg:h-5 bottom-2 right-2 md:bottom-4 md:right-4"
             }
           />
         </CardFooter>
       </Card>
-      <Card className="relative h-20 lg:h-28 py-2 md:py-4 hover:-translate-y-1.5 active:scale-95 hover:cursor-pointer duration-200">
+      <Card className="relative h-20 lg:h-28 py-2 md:py-4 hover:-translate-y-1 active:scale-95 hover:cursor-pointer hover:shadow-lg duration-200 border-0 bg-cooler-card-elements text-cooler-primary-text">
         <CardHeader className="text-sm md:text-base lg:text-xl px-2 md:px-4 ">
-          Try Templates
+          Explore Templates{" "}
         </CardHeader>
         <CardFooter className="self-end">
           <ArrowTopRight

@@ -21,7 +21,9 @@ export default function RootLayout({
         <SidebarProvider>
           <AppSidebar />
           <SidebarTrigger />
-          {children}
+          <div className="min-h-screen w-full flex p-4 gap-4 relative isolate bg-cooler-base">
+            {children}
+          </div>
           <Toaster />
         </SidebarProvider>
       </body>

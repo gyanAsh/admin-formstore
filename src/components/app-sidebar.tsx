@@ -4,11 +4,13 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarHeader,
+  SidebarMenuBadge,
+  SidebarMenuButton,
 } from "@/components/ui/sidebar";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-import { WandSparkles } from "lucide-react";
+import { Crown, SidebarOpenIcon, WandSparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -46,20 +48,42 @@ export function AppSidebar() {
       <SidebarContent className="sno-scrollbar">
         <ScrollArea className="min-h-[150px]">
           <SidebarGroup>
-            <Button
-              variant={"outline"}
-              effect="click"
-              className="grow justify-start border-accent-foreground/30 "
-            >
-              <WandSparkles />
-              But Premium{" "}
-            </Button>
+            <SidebarMenuButton asChild>
+              <Button
+                variant={"secondary"}
+                effect="click"
+                // className="grow justify-start border-accent-foreground/30 "
+              >
+                <Crown className="text-yellow-500" />
+                But Premium{" "}
+              </Button>
+            </SidebarMenuButton>
           </SidebarGroup>
           <SidebarGroup>
             <WorkspaceArea />
           </SidebarGroup>
-          <SidebarGroup>View Submissions Analysis Page</SidebarGroup>
-          <SidebarGroup>Try Template</SidebarGroup>
+          <SidebarGroup>
+            <SidebarMenuButton asChild>
+              <Button
+                variant={"secondary"}
+                effect="click"
+                className="flex justify-start font-medium"
+              >
+                Submission Insights
+              </Button>
+            </SidebarMenuButton>
+          </SidebarGroup>
+          <SidebarGroup>
+            <SidebarMenuButton asChild>
+              <Button
+                variant={"secondary"}
+                effect="click"
+                className="flex justify-start font-medium"
+              >
+                Explore Templates
+              </Button>
+            </SidebarMenuButton>
+          </SidebarGroup>
         </ScrollArea>
       </SidebarContent>
       <SidebarFooter>
