@@ -25,7 +25,7 @@ import { ScrollArea } from "./ui/scroll-area";
 
 export function AppSidebar() {
   return (
-    <Sidebar variant="inset" collapsible="offcanvas">
+    <Sidebar variant="floating" collapsible="offcanvas">
       <SidebarHeader>
         <TooltipProvider>
           <Tooltip>
@@ -45,7 +45,7 @@ export function AppSidebar() {
           </Tooltip>
         </TooltipProvider>
       </SidebarHeader>
-      <SidebarContent className="sno-scrollbar">
+      <SidebarContent>
         <ScrollArea className="min-h-[150px]">
           <SidebarGroup>
             <SidebarMenuButton asChild>
