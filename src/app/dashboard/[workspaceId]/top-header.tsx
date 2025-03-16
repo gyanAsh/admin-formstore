@@ -1,53 +1,84 @@
+import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { FileChartColumn, FolderPlus, Plus } from "lucide-react";
 
 export const TopHeader = () => {
   return (
     <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-      <Card className="relative h-20 lg:h-28 py-2 md:py-4 hover:-translate-y-1 active:scale-95 hover:cursor-pointer hover:shadow-lg duration-200 border-0 bg-cooler-card-elements text-cooler-primary-text">
-        <CardHeader className="text-sm md:text-base lg:text-xl px-2 md:px-4 ">
+      <Card
+        className="relative h-full md:h-20 lg:h-28 py-2 md:py-4 
+        active:scale-95 hover:cursor-pointer 
+        border-0  bg-cyan-300/85 dark:bg-cyan-400/90
+      text-black  hover:bg-custom-lemon transition ease-in-out hover:translate-y-0.5 duration-150 
+        shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)] 
+        dark:shadow-[4px_4px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)] "
+      >
+        <CardHeader className="text-lg lg:text-xl font-semibold px-3 md:px-4 ">
           New Form{" "}
         </CardHeader>
         <CardFooter className="self-end">
           <Plus
             className={
-              "absolute w-3.5 h-3.5 md:w-4 lg:w-5 md:h-4 lg:h-5 bottom-2 right-2 md:bottom-4 md:right-4"
+              "absolute size-6 md:size-7 bottom-3 right-3 md:bottom-4 md:right-4"
             }
           />
         </CardFooter>
       </Card>
-      <Card className="relative h-20 lg:h-28 py-2 md:py-4 hover:-translate-y-1 active:scale-95 hover:cursor-pointer hover:shadow-lg duration-200 border-0 bg-cooler-card-elements text-cooler-primary-text">
-        <CardHeader className="text-sm md:text-base lg:text-xl px-2 md:px-4 ">
+      <Card
+        className="relative h-full md:h-20 lg:h-28 py-2 md:py-4 
+        active:scale-95 hover:cursor-pointer 
+        border-0  bg-cyan-300/85 dark:bg-cyan-400/90
+      text-black  hover:bg-custom-lemon transition ease-in-out hover:translate-y-0.5 duration-150 
+        shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)] 
+        dark:shadow-[4px_4px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)] "
+      >
+        <CardHeader className="text-lg lg:text-xl font-semibold px-3 md:px-4 ">
           New Workspace{" "}
         </CardHeader>
         <CardFooter className="self-end">
           <FolderPlus
             className={
-              "absolute w-3.5 h-3.5 md:w-4 lg:w-5 md:h-4 lg:h-5 bottom-2 right-2 md:bottom-4 md:right-4"
+              "absolute size-6 md:size-7 bottom-3 right-3 md:bottom-4 md:right-4"
             }
           />
         </CardFooter>
       </Card>
-      <Card className="relative h-20 lg:h-28 py-2 md:py-4 hover:-translate-y-1 active:scale-95 hover:cursor-pointer hover:shadow-lg duration-200 border-0 bg-cooler-card-elements text-cooler-primary-text">
-        <CardHeader className="text-sm md:text-base lg:text-xl px-2 md:px-4 ">
+      <Card
+        className="relative h-full md:h-20 lg:h-28 py-2 md:py-4 
+        active:scale-95 hover:cursor-pointer 
+        border-0  bg-cyan-300/85 dark:bg-cyan-400/90
+      text-black  hover:bg-custom-lemon transition ease-in-out hover:translate-y-0.5 duration-150 
+        shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)] 
+        dark:shadow-[4px_4px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)] "
+      >
+        {" "}
+        <CardHeader className="text-lg lg:text-xl font-semibold px-3 md:px-4 ">
           Submission Insights{" "}
         </CardHeader>
         <CardFooter className="self-end">
           <FileChartColumn
             className={
-              "absolute w-3.5 h-3.5 md:w-4 lg:w-5 md:h-4 lg:h-5 bottom-2 right-2 md:bottom-4 md:right-4"
+              "absolute size-6 md:size-7 bottom-3 right-3 md:bottom-4 md:right-4"
             }
           />
         </CardFooter>
       </Card>
-      <Card className="relative h-20 lg:h-28 py-2 md:py-4 hover:-translate-y-1 active:scale-95 hover:cursor-pointer hover:shadow-lg duration-200 border-0 bg-cooler-card-elements text-cooler-primary-text">
-        <CardHeader className="text-sm md:text-base lg:text-xl px-2 md:px-4 ">
+      <Card
+        className="relative h-full md:h-20 lg:h-28 py-2 md:py-4 
+        active:scale-95 hover:cursor-pointer 
+        border-0  bg-cyan-300/85 dark:bg-cyan-400/90
+      text-black  hover:bg-custom-lemon transition ease-in-out hover:translate-y-0.5 duration-150 
+        shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)] 
+        dark:shadow-[4px_4px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)] "
+      >
+        {" "}
+        <CardHeader className="text-lg lg:text-xl font-semibold px-3 md:px-4 ">
           Explore Templates{" "}
         </CardHeader>
         <CardFooter className="self-end">
           <ArrowTopRight
             className={
-              "absolute w-3.5 h-3.5 md:w-4 lg:w-5 md:h-4 lg:h-5 bottom-2 right-2 md:bottom-4 md:right-4"
+              "absolute size-6 md:size-7 bottom-3 right-3 md:bottom-4 md:right-4"
             }
           />
         </CardFooter>

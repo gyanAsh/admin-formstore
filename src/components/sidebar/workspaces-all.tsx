@@ -25,7 +25,7 @@ function WorkspaceList({ all_workspace }: { all_workspace: Workspace[] }) {
               variant="violet_secondary"
               effect={"click"}
               className={cn(
-                "w-full text-xs flex justify-start cursor-pointer font-semibold duration-75"
+                "w-full text-xs flex justify-start cursor-pointer font-semibold hover:font-bold duration-75 transition-all"
               )}
               onClick={() => {
                 router.push(`/dashboard/${workspace.id.toString()}`);

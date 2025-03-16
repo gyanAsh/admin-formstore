@@ -155,6 +155,7 @@
 
   /* new variable */
   --color-custom-lemon: #e7f900;
+  --color-custom-blue: #53d2ff;
 }
 
 @layer base {

@@ -58,7 +58,7 @@ export function AppSidebar() {
           </SidebarGroup>
           <SidebarGroup>
             <Button
-              variant="lemon_primary"
+              variant="outline"
               effect="click"
               className="flex justify-start font-medium"
             >
@@ -67,7 +67,7 @@ export function AppSidebar() {
           </SidebarGroup>
           <SidebarGroup>
             <Button
-              variant="lemon_primary"
+              variant="outline"
               effect="click"
               className="flex justify-start font-medium"
             >
