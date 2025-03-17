@@ -9,7 +9,7 @@ export const TopHeader = () => {
         className="relative h-full md:h-20 lg:h-28 py-2 md:py-4 
         active:scale-95 hover:cursor-pointer 
         border-0  bg-cyan-300/85 dark:bg-cyan-400/90
-      text-black  hover:bg-custom-lemon transition ease-in-out hover:translate-y-0.5 duration-150 
+      text-black  hover:bg-custom-lemon dark:hover:bg-custom-lemon transition ease-in-out hover:translate-y-0.5 duration-150 
         shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)] 
         dark:shadow-[4px_4px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)] "
       >
@@ -28,7 +28,7 @@ export const TopHeader = () => {
         className="relative h-full md:h-20 lg:h-28 py-2 md:py-4 
         active:scale-95 hover:cursor-pointer 
         border-0  bg-cyan-300/85 dark:bg-cyan-400/90
-      text-black  hover:bg-custom-lemon transition ease-in-out hover:translate-y-0.5 duration-150 
+      text-black  hover:bg-custom-lemon dark:hover:bg-custom-lemon transition ease-in-out hover:translate-y-0.5 duration-150 
         shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)] 
         dark:shadow-[4px_4px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)] "
       >
@@ -47,7 +47,7 @@ export const TopHeader = () => {
         className="relative h-full md:h-20 lg:h-28 py-2 md:py-4 
         active:scale-95 hover:cursor-pointer 
         border-0  bg-cyan-300/85 dark:bg-cyan-400/90
-      text-black  hover:bg-custom-lemon transition ease-in-out hover:translate-y-0.5 duration-150 
+      text-black  hover:bg-custom-lemon dark:hover:bg-custom-lemon transition ease-in-out hover:translate-y-0.5 duration-150 
         shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)] 
         dark:shadow-[4px_4px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)] "
       >
@@ -67,7 +67,7 @@ export const TopHeader = () => {
         className="relative h-full md:h-20 lg:h-28 py-2 md:py-4 
         active:scale-95 hover:cursor-pointer 
         border-0  bg-cyan-300/85 dark:bg-cyan-400/90
-      text-black  hover:bg-custom-lemon transition ease-in-out hover:translate-y-0.5 duration-150 
+      text-black  hover:bg-custom-lemon dark:hover:bg-custom-lemon transition ease-in-out hover:translate-y-0.5 duration-150 
         shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)] 
         dark:shadow-[4px_4px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)] "
       >
