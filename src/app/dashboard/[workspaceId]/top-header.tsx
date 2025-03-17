@@ -8,8 +8,8 @@ export const TopHeader = () => {
       <Card
         className="relative h-full md:h-20 lg:h-28 py-2 md:py-4 
         active:scale-95 hover:cursor-pointer 
-        border-0  bg-cyan-300/85 dark:bg-cyan-400/90
-      text-black  hover:bg-custom-lemon dark:hover:bg-custom-lemon transition ease-in-out hover:translate-y-0.5 duration-150 
+        border-0
+        transition ease-in-out hover:translate-y-0.5 duration-150 
         shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)] 
         dark:shadow-[4px_4px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)] "
       >
@@ -17,18 +17,22 @@ export const TopHeader = () => {
           New Form{" "}
         </CardHeader>
         <CardFooter className="self-end">
-          <Plus
-            className={
-              "absolute size-6 md:size-7 bottom-3 right-3 md:bottom-4 md:right-4"
-            }
-          />
+          <div
+            className="absolute flex items-center justify-center font-normal
+           size-6 md:size-7 bottom-3 right-3 md:bottom-4 md:right-4
+           border-0 border-amber-200
+           
+           "
+          >
+            <Plus className={""} />
+          </div>
         </CardFooter>
       </Card>
       <Card
         className="relative h-full md:h-20 lg:h-28 py-2 md:py-4 
         active:scale-95 hover:cursor-pointer 
-        border-0  bg-cyan-300/85 dark:bg-cyan-400/90
-      text-black  hover:bg-custom-lemon dark:hover:bg-custom-lemon transition ease-in-out hover:translate-y-0.5 duration-150 
+        border-0
+        transition ease-in-out hover:translate-y-0.5 duration-150 
         shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)] 
         dark:shadow-[4px_4px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)] "
       >
@@ -46,8 +50,8 @@ export const TopHeader = () => {
       <Card
         className="relative h-full md:h-20 lg:h-28 py-2 md:py-4 
         active:scale-95 hover:cursor-pointer 
-        border-0  bg-cyan-300/85 dark:bg-cyan-400/90
-      text-black  hover:bg-custom-lemon dark:hover:bg-custom-lemon transition ease-in-out hover:translate-y-0.5 duration-150 
+        border-0
+        transition ease-in-out hover:translate-y-0.5 duration-150 
         shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)] 
         dark:shadow-[4px_4px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)] "
       >
@@ -66,8 +70,8 @@ export const TopHeader = () => {
       <Card
         className="relative h-full md:h-20 lg:h-28 py-2 md:py-4 
         active:scale-95 hover:cursor-pointer 
-        border-0  bg-cyan-300/85 dark:bg-cyan-400/90
-      text-black  hover:bg-custom-lemon dark:hover:bg-custom-lemon transition ease-in-out hover:translate-y-0.5 duration-150 
+        border-0
+        transition ease-in-out hover:translate-y-0.5 duration-150 
         shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)] 
         dark:shadow-[4px_4px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)] "
       >
