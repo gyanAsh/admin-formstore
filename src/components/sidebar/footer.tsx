@@ -1,7 +1,5 @@
-"use client"
-import {
-  LogOut,
-} from "lucide-react";
+"use client";
+import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "../theme-toggle";
 import { authClient } from "@/lib/auth-client";
@@ -27,7 +25,7 @@ export function Footer() {
       >
         <LogOut /> Sign Out
       </Button>
-      <ModeToggle effect={"click"} className="w-full" />
+      {/* <ModeToggle effect={"click"} className="w-full" /> */}
     </>
   );
 }

@@ -255,29 +255,38 @@ function SidebarTrigger({
   onClick,
   ...props
 }: React.ComponentProps<typeof Button>) {
-  const { toggleSidebar, open } = useSidebar();
+  const { toggleSidebar, open, isMobile } = useSidebar();
   return (
-    <Button
-      data-sidebar="trigger"
-      data-slot="sidebar-trigger"
-      variant="outline"
-      size="icon"
-      effect="click"
-      className={cn(
-        "h-7 w-7 rounded-full hover:bg-accent dark:hover:bg-accent transition-all duration-150 bg-violet-300 dark:bg-violet-400 translate-y-2 border-violet-700 dark:border-violet-800",
-        className
-      )}
-      onClick={(event) => {
-        onClick?.(event);
-        toggleSidebar();
-      }}
-      {...props}
-    >
-      {open ? <X /> : <Menu />}
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            data-sidebar="trigger"
+            data-slot="sidebar-trigger"
+            variant="outline"
+            size="icon"
+            effect="click"
+            className={cn(
+              "rounded-full hover:bg-accent dark:hover:bg-accent transition-all duration-150 bg-violet-300 dark:bg-violet-400 border-violet-700 dark:border-violet-800",
+              className
+            )}
+            onClick={(event) => {
+              onClick?.(event);
+              toggleSidebar();
+            }}
+            {...props}
+          >
+            {open && !isMobile ? <X /> : <Menu />}
 
-      {/* {open ? <PanelRightOpen /> : <PanelLeftOpen />} */}
-      <span className="sr-only">Toggle Sidebar</span>
-    </Button>
+            {/* {open ? <PanelRightOpen /> : <PanelLeftOpen />} */}
+            <span className="sr-only">Toggle Sidebar</span>
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          {open && !isMobile ? <p>Close sidebar</p> : <p>Open sidebar</p>}
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }
 

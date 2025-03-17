@@ -3,7 +3,7 @@ import { SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
 import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "../ui/button";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 async function queryWorkspaces() {
   const res = await client.workspace.all.$get();
