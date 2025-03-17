@@ -19,15 +19,14 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="antialiased">
-        <SidebarProvider className="bg-violet-500 dark:bg-violet-600">
+        <SidebarProvider className="bg-violet-500 dark:bg-violet-600/80">
           <AppSidebar />
           <div className="flex flex-col w-full">
             <TopNavbar />
-            <div className="min-h-screen w-full flex p-4 gap-4 relative isolate bg-violet-500 dark:bg-violet-600">
+            <div className="w-full flex p-4 gap-4 relative isolate">
               {children}
             </div>
           </div>
-
           <Toaster />
         </SidebarProvider>
       </body>
