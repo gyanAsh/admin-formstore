@@ -276,7 +276,11 @@ function SidebarTrigger({
             }}
             {...props}
           >
-            {open && !isMobile ? <X /> : <Menu />}
+            {open && !isMobile ? (
+              <X strokeWidth={3} />
+            ) : (
+              <Menu strokeWidth={3} />
+            )}
 
             {/* {open ? <PanelRightOpen /> : <PanelLeftOpen />} */}
             <span className="sr-only">Toggle Sidebar</span>

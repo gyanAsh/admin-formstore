@@ -49,14 +49,14 @@ export function AppSidebar() {
         <ScrollArea className="min-h-[150px]">
           <SidebarGroup>
             <Button variant="lemon_primary" effect="click" className=" ">
-              <Crown className="text-yellow-500" />
-              Get Premium{" "}
+              <Crown strokeWidth={3} className="text-yellow-500/80" />
+              Buy Premium{" "}
             </Button>
           </SidebarGroup>
           <SidebarGroup>
             <WorkspaceArea />
           </SidebarGroup>
-          <SidebarGroup>
+          {/* <SidebarGroup>
             <Button
               variant="outline"
               effect="click"
@@ -64,16 +64,7 @@ export function AppSidebar() {
             >
               Submission Insights
             </Button>
-          </SidebarGroup>
-          <SidebarGroup>
-            <Button
-              variant="outline"
-              effect="click"
-              className="flex justify-start font-medium"
-            >
-              Explore Templates
-            </Button>
-          </SidebarGroup>
+          </SidebarGroup> */}
         </ScrollArea>
       </SidebarContent>
       <SidebarFooter>

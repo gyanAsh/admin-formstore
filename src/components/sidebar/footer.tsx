@@ -23,7 +23,7 @@ export function Footer() {
           });
         }}
       >
-        <LogOut /> Sign Out
+        <LogOut strokeWidth={3} /> Sign Out
       </Button>
       {/* <ModeToggle effect={"click"} className="w-full" /> */}
     </>

@@ -38,6 +38,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
+import { FigmaFolder } from "../icons";
 
 export function WorkspaceArea() {
   // const { data: current_workspace, isPending: loading_current_workspace } =
@@ -54,7 +55,9 @@ export function WorkspaceArea() {
     <section className="flex flex-col gap-1.5">
       <div className="flex items-center justify-between gap-2">
         <div className="flex gap-1 items-center text-sm font-semibold">
-          <WorkflowIcon width={14} height={14} /> My Workspace{" "}
+          {/* <WorkflowIcon width={14} height={14} /> */}
+          <FigmaFolder strokeWidth={3} />
+          My Workspace{" "}
         </div>
         <Dialog>
           <TooltipProvider>
@@ -67,7 +70,7 @@ export function WorkspaceArea() {
                       effect={"click"}
                       className="size-7"
                     >
-                      <Plus className="" />
+                      <Plus className="" strokeWidth={3} />
                     </Button>
                   </SidebarMenuSubButton>
                 </DialogTrigger>
