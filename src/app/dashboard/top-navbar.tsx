@@ -10,7 +10,7 @@ export const TopNavbar = () => {
         className="font-bold text-2xl"
         style={{ textShadow: "1px 1px 2px #e7f900" }}
       >
-        Formstore
+        Title_here
       </h2>
       <ModeToggle effect={"click"} className="size-8 rounded-full" />
     </Card>
