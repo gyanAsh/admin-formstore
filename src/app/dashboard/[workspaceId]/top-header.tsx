@@ -17,7 +17,7 @@ export const TopHeader = () => {
         <CardFooter className="self-end ">
           <div
             className="absolute size-7 md:size-9 bottom-3 right-3 md:bottom-4 md:right-4 
-            bg-violet-400 dark:bg-violet-400/75 transition-all duration-75 group-hover:bg-violet-300 dark:group-hover:bg-violet-400 border
+            bg-violet-400 dark:bg-violet-400/75 transition-all duration-75 group-hover:bg-violet-500/90 dark:group-hover:bg-violet-400 border
             flex items-center justify-center rounded-lg group-hover:rounded-xl border-violet-300 dark:border-violet-400 shadow-xs"
           >
             <FigmaAdd className="text-black" />
@@ -39,7 +39,7 @@ export const TopHeader = () => {
         <CardFooter className="self-end">
           <div
             className="absolute size-7 md:size-9 bottom-3 right-3 md:bottom-4 md:right-4 
-            bg-violet-400 dark:bg-violet-400/75 transition-all duration-75 group-hover:bg-violet-300 dark:group-hover:bg-violet-400 border
+            bg-violet-400 dark:bg-violet-400/75 transition-all duration-75 group-hover:bg-violet-500/90 dark:group-hover:bg-violet-400 border
             flex items-center justify-center rounded-lg group-hover:rounded-xl border-violet-300 dark:border-violet-400 shadow-xs"
           >
             <FigmaBars className="text-black" />
