@@ -1,7 +1,18 @@
+"use client";
 import { FigmaAdd, FigmaBars } from "@/components/icons";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 
 export const TopHeader = () => {
+  const router = useRouter();
+  function createForm() {
+    try {
+      const workspace_id = parseInt(window.location.href.split("/")[4]);
+      router.push(`/form/create?workspace_id=${workspace_id}`);
+    } catch(err) {
+      console.error(err);
+    }
+  }
   return (
     <section className="grid grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
       <Card
@@ -11,7 +22,7 @@ export const TopHeader = () => {
         shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)] 
         dark:shadow-[4px_4px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)] "
       >
-        <CardHeader className="text-lg lg:text-xl font-semibold px-3 md:px-4 ">
+        <CardHeader className="text-lg lg:text-xl font-semibold px-3 md:px-4 " onClick={()=>createForm()}>
           New Form{" "}
         </CardHeader>
         <CardFooter className="self-end ">
