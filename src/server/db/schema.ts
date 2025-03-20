@@ -87,6 +87,7 @@ export const current_workspace = pgTable("current_workspace", {
 export const form = pgTable("form", {
   id: serial("id").primaryKey(),
   user_id: text("user_id").notNull().references(() => user.id, {onDelete: 'cascade'}),
+  workspaceId: integer("workspace_id").notNull().references(()=> workspace.id, {onDelete: 'cascade'}),
 });
 
 export const form_component = pgTable("form_component", {
