@@ -7,7 +7,7 @@ export const TopHeader = () => {
   const router = useRouter();
   function createForm() {
     try {
-      const workspace_id = parseInt(window.location.href.split("/")[4]);
+      const workspace_id = parseInt(window.location.href.split("/")[4] ?? "");
       if (isNaN(workspace_id)) {
         throw new Error("failed to parse workspace id");
       }

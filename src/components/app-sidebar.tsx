@@ -25,7 +25,7 @@ import { ScrollArea } from "./ui/scroll-area";
 
 export function AppSidebar() {
   return (
-    <Sidebar variant="floating" collapsible="offcanvas">
+    <Sidebar variant="sidebar" collapsible="offcanvas">
       <SidebarHeader>
         <TooltipProvider>
           <Tooltip>
