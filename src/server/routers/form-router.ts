@@ -6,6 +6,11 @@ import { eq } from "drizzle-orm";
 
 export const formRouter = j.router({
   create: authenticatedProcedure.get(async ({c, ctx}) => {
+    const workspaceId = parseInt(c.req.query("workspace_id"));
+    if (isNaN(workspaceId)) {
+      throw new Error("failed to parse workspace id");
+    }
+    console.log(workspaceId);
     return c.redirect("/dashboard/form/create", 302);
   }),
 });
