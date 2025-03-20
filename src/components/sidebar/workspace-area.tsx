@@ -41,21 +41,10 @@ import {
 import { FigmaFolder } from "../icons";
 
 export function WorkspaceArea() {
-  // const { data: current_workspace, isPending: loading_current_workspace } =
-  //   useQuery({
-  //     queryKey: ["get-current-workspace"],
-  //     queryFn: async () => {
-  //       const res = await client.workspace.current.$get();
-  //       return await res.json();
-  //     },
-  //     refetchOnWindowFocus: false,
-  //   });
-
   return (
     <section className="flex flex-col gap-1.5">
       <div className="flex items-center justify-between gap-2">
         <div className="flex gap-1 items-center text-sm font-semibold">
-          {/* <WorkflowIcon width={14} height={14} /> */}
           <FigmaFolder strokeWidth={3} />
           My Workspace{" "}
         </div>

@@ -23,7 +23,7 @@ export default function RootLayout({
           <AppSidebar />
           <div className="flex flex-col w-full">
             <TopNavbar />
-            <div className="w-full flex p-4 gap-4 relative isolate">
+            <div className="w-full h-full flex p-4 relative isolate">
               {children}
             </div>
           </div>

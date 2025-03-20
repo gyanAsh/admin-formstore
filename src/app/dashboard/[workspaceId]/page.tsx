@@ -6,7 +6,7 @@ export default async function Home() {
   return (
     // <main className="flex min-h-screen w-full bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-950 flex-col items-center justify-center relative isolate">
     // <main className="flex flex-col items-center justify-center">
-    <div className="w-full flex flex-col gap-2">
+    <div className="w-full flex flex-col gap-4">
       <TopHeader />
       <FormListing />
     </div>
