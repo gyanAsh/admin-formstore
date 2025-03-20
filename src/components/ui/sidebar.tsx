@@ -267,7 +267,7 @@ function SidebarTrigger({
             size="icon"
             effect="click"
             className={cn(
-              "rounded-full text-black hover:bg-accent dark:hover:bg-accent transition-all duration-150 bg-violet-300 dark:bg-violet-400 border-violet-700 dark:border-violet-800",
+              "rounded-lg  text-black hover:bg-accent dark:hover:bg-accent transition-all duration-150 bg-violet-300 dark:bg-violet-400 border-violet-700 dark:border-violet-800",
               className
             )}
             onClick={(event) => {
