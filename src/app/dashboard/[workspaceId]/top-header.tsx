@@ -9,7 +9,7 @@ export const TopHeader = () => {
     try {
       const workspace_id = parseInt(window.location.href.split("/")[4]);
       router.push(`/form/create?workspace_id=${workspace_id}`);
-    } catch(err) {
+    } catch (err) {
       console.error(err);
     }
   }
@@ -21,8 +21,9 @@ export const TopHeader = () => {
         transition ease-in-out hover:translate-y-0.5 duration-150 
         shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)] 
         dark:shadow-[4px_4px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)] "
+        onClick={() => createForm()}
       >
-        <CardHeader className="text-lg lg:text-xl font-semibold px-3 md:px-4 " onClick={()=>createForm()}>
+        <CardHeader className="text-lg lg:text-xl font-semibold px-3 md:px-4">
           New Form{" "}
         </CardHeader>
         <CardFooter className="self-end ">
