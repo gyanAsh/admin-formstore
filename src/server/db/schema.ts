@@ -86,14 +86,14 @@ export const current_workspace = pgTable("current_workspace", {
 
 export const form = pgTable("form", {
   id: serial("id").primaryKey(),
-  user_id: text("user_id").notNull().references(() => user.id, {onDelete: 'cascade'}),
+  userId: text("user_id").notNull().references(() => user.id, {onDelete: 'cascade'}),
   workspaceId: integer("workspace_id").notNull().references(()=> workspace.id, {onDelete: 'cascade'}),
 });
 
 export const form_component = pgTable("form_component", {
   id: serial("id").primaryKey(),
-  form_id: integer("form_id").notNull().references(() => form.id, {onDelete: 'cascade'}),
-  field_name: text("field_name").notNull(),
-  field_value: text("field_name").notNull(),
-  field_type: text("field_name"), // null values would assume text type
+  formId: integer("form_id").notNull().references(() => form.id, {onDelete: 'cascade'}),
+  fieldName: text("field_name").notNull(),
+  fieldValue: text("field_name").notNull(),
+  fieldType: text("field_name"), // null values would assume text type
 });
