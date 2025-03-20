@@ -8,6 +8,9 @@ export const TopHeader = () => {
   function createForm() {
     try {
       const workspace_id = parseInt(window.location.href.split("/")[4]);
+      if (isNaN(workspace_id)) {
+        throw new Error("failed to parse workspace id");
+      }
       router.push(`/api/form/create?workspace_id=${workspace_id}`);
     } catch (err) {
       console.error(err);
