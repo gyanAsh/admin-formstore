@@ -8,7 +8,7 @@ export const TopHeader = () => {
   function createForm() {
     try {
       const workspace_id = parseInt(window.location.href.split("/")[4]);
-      router.push(`/form/create?workspace_id=${workspace_id}`);
+      router.push(`/dashboard/form/create?workspace_id=${workspace_id}`);
     } catch (err) {
       console.error(err);
     }
