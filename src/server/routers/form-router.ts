@@ -11,7 +11,6 @@ export const formRouter = j.router({
     if (isNaN(workspaceId)) {
       throw new Error("failed to parse workspace id");
     }
-    console.log(workspaceId);
     const createdForm = await db
       .insert(tables.form)
       .values({
@@ -19,8 +18,7 @@ export const formRouter = j.router({
         workspaceId: workspaceId,
       })
       .returning();
-    console.log(createdForm);
 
-    return c.redirect("/dashboard/form/create", 302);
+    return c.redirect(`/dashboard/${workspaceId}/${createdForm[0].id}`, 302);
   }),
 });
