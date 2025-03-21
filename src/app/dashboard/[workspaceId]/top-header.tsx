@@ -1,17 +1,15 @@
 "use client";
 import { FigmaAdd, FigmaBars } from "@/components/icons";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 export const TopHeader = () => {
   const router = useRouter();
+  const { workspaceId } = useParams();
+
   function createForm() {
     try {
-      const workspace_id = parseInt(window.location.href.split("/")[4] ?? "");
-      if (isNaN(workspace_id)) {
-        throw new Error("failed to parse workspace id");
-      }
-      router.push(`/api/form/create?workspace_id=${workspace_id}`);
+      router.push(`/api/form/create?workspace_id=${workspaceId}`);
     } catch (err) {
       console.error(err);
     }

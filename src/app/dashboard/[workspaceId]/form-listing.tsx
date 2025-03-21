@@ -4,13 +4,26 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 import { Skeleton } from "@/components/ui/skeleton";
 import { client } from "@/lib/client";
 import { useQuery } from "@tanstack/react-query";
+import { Ellipsis } from "lucide-react";
 
 export const FormListing = () => {
   const {
@@ -40,10 +53,58 @@ export const FormListing = () => {
         </section>
       ) : fetched_current_workspace ? (
         <>
-          <CardHeader>
-            <CardTitle>Your Forms</CardTitle>
-            {/* <CardDescription>Your</CardDescription> */}
-          </CardHeader>
+          <section className="flex justify-between w-full">
+            <div className="flex items-center gap-1">
+              <CardHeader>
+                <CardTitle>
+                  {current_workspace.currentWorkspace.at(0)?.workspace.name}
+                </CardTitle>
+                <CardDescription>
+                  {
+                    current_workspace.currentWorkspace.at(0)?.workspace
+                      .description
+                  }
+                </CardDescription>
+              </CardHeader>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" size={"icon"} effect="click">
+                    <Ellipsis strokeWidth={3} />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent
+                  className="flex flex-col w-[200px] gap-1.5"
+                  sideOffset={5}
+                >
+                  <Button>Rename</Button>
+                  <Button>Leave</Button>
+                  <Button variant={"destructive"}>Leave</Button>
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div className="flex gap-2 mx-6">
+              <Select>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Filter" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="light">All Forms (Default)</SelectItem>
+                  <SelectItem value="dark">Drafted Form</SelectItem>
+                  <SelectItem value="system">Published Form</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Sort" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="light">Last Updated (Default)</SelectItem>
+                  <SelectItem value="dark">Date created</SelectItem>
+                  <SelectItem value="system">Alphabetical</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </section>
           <CardContent className="flex flex-col gap-2">
             asdfadsf
             <Button>
