@@ -1,28 +1,40 @@
 "use client";
 import { FigmaAdd, FigmaBars } from "@/components/icons";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
+import { client } from "@/lib/client";
+import { useMutation } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export const TopHeader = () => {
   const router = useRouter();
   const { workspaceId } = useParams();
+  const { mutate: createNewForm, isPending: creating_new_form } = useMutation({
+    mutationFn: async () => {
+      const res = await client.form.create.$post({
+        workspace_id: parseInt(workspaceId as string),
+      });
+      return res.json();
+    },
+    onSuccess: async (data) => {
+      router.push(`/dashboard/${workspaceId}/${data.formId}`);
+    },
+    onError: async (e) => {
+      toast.error("Failed to create. Please try again after sometime.");
+    },
+  });
 
-  function createForm() {
-    try {
-      router.push(`/api/form/create?workspace_id=${workspaceId}`);
-    } catch (err) {
-      console.error(err);
-    }
-  }
   return (
     <section className="grid grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
       <Card
-        className="relative h-full md:h-20 py-2 md:py-4 
+        className="relative h-full md:h-18 py-2 md:py-4 
         active:scale-95 border-0 group cursor-pointer
         transition ease-in-out hover:translate-y-0.5 duration-150 
         shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)] 
         dark:shadow-[4px_4px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)] "
-        onClick={() => createForm()}
+        onClick={() => {
+          if (!creating_new_form) createNewForm();
+        }}
       >
         <CardHeader className="text-lg lg:text-xl font-semibold px-3 md:px-4">
           New Form{" "}
@@ -39,7 +51,7 @@ export const TopHeader = () => {
       </Card>
 
       <Card
-        className="relative h-full md:h-20 py-2 md:py-4 
+        className="relative h-full md:h-18 py-2 md:py-4 
         active:scale-95 border-0 group cursor-pointer
         transition ease-in-out hover:translate-y-0.5 duration-150 
         shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)] 
