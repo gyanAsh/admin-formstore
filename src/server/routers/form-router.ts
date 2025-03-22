@@ -1,6 +1,7 @@
 import * as tables from "@/server/db/schema";
 import { z } from "zod";
 import { j, authenticatedProcedure } from "../jstack";
+import { and, eq } from "drizzle-orm";
 
 export const formRouter = j.router({
   create: authenticatedProcedure
@@ -33,5 +34,21 @@ export const formRouter = j.router({
         { message: "New form created!", formId: createdForm[0]?.id },
         201
       );
+    }),
+
+  list: authenticatedProcedure
+    .input(
+      z.object({
+        workspace_id: z.number(),
+      }),
+    )
+    .get(async ({ c, ctx, input }) => {
+      const { db, session } = ctx;
+      const formList = await db
+        .select()
+        .from(tables.form)
+        .where(and(eq(tables.form.userId, session.user.id), eq(tables.form.workspaceId, input.workspace_id)));
+
+      return c.superjson({forms: formList});
     }),
 });

@@ -26,8 +26,10 @@ import { useQuery } from "@tanstack/react-query";
 import { Ellipsis } from "lucide-react";
 import React from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
+import { useParams } from "next/navigation";
 
 export const FormListing = () => {
+  const { workspaceId } = useParams();
   const {
     data: current_workspace,
     isPending: loading_current_workspace,
@@ -40,6 +42,24 @@ export const FormListing = () => {
     },
     refetchOnWindowFocus: false,
   });
+
+  const {
+    data: forms,
+    isPending: loading_forms,
+    isSuccess: fetched_forms,
+  } = useQuery({
+    queryKey: ["get-forms"],
+    queryFn: async () => {
+      const workspace_id = parseInt(workspaceId as string);
+      if (!isNaN(workspace_id)) {
+        console.log(workspace_id);
+        const res = await client.form.list.$get({workspace_id: workspace_id});
+        return await res.json();
+      }
+    },
+    refetchOnWindowFocus: false,
+  });
+  console.log(forms);
   console.log({
     current_workspace,
     loading_current_workspace,
