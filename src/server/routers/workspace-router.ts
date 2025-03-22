@@ -46,7 +46,10 @@ export const workspaceRouter = j.router({
         await tx
           .insert(tables.current_workspace)
           .values({ userId: session.user.id, workspaceId: workspaceId })
-          .onConflictDoUpdate({ target: tables.current_workspace.userId, set: { workspaceId: workspaceId } });
+          .onConflictDoUpdate({
+            target: tables.current_workspace.userId,
+            set: { workspaceId: workspaceId },
+          });
       });
 
       return c.superjson({});
@@ -54,7 +57,6 @@ export const workspaceRouter = j.router({
 
   current: authenticatedProcedure.get(async ({ c, ctx }) => {
     const { db, session } = ctx;
-    console.log(session.user.id);
     const currentWorkspace = await db
       .select()
       .from(tables.current_workspace)
@@ -65,4 +67,30 @@ export const workspaceRouter = j.router({
       .where(eq(tables.current_workspace.userId, session.user.id));
     return c.superjson({ currentWorkspace });
   }),
+  set_current: authenticatedProcedure
+    .input(
+      z.object({
+        workspace_id: z.number(),
+      })
+    )
+    .mutation(async ({ ctx, c, input }) => {
+      const { workspace_id } = input;
+      const { db, session } = ctx;
+      console.log(session.user.id);
+
+      await db
+        .insert(tables.current_workspace)
+        .values({ userId: session.user.id, workspaceId: workspace_id })
+        .onConflictDoUpdate({
+          target: tables.current_workspace.userId,
+          set: { workspaceId: workspace_id },
+        });
+      return c.superjson(
+        {
+          message: "Updated Current Workspace",
+          newWorkspaceId: workspace_id,
+        },
+        201
+      );
+    }),
 });

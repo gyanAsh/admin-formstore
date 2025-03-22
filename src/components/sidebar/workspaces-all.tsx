@@ -1,9 +1,10 @@
 import { client } from "@/lib/client";
 import { SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
 import { cn } from "@/lib/utils";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 async function queryWorkspaces() {
   const res = await client.workspace.all.$get();
@@ -16,6 +17,21 @@ type Workspace = InferArrayType<Awaited<ReturnType<typeof queryWorkspaces>>>;
 function WorkspaceList({ all_workspace }: { all_workspace: Workspace[] }) {
   const router = useRouter();
 
+  const { mutate: updateCurrentWorkspace, isPending } = useMutation({
+    mutationFn: async ({ workspace_id }: { workspace_id: number }) => {
+      const res = await client.workspace.set_current.$post({ workspace_id });
+      return res.json();
+    },
+    onSuccess: async (data) => {
+      router.push(`/dashboard/${data.newWorkspaceId}`);
+    },
+    onError: async (e) => {
+      console.log({ error: e });
+      toast.error(
+        "Failed to display selected workspace. Please try again after sometime."
+      );
+    },
+  });
   return (
     <>
       {all_workspace?.map((workspace, i) => {
@@ -27,8 +43,9 @@ function WorkspaceList({ all_workspace }: { all_workspace: Workspace[] }) {
               className={cn(
                 "w-full text-xs flex justify-start cursor-pointer font-semibold hover:font-bold duration-75 transition-all"
               )}
+              disabled={isPending}
               onClick={() => {
-                router.push(`/dashboard/${workspace.id.toString()}`);
+                updateCurrentWorkspace({ workspace_id: workspace.id });
               }}
             >
               <h1>{workspace.name}</h1>
