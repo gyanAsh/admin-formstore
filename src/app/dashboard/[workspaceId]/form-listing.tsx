@@ -189,7 +189,10 @@ export const FormListing = () => {
                     <div>ID{forms_data?.forms[virtualItem.index]?.id}</div>
                     <TooltipProvider>
                       <Tooltip>
-                        <TooltipTrigger className=" overflow-hidden text-start">
+                        <TooltipTrigger
+                          className=" overflow-hidden text-start"
+                          asChild
+                        >
                           {forms_data?.forms[virtualItem.index]?.title}
                         </TooltipTrigger>
                         <TooltipContent>
