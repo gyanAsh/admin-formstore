@@ -53,7 +53,7 @@ export const FormListing = () => {
       const workspace_id = parseInt(workspaceId as string);
       if (!isNaN(workspace_id)) {
         console.log(workspace_id);
-        const res = await client.form.list.$get({workspace_id: workspace_id});
+        const res = await client.form.list.$get({ workspace_id: workspace_id });
         return await res.json();
       }
     },
@@ -165,23 +165,33 @@ export const FormListing = () => {
                 }}
               >
                 {/* Only the visible items in the virtualizer, manually positioned to be in view */}
-                {forms?.forms.map((form) => (
-                  <Button
-                    key={form.id}
-                    style={{
-                      width: "100%",
-                      height: `35px`,
-                    }}
-                    variant={"violet_secondary"}
-                    className="grid grid-cols-5 gap-4 text-start border-b-2 active:scale-[0.998] active:translate-y-[3px]"
-                  >
-                    <div>ID{form.id}</div>
-                    <div>Form {form.title}</div>
-                    <div>{form.status}</div>
-                    <div>{0}</div>
-                    <div>{form.createdAt.toString()}</div>
-                  </Button>
-                ))}
+                {rowVirtualizer.getVirtualItems().map((virtualItem) => {
+                  const form = forms?.forms[virtualItem.index];
+                  if (!form) {
+                    return;
+                  }
+                  return (
+                    <Button
+                      key={virtualItem.key}
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: `${virtualItem.size}px`,
+                        transform: `translateY(${virtualItem.start}px)`,
+                      }}
+                      variant={"violet_secondary"}
+                      className="grid grid-cols-5 gap-4 text-start border-b-2 active:scale-[0.998] active:translate-y-[3px]"
+                    >
+                      <div>ID{form.id}</div>
+                      <div>Form {form.title}</div>
+                      <div>{form.status}</div>
+                      <div>{0}</div>
+                      <div>{form.createdAt.toString()}</div>
+                    </Button>
+                  );
+                })}
               </div>
             </div>
           </CardContent>
