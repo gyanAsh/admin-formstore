@@ -59,7 +59,6 @@ export const FormListing = () => {
     },
     refetchOnWindowFocus: false,
   });
-  console.log(forms);
   console.log({
     current_workspace,
     loading_current_workspace,
@@ -166,25 +165,21 @@ export const FormListing = () => {
                 }}
               >
                 {/* Only the visible items in the virtualizer, manually positioned to be in view */}
-                {rowVirtualizer.getVirtualItems().map((virtualItem) => (
+                {forms?.forms.map((form) => (
                   <Button
-                    key={virtualItem.key}
+                    key={form.id}
                     style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
                       width: "100%",
-                      height: `${virtualItem.size}px`,
-                      transform: `translateY(${virtualItem.start}px)`,
+                      height: `35px`,
                     }}
                     variant={"violet_secondary"}
                     className="grid grid-cols-5 gap-4 text-start border-b-2 active:scale-[0.998] active:translate-y-[3px]"
                   >
-                    <div>ID{virtualItem.index}</div>
-                    <div>Form {virtualItem.index}</div>
-                    <div>{virtualItem.index % 3 ? "Draft" : "Published"}</div>
-                    <div>{virtualItem.index * 7}</div>
-                    <div>08 Mar 2025</div>
+                    <div>ID{form.id}</div>
+                    <div>Form {form.title}</div>
+                    <div>{form.status}</div>
+                    <div>{0}</div>
+                    <div>{form.createdAt.toString()}</div>
                   </Button>
                 ))}
               </div>
