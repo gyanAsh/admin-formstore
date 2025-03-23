@@ -53,7 +53,7 @@ export const FormListing = () => {
       const workspace_id = parseInt(workspaceId as string);
       if (!isNaN(workspace_id)) {
         console.log(workspace_id);
-        const res = await client.form.list.$get({workspace_id: workspace_id});
+        const res = await client.form.list.$get({ workspace_id: workspace_id });
         return await res.json();
       }
     },
@@ -67,9 +67,21 @@ export const FormListing = () => {
   });
   const parentRef = React.useRef(null);
 
+  const rows = new Array(50).fill(null).map((_, index) => ({
+    id: `ID${index + 1}`,
+    title: `Form Title ${index + 1}`,
+    status: index % 3 === 0 ? "Published" : "Draft",
+    response: index + 1,
+    updated: new Date(2025, 2, 23, 12, 32).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    }), // Current date
+  }));
+  console.log({ rows });
   // The virtualizer
   const rowVirtualizer = useVirtualizer({
-    count: 25,
+    count: rows.length,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 35,
   });
@@ -180,11 +192,11 @@ export const FormListing = () => {
                     variant={"violet_secondary"}
                     className="grid grid-cols-5 gap-4 text-start border-b-2 active:scale-[0.998] active:translate-y-[3px]"
                   >
-                    <div>ID{virtualItem.index}</div>
-                    <div>Form {virtualItem.index}</div>
-                    <div>{virtualItem.index % 3 ? "Draft" : "Published"}</div>
-                    <div>{virtualItem.index * 7}</div>
-                    <div>08 Mar 2025</div>
+                    <div>{rows[virtualItem.index]?.id}</div>
+                    <div>{rows[virtualItem.index]?.title}</div>
+                    <div>{rows[virtualItem.index]?.status}</div>
+                    <div>{rows[virtualItem.index]?.response}</div>
+                    <div>{rows[virtualItem.index]?.updated}</div>
                   </Button>
                 ))}
               </div>
