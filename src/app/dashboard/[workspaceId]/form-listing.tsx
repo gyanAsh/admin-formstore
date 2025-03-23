@@ -19,6 +19,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { client } from "@/lib/client";
@@ -44,7 +50,7 @@ export const FormListing = () => {
   });
 
   const {
-    data: forms,
+    data: forms_data,
     isPending: loading_forms,
     isSuccess: fetched_forms,
   } = useQuery({
@@ -59,7 +65,7 @@ export const FormListing = () => {
     },
     refetchOnWindowFocus: false,
   });
-  console.log(forms);
+  console.log(forms_data);
   console.log({
     current_workspace,
     loading_current_workspace,
@@ -67,23 +73,11 @@ export const FormListing = () => {
   });
   const parentRef = React.useRef(null);
 
-  const rows = new Array(50).fill(null).map((_, index) => ({
-    id: `ID${index + 1}`,
-    title: `Form Title ${index + 1}`,
-    status: index % 3 === 0 ? "Published" : "Draft",
-    response: index + 1,
-    updated: new Date(2025, 2, 23, 12, 32).toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    }), // Current date
-  }));
-  console.log({ rows });
   // The virtualizer
   const rowVirtualizer = useVirtualizer({
-    count: rows.length,
+    count: forms_data?.forms.length ?? 0,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 35,
+    estimateSize: () => 45,
   });
   console.log({ rowVirtualizer });
   return (
@@ -192,11 +186,30 @@ export const FormListing = () => {
                     variant={"violet_secondary"}
                     className="grid grid-cols-5 gap-4 text-start border-b-2 active:scale-[0.998] active:translate-y-[3px]"
                   >
-                    <div>{rows[virtualItem.index]?.id}</div>
-                    <div>{rows[virtualItem.index]?.title}</div>
-                    <div>{rows[virtualItem.index]?.status}</div>
-                    <div>{rows[virtualItem.index]?.response}</div>
-                    <div>{rows[virtualItem.index]?.updated}</div>
+                    <div>ID{forms_data?.forms[virtualItem.index]?.id}</div>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger className=" overflow-hidden text-start">
+                          {forms_data?.forms[virtualItem.index]?.title}
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p> {forms_data?.forms[virtualItem.index]?.title}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                    <div className=" capitalize">
+                      {forms_data?.forms[virtualItem.index]?.status}
+                    </div>
+                    <div>{forms_data?.forms[virtualItem.index]?.response}</div>
+                    <div>
+                      {forms_data?.forms[
+                        virtualItem.index
+                      ]?.updatedAt.toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      })}
+                    </div>
                   </Button>
                 ))}
               </div>

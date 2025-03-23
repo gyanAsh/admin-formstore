@@ -104,6 +104,7 @@ export const form = pgTable("form", {
   workspaceId: integer("workspace_id")
     .notNull()
     .references(() => workspace.id, { onDelete: "cascade" }),
+  response: integer("response_count").default(0).notNull(),
   status: fromStatusEnum("from_status").default("draft").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
