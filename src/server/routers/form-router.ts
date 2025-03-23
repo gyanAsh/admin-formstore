@@ -16,7 +16,7 @@ export const formRouter = j.router({
             message:
               "Name can only include letters, numbers, and underscores and space",
           }),
-      })
+      }),
     )
     .mutation(async ({ c, ctx, input }) => {
       const { workspace_id, form_title } = input;
@@ -32,7 +32,7 @@ export const formRouter = j.router({
         .returning();
       return c.superjson(
         { message: "New form created!", formId: createdForm[0]?.id },
-        201
+        201,
       );
     }),
 
@@ -47,8 +47,13 @@ export const formRouter = j.router({
       const formList = await db
         .select()
         .from(tables.form)
-        .where(and(eq(tables.form.userId, session.user.id), eq(tables.form.workspaceId, input.workspace_id)));
+        .where(
+          and(
+            eq(tables.form.userId, session.user.id),
+            eq(tables.form.workspaceId, input.workspace_id),
+          ),
+        );
 
-      return c.superjson({forms: formList});
+      return c.superjson({ forms: formList });
     }),
 });
