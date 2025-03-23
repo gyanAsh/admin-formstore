@@ -193,7 +193,9 @@ export const FormListing = () => {
                           className=" overflow-hidden text-start"
                           asChild
                         >
-                          {forms_data?.forms[virtualItem.index]?.title}
+                          <div>
+                            {forms_data?.forms[virtualItem.index]?.title}
+                          </div>
                         </TooltipTrigger>
                         <TooltipContent>
                           <p> {forms_data?.forms[virtualItem.index]?.title}</p>
