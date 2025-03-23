@@ -32,7 +32,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Ellipsis } from "lucide-react";
 import React from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 export const FormListing = () => {
   const { workspaceId } = useParams();
@@ -80,6 +80,9 @@ export const FormListing = () => {
     estimateSize: () => 45,
   });
   console.log({ rowVirtualizer });
+
+  const router = useRouter();
+
   return (
     <Card className="h-full gap-3">
       {loading_current_workspace ? (
@@ -185,6 +188,7 @@ export const FormListing = () => {
                     }}
                     variant={"violet_secondary"}
                     className="grid grid-cols-5 gap-4 text-start border-b-2 active:scale-[0.998] active:translate-y-[3px]"
+                    onClick={() => router.push(`/dashboard/${workspaceId}/${forms_data?.forms[virtualItem.index]?.id}`)}
                   >
                     <div>ID{forms_data?.forms[virtualItem.index]?.id}</div>
                     <TooltipProvider>
