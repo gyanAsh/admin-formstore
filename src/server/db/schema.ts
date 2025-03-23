@@ -7,6 +7,7 @@ import {
   serial,
   index,
   primaryKey,
+  pgEnum,
 } from "drizzle-orm/pg-core";
 
 export const posts = pgTable(
@@ -76,23 +77,43 @@ export const workspace = pgTable("workspace", {
   description: text("description"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
-  ownerId: text("user_id").notNull().references(()=> user.id, { onDelete: "cascade" }),
+  ownerId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
 });
 
 export const current_workspace = pgTable("current_workspace", {
-  userId: text("user_id").notNull().references(() => user.id).primaryKey(),
-  workspaceId: integer("workspace_id").notNull().references(()=> workspace.id, {onDelete: 'cascade'}),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id)
+    .primaryKey(),
+  workspaceId: integer("workspace_id")
+    .notNull()
+    .references(() => workspace.id, { onDelete: "cascade" }),
 });
+
+export const fromStatusEnum = pgEnum("from_status", ["published", "draft"]);
 
 export const form = pgTable("form", {
   id: serial("id").primaryKey(),
-  userId: text("user_id").notNull().references(() => user.id, {onDelete: 'cascade'}),
-  workspaceId: integer("workspace_id").notNull().references(()=> workspace.id, {onDelete: 'cascade'}),
+  title: text("title").notNull(),
+  description: text("description"),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  workspaceId: integer("workspace_id")
+    .notNull()
+    .references(() => workspace.id, { onDelete: "cascade" }),
+  status: fromStatusEnum("from_status").default("draft").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
 export const form_component = pgTable("form_component", {
   id: serial("id").primaryKey(),
-  formId: integer("form_id").notNull().references(() => form.id, {onDelete: 'cascade'}),
+  formId: integer("form_id")
+    .notNull()
+    .references(() => form.id, { onDelete: "cascade" }),
   fieldName: text("field_name").notNull(),
   fieldValue: text("field_name").notNull(),
   fieldType: text("field_name"), // null values would assume text type
