@@ -3,7 +3,7 @@ import { SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
 import { cn } from "@/lib/utils";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button } from "../ui/button";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 async function queryWorkspaces() {
@@ -16,6 +16,7 @@ type Workspace = InferArrayType<Awaited<ReturnType<typeof queryWorkspaces>>>;
 
 function WorkspaceList({ all_workspace }: { all_workspace: Workspace[] }) {
   const router = useRouter();
+  const { workspaceId } = useParams();
 
   const { mutate: updateCurrentWorkspace, isPending } = useMutation({
     mutationFn: async ({ workspace_id }: { workspace_id: number }) => {
@@ -41,7 +42,11 @@ function WorkspaceList({ all_workspace }: { all_workspace: Workspace[] }) {
               variant="violet_secondary"
               effect={"click"}
               className={cn(
-                "w-full text-xs flex justify-start cursor-pointer font-semibold hover:font-bold duration-75 transition-all"
+                "w-full text-xs flex justify-start cursor-pointer font-semibold hover:font-bold duration-75 transition-all",
+                {
+                  "bg-violet-300 dark:bg-violet-400 font-bold":
+                    parseInt(workspaceId as string) === workspace.id,
+                }
               )}
               disabled={isPending}
               onClick={() => {
