@@ -45,9 +45,11 @@ export default function FormCreationPage() {
     //   </form>
     //   <div>form creation page</div>
     // </div>
-    <Card className={"justify-between bg-sidebar-accent w-full"}>
-      <CardHeader>edit option goes herer</CardHeader>
-      <CardContent className="flex justify-between items-center gap-4">
+    <Card
+      className={"justify-between bg-sidebar-accent w-full h-full relative"}
+    >
+      <CardHeader className="  ">edit option goes herer</CardHeader>
+      <CardContent className="flex h-full justify-between items-center gap-4">
         <Card className="h-full w-fit">
           <TooltipProvider>
             <Tooltip>
@@ -71,19 +73,39 @@ export default function FormCreationPage() {
             </Tooltip>
           </TooltipProvider>
         </Card>
-        <Card
-          className={cn(
-            "shadow-2xl border-2",
-            " h-[calc(100dvh-250px)]  w-[calc((100dvh-250px)*16/9)]",
-            " 2xl:h-[calc(100dvh-310px)] 2xl:w-[calc((100dvh-310px)*16/9)]",
-            {
-              "h-[calc(100dvh-110px)] 2xl:h-[calc(100dvh-310px)] w-[calc((100dvh-110px)*9/16)] 2xl:w-[calc((100dvh-310px)*9/16)]":
-                isMobile || previewView === "mobile",
-            }
-          )}
+        <div
+          className=" w-full h-full
+           overflow-auto flex items-center justify-center"
         >
-          asdf
-        </Card>
+          <div
+            className={cn(
+              "drop-shadow-lg shadow-lg border-2 border-slate-600 bg-rose-600 h-[calc(100dvh-350px)]  w-[calc((100dvh-350px)*16/9)] box-border overflow-auto",
+              {
+                "h-[calc(100dvh-350px)]  w-[calc((100dvh-350px)*9/16)]":
+                  isMobile || previewView === "mobile",
+              }
+            )}
+          >
+            asdfdsfdsfsdfdfssss <br />
+            asdfdsfdsfsdfdfssss <br />
+            asdfdsfdsfsdfdfssss asdfdsfdsfsdfdfssss
+            <br /> asdfdsfdsfsdfdfssss
+            <br /> asdfdsfdsfsdfdfssss asdfdsfdsfsdfdfssss <br />
+            asdfdsfdsfsdfdfssss <br />
+            asdfdsfdsfsdfdfssss asdfdsfdsfsdfdfssss
+            <br /> asdfdsfdsfsdfdfssss
+            <br /> asdfdsfdsfsdfdfssss dsssdsdsdddddddddddddd <br />
+            ddddddddddddddddddd
+            <br /> ddddddddddddlllllllllll lllllllllllll lllllllllllllllllll
+            <br /> asdfdsfdsfsdfdfssss asdfdsfdsfsdfdfssss <br />
+            asdfdsfdsfsdfdfssss <br />
+            asdfdsfdsfsdfdfssss asdfdsfdsfsdfdfssss
+            <br /> asdfdsfdsfsdfdfssss
+            <br /> asdfdsfdsfsdfdfssss dsssdsdsdddddddddddddd <br />
+            ddddddddddddddddddd
+            <br /> ddddddddddddlllllllllll lllllllllllll lllllllllllllllllll
+          </div>
+        </div>
         <Card className="h-full w-fit">
           <TooltipProvider>
             <Tooltip>
@@ -108,7 +130,7 @@ export default function FormCreationPage() {
           </TooltipProvider>
         </Card>
       </CardContent>
-      <CardFooter className="">
+      <CardFooter className=" sticky bottom-0">
         <ScrollArea className="w-full whitespace-nowrap rounded-md border">
           <div className="flex space-x-4 p-4 overflow-hidden">
             {Array.from({ length: 25 }).map((_, index) => (
@@ -122,7 +144,7 @@ export default function FormCreationPage() {
           </div>
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
-      </CardFooter>{" "}
+      </CardFooter>
     </Card>
   );
 }
