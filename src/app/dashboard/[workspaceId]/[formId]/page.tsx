@@ -73,9 +73,11 @@ export default function FormCreationPage() {
         </Card>
         <Card
           className={cn(
-            "shadow-2xl border-2 h-[calc(100dvh-310px)] w-[calc((100dvh-310px)*16/9)]",
+            "shadow-2xl border-2",
+            " h-[calc(100dvh-250px)]  w-[calc((100dvh-250px)*16/9)]",
+            " 2xl:h-[calc(100dvh-310px)] 2xl:w-[calc((100dvh-310px)*16/9)]",
             {
-              " h-[calc(100dvh-310px)] w-[calc((100dvh-310px)*9/16)]":
+              "h-[calc(100dvh-110px)] 2xl:h-[calc(100dvh-310px)] w-[calc((100dvh-110px)*9/16)] 2xl:w-[calc((100dvh-310px)*9/16)]":
                 isMobile || previewView === "mobile",
             }
           )}
