@@ -4,6 +4,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 export default function FormCreationPage() {
   return (
@@ -30,10 +31,26 @@ export default function FormCreationPage() {
     //   </form>
     //   <div>form creation page</div>
     // </div>
-    <Card className="w-full flex flex-col justify-between">
+    <Card className={"justify-between bg-sidebar-accent w-full"}>
       <CardHeader>edit option goes herer</CardHeader>
-      <CardContent>here should be the form's page preview</CardContent>
-      <CardFooter>page slider goes here</CardFooter>
+      <CardContent className="h-full">
+        <Card className="shadow-2xl border-2 h-full">asdf</Card>
+      </CardContent>
+      <CardFooter className="">
+        <ScrollArea className="w-full whitespace-nowrap rounded-md border">
+          <div className="flex space-x-4 p-4 overflow-hidden">
+            {Array.from({ length: 25 }).map((_, index) => (
+              <Card
+                key={index}
+                className="flex items-center justify-center h-[64px] w-[86px] rounded-md"
+              >
+                {index + 1}
+              </Card>
+            ))}
+          </div>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
+      </CardFooter>{" "}
     </Card>
   );
 }
