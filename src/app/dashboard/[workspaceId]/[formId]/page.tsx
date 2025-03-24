@@ -1,3 +1,5 @@
+"use client";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -5,8 +7,20 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { useSidebar } from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
+import { MonitorSmartphone } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import React from "react";
 
 export default function FormCreationPage() {
+  const { isMobile } = useSidebar();
+  const [previewView, setPreviewView] = React.useState("laptop");
   return (
     // <div>
     //   <form className="bg-white">
@@ -33,8 +47,64 @@ export default function FormCreationPage() {
     // </div>
     <Card className={"justify-between bg-sidebar-accent w-full"}>
       <CardHeader>edit option goes herer</CardHeader>
-      <CardContent className="h-full">
-        <Card className="shadow-2xl border-2 h-full">asdf</Card>
+      <CardContent className="flex justify-between items-center gap-4">
+        <Card className="h-full w-fit">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size={"icon"}
+                  variant={"secondary"}
+                  effect={"click"}
+                  onClick={() => {
+                    setPreviewView((e) =>
+                      e === "laptop" ? "mobile" : "laptop"
+                    );
+                  }}
+                >
+                  <MonitorSmartphone />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Toogle Preview Screen</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </Card>
+        <Card
+          className={cn(
+            "shadow-2xl border-2 h-[calc(100dvh-310px)] w-[calc((100dvh-310px)*16/9)]",
+            {
+              " h-[calc(100dvh-310px)] w-[calc((100dvh-310px)*9/16)]":
+                isMobile || previewView === "mobile",
+            }
+          )}
+        >
+          asdf
+        </Card>
+        <Card className="h-full w-fit">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size={"icon"}
+                  variant={"secondary"}
+                  effect={"click"}
+                  onClick={() => {
+                    setPreviewView((e) =>
+                      e === "laptop" ? "mobile" : "laptop"
+                    );
+                  }}
+                >
+                  <MonitorSmartphone />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Toogle Preview Screen</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </Card>
       </CardContent>
       <CardFooter className="">
         <ScrollArea className="w-full whitespace-nowrap rounded-md border">

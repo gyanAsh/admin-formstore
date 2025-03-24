@@ -14,7 +14,7 @@ export const SidebarContents = ({
   return (
     <div
       className={cn(
-        "flex flex-col w-full overflow-hidden transition-all duration-200 ease-in", //keep duration-200ms for smooth transition
+        "flex flex-col w-full transition-all duration-200 ease-in", //keep duration-200ms for smooth transition
         {
           "w-[calc(100%_-_256px)]": open && !isMobile,
         }
