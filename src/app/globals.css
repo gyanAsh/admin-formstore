@@ -188,13 +188,26 @@
     animation: gradientAnimation 10s ease infinite;
   } */
 
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
+  .editable-paragraph {
+    padding: 4px;
+    word-break: break-word;
+    white-space: pre-wrap;
   }
-  /* Hide scrollbar for IE, Edge and Firefox */
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+
+  .editable-paragraph::before {
+    content: attr(data-placeholder);
+    color: currentColor;
+    position: absolute;
+    pointer-events: none;
+    white-space: nowrap;
+    font-style: italic;
+  }
+
+  .editable-paragraph:focus::before {
+    color: #888;
+  }
+
+  .editable-paragraph.has-content::before {
+    content: none;
   }
 }

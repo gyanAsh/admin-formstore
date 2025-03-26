@@ -6,3 +6,11 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const publicPaths_Client = ["/", "/about"];
+
+export enum FormElementTypes {
+  Email = "email",
+  PhoneNumber = "phone_number",
+  Address = "address",
+  Website = "website",
+  Rating = "rating",
+}

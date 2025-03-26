@@ -27,7 +27,7 @@ function WorkspaceList({ all_workspace }: { all_workspace: Workspace[] }) {
       router.push(`/dashboard/${data.newWorkspaceId}`);
     },
     onError: async (e) => {
-      console.log({ error: e });
+      console.error({ error: e });
       toast.error(
         "Failed to display selected workspace. Please try again after sometime."
       );
@@ -74,7 +74,7 @@ export function WorkspaceAll({
     gcTime: 1000,
     refetchOnWindowFocus: false,
   });
-  console.log({ all_workspace });
+
   return (
     <>
       {!loading_workspace ? (

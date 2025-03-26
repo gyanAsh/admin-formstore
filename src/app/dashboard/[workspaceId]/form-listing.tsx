@@ -58,19 +58,13 @@ export const FormListing = () => {
     queryFn: async () => {
       const workspace_id = parseInt(workspaceId as string);
       if (!isNaN(workspace_id)) {
-        console.log(workspace_id);
         const res = await client.form.list.$get({ workspace_id: workspace_id });
         return await res.json();
       }
     },
     refetchOnWindowFocus: false,
   });
-  console.log(forms_data);
-  console.log({
-    current_workspace,
-    loading_current_workspace,
-    fetched_current_workspace,
-  });
+
   const parentRef = React.useRef(null);
 
   // The virtualizer
@@ -79,7 +73,6 @@ export const FormListing = () => {
     getScrollElement: () => parentRef.current,
     estimateSize: () => 45,
   });
-  console.log({ rowVirtualizer });
 
   const router = useRouter();
 
@@ -188,7 +181,13 @@ export const FormListing = () => {
                     }}
                     variant={"violet_secondary"}
                     className="grid grid-cols-5 gap-4 text-start border-b-2 active:scale-[0.998] active:translate-y-[3px]"
-                    onClick={() => router.push(`/dashboard/${workspaceId}/${forms_data?.forms[virtualItem.index]?.id}`)}
+                    onClick={() =>
+                      router.push(
+                        `/dashboard/${workspaceId}/${
+                          forms_data?.forms[virtualItem.index]?.id
+                        }`
+                      )
+                    }
                   >
                     <div>ID{forms_data?.forms[virtualItem.index]?.id}</div>
                     <TooltipProvider>

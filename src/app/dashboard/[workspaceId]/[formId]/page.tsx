@@ -22,16 +22,19 @@ export default function FormCreationPage() {
         </Button>
       </CardHeader>
       <div className=" overflow-auto">
-        <div className="flex h-full justify-center items-start">
-          <ScrollArea
+        <div className="box-border flex h-full justify-center items-start">
+          <div
             className={cn(
-              "drop-shadow-lg shadow-lg border border-slate-600  h-[calc(100dvh-350px)]  w-[calc((100dvh-350px)*16/9)]",
+              "drop-shadow-lg shadow-lg border border-slate-600 w-full max-w-[calc((100dvh-350px)*16/9)] aspect-video mx-6 transform origin-left",
+              {
+                "max-md:h-full  max-md:aspect-[9/16] max-md:w-fit max-md:min-w-fit":
+                  false,
+              }, // for mobile view
               "box-border overflow-auto"
             )}
           >
             <PageFormContainer />
-            <ScrollBar />
-          </ScrollArea>
+          </div>
         </div>
         {/* <ScrollBar orientation="vertical" /> */}
       </div>
