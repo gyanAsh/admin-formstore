@@ -1,31 +1,22 @@
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { cn, FormElementTypes } from "@/lib/utils";
-import { Link2Icon, Mail, MapPinHouse, Phone, Star } from "lucide-react";
+import { $currentCard, updateElementType } from "@/store/form";
+import { useStore } from "@nanostores/react";
+import { Link2Icon, MapPinHouse, Phone, Star } from "lucide-react";
 import React from "react";
 
-export const PageFormContainer = ({
-  card,
-  updateCards,
-}: {
-  card: any;
-  updateCards: React.SetStateAction<any>;
-}) => {
-  console.log({ card });
+export const PageFormContainer = () => {
+  const currentCard = useStore($currentCard);
+
+  console.log({ currentCard });
   return (
     <div className="w-full h-full">
-      {card?.element === FormElementTypes.Email ? (
+      {currentCard.elementType === FormElementTypes.Email ? (
         <EmailElement />
       ) : (
         <DefaultPageTypeOptions
-          onSelect={(e: FormElementTypes) => {
-            updateCards((prevItems: object[]) => {
-              if (prevItems.length === 0) return prevItems;
-
-              return prevItems.map((item, index) =>
-                index === prevItems.length - 1 ? { ...item, element: e } : item
-              );
-            });
+          onSelect={(elementType: FormElementTypes) => {
+            updateElementType(currentCard.id, elementType);
           }}
         />
       )}

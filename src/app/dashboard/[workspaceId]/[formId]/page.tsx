@@ -4,13 +4,14 @@ import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { MonitorSmartphone, Plus } from "lucide-react";
+import { useStore } from "@nanostores/react";
 
 import React from "react";
 import { PageFormContainer } from "./form-component";
+import { $cardsStore, createNewCard, selectCard } from "@/store/form";
 
 export default function FormCreationPage() {
-  const [cards, setCards] = React.useState([{ id: 1, element: null }]);
-  const [currentCard, setCurrentCard] = React.useState(0);
+  const cards = useStore($cardsStore);
   console.log({ cards });
   return (
     <Card
@@ -28,7 +29,7 @@ export default function FormCreationPage() {
         <div className="box-border flex h-full justify-center items-start">
           <div
             className={cn(
-              "drop-shadow-lg shadow-lg border border-slate-600 w-full max-w-[calc((100dvh-350px)*16/9)] aspect-video mx-6 transform origin-left",
+              "drop-shadow-lg shadow-lg border border-slate-600 w-full max-w-[calc((100dvh-350px)*16/9)] aspect-video mx-6 ",
               {
                 "max-md:h-full  max-md:aspect-[9/16] max-md:w-fit max-md:min-w-fit":
                   false,
@@ -36,10 +37,7 @@ export default function FormCreationPage() {
               "box-border overflow-auto"
             )}
           >
-            <PageFormContainer
-              card={cards?.at(currentCard)}
-              updateCards={setCards}
-            />
+            <PageFormContainer />
           </div>
         </div>
       </div>
@@ -51,21 +49,16 @@ export default function FormCreationPage() {
                 key={index}
                 className="flex items-center justify-center h-[64px] w-[86px] rounded-md"
                 onClick={() => {
-                  setCurrentCard(index);
+                  selectCard(_.id);
                 }}
               >
                 {index + 1}
-                {_?.element}
+                {_?.elementType}
               </Card>
             ))}
             <Card
               className="flex items-center justify-center h-[64px] w-[86px] rounded-md"
-              onClick={() => {
-                setCards((e) => {
-                  setCurrentCard(e.length);
-                  return [...e, { id: e.length + 1, element: null }];
-                });
-              }}
+              onClick={createNewCard}
             >
               <Plus />
             </Card>
