@@ -4,15 +4,30 @@ import { cn, FormElementTypes } from "@/lib/utils";
 import { Link2Icon, Mail, MapPinHouse, Phone, Star } from "lucide-react";
 import React from "react";
 
-export const PageFormContainer = () => {
-  const [element, setElement] = React.useState<FormElementTypes>();
-
+export const PageFormContainer = ({
+  card,
+  updateCards,
+}: {
+  card: any;
+  updateCards: React.SetStateAction<any>;
+}) => {
+  console.log({ card });
   return (
     <div className="w-full h-full">
-      {element === FormElementTypes.Email ? (
+      {card?.element === FormElementTypes.Email ? (
         <EmailElement />
       ) : (
-        <DefaultPageTypeOptions onSelect={setElement} />
+        <DefaultPageTypeOptions
+          onSelect={(e: FormElementTypes) => {
+            updateCards((prevItems: object[]) => {
+              if (prevItems.length === 0) return prevItems;
+
+              return prevItems.map((item, index) =>
+                index === prevItems.length - 1 ? { ...item, element: e } : item
+              );
+            });
+          }}
+        />
       )}
     </div>
   );

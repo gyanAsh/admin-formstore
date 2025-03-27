@@ -3,12 +3,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import { MonitorSmartphone } from "lucide-react";
+import { MonitorSmartphone, Plus } from "lucide-react";
 
 import React from "react";
 import { PageFormContainer } from "./form-component";
 
 export default function FormCreationPage() {
+  const [cards, setCards] = React.useState([{ id: 1, element: null }]);
+  const [currentCard, setCurrentCard] = React.useState(0);
+  console.log({ cards });
   return (
     <Card
       className={
@@ -33,22 +36,39 @@ export default function FormCreationPage() {
               "box-border overflow-auto"
             )}
           >
-            <PageFormContainer />
+            <PageFormContainer
+              card={cards?.at(currentCard)}
+              updateCards={setCards}
+            />
           </div>
         </div>
-        {/* <ScrollBar orientation="vertical" /> */}
       </div>
       <CardFooter className="sticky bottom-0 left-0">
         <ScrollArea className="w-full whitespace-nowrap rounded-md border">
           <div className="flex space-x-4 p-4 overflow-hidden">
-            {Array.from({ length: 25 }).map((_, index) => (
+            {cards.map((_, index) => (
               <Card
                 key={index}
                 className="flex items-center justify-center h-[64px] w-[86px] rounded-md"
+                onClick={() => {
+                  setCurrentCard(index);
+                }}
               >
                 {index + 1}
+                {_?.element}
               </Card>
             ))}
+            <Card
+              className="flex items-center justify-center h-[64px] w-[86px] rounded-md"
+              onClick={() => {
+                setCards((e) => {
+                  setCurrentCard(e.length);
+                  return [...e, { id: e.length + 1, element: null }];
+                });
+              }}
+            >
+              <Plus />
+            </Card>
           </div>
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
