@@ -110,16 +110,6 @@ export const form = pgTable("form", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
-export const form_component = pgTable("form_component", {
-  id: serial("id").primaryKey(),
-  formId: integer("form_id")
-    .notNull()
-    .references(() => form.id, { onDelete: "cascade" }),
-  fieldName: text("field_name").notNull(),
-  fieldValue: text("field_name").notNull(),
-  fieldType: text("field_name"), // null values would assume text type
-});
-
 export const form_subform = pgTable("form_subforms", {
   id: serial("id").primaryKey(),
   sequenceNumber: integer("sequence_number").notNull(),
