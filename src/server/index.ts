@@ -3,6 +3,7 @@ import { postRouter } from "./routers/post-router";
 import { getAuth } from "@/lib/getAuth";
 import { workspaceRouter } from "./routers/workspace-router";
 import { formRouter } from "./routers/form-router";
+import { subformRouter } from "./routers/subform-router";
 
 /**
  * This is your base API.
@@ -28,6 +29,7 @@ const appRouter = j.mergeRouters(api, {
   post: postRouter,
   workspace: workspaceRouter,
   form: formRouter,
+  subform: subformRouter,
 });
 
 export type AppRouter = typeof appRouter;

@@ -18,7 +18,7 @@ export const posts = pgTable(
     createdAt: timestamp("createdAt").defaultNow().notNull(),
     updatedAt: timestamp("updatedAt").defaultNow().notNull(),
   },
-  (table) => [index("Post_name_idx").on(table.name)]
+  (table) => [index("Post_name_idx").on(table.name)],
 );
 
 export const user = pgTable("user", {
@@ -113,7 +113,9 @@ export const form = pgTable("form", {
 export const form_subform = pgTable("form_subforms", {
   id: serial("id").primaryKey(),
   sequenceNumber: integer("sequence_number").notNull(),
-  formId: integer("form_id").notNull(),
+  formId: integer("form_id")
+    .notNull()
+    .references(() => form.id, { onDelete: "cascade" }),
   subformType: text("subform_type").notNull(),
   subformValue: text("subform_value"),
 });

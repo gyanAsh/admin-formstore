@@ -4,9 +4,28 @@ import { $currentCard, updateElementType } from "@/store/form";
 import { useStore } from "@nanostores/react";
 import { Link2Icon, MapPinHouse, Phone, Star } from "lucide-react";
 import React from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
+import { client } from "@/lib/client";
 
 export const PageFormContainer = () => {
   const currentCard = useStore($currentCard);
+  const { formId } = useParams();
+  const createSubformMutation = useMutation({
+    mutationFn: async ({elementType}: {elementType: FormElementTypes}) => {
+      const res = await client.subform.create.$post({
+        formId: parseInt(formId as string),
+        sequenceNumber: currentCard.id,
+        elementType: elementType,
+      });
+      return await res.json();
+    },
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+    },
+  });
 
   console.log({ currentCard });
   return (
@@ -17,6 +36,7 @@ export const PageFormContainer = () => {
         <DefaultPageTypeOptions
           onSelect={(elementType: FormElementTypes) => {
             updateElementType(currentCard.id, elementType);
+            createSubformMutation.mutate({elementType});
           }}
         />
       )}
