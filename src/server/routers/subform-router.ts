@@ -11,6 +11,7 @@ export const subformRouter = j.router({
         formId: z.number(),
         sequenceNumber: z.number(),
         elementType: z.enum([
+          "",
           "email",
           "phone_number",
           "address",
