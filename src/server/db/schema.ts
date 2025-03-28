@@ -117,6 +117,6 @@ export const form_subform = pgTable("form_subforms", {
   formId: integer("form_id")
     .notNull()
     .references(() => form.id, { onDelete: "cascade" }),
-  subformType: text("subform_type").notNull(),
+  subformType: text("subform_type"),
   subformValue: text("subform_value"),
 }, (t) => [unique().on(t.formId, t.sequenceNumber)]);
