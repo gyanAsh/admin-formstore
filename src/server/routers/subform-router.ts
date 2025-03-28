@@ -41,8 +41,11 @@ export const subformRouter = j.router({
           })
           .returning({ subformId: tables.form_subform.id });
         c.status(201);
+        if (subformResults.length < 1 && subformResults[0]) {
+          throw new Error("subform should have length of at least 1");
+        }
         return c.superjson({
-          subformId: subformResults[0].subformId,
+          subformId: subformResults[0]!.subformId,
         });
       } catch (err) {
         console.error(err);
@@ -56,11 +59,13 @@ export const subformRouter = j.router({
             ),
           );
         c.status(409);
-        console.log(subformResults[0]);
+        if (subformResults.length < 1 && subformResults[0]) {
+          throw new Error("subform should have length of at least 1");
+        }
         return c.superjson({
-          subformId: subformResults[0].id,
-          elementType: subformResults[0].subformType,
-          sequenceNumber: subformResults[0].sequenceNumber,
+          subformId: subformResults[0]!.id,
+          elementType: subformResults[0]!.subformType,
+          sequenceNumber: subformResults[0]!.sequenceNumber,
         });
       }
     }),
