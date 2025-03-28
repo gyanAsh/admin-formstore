@@ -69,4 +69,27 @@ export const subformRouter = j.router({
         });
       }
     }),
+  list: authenticatedProcedure
+    .input(
+      z.object({
+        formId: z.number(),
+      }),
+    )
+    .get(async ({ c, ctx, input }) => {
+      const { db, session } = ctx;
+      const res = await db
+        .select()
+        .from(tables.form_subform)
+        .innerJoin(tables.form, eq(tables.form_subform.formId, tables.form.id))
+        .where(
+          and(
+            eq(tables.form_subform.formId, input.formId),
+            eq(tables.form.userId, session.user.id),
+          ),
+        );
+
+      return c.superjson(
+        res.map(x => x.form_subforms),
+      );
+    }),
 });

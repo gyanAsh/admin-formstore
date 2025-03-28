@@ -9,10 +9,25 @@ import { useStore } from "@nanostores/react";
 import React from "react";
 import { PageFormContainer } from "./form-component";
 import { $cardsStore, createNewCard, selectCard } from "@/store/form";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
+import { client } from "@/lib/client";
 
 export default function FormCreationPage() {
   const cards = useStore($cardsStore);
-  console.log({ cards });
+  const {formId} = useParams();
+
+  const { isPending: subformListIsLoading, error: subformListError, data: subformListData } = useQuery({
+    queryKey: ["subform-list"],
+    queryFn: async () => {
+      const res = await client.subform.list.$get({formId: parseInt(formId)});
+      const data = await res.json();
+      return data;
+    },
+  });
+
+  console.log(subformListData);
+
   return (
     <Card
       className={
