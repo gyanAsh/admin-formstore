@@ -119,3 +119,11 @@ export const form_component = pgTable("form_component", {
   fieldValue: text("field_name").notNull(),
   fieldType: text("field_name"), // null values would assume text type
 });
+
+export const form_subform = pgTable("form_subforms", {
+  id: serial("id").primaryKey(),
+  sequenceNumber: integer("sequence_number").notNull(),
+  formId: integer("form_id").notNull(),
+  subformType: text("subform_type").notNull(),
+  subformValue: text("subform_value"),
+});
