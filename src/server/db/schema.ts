@@ -8,6 +8,7 @@ import {
   index,
   primaryKey,
   pgEnum,
+  unique,
 } from "drizzle-orm/pg-core";
 
 export const posts = pgTable(
@@ -118,4 +119,4 @@ export const form_subform = pgTable("form_subforms", {
     .references(() => form.id, { onDelete: "cascade" }),
   subformType: text("subform_type").notNull(),
   subformValue: text("subform_value"),
-});
+}, (t) => [unique().on(t.formId, t.sequenceNumber)]);
