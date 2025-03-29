@@ -93,8 +93,7 @@ export const subformRouter = j.router({
   delete: authenticatedProcedure
     .input(
       z.object({
-        formId: z.number(),
-        sequenceNumber: z.number(),
+        subformId: z.number(),
       }),
     )
     .post(async ({ c, ctx, input }) => {
@@ -113,8 +112,7 @@ export const subformRouter = j.router({
         .delete(tables.form_subform)
         .where(
           and(
-            eq(tables.form_subform.formId, input.formId),
-            eq(tables.form_subform.sequenceNumber, input.sequenceNumber),
+            eq(tables.form_subform.formId, input.subformId),
           ),
         );
       return c.superjson({ message: "delete successful" });
