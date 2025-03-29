@@ -37,19 +37,6 @@ import { useParams, useRouter } from "next/navigation";
 export const FormListing = () => {
   const { workspaceId } = useParams();
   const {
-    data: current_workspace,
-    isPending: loading_current_workspace,
-    isSuccess: fetched_current_workspace,
-  } = useQuery({
-    queryKey: ["get-current-workspace"],
-    queryFn: async () => {
-      const res = await client.workspace.current.$get();
-      return await res.json();
-    },
-    refetchOnWindowFocus: false,
-  });
-
-  const {
     data: forms_data,
     isPending: loading_forms,
     isSuccess: fetched_forms,
@@ -78,25 +65,22 @@ export const FormListing = () => {
 
   return (
     <Card className="h-full gap-3">
-      {loading_current_workspace ? (
+      {false ? (
         <section className="flex flex-col gap-3 m-4">
           <Skeleton className="w-[120px] h-[40px]" />
           <Skeleton className="w-full h-[55px]" />
           <Skeleton className="w-full h-[55px]" />
         </section>
-      ) : fetched_current_workspace ? (
+      ) : true ? (
         <>
           <section className="flex justify-between w-full">
             <div className="flex items-center gap-1">
               <CardHeader>
                 <CardTitle>
-                  {current_workspace.currentWorkspace.at(0)?.workspace.name}
+                  workspace name
                 </CardTitle>
                 <CardDescription>
-                  {
-                    current_workspace.currentWorkspace.at(0)?.workspace
-                      .description
-                  }
+                  workspace description
                 </CardDescription>
               </CardHeader>
               <Popover>

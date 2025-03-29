@@ -18,21 +18,6 @@ function WorkspaceList({ all_workspace }: { all_workspace: Workspace[] }) {
   const router = useRouter();
   const { workspaceId } = useParams();
 
-  const { mutate: updateCurrentWorkspace, isPending } = useMutation({
-    mutationFn: async ({ workspace_id }: { workspace_id: number }) => {
-      const res = await client.workspace.set_current.$post({ workspace_id });
-      return res.json();
-    },
-    onSuccess: async (data) => {
-      router.push(`/dashboard/${data.newWorkspaceId}`);
-    },
-    onError: async (e) => {
-      console.error({ error: e });
-      toast.error(
-        "Failed to display selected workspace. Please try again after sometime."
-      );
-    },
-  });
   return (
     <>
       {all_workspace?.map((workspace, i) => {
@@ -48,9 +33,10 @@ function WorkspaceList({ all_workspace }: { all_workspace: Workspace[] }) {
                     parseInt(workspaceId as string) === workspace.id,
                 }
               )}
-              disabled={isPending}
+              disabled={false}
               onClick={() => {
-                updateCurrentWorkspace({ workspace_id: workspace.id });
+                router.push(`/dashboard/${workspace.id}`)
+                // updateCurrentWorkspace({ workspace_id: workspace.id });
               }}
             >
               <h1>{workspace.name}</h1>
