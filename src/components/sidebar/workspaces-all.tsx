@@ -48,23 +48,16 @@ function WorkspaceList({ all_workspace }: { all_workspace: Workspace[] }) {
   );
 }
 
-export function WorkspaceAll({
-  ssr_all_workspace_data,
-}: {
-  ssr_all_workspace_data: Workspace[];
-}) {
+export function WorkspaceAll() {
   const { data: all_workspace, isPending: loading_workspace } = useQuery({
     queryKey: ["get-all-workspace"],
     queryFn: queryWorkspaces,
-    initialData: ssr_all_workspace_data,
-    gcTime: 1000,
-    refetchOnWindowFocus: false,
   });
 
   return (
     <>
       {!loading_workspace ? (
-        <WorkspaceList all_workspace={all_workspace} />
+        <WorkspaceList all_workspace={all_workspace ?? []} />
       ) : (
         <SidebarMenuItem className="animate-pulse bg-accent rounded-lg">
           <SidebarMenuButton></SidebarMenuButton>

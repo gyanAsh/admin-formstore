@@ -77,10 +77,10 @@ export const FormListing = () => {
             <div className="flex items-center gap-1">
               <CardHeader>
                 <CardTitle>
-                  workspace name
+                  {forms_data?.workspace?.name}
                 </CardTitle>
                 <CardDescription>
-                  workspace description
+                  {forms_data?.workspace?.description}
                 </CardDescription>
               </CardHeader>
               <Popover>

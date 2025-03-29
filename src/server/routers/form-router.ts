@@ -58,9 +58,10 @@ export const formRouter = j.router({
     )
     .get(async ({ c, ctx, input }) => {
       const { db, session } = ctx;
-      const formList = await db
+      const res = await db
         .select()
         .from(tables.form)
+        .leftJoin(tables.workspace, eq(tables.form.workspaceId, tables.workspace.id))
         .where(
           and(
             eq(tables.form.userId, session.user.id),
@@ -68,6 +69,12 @@ export const formRouter = j.router({
           ),
         );
 
-      return c.superjson({ forms: formList });
+      if (res.length < 1) {
+        throw new Error("failed to fetch data");
+      }
+      const workspace = res.map(x => x.workspace)[0]!;
+      const formList = res.map(x => x.form);
+
+      return c.superjson({ forms: formList, workspace: workspace });
     }),
 });
