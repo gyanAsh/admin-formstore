@@ -42,29 +42,16 @@ export const subformRouter = j.router({
             subformType: input.elementType,
           })
           .returning({ subformId: tables.form_subform.id });
+        c.status(201);
+        if (subformResults.length < 1 && subformResults[0]) {
+          throw new Error("subform should have length of at least 1");
+        }
+        return c.superjson({
+          subformId: subformResults[0]!.subformId,
+        });
       } catch (err) {
-        subformResults = await db
-          .update(tables.form_subform)
-          .set({ subformType: input.elementType })
-          .where(
-            and(
-              eq(tables.form_subform.formId, input.formId),
-              eq(
-                tables.form_subform.sequenceNumber,
-                input.sequenceNumber,
-              ),
-            ),
-          )
-          .returning({subformId: tables.form_subform.id });
+        c.status(409);
       }
-
-      c.status(201);
-      if (subformResults.length < 1 && subformResults[0]) {
-        throw new Error("subform should have length of at least 1");
-      }
-      return c.superjson({
-        subformId: subformResults[0]!.subformId,
-      });
     }),
   list: authenticatedProcedure
     .input(
@@ -106,5 +93,28 @@ export const subformRouter = j.router({
           ),
         );
       return c.superjson({ message: "delete successful" });
+    }),
+
+  update_type: authenticatedProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        elementType: z.enum([
+          "",
+          "email",
+          "phone_number",
+          "address",
+          "website",
+          "rating",
+        ]),
+      }),
+    )
+    .post(async ({ c, ctx, input }) => {
+      const { db, session } = ctx;
+      await db
+        .update(tables.form_subform)
+        .set({ subformType: input.elementType })
+        .where(eq(tables.form_subform.id, input.id));
+      return c.superjson({message: "updated successfully"});
     }),
 });
