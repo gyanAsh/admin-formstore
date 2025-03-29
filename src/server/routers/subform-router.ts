@@ -99,6 +99,16 @@ export const subformRouter = j.router({
     )
     .post(async ({ c, ctx, input }) => {
       const { db, session } = ctx;
+      const res = await db
+        .select()
+        .from(tables.form_subform)
+        .innerJoin(tables.form, eq(tables.form.id, tables.form_subform.formId))
+        .where(eq(tables.form_subform.id, input.subformId));
+
+      if (!res || !res[0] || res[0].form.userId !== session.user.id) {
+        c.status(403);
+        return;
+      }
       await db
         .delete(tables.form_subform)
         .where(
@@ -119,6 +129,16 @@ export const subformRouter = j.router({
     )
     .post(async ({ c, ctx, input }) => {
       const { db, session } = ctx;
+      const res = await db
+        .select()
+        .from(tables.form_subform)
+        .innerJoin(tables.form, eq(tables.form.id, tables.form_subform.formId))
+        .where(eq(tables.form_subform.id, input.subformId));
+
+      if (!res || !res[0] || res[0].form.userId !== session.user.id) {
+        c.status(403);
+        return;
+      }
       await db
         .update(tables.form_subform)
         .set({ subformType: input.elementType })
