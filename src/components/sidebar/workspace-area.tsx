@@ -76,7 +76,7 @@ export function WorkspaceArea() {
         </Dialog>
       </div>
       <SidebarMenu>
-        <WorkspaceAll ssr_all_workspace_data={[]} />
+        <WorkspaceAll />
       </SidebarMenu>
     </section>
   );
