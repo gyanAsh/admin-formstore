@@ -32,8 +32,9 @@ export const subformRouter = j.router({
         return;
       }
 
+      let subformResults;
       try {
-        const subformResults = await db
+        subformResults = await db
           .insert(tables.form_subform)
           .values({
             formId: input.formId,
@@ -41,34 +42,29 @@ export const subformRouter = j.router({
             subformType: input.elementType,
           })
           .returning({ subformId: tables.form_subform.id });
-        c.status(201);
-        if (subformResults.length < 1 && subformResults[0]) {
-          throw new Error("subform should have length of at least 1");
-        }
-        return c.superjson({
-          subformId: subformResults[0]!.subformId,
-        });
       } catch (err) {
-        console.error(err);
-        const subformResults = await db
-          .select()
-          .from(tables.form_subform)
+        subformResults = await db
+          .update(tables.form_subform)
+          .set({ subformType: input.elementType })
           .where(
             and(
               eq(tables.form_subform.formId, input.formId),
-              eq(tables.form_subform.sequenceNumber, input.sequenceNumber),
+              eq(
+                tables.form_subform.sequenceNumber,
+                input.sequenceNumber,
+              ),
             ),
-          );
-        c.status(409);
-        if (subformResults.length < 1 && subformResults[0]) {
-          throw new Error("subform should have length of at least 1");
-        }
-        return c.superjson({
-          subformId: subformResults[0]!.id,
-          elementType: subformResults[0]!.subformType,
-          sequenceNumber: subformResults[0]!.sequenceNumber,
-        });
+          )
+          .returning({subformId: tables.form_subform.id });
       }
+
+      c.status(201);
+      if (subformResults.length < 1 && subformResults[0]) {
+        throw new Error("subform should have length of at least 1");
+      }
+      return c.superjson({
+        subformId: subformResults[0]!.subformId,
+      });
     }),
   list: authenticatedProcedure
     .input(
