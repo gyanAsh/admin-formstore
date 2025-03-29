@@ -89,8 +89,27 @@ export const subformRouter = j.router({
           ),
         );
 
-      return c.superjson(
-        res.map(x => x.form_subforms),
-      );
+      return c.superjson(res.map((x) => x.form_subforms));
+    }),
+
+  delete: authenticatedProcedure
+    .input(
+      z.object({
+        formId: z.number(),
+        sequenceNumber: z.number(),
+      }),
+    )
+    .post(async ({ c, ctx, input }) => {
+      const { db, session } = ctx;
+      await db
+        .delete()
+        .from(tables.form_subform)
+        .where(
+          and(
+            eq(tables.form_subform.formId, input.formId),
+            eq(tables.form_subform.sequenceNumber, input.sequenceNumber),
+          ),
+        );
+      return c.superjson({ message: "delete successful" });
     }),
 });
