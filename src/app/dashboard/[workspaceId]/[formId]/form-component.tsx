@@ -1,41 +1,46 @@
 import { Button } from "@/components/ui/button";
 import { cn, FormElementTypes } from "@/lib/utils";
-import { $currentCard, updateElementType } from "@/store/form";
 import { useStore } from "@nanostores/react";
 import { Link2Icon, MapPinHouse, Phone, Star } from "lucide-react";
 import React from "react";
-import { useMutation } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { client } from "@/lib/client";
 
-export const PageFormContainer = () => {
-  const currentCard = useStore($currentCard);
-  const { formId } = useParams();
+type Subform = {
+  id: number;
+  sequenceNumber: number;
+  formId: number;
+  subformType: string | null;
+  subformValue: string | null;
+};
+
+export const PageFormContainer = ({currentSubform}: {currentSubform: Subform}) => {
+  const queryClient = useQueryClient();
   const createSubformMutation = useMutation({
     mutationFn: async ({elementType}: {elementType: FormElementTypes}) => {
-      const res = await client.subform.create.$post({
-        formId: parseInt(formId as string),
-        sequenceNumber: currentCard.id,
+      const res = await client.subform.update_type.$post({
+        id: currentSubform.id,
         elementType: elementType,
       });
       return await res.json();
     },
     onSuccess: (data) => {
       console.log(data);
+      queryClient.invalidateQueries({ queryKey: ["subform-list"] });
     },
     onError: (error) => {
     },
   });
 
-  console.log({ currentCard });
+  console.log(currentSubform);
+
   return (
     <div className="w-full h-full">
-      {currentCard.elementType === FormElementTypes.Email ? (
+      {currentSubform?.subformType === FormElementTypes.Email ? (
         <EmailElement />
       ) : (
         <DefaultPageTypeOptions
           onSelect={(elementType: FormElementTypes) => {
-            updateElementType(currentCard.id, elementType);
             createSubformMutation.mutate({elementType});
           }}
         />

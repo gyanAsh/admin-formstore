@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { MonitorSmartphone, Plus } from "lucide-react";
 import { useStore } from "@nanostores/react";
 
-import React from "react";
+import { useEffect, useState } from "react";
 import { PageFormContainer } from "./form-component";
 import { $cardsStore, createNewCard, selectCard } from "@/store/form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -17,19 +17,30 @@ export default function FormCreationPage() {
   const cards = useStore($cardsStore);
   const { formId } = useParams();
   const queryClient = useQueryClient();
+  const [currentSubformId, setCurrentSubformId] = useState(0);
 
   const {
-    isPending: subformListIsLoading,
+    isLoading: subformListIsLoading,
     error: subformListError,
     data: subformList,
   } = useQuery({
     queryKey: ["subform-list"],
     queryFn: async () => {
-      const res = await client.subform.list.$get({ formId: parseInt(formId as string) });
+      const res = await client.subform.list.$get({
+        formId: parseInt(formId as string),
+      });
       const data = await res.json();
       return data;
     },
   });
+
+  useEffect(() => {
+    if (!subformListIsLoading) {
+      const res = subformList[0];
+      setCurrentSubformId(res.id);
+    }
+  }, [subformListIsLoading]);
+
 
   const subformMutation = useMutation({
     mutationFn: async (sequence: number) => {
@@ -42,11 +53,11 @@ export default function FormCreationPage() {
     },
     mutationKey: ["subform-create"],
     onSuccess: (data) => {
+      const {subformId} = data;
       queryClient.invalidateQueries({ queryKey: ["subform-list"] });
+      setCurrentSubformId(subformId as number);
     },
   });
-
-  console.log(subformList);
 
   return (
     <Card
@@ -72,7 +83,7 @@ export default function FormCreationPage() {
               "box-border overflow-auto",
             )}
           >
-            <PageFormContainer />
+            <PageFormContainer currentSubform={subformList?.filter(x => x.id == currentSubformId)[0]} />
           </div>
         </div>
       </div>
@@ -80,15 +91,15 @@ export default function FormCreationPage() {
         <ScrollArea className="w-full whitespace-nowrap rounded-md border">
           <div className="flex space-x-4 p-4 overflow-hidden">
             {!subformListIsLoading &&
-              subformList!.map((form, index) => (
+              subformList!.map((subform, index) => (
                 <Card
                   key={index}
                   className="flex items-center justify-center h-[64px] w-[86px] rounded-md"
                   onClick={() => {
-                    selectCard(form.id);
+                    setCurrentSubformId(subform.id);
                   }}
                 >
-                  {index + 1}
+                  {subform.sequenceNumber}
                 </Card>
               ))}
             <Card
@@ -96,7 +107,6 @@ export default function FormCreationPage() {
               onClick={() => {
                 if (!subformListIsLoading) {
                   subformMutation.mutate(subformList!.length + 1);
-                  // createNewCard();
                 }
               }}
             >
