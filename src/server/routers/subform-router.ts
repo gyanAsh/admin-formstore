@@ -72,7 +72,18 @@ export const subformRouter = j.router({
           ),
         );
 
-      return c.superjson(res.map((x) => x.form_subforms));
+      let subforms = res.map((x) => x.form_subforms);
+      subforms.sort((a, b) => {
+        if (a.sequenceNumber < b.sequenceNumber) {
+          return -1;
+        } else if (a.sequenceNumber == b.sequenceNumber) {
+          throw new Error("undefined state two subform should not have the same sequence number");
+        } else {
+          return 1;
+        }
+      });
+      console.log(subforms);
+      return c.superjson(subforms);
     }),
 
   delete: authenticatedProcedure
