@@ -4,20 +4,22 @@ import { z } from "zod";
 import { j, authenticatedProcedure } from "../jstack";
 import { and, eq } from "drizzle-orm";
 
+const subformTypeEnum = [
+  "",
+  "email",
+  "phone_number",
+  "address",
+  "website",
+  "rating",
+] as const;
+
 export const subformRouter = j.router({
   create: authenticatedProcedure
     .input(
       z.object({
         formId: z.number(),
         sequenceNumber: z.number(),
-        elementType: z.enum([
-          "",
-          "email",
-          "phone_number",
-          "address",
-          "website",
-          "rating",
-        ]),
+        elementType: z.enum(subformTypeEnum),
       }),
     )
     .mutation(async ({ c, ctx, input }) => {
@@ -77,7 +79,9 @@ export const subformRouter = j.router({
         if (a.sequenceNumber < b.sequenceNumber) {
           return -1;
         } else if (a.sequenceNumber == b.sequenceNumber) {
-          throw new Error("undefined state two subform should not have the same sequence number");
+          throw new Error(
+            "undefined state two subform should not have the same sequence number",
+          );
         } else {
           return 1;
         }
@@ -110,14 +114,7 @@ export const subformRouter = j.router({
     .input(
       z.object({
         id: z.number(),
-        elementType: z.enum([
-          "",
-          "email",
-          "phone_number",
-          "address",
-          "website",
-          "rating",
-        ]),
+        elementType: z.enum(subformTypeEnum),
       }),
     )
     .post(async ({ c, ctx, input }) => {
@@ -126,6 +123,6 @@ export const subformRouter = j.router({
         .update(tables.form_subform)
         .set({ subformType: input.elementType })
         .where(eq(tables.form_subform.id, input.id));
-      return c.superjson({message: "updated successfully"});
+      return c.superjson({ message: "updated successfully" });
     }),
 });

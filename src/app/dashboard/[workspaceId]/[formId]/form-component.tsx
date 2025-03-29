@@ -14,10 +14,13 @@ type Subform = {
   subformValue: string | null;
 };
 
-export const PageFormContainer = ({currentSubform}: {currentSubform: Subform}) => {
+export const PageFormContainer = ({currentSubform}: {currentSubform: Subform | undefined}) => {
   const queryClient = useQueryClient();
   const createSubformMutation = useMutation({
     mutationFn: async ({elementType}: {elementType: FormElementTypes}) => {
+      if (!currentSubform) {
+        return;
+      }
       const res = await client.subform.update_type.$post({
         id: currentSubform.id,
         elementType: elementType,

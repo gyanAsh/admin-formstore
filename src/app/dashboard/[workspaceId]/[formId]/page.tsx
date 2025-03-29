@@ -36,8 +36,10 @@ export default function FormCreationPage() {
 
   useEffect(() => {
     if (!subformListIsLoading) {
-      const res = subformList[0];
-      setCurrentSubformId(res.id);
+      if (subformList) {
+        const res = subformList[0]!;
+        setCurrentSubformId(res.id);
+      }
     }
   }, [subformListIsLoading]);
 
@@ -53,7 +55,11 @@ export default function FormCreationPage() {
     },
     mutationKey: ["subform-create"],
     onSuccess: (data) => {
-      const {subformId} = data;
+      if (!data) {
+        return;
+      }
+      // @ts-ignore
+      const { subformId } = data;
       queryClient.invalidateQueries({ queryKey: ["subform-list"] });
       setCurrentSubformId(subformId as number);
     },
@@ -83,7 +89,11 @@ export default function FormCreationPage() {
               "box-border overflow-auto",
             )}
           >
-            <PageFormContainer currentSubform={subformList?.filter(x => x.id == currentSubformId)[0]} />
+            <PageFormContainer
+              currentSubform={
+                subformList?.filter((x) => x.id == currentSubformId)[0]
+              }
+            />
           </div>
         </div>
       </div>
