@@ -25,7 +25,7 @@ export default function FormCreationPage() {
   } = useQuery({
     queryKey: ["subform-list"],
     queryFn: async () => {
-      const res = await client.subform.list.$get({ formId: parseInt(formId) });
+      const res = await client.subform.list.$get({ formId: parseInt(formId as string) });
       const data = await res.json();
       return data;
     },
@@ -34,7 +34,7 @@ export default function FormCreationPage() {
   const subformMutation = useMutation({
     mutationFn: async (sequence: number) => {
       const res = await client.subform.create.$post({
-        formId: parseInt(formId),
+        formId: parseInt(formId as string),
         sequenceNumber: sequence,
         elementType: "",
       });
@@ -80,7 +80,7 @@ export default function FormCreationPage() {
         <ScrollArea className="w-full whitespace-nowrap rounded-md border">
           <div className="flex space-x-4 p-4 overflow-hidden">
             {!subformListIsLoading &&
-              subformList.map((form, index) => (
+              subformList!.map((form, index) => (
                 <Card
                   key={index}
                   className="flex items-center justify-center h-[64px] w-[86px] rounded-md"
@@ -89,14 +89,13 @@ export default function FormCreationPage() {
                   }}
                 >
                   {index + 1}
-                  {form?.elementType}
                 </Card>
               ))}
             <Card
               className="flex items-center justify-center h-[64px] w-[86px] rounded-md"
               onClick={() => {
                 if (!subformListIsLoading) {
-                  subformMutation.mutate(subformList.length + 1);
+                  subformMutation.mutate(subformList!.length + 1);
                   // createNewCard();
                 }
               }}
