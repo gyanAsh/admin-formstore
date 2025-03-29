@@ -9,13 +9,14 @@ import { useStore } from "@nanostores/react";
 import React from "react";
 import { PageFormContainer } from "./form-component";
 import { $cardsStore, createNewCard, selectCard } from "@/store/form";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { client } from "@/lib/client";
 
 export default function FormCreationPage() {
   const cards = useStore($cardsStore);
   const { formId } = useParams();
+  const queryClient = useQueryClient();
 
   const {
     isPending: subformListIsLoading,
@@ -41,9 +42,11 @@ export default function FormCreationPage() {
     },
     mutationKey: ["subform-create"],
     onSuccess: (data) => {
-      console.log(data);
+      queryClient.invalidateQueries({ queryKey: ["subform-list"] });
     },
   });
+
+  console.log(subformList);
 
   return (
     <Card
@@ -94,7 +97,7 @@ export default function FormCreationPage() {
               onClick={() => {
                 if (!subformListIsLoading) {
                   subformMutation.mutate(subformList.length + 1);
-                  createNewCard();
+                  // createNewCard();
                 }
               }}
             >
