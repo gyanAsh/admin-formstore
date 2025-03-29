@@ -22,7 +22,7 @@ export const PageFormContainer = ({currentSubform}: {currentSubform: Subform | u
         return;
       }
       const res = await client.subform.update_type.$post({
-        id: currentSubform.id,
+        subformId: currentSubform.id,
         elementType: elementType,
       });
       return await res.json();

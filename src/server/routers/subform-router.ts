@@ -113,7 +113,7 @@ export const subformRouter = j.router({
   update_type: authenticatedProcedure
     .input(
       z.object({
-        id: z.number(),
+        subformId: z.number(),
         elementType: z.enum(subformTypeEnum),
       }),
     )
@@ -122,7 +122,7 @@ export const subformRouter = j.router({
       await db
         .update(tables.form_subform)
         .set({ subformType: input.elementType })
-        .where(eq(tables.form_subform.id, input.id));
+        .where(eq(tables.form_subform.id, input.subformId));
       return c.superjson({ message: "updated successfully" });
     }),
 });
