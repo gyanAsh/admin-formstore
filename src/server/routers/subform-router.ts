@@ -98,8 +98,7 @@ export const subformRouter = j.router({
     .post(async ({ c, ctx, input }) => {
       const { db, session } = ctx;
       await db
-        .delete()
-        .from(tables.form_subform)
+        .delete(tables.form_subform)
         .where(
           and(
             eq(tables.form_subform.formId, input.formId),
