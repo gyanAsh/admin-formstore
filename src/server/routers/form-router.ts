@@ -22,7 +22,7 @@ export const formRouter = j.router({
       const { workspace_id, form_title } = input;
       const { db, session } = ctx;
 
-      const createdForm = await db
+      const createdForms = await db
         .insert(tables.form)
         .values({
           title: form_title,
@@ -30,8 +30,22 @@ export const formRouter = j.router({
           workspaceId: workspace_id,
         })
         .returning();
+
+      if (createdForms.length < 1) {
+        throw new Error("failed to create form");
+      }
+      const createdForm = createdForms[0];
+      if (!createdForm) {
+        throw new Error("failed to create form");
+      }
+      const createSubform = await db
+        .insert(tables.form_subform)
+        .values({
+          formId: createdForm.id,
+          sequenceNumber: 1,
+        })
       return c.superjson(
-        { message: "New form created!", formId: createdForm[0]?.id },
+        { message: "New form created!", formId: createdForm.id },
         201,
       );
     }),
