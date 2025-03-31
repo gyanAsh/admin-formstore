@@ -110,11 +110,7 @@ export const subformRouter = j.router({
       }
       await db
         .delete(tables.form_subform)
-        .where(
-          and(
-            eq(tables.form_subform.formId, input.subformId),
-          ),
-        );
+        .where(and(eq(tables.form_subform.formId, input.subformId)));
       return c.superjson({ message: "delete successful" });
     }),
 
@@ -142,5 +138,23 @@ export const subformRouter = j.router({
         .set({ subformType: input.elementType })
         .where(eq(tables.form_subform.id, input.subformId));
       return c.superjson({ message: "updated successfully" });
+    }),
+
+  update_value: authenticatedProcedure
+    .input(
+      z.object({
+        subformId: z.number(),
+        type: z.enum(subformTypeEnum),
+        value: z.string(),
+      }),
+    )
+    .post(async ({ c, ctx, input }) => {
+      const { db, session } = ctx;
+      // checks user and type
+      await db
+        .update(tables.form_subform)
+        .set({ subformValue: input.value })
+        .where(eq(tables.form_subform.id, input.subformId));
+      return c.superjson({ message: "update successful" });
     }),
 });

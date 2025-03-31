@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { cn, FormElementTypes } from "@/lib/utils";
 import { useStore } from "@nanostores/react";
 import { Link2Icon, MapPinHouse, Phone, Star } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { client } from "@/lib/client";
 
@@ -40,7 +40,7 @@ export const PageFormContainer = ({currentSubform}: {currentSubform: Subform | u
   return (
     <div className="w-full h-full">
       {currentSubform?.subformType === FormElementTypes.Email ? (
-        <EmailElement />
+        <EmailElement subformId={currentSubform.id} />
       ) : (
         <DefaultPageTypeOptions
           onSelect={(elementType: FormElementTypes) => {
@@ -116,9 +116,23 @@ const DefaultPageTypeOptions = ({ onSelect }: any) => {
   );
 };
 
-const EmailElement = () => {
+const EmailElement = ({subformId}: {subformId: number}) => {
   const titleRef = React.useRef<HTMLParagraphElement>(null);
   const DescriptionRef = React.useRef<HTMLParagraphElement>(null);
+
+  const debounce = (callback, wait) => {
+    let timeoutId = null;
+    return (...args) => {
+      window.clearTimeout(timeoutId);
+      timeoutId = window.setTimeout(() => {
+        callback(...args);
+      }, wait);
+    };
+  }
+
+  const updateText = debounce((emailTitle: string) => {
+    client.subform.update_value.$post({subformId: subformId, type: "email", value: emailTitle});
+  }, 1500)
 
   return (
     <div className="w-full h-full flex items-center justify-center gap-2 p-8 ">
@@ -136,6 +150,7 @@ const EmailElement = () => {
             className="text-xl"
             paragraphRef={titleRef}
             data-placeholder="Your question here. Recall information with @"
+            handleChange={updateText}
           />
           <EditableParagraph
             className="text-base font-light"
@@ -160,6 +175,7 @@ interface EditableParagraphProps extends React.ComponentProps<"p"> {
 const EditableParagraph = ({
   className,
   paragraphRef,
+  handleChange,
   ...props
 }: EditableParagraphProps) => {
   const handleInput = () => {
@@ -168,6 +184,8 @@ const EditableParagraph = ({
 
     const hasContent = element.textContent?.trim() !== "";
     element.classList.toggle("has-content", hasContent);
+
+    handleChange(element.textContent);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
