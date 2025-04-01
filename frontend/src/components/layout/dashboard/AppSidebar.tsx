@@ -17,10 +17,11 @@ import {
 } from "@/components/ui/tooltip";
 import { Crown } from "lucide-react";
 import { Footer } from "@/components/layout/dashboard/Footer";
+import WorkspaceGroup from "./Workspace";
 
 export function AppSidebar() {
   return (
-    <Sidebar variant="sidebar" collapsible="offcanvas">
+    <Sidebar variant="floating" collapsible="offcanvas">
       <SidebarHeader className="flex-row justify-between">
         <TooltipProvider>
           <Tooltip>
@@ -49,10 +50,10 @@ export function AppSidebar() {
               Buy Premium{" "}
             </Button>
           </SidebarGroup>
-          <SidebarGroup>{"<WorkspaceArea />"}</SidebarGroup>
+          <WorkspaceGroup />
           {/* <SidebarGroup>
             <Button
-              variant="outline"
+              variant="default"
               effect="click"
               className="flex justify-start font-medium"
             >

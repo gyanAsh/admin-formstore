@@ -1,20 +1,9 @@
-import { memo } from "react";
-import { cn } from "@/lib/utils";
-import { NavLink } from "react-router";
-import endpoint_home from "./endpoint";
-import { $counter } from "@/store/count";
-import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { memo } from "react";
+import { NavLink } from "react-router";
 
-export default memo(function Home() {
-  const apidata = useQuery({
-    queryKey: [endpoint_home.getJsonData.key],
-    queryFn: () => endpoint_home.getJsonData.func($counter),
-    refetchOnWindowFocus: false,
-  });
-
-  console.log({ data: "isError", apidata });
-
+export default memo(function About() {
   return (
     <>
       <main className="flex min-h-screen w-full flex-col items-center justify-center relative isolate">
@@ -27,16 +16,16 @@ export default memo(function Home() {
               "from-blue-500 to-purple-500"
             )}
           >
-            <span>Home</span>
+            <span>About</span>
           </h1>
 
           <p className="text-lg/7 md:text-xl/8 text-pretty sm:text-wrap sm:text-center text-center mb-8">
             The stack for building seriously fast, lightweight and{" "}
-            <span className="inline sm:block">this is it's home page.</span>
+            <span className="inline sm:block">this is it's about page.</span>
           </p>
         </div>
         <Button asChild>
-          <NavLink to={"/about"}>About</NavLink>
+          <NavLink to={"/"}>Home</NavLink>
         </Button>
       </main>
     </>
