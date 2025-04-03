@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { memo } from "react";
-import SignInButton from "@/pages/login/sign-in-button";
+import SignInButton from "@/components/layout/hero/sign-in-button";
 
 export default memo(function LoginPage() {
   return (
