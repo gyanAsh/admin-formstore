@@ -25,27 +25,71 @@ import {
 } from "@/components/ui/form";
 
 export const loginFormSchema = z.object({
-  email: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+  email: z.string().min(4, {
+    message: "Email must be at least 4 characters.",
   }),
-  password: z.string().min(8, {
-    message: "Username must be at least 8 characters.",
-  }),
+  password: z
+    .string()
+    .min(8, { message: "Password must be at least 8 characters long" })
+    .max(32, { message: "Password must be at most 32 characters long" }),
 });
+
+export const registerLoginFormSchema = z
+  .object({
+    username: z.string().min(3, {
+      message: "Username must be atleast 3 characters.",
+    }),
+    email: z.string().min(4, {
+      message: "Email must be at least 4 characters.",
+    }),
+    password: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters long" })
+      .max(32, { message: "Password must be at most 32 characters long" })
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        {
+          message:
+            "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+        }
+      ),
+    confirmPassword: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters long" })
+      .max(32, { message: "Password must be at most 32 characters long" }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Passwords don't match",
+  });
 
 export default function SignInButton() {
   const id = useId();
 
-  const form = useForm<z.infer<typeof loginFormSchema>>({
+  const loginForm = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
+  const registerLoginForm = useForm<z.infer<typeof registerLoginFormSchema>>({
+    resolver: zodResolver(registerLoginFormSchema),
+    defaultValues: {
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof loginFormSchema>) {
+  function onLoginSubmit(values: z.infer<typeof loginFormSchema>) {
+    console.log(values);
+  }
+  function onRegisterLoginSubmit(
+    values: z.infer<typeof registerLoginFormSchema>
+  ) {
     console.log(values);
   }
 
@@ -94,14 +138,14 @@ export default function SignInButton() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="login">
-            <Form {...form}>
+            <Form {...loginForm}>
               <form
-                onSubmit={form.handleSubmit(onSubmit)}
+                onSubmit={loginForm.handleSubmit(onLoginSubmit)}
                 className="space-y-5"
               >
                 <div className="space-y-4">
                   <FormField
-                    control={form.control}
+                    control={loginForm.control}
                     name="email"
                     render={({ field }) => (
                       <FormItem className="*:not-first:mt-2">
@@ -119,7 +163,7 @@ export default function SignInButton() {
                     )}
                   />
                   <FormField
-                    control={form.control}
+                    control={loginForm.control}
                     name="password"
                     render={({ field }) => (
                       <FormItem className="*:not-first:mt-2">
@@ -151,52 +195,96 @@ export default function SignInButton() {
             </Form>
           </TabsContent>
           <TabsContent value="register">
-            <form className="space-y-5">
-              <div className="space-y-4">
-                <div className="*:not-first:mt-2">
-                  <Label htmlFor={`${id}-username`}>Username</Label>
-                  <Input
-                    id={`${id}-username`}
-                    placeholder="Enter your username"
-                    type="text"
-                    required
+            <Form {...registerLoginForm}>
+              <form
+                onSubmit={registerLoginForm.handleSubmit(onRegisterLoginSubmit)}
+                className="space-y-5"
+              >
+                <div className="space-y-4">
+                  <FormField
+                    control={registerLoginForm.control}
+                    name="username"
+                    render={({ field }) => (
+                      <FormItem className="*:not-first:mt-2">
+                        <FormLabel htmlFor={`${id}-username`}>
+                          Username
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            id={`${id}-username`}
+                            placeholder="Enter your username"
+                            type="text"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={registerLoginForm.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem className="*:not-first:mt-2">
+                        <FormLabel htmlFor={`${id}-email`}>Email</FormLabel>
+                        <FormControl>
+                          <Input
+                            id={`${id}-email`}
+                            placeholder="your@email.com"
+                            type="email"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={registerLoginForm.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem className="*:not-first:mt-2">
+                        <FormLabel htmlFor={`${id}-password`}>
+                          Password
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            id={`${id}-password`}
+                            placeholder="Enter your password"
+                            type="password"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={registerLoginForm.control}
+                    name="confirmPassword"
+                    render={({ field }) => (
+                      <FormItem className="*:not-first:mt-2">
+                        <FormLabel htmlFor={`${id}-confirm-password`}>
+                          Confirm Password
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            id={`${id}-confirm-password`}
+                            placeholder="Enter same password again"
+                            type="password"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
                 </div>
-                <div className="*:not-first:mt-2">
-                  <Label htmlFor={`${id}-email`}>Email</Label>
-                  <Input
-                    id={`${id}-email`}
-                    placeholder="your@email.com"
-                    type="email"
-                    required
-                  />
-                </div>
-                <div className="*:not-first:mt-2">
-                  <Label htmlFor={`${id}-password`}>Password</Label>
-                  <Input
-                    id={`${id}-password`}
-                    placeholder="Enter your password"
-                    type="password"
-                    required
-                  />
-                </div>
-                <div className="*:not-first:mt-2">
-                  <Label htmlFor={`${id}-confirm-password`}>
-                    Confirm Password
-                  </Label>
-                  <Input
-                    id={`${id}-confirm-password`}
-                    placeholder="Enter same password again"
-                    type="password"
-                    required
-                  />
-                </div>
-              </div>
-
-              <Button type="submit" className="w-full">
-                Sign in as New User
-              </Button>
-            </form>
+                <Button type="submit" className="w-full">
+                  Sign in as New User
+                </Button>
+              </form>
+            </Form>
           </TabsContent>
         </Tabs>
         <div className="before:bg-border after:bg-border flex items-center gap-3 before:h-px before:flex-1 after:h-px after:flex-1">

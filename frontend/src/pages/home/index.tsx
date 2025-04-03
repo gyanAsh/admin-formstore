@@ -40,6 +40,9 @@ export default memo(function Home() {
             <NavLink to={"/about"}>About</NavLink>
           </Button>
           <Button asChild>
+            <NavLink to={"/workspace"}>Workspace (Protected)</NavLink>
+          </Button>
+          <Button asChild>
             <NavLink to={"/login"}>Login</NavLink>
           </Button>
         </div>
