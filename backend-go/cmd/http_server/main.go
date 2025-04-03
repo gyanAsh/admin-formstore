@@ -6,5 +6,5 @@ import (
 )
 
 func main() {
-	log.Fatal(services.HttpStart())
+	log.Fatal(services.HttpServiceStart())
 }
