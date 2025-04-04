@@ -4,7 +4,7 @@
 
 -- placeholder user until google oauth has been implemented
 CREATE TABLE IF NOT EXISTS users (
-	ID SERIAL NOT NULL,
+	ID SERIAL PRIMARY KEY,
 	username VARCHAR NOT NULL UNIQUE,
 	password VARCHAR NOT NULL
 );
