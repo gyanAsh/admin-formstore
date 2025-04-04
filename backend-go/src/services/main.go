@@ -11,7 +11,8 @@ import (
 )
 
 type Service struct {
-	DB *pgx.Conn
+	DB        *pgx.Conn
+	JwtSecret []byte
 }
 
 func LoggingMiddleware(next http.Handler) http.Handler {
@@ -34,11 +35,17 @@ func HttpServiceStart() error {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	jwtSecret := os.Getenv("JWT_SECRET")
+	if jwtSecret == "" {
+		log.Fatalf("failed to load JWT_SECRET: %s", jwtSecret)
+	}
 
 	s := Service{
-		DB: conn,
+		DB:        conn,
+		JwtSecret: []byte(jwtSecret),
 	}
+
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /", s.rootHandler)

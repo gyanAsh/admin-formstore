@@ -44,7 +44,7 @@ func (s *Service) loginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	row := s.DB.QueryRow(r.Context(), `SELECT ID, password FROM users WHERE username = $1`, user.Username)
-	var dbUserID string
+	var dbUserID int64
 	var dbUserPassword string
 	if err := row.Scan(&dbUserID, &dbUserPassword); err != nil {
 		log.Println(err)
@@ -64,9 +64,19 @@ func (s *Service) loginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	log.Println("logged in user", dbUserID)
+	tokenString, err := generateAuthToken(dbUserID, s.JwtSecret)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		if err := json.NewEncoder(w).Encode(map[string]interface{}{
+			"message": "failed to generate jwt token",
+		}); err != nil {
+			log.Println(err)
+		}
+		return
+	}
+
 	json.NewEncoder(w).Encode(map[string]interface{}{
-		"message":   "login feature incomplete, but you may get token like so",
-		"jwt_token": "aGVsbG8gd29ybGQK",
+		"jwt_token": tokenString,
 	})
 }
