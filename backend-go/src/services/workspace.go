@@ -20,6 +20,37 @@ type Workspace struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
+func (s *Service) workspacesHandler(w http.ResponseWriter, r *http.Request) {
+	userID, err := authenticate(r, s.JwtSecret)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+	rows, err := s.DB.Query(r.Context(), `SELECT ID, name, created_at,
+		updated_at FROM workspaces WHERE user_id = $1`, userID)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	var workspaces []Workspace
+	for rows.Next() {
+		var workspace Workspace
+		if err = rows.Scan(&workspace.ID, &workspace.Name,
+			&workspace.CreatedAt, &workspace.UpdatedAt); err != nil {
+			log.Println(err)
+			continue
+		}
+		workspaces = append(workspaces, workspace)
+	}
+	if err = json.NewEncoder(w).Encode(workspaces); err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+}
+
 func (s *Service) workspaceCreateHandler(w http.ResponseWriter, r *http.Request) {
 	userID, err := authenticate(r, s.JwtSecret)
 	if err != nil {

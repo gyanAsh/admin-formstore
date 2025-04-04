@@ -49,6 +49,7 @@ func HttpServiceStart() error {
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /", s.rootHandler)
+	mux.HandleFunc("GET /api/workspaces", s.workspacesHandler)
 	mux.HandleFunc("POST /api/login", s.loginHandler)
 	mux.HandleFunc("POST /api/workspace", s.workspaceCreateHandler)
 
