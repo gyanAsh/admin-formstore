@@ -50,6 +50,7 @@ func HttpServiceStart() error {
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /", s.rootHandler)
 	mux.HandleFunc("POST /api/login", s.loginHandler)
+	mux.HandleFunc("POST /api/workspace", s.workspaceCreateHandler)
 
 	log.Println("running on: http://localhost:4000")
 	return http.ListenAndServe(":4000", LoggingMiddleware(mux))
