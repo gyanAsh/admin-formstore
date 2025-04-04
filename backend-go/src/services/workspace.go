@@ -31,18 +31,24 @@ func (s *Service) workspaceCreateHandler(w http.ResponseWriter, r *http.Request)
 	if err := json.NewDecoder(r.Body).Decode(&workspaceRequest); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
-		if err = json.NewEncoder(w).Encode(map[string]interface{}{"message": "failed to parse json data"}); err != nil {
+		if err = json.NewEncoder(w).Encode(map[string]interface{}{
+			"message": "failed to parse json data",
+		}); err != nil {
 			log.Println(err)
 		}
 		return
 	}
 	row := s.DB.QueryRow(context.Background(), `INSERT INTO workspaces
-		(name, user_id) VALUES ($1, $2) RETURNING ID, created_at, updated_at`, workspaceRequest.Name, userID)
+		(name, user_id) VALUES ($1, $2) RETURNING ID, created_at,
+	updated_at`, workspaceRequest.Name, userID)
 	var workspace Workspace
-	if err = row.Scan(&workspace.ID, &workspace.CreatedAt, &workspace.UpdatedAt); err != nil {
+	if err = row.Scan(&workspace.ID, &workspace.CreatedAt,
+		&workspace.UpdatedAt); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
-		if err = json.NewEncoder(w).Encode(map[string]interface{}{"message": "failed to create new workspace"}); err != nil {
+		if err = json.NewEncoder(w).Encode(map[string]interface{}{
+			"message": "failed to create new workspace",
+		}); err != nil {
 			log.Println(err)
 		}
 		return
