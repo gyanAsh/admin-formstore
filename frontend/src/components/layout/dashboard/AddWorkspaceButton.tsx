@@ -1,5 +1,5 @@
 import { useId, useState } from "react";
-import { CircleAlertIcon, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -52,14 +52,14 @@ export default function AddWorkspace() {
             <Input
               id={id}
               type="text"
-              placeholder="Type here..."
+              placeholder="Enter name here..."
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
             />
           </div>
           <DialogFooter>
             <DialogClose asChild>
-              <Button type="button" variant="outline" className="flex-1">
+              <Button type="button" variant="destructive" className="flex-1">
                 Cancel
               </Button>
             </DialogClose>
