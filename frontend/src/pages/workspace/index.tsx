@@ -7,7 +7,7 @@ export default memo(function Workspace() {
   const { workspaceId } = useParams();
   return (
     <>
-      <main className="flex min-h-screen w-full flex-col items-center justify-center relative isolate">
+      <main className="flex grow w-full flex-col items-center justify-center relative isolate">
         <div className="container flex flex-col items-center justify-center gap-6 px-4 py-16">
           <h1
             className={cn(

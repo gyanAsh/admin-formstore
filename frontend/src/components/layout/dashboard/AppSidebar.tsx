@@ -7,7 +7,6 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarHeader,
-  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import {
   Tooltip,
@@ -40,7 +39,6 @@ export function AppSidebar() {
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-        <SidebarTrigger className="size-7" />
       </SidebarHeader>
       <SidebarContent>
         <ScrollArea className="min-h-[150px]">

@@ -7,11 +7,17 @@ export default function DashboardLayout() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <div className="fixed flex gap-2 top-1.5 left-1.5 z-1 ">
-        <SidebarTrigger className="size-7" />
-        <ModeToggle variant={"secondary"} effect={"click"} className="size-7" />
+      <div className="relative w-full min-h-screen flex flex-col">
+        <div className="sticky top-0 flex items-center justify-between p-2 gap-2 bg-sidebar mt-2 mx-2 h-11 rounded-lg">
+          <SidebarTrigger className="size-7" />
+          <ModeToggle
+            variant="outline"
+            effect={"click"}
+            className="size-7 bg-black text-white dark:bg-white dark:hover:text-white   dark:text-black"
+          />
+        </div>
+        <Outlet />
       </div>
-      <Outlet />
     </SidebarProvider>
   );
 }
