@@ -14,14 +14,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import {
-  Delete,
-  FolderEditIcon,
-  MoreHorizontal,
-  Plus,
-  Share2,
-} from "lucide-react";
+import { Delete, FolderEditIcon, MoreHorizontal, Share2 } from "lucide-react";
 import { Link } from "react-router";
+import AddWorkspace from "./AddWorkspaceButton";
 
 const WorkspaceGroup = () => {
   const projects = [
@@ -37,10 +32,7 @@ const WorkspaceGroup = () => {
           <WorkspaceIcon />
           <Label>Workspaces</Label>
         </div>
-        <Button className="size-7" variant={"default"}>
-          <Plus strokeWidth={3} />{" "}
-          <span className="sr-only">Add Workspace</span>
-        </Button>
+        <AddWorkspace />
       </section>
 
       <SidebarGroupContent>
@@ -106,7 +98,7 @@ const WorkspaceGroup = () => {
 
 export default WorkspaceGroup;
 
-const WorkspaceIcon = () => {
+export const WorkspaceIcon = ({ ...props }) => {
   return (
     <svg
       width="20"
@@ -114,6 +106,7 @@ const WorkspaceIcon = () => {
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...props}
     >
       <path
         d="M11.6048 5.75H16.1667C17.1332 5.75 17.9167 6.5335 17.9167 7.5V14.0556C17.9167 15.0221 17.1332 15.8056 16.1667 15.8056H4.5C3.5335 15.8056 2.75 15.0221 2.75 14.0556V7.97222C2.75 7.83415 2.86193 7.72222 3 7.72222H7.30751C8.01032 7.72222 8.69419 7.4944 9.25659 7.07291L10.5553 6.09963C10.8581 5.87267 11.2263 5.75 11.6048 5.75Z"

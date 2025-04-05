@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/dialog";
 
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { z } from "zod";
@@ -98,7 +97,7 @@ export default function SignInButton() {
       <DialogTrigger asChild>
         <Button variant="default">Sign in</Button>
       </DialogTrigger>
-      <DialogContent className="bg-[var(--sidebar)]">
+      <DialogContent>
         <div className="flex flex-col items-center gap-2">
           <div
             className="flex size-11 shrink-0 items-center justify-center rounded-full border"
