@@ -8,12 +8,7 @@ import {
   SidebarGroup,
   SidebarHeader,
 } from "@/components/ui/sidebar";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+
 import { Crown } from "lucide-react";
 import { Footer } from "@/components/layout/dashboard/Footer";
 import WorkspaceGroup from "./Workspace";
@@ -22,23 +17,12 @@ export function AppSidebar() {
   return (
     <Sidebar variant="floating" collapsible="offcanvas">
       <SidebarHeader className="flex-row justify-between">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger className="flex flex-row w-fit items-center gap-2">
-              <Avatar>
-                <AvatarImage
-                  src="https://github.com/shadcn.png"
-                  alt="@shadcn"
-                />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-              <h2 className=" font-bold"> Chad CN</h2>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>I am the creator of this library, soon to be Gigachad CN</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <h2
+          className="font-bold text-2xl"
+          style={{ textShadow: "1px 1px 2px #e7f900" }}
+        >
+          Formstore
+        </h2>
       </SidebarHeader>
       <SidebarContent>
         <ScrollArea className="min-h-[150px]">
