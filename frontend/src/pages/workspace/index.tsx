@@ -28,7 +28,7 @@ export default memo(function Workspace() {
             />
           </section>
 
-          <div className="container grow flex flex-col items-center justify-center gap-6 px-4 py-16">
+          <div className="grow flex flex-col items-center justify-center gap-6 px-4 py-16">
             <h1
               className={cn(
                 "inline-flex tracking-tight flex-col gap-1 transition text-center",
