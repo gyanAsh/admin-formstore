@@ -76,7 +76,11 @@ func (s *Service) loginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	json.NewEncoder(w).Encode(map[string]interface{}{
+	if err = json.NewEncoder(w).Encode(map[string]interface{}{
 		"jwt_token": tokenString,
-	})
+	}); err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 }
