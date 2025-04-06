@@ -17,6 +17,7 @@ import {
   LogOut,
   Logs,
   Search,
+  Settings,
   Timer,
   User,
 } from "lucide-react";
@@ -31,7 +32,7 @@ export function Footer() {
           console.log("logout-user");
         }}
       >
-        <LogOut strokeWidth={3} /> Sign Out
+        <LogOut strokeWidth={2} /> Sign Out
       </Button> */}
       <SidebarMenu>
         <SidebarMenuItem>
@@ -49,7 +50,10 @@ export function Footer() {
                   <span className="truncate font-medium">{"Chad CN"}</span>
                 </div>
                 <div className="size-8 rounded-lg flex items-center justify-center bg-sidebar-accent/50 in-[[data-slot=dropdown-menu-trigger]:hover]:bg-transparent">
-                  <EllipsisVertical className="size-5 opacity-40" size={20} />
+                  <Settings
+                    className="size-5 opacity-80 hover:-rotate-45 duration-200 active:scale-95"
+                    size={20}
+                  />
                 </div>
               </SidebarMenuButton>
             </DropdownMenuTrigger>
@@ -69,7 +73,7 @@ export function Footer() {
                     console.log("logout-user");
                   }}
                 >
-                  <Timer strokeWidth={3} /> Dashboard
+                  <Timer strokeWidth={2} /> Dashboard
                 </Button>
               </DropdownMenuItem>
 
@@ -82,7 +86,7 @@ export function Footer() {
                     console.log("logout-user");
                   }}
                 >
-                  <User strokeWidth={3} /> Profile
+                  <User strokeWidth={2} /> Profile
                 </Button>
               </DropdownMenuItem>
               <DropdownMenuItem asChild className="gap-3 px-1 mb-1">
@@ -94,7 +98,7 @@ export function Footer() {
                     console.log("logout-user");
                   }}
                 >
-                  <Logs strokeWidth={3} /> Analysis
+                  <Logs strokeWidth={2} /> Analysis
                 </Button>
               </DropdownMenuItem>
               <DropdownMenuItem asChild className="gap-3 px-1 mb-1">
@@ -106,7 +110,7 @@ export function Footer() {
                     console.log("logout-user");
                   }}
                 >
-                  <Search strokeWidth={3} /> History
+                  <Search strokeWidth={2} /> History
                 </Button>
               </DropdownMenuItem>
               <DropdownMenuItem asChild className="gap-3 px-1">
@@ -118,7 +122,7 @@ export function Footer() {
                     console.log("logout-user");
                   }}
                 >
-                  <LogOut strokeWidth={3} /> Sign Out
+                  <LogOut strokeWidth={2} /> Sign Out
                 </Button>
               </DropdownMenuItem>
             </DropdownMenuContent>
