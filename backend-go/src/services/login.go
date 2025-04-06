@@ -6,14 +6,8 @@ import (
 	"net/http"
 )
 
-type UserLoginData struct {
-	ID       int64  `json:"id", omitempty`
-	Username string `json:"username"`
-	Password string `json:"password"`
-}
-
 func (s *Service) loginHandler(w http.ResponseWriter, r *http.Request) {
-	var user UserLoginData
+	var user User
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
@@ -44,9 +38,8 @@ func (s *Service) loginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	row := s.DB.QueryRow(r.Context(), `SELECT ID, password FROM users WHERE username = $1`, user.Username)
-	var dbUserID int64
 	var dbUserPassword string
-	if err := row.Scan(&dbUserID, &dbUserPassword); err != nil {
+	if err := row.Scan(&user.ID, &dbUserPassword); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(map[string]interface{}{
@@ -63,8 +56,12 @@ func (s *Service) loginHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-
-	tokenString, err := generateAuthToken(dbUserID, s.JwtSecret)
+	if user.ID == 0 {
+		log.Println("invalid value in user id")
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	tokenString, err := generateAuthToken(user.ID, s.JwtSecret)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
