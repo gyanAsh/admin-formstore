@@ -17,6 +17,7 @@ import {
 import { Delete, FolderEditIcon, MoreHorizontal, Share2 } from "lucide-react";
 import { Link } from "react-router";
 import AddWorkspace from "./AddWorkspaceButton";
+import { useQuery } from "@tanstack/react-query";
 
 const WorkspaceGroup = () => {
   const projects = [
@@ -24,6 +25,26 @@ const WorkspaceGroup = () => {
     { id: 2, name: "JY Meeting" },
     { id: 3, name: "Nova Forms" },
   ];
+
+  const { isPending, error, data }  = useQuery({
+    queryKey: ['api-workspaces'],
+    queryFn: async () => {
+      try {
+        const res = await fetch(`/api/workspaces`, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${localStorage.getItem("auth-token")}`,
+            "Content-Type": "application/json",
+          }
+        });
+        const data = await res.text();
+        return data;
+      } catch(err) {
+        console.error(err);
+      }
+      return [];
+    },
+  });
 
   return (
     <SidebarGroup className="grid gap-1">
