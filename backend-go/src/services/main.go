@@ -56,6 +56,7 @@ func HttpServiceStart() error {
 	mux.HandleFunc("POST /api/workspace", s.workspaceCreateHandler)
 	mux.HandleFunc("POST /api/workspace/form", s.formCreateHandler)
 	mux.HandleFunc("POST /api/login", s.loginHandler)
+	mux.HandleFunc("POST /api/signup", s.signupHandler)
 
 	log.Println("running on: http://localhost:4000")
 	return http.ListenAndServe(":4000", LoggingMiddleware(mux))
