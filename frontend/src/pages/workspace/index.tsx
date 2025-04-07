@@ -1,4 +1,4 @@
-import BreadCrumbs from "@/components/layout/dashboard/BreadCrumbs";
+import BreadCrumbs from "@/pages/workspace/BreadCrumbs";
 import ModeToggle from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -29,7 +29,15 @@ export default memo(function Workspace() {
                 className="bg-accent-foreground/40"
                 decorative
               />
-              <BreadCrumbs />
+              <BreadCrumbs
+                currentPage={`${workspaceId}`}
+                otherPageLinks={[
+                  {
+                    name: "Workspace",
+                    path: "/workspace",
+                  },
+                ]}
+              />
             </div>
 
             <ModeToggle
