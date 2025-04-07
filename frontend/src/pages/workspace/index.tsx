@@ -1,6 +1,8 @@
+import BreadCrumbs from "@/components/layout/dashboard/BreadCrumbs";
 import ModeToggle from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { useSidebar } from "@/components/ui/sidebar";
 import {
   Tooltip,
@@ -20,7 +22,16 @@ export default memo(function Workspace() {
         <Card className="flex w-full grow p-2 overflow-y-auto border-sidebar-accent relative">
           {/* top-navbar */}
           <section className="sticky top-0 flex items-center justify-between p-2 gap-2 w-full">
-            <SidebarTriggerButton className="size-7" />
+            <div className="flex h-5 items-center justify-between space-x-3">
+              <SidebarTriggerButton className="size-7" />
+              <Separator
+                orientation="vertical"
+                className="bg-accent-foreground/40"
+                decorative
+              />
+              <BreadCrumbs />
+            </div>
+
             <ModeToggle
               variant="outline"
               effect={"click"}
