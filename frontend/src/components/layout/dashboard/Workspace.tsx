@@ -15,31 +15,34 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Delete, FolderEditIcon, MoreHorizontal, Share2 } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useParams } from "react-router";
 import AddWorkspace from "./AddWorkspaceButton";
 import { useQuery } from "@tanstack/react-query";
+import { cn } from "@/lib/utils";
 
 const WorkspaceGroup = () => {
+  const { workspaceId } = useParams();
+
   const projects = [
     { id: 1, name: "First project" },
     { id: 2, name: "JY Meeting" },
     { id: 3, name: "Nova Forms" },
   ];
 
-  const { isPending, error, data }  = useQuery({
-    queryKey: ['api-workspaces'],
+  const { isPending, error, data } = useQuery({
+    queryKey: ["api-workspaces"],
     queryFn: async () => {
       try {
         const res = await fetch(`/api/workspaces`, {
           method: "GET",
           headers: {
-            "Authorization": `Bearer ${localStorage.getItem("auth-token")}`,
+            Authorization: `Bearer ${localStorage.getItem("auth-token")}`,
             "Content-Type": "application/json",
-          }
+          },
         });
         const data = await res.text();
         return data;
-      } catch(err) {
+      } catch (err) {
         console.error(err);
       }
       return [];
@@ -63,7 +66,9 @@ const WorkspaceGroup = () => {
               <SidebarMenuButton asChild>
                 <Button
                   variant="outline"
-                  className="flex justify-start"
+                  className={cn("flex justify-start", {
+                    "bg-accent": workspaceId === project.id.toString(),
+                  })}
                   asChild
                 >
                   <Link to={project.id.toString()}>
@@ -73,7 +78,12 @@ const WorkspaceGroup = () => {
               </SidebarMenuButton>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <SidebarMenuAction>
+                  <SidebarMenuAction
+                    className={cn("", {
+                      "hover:bg-background":
+                        workspaceId === project.id.toString(),
+                    })}
+                  >
                     <MoreHorizontal />
                   </SidebarMenuAction>
                 </DropdownMenuTrigger>

@@ -35,34 +35,32 @@ export function Footer() {
         <LogOut strokeWidth={2} /> Sign Out
       </Button> */}
       <SidebarMenu>
-        <SidebarMenuItem>
+        <SidebarMenuItem className="flex items-center justify-between">
+          <div className="flex items-center gap-1">
+            <Avatar className="in-data-[state=expanded]:size-6 transition-[width,height] duration-200 ease-in-out">
+              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+            <div className="grid flex-1 text-left text-sm leading-tight ms-1">
+              <span className="truncate font-medium">{"Chad CN"}</span>
+            </div>
+          </div>
+
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <SidebarMenuButton className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
-                <Avatar className="in-data-[state=expanded]:size-6 transition-[width,height] duration-200 ease-in-out">
-                  <AvatarImage
-                    src="https://github.com/shadcn.png"
-                    alt="@shadcn"
-                  />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-                <div className="grid flex-1 text-left text-sm leading-tight ms-1">
-                  <span className="truncate font-medium">{"Chad CN"}</span>
-                </div>
-                <div className="size-8 rounded-lg flex items-center justify-center bg-sidebar-accent/50 in-[[data-slot=dropdown-menu-trigger]:hover]:bg-transparent">
-                  <Settings
-                    className="size-5 opacity-80 hover:-rotate-45 duration-200 active:scale-95"
-                    size={20}
-                  />
-                </div>
-              </SidebarMenuButton>
-            </DropdownMenuTrigger>
+            <div className="size-8 rounded-lg flex items-center justify-center bg-sidebar-accent in-[[data-slot=dropdown-menu-trigger]:hover]:bg-transparent">
+              <DropdownMenuTrigger asChild>
+                <Settings
+                  className="size-5 opacity-80 hover:-rotate-45 duration-200 active:scale-95 cursor-pointer"
+                  size={20}
+                />
+              </DropdownMenuTrigger>
+            </div>
             <DropdownMenuContent
               className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-              // sideOffset={4}
-              side={isMobile ? "top" : "right"}
-              align="start"
-              sideOffset={-5}
+              side="top"
+              align="end"
+              alignOffset={-5}
+              sideOffset={6}
             >
               <DropdownMenuItem asChild className="gap-3 px-1 mb-1">
                 <Button
