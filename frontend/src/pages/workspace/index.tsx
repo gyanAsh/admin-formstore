@@ -11,12 +11,54 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { memo, SVGProps } from "react";
-import { NavLink, useParams } from "react-router";
+import React, { memo, SVGProps } from "react";
+import { useParams } from "react-router";
 import { FigmaAdd } from "@/components/icons";
-
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Ellipsis } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useQuery } from "@tanstack/react-query";
+import { useVirtualizer } from "@tanstack/react-virtual";
 export default memo(function Workspace() {
   const { workspaceId } = useParams();
+
+  // const {
+  //   data: forms_data,
+  //   isPending: loading_forms,
+  //   isSuccess: fetched_forms,
+  // } = useQuery({
+  //   queryKey: ["get-forms"],
+  //   queryFn: async () => {
+  //     const workspace_id = parseInt(workspaceId as string);
+  //     if (!isNaN(workspace_id)) {
+  //       const res = await client.form.list.$get({ workspace_id: workspace_id });
+  //       return await res.json();
+  //     }
+  //   },
+  //   refetchOnWindowFocus: false,
+  // });
+  const forms_data = { forms: Array(5).fill({}) };
+  const parentRef = React.useRef(null);
+
+  // The virtualizer
+  const rowVirtualizer = useVirtualizer({
+    count: forms_data?.forms.length ?? 0,
+    // count: 0,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 35,
+  });
+
   return (
     <>
       <main className="flex grow w-full flex-col items-center justify-center p-2">
@@ -57,27 +99,144 @@ export default memo(function Workspace() {
               />
             </div>
           </section>
-          <div className="grow flex flex-col items-center justify-center gap-6 px-4 border-t-1 border-t-accent-foreground/40">
-            <h1
-              className={cn(
-                "inline-flex tracking-tight flex-col gap-1 transition text-center",
-                "font-display text-4xl sm:text-5xl md:text-6xl font-semibold leading-none lg:text-[4rem]",
-                "bg-gradient-to-r from-20% bg-clip-text text-transparent",
-                "from-blue-500 to-purple-500"
-              )}
-            >
-              <span>WordspaceID : {workspaceId}</span>
-            </h1>
-            <p className="text-lg/7 md:text-xl/8 text-pretty sm:text-wrap sm:text-center text-center mb-8">
-              The stack for building seriously fast, lightweight and{" "}
-              <span className="inline sm:block">
-                this is it's Workspace page.
-              </span>
-            </p>
-            <Button asChild>
-              <NavLink to={"/"}>Home</NavLink>
-            </Button>
-          </div>
+          <section className="grow gap-3">
+            {false ? (
+              <section className="flex flex-col gap-3 m-4">
+                <Skeleton className="w-[120px] h-[40px]" />
+                <Skeleton className="w-full h-[55px]" />
+                <Skeleton className="w-full h-[55px]" />
+              </section>
+            ) : true ? (
+              <>
+                <section className="flex justify-between w-full">
+                  <div className="flex items-center gap-1">
+                    {/* {forms_data?.workspace?.name} */}
+                    workspace
+                  </div>
+                  <div className="flex gap-2 mx-6">
+                    <Select>
+                      <SelectTrigger className="w-[95px]">
+                        <SelectValue placeholder="Filter" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="light">
+                          All Forms (Default)
+                        </SelectItem>
+                        <SelectItem value="dark">Drafted Form</SelectItem>
+                        <SelectItem value="system">Published Form</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Select>
+                      <SelectTrigger className="w-[95px]">
+                        <SelectValue placeholder="Sort" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="light">
+                          Last Updated (Default)
+                        </SelectItem>
+                        <SelectItem value="dark">Date created</SelectItem>
+                        <SelectItem value="system">Alphabetical</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </section>
+                <div className="flex flex-col gap-2">
+                  {/* The scrollable element for your list */}
+                  <div className="grid grid-cols-5 gap-4 text-start">
+                    <div>ID</div>
+                    <div>Title</div>
+                    <div>Status</div>
+                    <div>Response</div>
+                    <div>Updated</div>
+                  </div>
+                  <div
+                    ref={parentRef}
+                    style={{
+                      height: `calc(100dvh - 180px)`,
+                      overflow: "auto", // Make it scroll!
+                    }}
+                  >
+                    {/* The large inner element to hold all of the items */}
+                    <div
+                      style={{
+                        height: `${rowVirtualizer.getTotalSize()}px`,
+                        width: "100%",
+                        position: "relative",
+                      }}
+                    >
+                      {/* Only the visible items in the virtualizer, manually positioned to be in view */}
+                      {rowVirtualizer.getVirtualItems().map((virtualItem) => (
+                        <Button
+                          key={virtualItem.key}
+                          style={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            width: "100%",
+                            height: `${virtualItem.size}px`,
+                            transform: `translateY(${virtualItem.start}px)`,
+                          }}
+                          variant={"violet_secondary"}
+                          className="grid grid-cols-5 gap-4 text-start border-b-2 active:scale-[0.998] active:translate-y-[3px]"
+                          onClick={() => console.log("btb lick lcik")}
+                        >
+                          <div>
+                            {/* ID{forms_data?.forms[virtualItem.index]?.id} */}
+                            ID_FORM
+                          </div>
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger
+                                className=" overflow-hidden text-start"
+                                asChild
+                              >
+                                <div>
+                                  {/* {forms_data?.forms[virtualItem.index]?.title} */}
+                                  FORM TITLE
+                                </div>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>
+                                  {/* {forms_data?.forms[virtualItem.index]?.title} */}
+                                  FORM TITLE
+                                </p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                          <div className=" capitalize">
+                            {/* {forms_data?.forms[virtualItem.index]?.status} */}
+                            STATUS DRAFT/PUBLISHED
+                          </div>
+                          <div>
+                            {/* {forms_data?.forms[virtualItem.index]?.response} */}
+                            RESPONSE COUNT
+                          </div>
+                          <div>
+                            {/* {forms_data?.forms[
+                        virtualItem.index
+                      ]?.updatedAt.toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      })} */}
+                            DATE
+                          </div>
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div>
+                <div className="text-red-600">Error</div>
+                <div>
+                  Something went wrong while fetching your forms. Please try
+                  again later
+                </div>
+              </div>
+            )}
+          </section>
         </Card>
       </main>
     </>

@@ -88,6 +88,7 @@ const WorkspaceGroup = () => {
                   </SidebarMenuAction>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
+                  className="space-y-0.5"
                   side="right"
                   align="start"
                   alignOffset={-5}
@@ -109,7 +110,7 @@ const WorkspaceGroup = () => {
                     />
                     Rename
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
+                  <DropdownMenuItem className="bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60">
                     <Delete
                       size={16}
                       className="opacity-60"
