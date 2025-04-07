@@ -13,6 +13,7 @@ import {
 import { cn } from "@/lib/utils";
 import { memo, SVGProps } from "react";
 import { NavLink, useParams } from "react-router";
+import { FigmaAdd } from "@/components/icons";
 
 export default memo(function Workspace() {
   const { workspaceId } = useParams();
@@ -21,7 +22,7 @@ export default memo(function Workspace() {
       <main className="flex grow w-full flex-col items-center justify-center p-2">
         <Card className="flex w-full grow p-2 overflow-y-auto border-sidebar-accent relative">
           {/* top-navbar */}
-          <section className="sticky top-0 flex items-center justify-between p-2 gap-2 w-full">
+          <section className="sticky top-0 flex items-center justify-between pt-2 px-2 w-full">
             <div className="flex h-5 items-center justify-between space-x-3">
               <SidebarTriggerButton className="size-7" />
               <Separator
@@ -40,14 +41,23 @@ export default memo(function Workspace() {
               />
             </div>
 
-            <ModeToggle
-              variant="outline"
-              effect={"click"}
-              className="size-7 bg-black text-white dark:bg-white dark:hover:text-white   dark:text-black"
-            />
+            <div className="flex h-5 items-center justify-between space-x-3">
+              <Button effect={"click"}>
+                <FigmaAdd /> Create Form
+              </Button>
+              <Separator
+                orientation="vertical"
+                className="bg-accent-foreground/40"
+                decorative
+              />
+              <ModeToggle
+                variant="outline"
+                effect={"click"}
+                className="size-7 bg-black text-white dark:bg-white dark:hover:text-white   dark:text-black"
+              />
+            </div>
           </section>
-
-          <div className="grow flex flex-col items-center justify-center gap-6 px-4 py-16">
+          <div className="grow flex flex-col items-center justify-center gap-6 px-4 border-t-1 border-t-accent-foreground/40">
             <h1
               className={cn(
                 "inline-flex tracking-tight flex-col gap-1 transition text-center",
