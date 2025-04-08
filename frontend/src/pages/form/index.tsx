@@ -1,11 +1,4 @@
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -48,7 +41,7 @@ export default memo(function Form() {
                   },
                   {
                     name: "Workspace Name",
-                    path: "/workspace/${workspaceId}",
+                    path: `/workspace/${workspaceId}`,
                   },
                 ]}
               />
@@ -70,7 +63,7 @@ export default memo(function Form() {
               />
             </div>
           </section>
-          <section className="grow gap-3">
+          <section className="grow flex flex-col border gap-3">
             {false ? (
               <section className="flex flex-col gap-3 m-4">
                 <Skeleton className="w-[120px] h-[40px]" />
@@ -78,7 +71,20 @@ export default memo(function Form() {
                 <Skeleton className="w-full h-[55px]" />
               </section>
             ) : true ? (
-              <div className="flex flex-col px-2 gap-3">Create Form</div>
+              <>
+                <div className="flex flex-col px-2 gap-3 max-w-[770px] w-full border mx-auto bg-rose-500">
+                  update theme color radio btn + new theme layout select option
+                  + single page layout/ one form layout toggle btn + preview
+                  page btn{" "}
+                </div>
+                <div className="flex flex-col px-2 gap-3 max-w-[770px] w-full border mx-auto bg-rose-500">
+                  by defalut here will be elements options{" "}
+                </div>
+                <div className="flex flex-col px-2 gap-3 max-w-[200px] border mx-auto bg-rose-500">
+                  + (this will be a add btn) to create new page element
+                </div>
+                *these element pages are dragable.
+              </>
             ) : (
               <div>
                 <div className="text-red-600">Error</div>
