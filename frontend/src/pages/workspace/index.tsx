@@ -107,15 +107,15 @@ export default memo(function Workspace() {
                 <Skeleton className="w-full h-[55px]" />
               </section>
             ) : true ? (
-              <>
+              <div className="flex flex-col px-2 gap-3">
                 <section className="flex justify-between w-full">
                   <div className="flex items-center gap-1">
                     {/* {forms_data?.workspace?.name} */}
-                    workspace
+                    Workspace Name
                   </div>
                   <div className="flex gap-2 mx-6">
                     <Select>
-                      <SelectTrigger className="w-[95px]">
+                      <SelectTrigger>
                         <SelectValue placeholder="Filter" />
                       </SelectTrigger>
                       <SelectContent>
@@ -127,7 +127,7 @@ export default memo(function Workspace() {
                       </SelectContent>
                     </Select>
                     <Select>
-                      <SelectTrigger className="w-[95px]">
+                      <SelectTrigger>
                         <SelectValue placeholder="Sort" />
                       </SelectTrigger>
                       <SelectContent>
@@ -140,7 +140,7 @@ export default memo(function Workspace() {
                     </Select>
                   </div>
                 </section>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-3">
                   {/* The scrollable element for your list */}
                   <div className="grid grid-cols-5 gap-4 text-start">
                     <div>ID</div>
@@ -177,7 +177,7 @@ export default memo(function Workspace() {
                             transform: `translateY(${virtualItem.start}px)`,
                           }}
                           variant={"violet_secondary"}
-                          className="grid grid-cols-5 gap-4 text-start border-b-2 active:scale-[0.998] active:translate-y-[3px]"
+                          className="grid grid-cols-5 gap-4 text-start border active:scale-[0.998] active:translate-y-[3px]"
                           onClick={() => console.log("btb lick lcik")}
                         >
                           <div>
@@ -226,7 +226,7 @@ export default memo(function Workspace() {
                     </div>
                   </div>
                 </div>
-              </>
+              </div>
             ) : (
               <div>
                 <div className="text-red-600">Error</div>
