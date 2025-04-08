@@ -18,7 +18,7 @@ func (s *Service) loginHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-	if user.Username == "" {
+	if user.Email == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(map[string]interface{}{
 			"message": "missing or null field email",
@@ -37,7 +37,7 @@ func (s *Service) loginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	row := s.DB.QueryRow(r.Context(), `SELECT ID, password FROM users WHERE username = $1`, user.Username)
+	row := s.DB.QueryRow(r.Context(), `SELECT ID, password FROM users WHERE email = $1`, user.Email)
 	var dbUserPassword string
 	if err := row.Scan(&user.ID, &dbUserPassword); err != nil {
 		log.Println(err)
@@ -50,7 +50,7 @@ func (s *Service) loginHandler(w http.ResponseWriter, r *http.Request) {
 	if dbUserPassword != user.Password {
 		w.WriteHeader(http.StatusUnauthorized)
 		if err := json.NewEncoder(w).Encode(map[string]interface{}{
-			"message": "incorrect username or password",
+			"message": "incorrect email or password",
 		}); err != nil {
 			log.Println(err)
 		}
