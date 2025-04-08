@@ -1,26 +1,3 @@
-import BreadCrumbs from "@/pages/workspace/BreadCrumbs";
-import ModeToggle from "@/components/theme-toggle";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { useSidebar } from "@/components/ui/sidebar";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
-import React, { memo, SVGProps } from "react";
-import { useParams } from "react-router";
-import { FigmaAdd } from "@/components/icons";
-import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Ellipsis } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -28,7 +5,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useQuery } from "@tanstack/react-query";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import ModeToggle from "@/components/theme-toggle";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useSidebar } from "@/components/ui/sidebar";
+import { Separator } from "@/components/ui/separator";
+import BreadCrumbs from "@/components/bread-crumbs";
+import React, { memo, SVGProps } from "react";
+import { FigmaAdd } from "@/components/icons";
+import { Link, useParams } from "react-router";
 import { useVirtualizer } from "@tanstack/react-virtual";
 export default memo(function Workspace() {
   const { workspaceId } = useParams();
@@ -73,7 +66,7 @@ export default memo(function Workspace() {
                 decorative
               />
               <BreadCrumbs
-                currentPage={`${workspaceId}`}
+                currentPage={`Workspace Name`}
                 otherPageLinks={[
                   {
                     name: "Workspace",
@@ -165,64 +158,69 @@ export default memo(function Workspace() {
                       }}
                     >
                       {/* Only the visible items in the virtualizer, manually positioned to be in view */}
-                      {rowVirtualizer.getVirtualItems().map((virtualItem) => (
-                        <Button
-                          key={virtualItem.key}
-                          style={{
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
-                            width: "100%",
-                            height: `${virtualItem.size}px`,
-                            transform: `translateY(${virtualItem.start}px)`,
-                          }}
-                          variant={"violet_secondary"}
-                          className="grid grid-cols-5 gap-4 text-start border active:scale-[0.998] active:translate-y-[3px]"
-                          onClick={() => console.log("btb lick lcik")}
-                        >
-                          <div>
-                            {/* ID{forms_data?.forms[virtualItem.index]?.id} */}
-                            ID_FORM
-                          </div>
-                          <TooltipProvider>
-                            <Tooltip>
-                              <TooltipTrigger
-                                className=" overflow-hidden text-start"
-                                asChild
-                              >
-                                <div>
-                                  {/* {forms_data?.forms[virtualItem.index]?.title} */}
-                                  FORM TITLE
-                                </div>
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <p>
-                                  {/* {forms_data?.forms[virtualItem.index]?.title} */}
-                                  FORM TITLE
-                                </p>
-                              </TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
-                          <div className=" capitalize">
-                            {/* {forms_data?.forms[virtualItem.index]?.status} */}
-                            STATUS DRAFT/PUBLISHED
-                          </div>
-                          <div>
-                            {/* {forms_data?.forms[virtualItem.index]?.response} */}
-                            RESPONSE COUNT
-                          </div>
-                          <div>
-                            {/* {forms_data?.forms[
+                      {rowVirtualizer
+                        .getVirtualItems()
+                        .map((virtualItem, idx) => (
+                          <Button
+                            key={virtualItem.key}
+                            style={{
+                              position: "absolute",
+                              top: 0,
+                              left: 0,
+                              width: "100%",
+                              height: `${virtualItem.size}px`,
+                              transform: `translateY(${virtualItem.start}px)`,
+                            }}
+                            variant={"violet_secondary"}
+                            className="grid grid-cols-5 gap-4 text-start border active:scale-[0.998] active:translate-y-[2px]"
+                            onClick={() => console.log("btb lick lcik")}
+                            asChild
+                          >
+                            <Link to={`/workspace/${workspaceId}/${idx + 1}`}>
+                              <div>
+                                {/* ID{forms_data?.forms[virtualItem.index]?.id} */}
+                                ID_FORM
+                              </div>
+                              <TooltipProvider>
+                                <Tooltip>
+                                  <TooltipTrigger
+                                    className=" overflow-hidden text-start"
+                                    asChild
+                                  >
+                                    <div>
+                                      {/* {forms_data?.forms[virtualItem.index]?.title} */}
+                                      FORM TITLE
+                                    </div>
+                                  </TooltipTrigger>
+                                  <TooltipContent>
+                                    <p>
+                                      {/* {forms_data?.forms[virtualItem.index]?.title} */}
+                                      FORM TITLE
+                                    </p>
+                                  </TooltipContent>
+                                </Tooltip>
+                              </TooltipProvider>
+                              <div className=" capitalize">
+                                {/* {forms_data?.forms[virtualItem.index]?.status} */}
+                                STATUS DRAFT/PUBLISHED
+                              </div>
+                              <div>
+                                {/* {forms_data?.forms[virtualItem.index]?.response} */}
+                                RESPONSE COUNT
+                              </div>
+                              <div>
+                                {/* {forms_data?.forms[
                         virtualItem.index
                       ]?.updatedAt.toLocaleDateString("en-GB", {
                         day: "2-digit",
                         month: "short",
                         year: "numeric",
                       })} */}
-                            DATE
-                          </div>
-                        </Button>
-                      ))}
+                                DATE
+                              </div>
+                            </Link>
+                          </Button>
+                        ))}
                     </div>
                   </div>
                 </div>

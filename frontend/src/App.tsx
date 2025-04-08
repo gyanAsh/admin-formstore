@@ -4,8 +4,9 @@ import About from "@/pages/about";
 import { Route, Routes } from "react-router";
 import DashboardLayout from "@/components/layout/dashboard";
 import Workspace from "@/pages/workspace";
-import HeroLayout from "./components/layout/hero";
+import HeroLayout from "@/components/layout/hero";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import Form from "@/pages/form";
 
 export default function App() {
   const queryClient = new QueryClient();
@@ -29,7 +30,10 @@ export default function App() {
           <Route path="about" element={<About />} />
         </Route>
         <Route path="/workspace" element={<DashboardLayout />}>
-          <Route path=":workspaceId" element={<Workspace />} />
+          <Route path=":workspaceId">
+            <Route index element={<Workspace />} />
+            <Route path=":fromId" element={<Form />} />
+          </Route>
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
