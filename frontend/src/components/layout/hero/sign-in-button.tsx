@@ -22,6 +22,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { QueryClient, useMutation } from "@tanstack/react-query";
 
 export const loginFormSchema = z.object({
   email: z.string().min(4, {
@@ -65,6 +66,27 @@ export const registerLoginFormSchema = z
 export default function SignInButton() {
   const id = useId();
 
+  const queryClient = new QueryClient();
+  const signupUserMutation = useMutation({
+    mutationFn: async ({email, password}: {email: string, password: string}) => {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password
+        }),
+      });
+      const data = await res.json();
+      return data;
+    },
+    onSuccess: (data) => {
+      localStorage.setItem("auth-token", data?.jwt_token);
+    },
+  });
+
   const loginForm = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -84,7 +106,7 @@ export default function SignInButton() {
 
   // 2. Define a submit handler.
   function onLoginSubmit(values: z.infer<typeof loginFormSchema>) {
-    console.log(values);
+    signupUserMutation.mutate(values);
   }
   function onRegisterLoginSubmit(
     values: z.infer<typeof registerLoginFormSchema>
