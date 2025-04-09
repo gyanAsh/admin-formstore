@@ -67,7 +67,7 @@ export default function SignInButton() {
   const id = useId();
 
   const queryClient = new QueryClient();
-  const signupUserMutation = useMutation({
+  const signinMutation = useMutation({
     mutationFn: async ({email, password}: {email: string, password: string}) => {
       const res = await fetch("/api/login", {
         method: "POST",
@@ -77,6 +77,26 @@ export default function SignInButton() {
         body: JSON.stringify({
           email: email,
           password: password
+        }),
+      });
+      const data = await res.json();
+      return data;
+    },
+    onSuccess: (data) => {
+      localStorage.setItem("auth-token", data?.jwt_token);
+    },
+  });
+  const registerMutation = useMutation({
+    mutationFn: async ({username, email, password}: {username: string, email: string, password: string}) => {
+      const res = await fetch("/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+          email: email,
+          password: password,
         }),
       });
       const data = await res.json();
@@ -106,12 +126,17 @@ export default function SignInButton() {
 
   // 2. Define a submit handler.
   function onLoginSubmit(values: z.infer<typeof loginFormSchema>) {
-    signupUserMutation.mutate(values);
+    signinMutation.mutate(values);
   }
   function onRegisterLoginSubmit(
     values: z.infer<typeof registerLoginFormSchema>
   ) {
-    console.log(values);
+    const {username, email, password, confirmPassword} = values;
+    if (password === confirmPassword) {
+      registerMutation.mutate({username, email, password});
+    } else {
+      console.error("passswords don't match");
+    }
   }
 
   return (
