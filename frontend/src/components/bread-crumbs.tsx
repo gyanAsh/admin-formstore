@@ -35,18 +35,16 @@ export default function BreadCrumbs({
           return (
             <>
               <BreadcrumbItem>
-                <Link to={link?.path || ""}>
-                  <BreadcrumbLink>
-                    {link.icons !== undefined ? (
-                      <>
-                        <HomeIcon size={16} aria-hidden="true" />
-                        <span className="sr-only">Home</span>
-                      </>
-                    ) : (
+                <BreadcrumbLink to={link?.path || ""}>
+                  {link.icons !== undefined ? (
+                    <>
+                      <HomeIcon size={16} aria-hidden="true" />
+                      <span className="sr-only">Home</span>
+                    </>
+                  ) : (
                       link.name
                     )}
-                  </BreadcrumbLink>
-                </Link>
+                </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator> / </BreadcrumbSeparator>
             </>

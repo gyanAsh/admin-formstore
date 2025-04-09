@@ -1,6 +1,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { ChevronRightIcon, MoreHorizontal } from "lucide-react"
+import { Link } from "react-router";
 
 import { cn } from "@/lib/utils"
 
@@ -31,17 +32,24 @@ function BreadcrumbItem({ className, ...props }: React.ComponentProps<"li">) {
   )
 }
 
+// Change `"a"` to Link and forward `to` as props to Comp that could be
+// forwarded to Slot for various reasons. I am not aware as of writing this
+// that there would be an issure or not. But uf you have made it here then it
+// means that there is some error. Thus you may want to conditionally render
+// in case of Slot.
 function BreadcrumbLink({
+  to,
   asChild,
   className,
   ...props
 }: React.ComponentProps<"a"> & {
   asChild?: boolean
 }) {
-  const Comp = asChild ? Slot : "a"
+  const Comp = asChild ? Slot : Link
 
   return (
     <Comp
+      to={to}
       data-slot="breadcrumb-link"
       className={cn("hover:text-foreground transition-colors", className)}
       {...props}
