@@ -20,16 +20,17 @@ import AddWorkspace from "./AddWorkspaceButton";
 import { useQuery } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
 
+type Workspace = {
+  id: number,
+  name: string,
+  created_at: string,
+  updated_at: string,
+};
+
 const WorkspaceGroup = () => {
   const { workspaceId } = useParams();
 
-  const projects = [
-    { id: 1, name: "First project" },
-    { id: 2, name: "JY Meeting" },
-    { id: 3, name: "Nova Forms" },
-  ];
-
-  const { isPending, error, data } = useQuery({
+  const { isPending: workspacesIsPending, isError: workspacesError, data: workspaces } = useQuery({
     queryKey: ["api-workspaces"],
     queryFn: async () => {
       try {
@@ -40,8 +41,8 @@ const WorkspaceGroup = () => {
             "Content-Type": "application/json",
           },
         });
-        const data = await res.text();
-        return data;
+        const data = await res.json();
+        return data as Workspace[];
       } catch (err) {
         console.error(err);
       }
@@ -61,7 +62,7 @@ const WorkspaceGroup = () => {
 
       <SidebarGroupContent>
         <SidebarMenu>
-          {projects.map((project) => (
+          {!workspacesIsPending && !workspacesError && workspaces?.map((project) => (
             <SidebarMenuItem key={project.name}>
               <SidebarMenuButton asChild>
                 <Button

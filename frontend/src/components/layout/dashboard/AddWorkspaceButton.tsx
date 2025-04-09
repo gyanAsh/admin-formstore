@@ -15,10 +15,42 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { WorkspaceIcon } from "./Workspace";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { getAuthToken } from "@/lib/utils";
 
 export default function AddWorkspace() {
   const id = useId();
   const [inputValue, setInputValue] = useState("");
+  const queryClient = useQueryClient();
+
+  const workspaceMutation = useMutation({
+    mutationFn: async ({name}) => {
+      if (name == "") {
+        console.error("name is empty");
+      }
+      const res = await fetch("/api/workspace", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${getAuthToken()}`,
+        },
+        body: JSON.stringify({
+          name: name,
+        }),
+      });
+      const data = res.json();
+      return res;
+    },
+    onSuccess: (data) => {
+      console.log(data);
+      queryClient.invalidateQueries({queryKey: ["api-workspaces"]});
+    }
+  });
+
+  function createWorkspace(event: any) {
+    event.preventDefault();
+    workspaceMutation.mutate({name: inputValue});
+  }
 
   return (
     <Dialog>
@@ -46,7 +78,7 @@ export default function AddWorkspace() {
           </DialogHeader>
         </div>
 
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={createWorkspace}>
           <div className="*:not-first:mt-2">
             <Label htmlFor={id}>Workspace name</Label>
             <Input
