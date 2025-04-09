@@ -18,7 +18,7 @@ import { Delete, FolderEditIcon, MoreHorizontal, Share2 } from "lucide-react";
 import { Link, useParams } from "react-router";
 import AddWorkspace from "./AddWorkspaceButton";
 import { useQuery } from "@tanstack/react-query";
-import { cn } from "@/lib/utils";
+import { cn, getAuthToken } from "@/lib/utils";
 
 type Workspace = {
   id: number,
@@ -37,7 +37,7 @@ const WorkspaceGroup = () => {
         const res = await fetch(`/api/workspaces`, {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("auth-token")}`,
+            Authorization: `Bearer ${getAuthToken()}`,
             "Content-Type": "application/json",
           },
         });
