@@ -8,7 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { ReactElement } from "react";
+import { Fragment, ReactElement } from "react";
 import { Link } from "react-router";
 
 export default function BreadCrumbs({
@@ -31,9 +31,9 @@ export default function BreadCrumbs({
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        {otherPageLinks.map((link) => {
+        {otherPageLinks.map((link, i) => {
           return (
-            <>
+            <Fragment key={i}>
               <BreadcrumbItem>
                 <BreadcrumbLink to={link?.path || ""}>
                   {link.icons !== undefined ? (
@@ -47,7 +47,7 @@ export default function BreadCrumbs({
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator> / </BreadcrumbSeparator>
-            </>
+            </Fragment>
           );
         })}
 
