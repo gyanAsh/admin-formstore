@@ -1,5 +1,4 @@
 import { useId, useState } from "react";
-import { Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -18,15 +17,34 @@ import { WorkspaceIcon } from "./Workspace";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { getAuthToken } from "@/lib/utils";
 import { FigmaAdd } from "@/components/icons";
+import { useParams } from "react-router";
 
 export default function AddFormButton() {
   const id = useId();
   const [inputValue, setInputValue] = useState("");
   const queryClient = useQueryClient();
+  const {workspaceId} = useParams();
 
-  function createWorkspace(event: any) {
+  const formMutation = useMutation({
+    mutationFn: async ({name}: {name: string}) => {
+      fetch(`/api/workspace/${workspaceId}/form`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${getAuthToken()}`,
+        },
+        body: JSON.stringify({
+          title: name,
+        }),
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["api-workspace-forms"] });
+    },
+  });
+
+  function createFrom(event: any) {
     event.preventDefault();
-    console.log("todo - form creation");
+    formMutation.mutate({name: inputValue});
   }
 
   return (
@@ -45,16 +63,14 @@ export default function AddFormButton() {
             <WorkspaceIcon strokeWidth={3} />
           </div>
           <DialogHeader>
-            <DialogTitle className="sm:text-center">
-              Create Form
-            </DialogTitle>
+            <DialogTitle className="sm:text-center">Create Form</DialogTitle>
             <DialogDescription className="sm:text-center">
               To create a new form, please enter a name below.
             </DialogDescription>
           </DialogHeader>
         </div>
 
-        <form className="space-y-5" onSubmit={createWorkspace}>
+        <form className="space-y-5" onSubmit={createFrom}>
           <div className="*:not-first:mt-2">
             <Label htmlFor={id}>Form name</Label>
             <Input
