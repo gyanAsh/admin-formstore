@@ -43,8 +43,6 @@ export default memo(function Workspace() {
   const forms_data = { forms: forms ?? [] };
   const parentRef = React.useRef(null);
 
-  console.log(forms);
-
   // The virtualizer
   const rowVirtualizer = useVirtualizer({
     count: forms_data?.forms.length ?? 0,
