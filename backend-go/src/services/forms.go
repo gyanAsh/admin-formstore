@@ -6,14 +6,15 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 type Form struct {
-	ID          int64  `json:"id"`
-	Title       string `json:"title"`
-	CreatedAt   string `json:"created_at"`
-	UpdatedAt   string `json:"updated_at"`
-	WorkspaceID string `json:"workspace_id"`
+	ID          int64     `json:"id"`
+	Title       string    `json:"title"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
+	WorkspaceID string    `json:"workspace_id"`
 }
 
 func (s *Service) formsHandler(w http.ResponseWriter, r *http.Request) {
@@ -44,6 +45,7 @@ func (s *Service) formsHandler(w http.ResponseWriter, r *http.Request) {
 			workspaces.user_id = $2
 		`,
 		workspaceID, userID)
+	defer rows.Close()
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
