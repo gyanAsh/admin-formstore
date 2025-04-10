@@ -24,6 +24,7 @@ import { FigmaAdd } from "@/components/icons";
 import { Link, useParams } from "react-router";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useQuery } from "@tanstack/react-query";
+import AddFormButton from "@/components/layout/dashboard/AddFormButton";
 
 export default memo(function Workspace() {
   const { workspaceId } = useParams();
@@ -76,9 +77,7 @@ export default memo(function Workspace() {
             </div>
 
             <div className="flex h-5 items-center justify-between space-x-3">
-              <Button effect={"click"}>
-                <FigmaAdd /> Create Form
-              </Button>
+              <AddFormButton />
               <Separator
                 orientation="vertical"
                 className="bg-accent-foreground/40"
