@@ -11,7 +11,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { cn, getAuthToken } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import ModeToggle from "@/components/theme-toggle";
@@ -23,26 +23,27 @@ import React, { memo, SVGProps } from "react";
 import { FigmaAdd } from "@/components/icons";
 import { Link, useParams } from "react-router";
 import { useVirtualizer } from "@tanstack/react-virtual";
+import { useQuery } from "@tanstack/react-query";
+
 export default memo(function Workspace() {
   const { workspaceId } = useParams();
 
-  // const {
-  //   data: forms_data,
-  //   isPending: loading_forms,
-  //   isSuccess: fetched_forms,
-  // } = useQuery({
-  //   queryKey: ["get-forms"],
-  //   queryFn: async () => {
-  //     const workspace_id = parseInt(workspaceId as string);
-  //     if (!isNaN(workspace_id)) {
-  //       const res = await client.form.list.$get({ workspace_id: workspace_id });
-  //       return await res.json();
-  //     }
-  //   },
-  //   refetchOnWindowFocus: false,
-  // });
-  const forms_data = { forms: Array(5).fill({}) };
+  const { data: forms, isPending: formsIsPending, error: formsError } = useQuery({
+    queryKey: ["api-workspace-forms", workspaceId],
+    queryFn: async () => {
+      const res = await fetch(`/api/workspace/${parseInt(workspaceId)}/forms`, {
+        headers: {
+          Authorization: `Bearer ${getAuthToken()}`
+        }
+      });
+      const data = await res.json();
+      return data;
+    },
+  });
+  const forms_data = { forms: forms ?? [] };
   const parentRef = React.useRef(null);
+
+  console.log(forms);
 
   // The virtualizer
   const rowVirtualizer = useVirtualizer({
