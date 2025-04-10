@@ -24,7 +24,7 @@ export default function AddWorkspace() {
   const queryClient = useQueryClient();
 
   const workspaceMutation = useMutation({
-    mutationFn: async ({name}) => {
+    mutationFn: async ({ name }: { name: string }) => {
       if (name == "") {
         console.error("name is empty");
       }
@@ -32,7 +32,7 @@ export default function AddWorkspace() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${getAuthToken()}`,
+          Authorization: `Bearer ${getAuthToken()}`,
         },
         body: JSON.stringify({
           name: name,
@@ -43,13 +43,13 @@ export default function AddWorkspace() {
     },
     onSuccess: (data) => {
       console.log(data);
-      queryClient.invalidateQueries({queryKey: ["api-workspaces"]});
-    }
+      queryClient.invalidateQueries({ queryKey: ["api-workspaces"] });
+    },
   });
 
   function createWorkspace(event: any) {
     event.preventDefault();
-    workspaceMutation.mutate({name: inputValue});
+    workspaceMutation.mutate({ name: inputValue });
   }
 
   return (
@@ -96,7 +96,7 @@ export default function AddWorkspace() {
               </Button>
             </DialogClose>
             <Button
-              type="button"
+              type="submit"
               className="flex-1"
               disabled={inputValue.length < 3}
             >

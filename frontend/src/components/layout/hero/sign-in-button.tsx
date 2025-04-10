@@ -22,7 +22,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 export const loginFormSchema = z.object({
   email: z.string().min(4, {
@@ -66,9 +66,14 @@ export const registerLoginFormSchema = z
 export default function SignInButton() {
   const id = useId();
 
-  const queryClient = new QueryClient();
   const signinMutation = useMutation({
-    mutationFn: async ({email, password}: {email: string, password: string}) => {
+    mutationFn: async ({
+      email,
+      password,
+    }: {
+      email: string;
+      password: string;
+    }) => {
       const res = await fetch("/api/login", {
         method: "POST",
         headers: {
@@ -76,7 +81,7 @@ export default function SignInButton() {
         },
         body: JSON.stringify({
           email: email,
-          password: password
+          password: password,
         }),
       });
       const data = await res.json();
@@ -87,7 +92,15 @@ export default function SignInButton() {
     },
   });
   const registerMutation = useMutation({
-    mutationFn: async ({username, email, password}: {username: string, email: string, password: string}) => {
+    mutationFn: async ({
+      username,
+      email,
+      password,
+    }: {
+      username: string;
+      email: string;
+      password: string;
+    }) => {
       const res = await fetch("/api/signup", {
         method: "POST",
         headers: {
@@ -131,9 +144,9 @@ export default function SignInButton() {
   function onRegisterLoginSubmit(
     values: z.infer<typeof registerLoginFormSchema>
   ) {
-    const {username, email, password, confirmPassword} = values;
+    const { username, email, password, confirmPassword } = values;
     if (password === confirmPassword) {
-      registerMutation.mutate({username, email, password});
+      registerMutation.mutate({ username, email, password });
     } else {
       console.error("passswords don't match");
     }
