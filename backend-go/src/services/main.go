@@ -6,12 +6,12 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/joho/godotenv"
 )
 
 type Service struct {
-	DB        *pgx.Conn
+	DB        *pgxpool.Pool
 	JwtSecret []byte
 }
 
@@ -30,8 +30,8 @@ func HttpServiceStart() error {
 	if err := godotenv.Load(); err != nil {
 		log.Fatal(err)
 	}
-	conn, err := pgx.Connect(context.Background(), os.Getenv("DATABASE_URL"))
-	defer conn.Close(context.Background())
+	pool, err := pgxpool.New(context.Background(), os.Getenv("DATABASE_URL"))
+	defer pool.Close()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -41,7 +41,7 @@ func HttpServiceStart() error {
 	}
 
 	s := Service{
-		DB:        conn,
+		DB:        pool,
 		JwtSecret: []byte(jwtSecret),
 	}
 
