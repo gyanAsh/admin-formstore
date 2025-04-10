@@ -20,7 +20,6 @@ import { useSidebar } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import BreadCrumbs from "@/components/bread-crumbs";
 import React, { memo, SVGProps } from "react";
-import { FigmaAdd } from "@/components/icons";
 import { Link, useParams } from "react-router";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useQuery } from "@tanstack/react-query";
@@ -32,7 +31,7 @@ export default memo(function Workspace() {
   const { data: forms, isPending: formsIsPending, error: formsError } = useQuery({
     queryKey: ["api-workspace-forms", workspaceId],
     queryFn: async () => {
-      const res = await fetch(`/api/workspace/${parseInt(workspaceId)}/forms`, {
+      const res = await fetch(`/api/workspace/${workspaceId}/forms`, {
         headers: {
           Authorization: `Bearer ${getAuthToken()}`
         }
