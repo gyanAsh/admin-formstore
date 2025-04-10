@@ -106,9 +106,10 @@ func (s *Service) formCreateHandler(w http.ResponseWriter, r *http.Request) {
 			log.Println(err)
 		}
 	}
-	row := s.DB.QueryRow(context.Background(), `SELECT user_id FROM workspaces WHERE workspace_id = $1`, workspaceID)
+	row := s.DB.QueryRow(context.Background(), `SELECT user_id FROM workspaces WHERE id = $1`, workspaceID)
 	var dbUserID int64
 	if err = row.Scan(&dbUserID); err != nil {
+		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -121,8 +122,8 @@ func (s *Service) formCreateHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	row = s.DB.QueryRow(context.Background(), `INSERT INTO forms (title,
-		workspace_id) VALUES ($1, $2) RETURNING (ID, title, created_at,
-	updated_at, workspace_id)`, formTitle, workspaceID)
+		workspace_id) VALUES ($1, $2) RETURNING ID, title, created_at,
+	updated_at, workspace_id`, formTitle, workspaceID)
 	var form Form
 	if err = row.Scan(&form.ID, &form.Title, &form.CreatedAt, &form.UpdatedAt, &form.WorkspaceID); err != nil {
 		log.Println(err)
