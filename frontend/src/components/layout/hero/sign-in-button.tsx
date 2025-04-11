@@ -1,4 +1,4 @@
-import { useId } from "react";
+import { useId, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -23,6 +23,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useMutation } from "@tanstack/react-query";
+import { Eye, EyeOff } from "lucide-react";
 
 export const loginFormSchema = z.object({
   email: z.string().min(4, {
@@ -224,22 +225,35 @@ export default function SignInButton() {
                   <FormField
                     control={loginForm.control}
                     name="password"
-                    render={({ field }) => (
-                      <FormItem className="*:not-first:mt-2">
-                        <FormLabel htmlFor={`${id}-password`}>
-                          Password
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            id={`${id}-password`}
-                            placeholder="Enter your password"
-                            type="password"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+                    render={({ field }) => {
+                      const [show, setShow] = useState(false);
+                      return (
+                        <FormItem className="*:not-first:mt-2">
+                          <FormLabel htmlFor={`${id}-password`}>
+                            Password
+                          </FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <Input
+                                id={`${id}-password`}
+                                placeholder="Enter your password"
+                                type={show ? "text" : "password"}
+                                {...field}
+                              />
+                              <Button
+                                className=" absolute size-7 top-1 right-1"
+                                variant="ghost"
+                                type="button"
+                                onClick={() => setShow((e) => !e)}
+                              >
+                                {show ? <Eye /> : <EyeOff />}
+                              </Button>
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
                   />
                 </div>
                 <div className="flex justify-end gap-2">
@@ -301,42 +315,68 @@ export default function SignInButton() {
                   <FormField
                     control={registerLoginForm.control}
                     name="password"
-                    render={({ field }) => (
-                      <FormItem className="*:not-first:mt-2">
-                        <FormLabel htmlFor={`${id}-password`}>
-                          Password
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            id={`${id}-password`}
-                            placeholder="Enter your password"
-                            type="password"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+                    render={({ field }) => {
+                      const [show, setShow] = useState(false);
+                      return (
+                        <FormItem className="*:not-first:mt-2">
+                          <FormLabel htmlFor={`${id}-password`}>
+                            Password
+                          </FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <Input
+                                id={`${id}-password`}
+                                placeholder="Enter your password"
+                                type={show ? "text" : "password"}
+                                {...field}
+                              />
+                              <Button
+                                className=" absolute size-7 top-1 right-1"
+                                variant="ghost"
+                                type="button"
+                                onClick={() => setShow((e) => !e)}
+                              >
+                                {show ? <Eye /> : <EyeOff />}
+                              </Button>
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
                   />
                   <FormField
                     control={registerLoginForm.control}
                     name="confirmPassword"
-                    render={({ field }) => (
-                      <FormItem className="*:not-first:mt-2">
-                        <FormLabel htmlFor={`${id}-confirm-password`}>
-                          Confirm Password
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            id={`${id}-confirm-password`}
-                            placeholder="Enter same password again"
-                            type="password"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+                    render={({ field }) => {
+                      const [show, setShow] = useState(false);
+                      return (
+                        <FormItem className="*:not-first:mt-2">
+                          <FormLabel htmlFor={`${id}-confirm-password`}>
+                            Confirm Password
+                          </FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <Input
+                                id={`${id}-confirm-password`}
+                                placeholder="Enter same password again"
+                                type={show ? "text" : "password"}
+                                {...field}
+                              />
+                              <Button
+                                className=" absolute size-7 top-1 right-1"
+                                variant="ghost"
+                                type="button"
+                                onClick={() => setShow((e) => !e)}
+                              >
+                                {show ? <Eye /> : <EyeOff />}
+                              </Button>
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
                   />
                 </div>
                 <Button type="submit" className="w-full">
