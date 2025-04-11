@@ -68,6 +68,7 @@ export const registerLoginFormSchema = z
 export default function SignInButton() {
   const id = useId();
   const [openDialog, setOpenDialog] = useState(false);
+
   const signinMutation = useMutation({
     mutationFn: async ({
       email,
@@ -87,10 +88,11 @@ export default function SignInButton() {
         }),
       });
       if (!res.ok) {
-        throw new Error(`Error ${res.status}: ${res.statusText}`);
+        if (res.status >= 400)
+          throw new Error(`${res.status} : ${res.statusText}`);
+        else throw new Error(res.statusText);
       }
       const data = await res.json();
-
       return data;
     },
     onSuccess: (data) => {
@@ -99,14 +101,7 @@ export default function SignInButton() {
       setOpenDialog(false);
     },
     onError: (error) => {
-      console.error({ error });
-      if (error.message.includes("400")) {
-        toast.error("Bad Request: Please check your input");
-      } else if (error.message.includes("500")) {
-        toast.error("Server Error: Please try again later");
-      } else {
-        toast.error("Something went wrong while logging in");
-      }
+      toast.error(error.message);
     },
   });
   const registerMutation = useMutation({
@@ -130,11 +125,21 @@ export default function SignInButton() {
           password: password,
         }),
       });
+      if (!res.ok) {
+        if (res.status >= 400)
+          throw new Error(`Error ${res.status}: ${res.statusText}`);
+        else throw new Error(res.statusText);
+      }
       const data = await res.json();
       return data;
     },
     onSuccess: (data) => {
       localStorage.setItem("auth-token", data?.jwt_token);
+      toast.success("You are now logged in. Start exploring your dashboard!");
+      setOpenDialog(false);
+    },
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 
@@ -155,21 +160,18 @@ export default function SignInButton() {
     },
   });
 
-  // 2. Define a submit handler.
+  // Submit handler.
   function onLoginSubmit(values: z.infer<typeof loginFormSchema>) {
     signinMutation.mutate(values);
   }
   function onRegisterLoginSubmit(
     values: z.infer<typeof registerLoginFormSchema>
   ) {
-    const { username, email, password, confirmPassword } = values;
-    if (password === confirmPassword) {
-      registerMutation.mutate({ username, email, password });
-    } else {
-      console.error("passswords don't match");
-    }
+    const { username, email, password } = values;
+    registerMutation.mutate({ username, email, password });
   }
 
+  console.log({ idel: signinMutation.isIdle });
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
@@ -220,6 +222,11 @@ export default function SignInButton() {
                 onSubmit={loginForm.handleSubmit(onLoginSubmit)}
                 className="space-y-5"
               >
+                {signinMutation.isError && (
+                  <div className="flex text-sm gap-2 text-destructive border-l-2 border-l-destructive bg-red-400/15  p-1.5">
+                    {signinMutation.error.message}
+                  </div>
+                )}
                 <div className="space-y-4">
                   <FormField
                     control={loginForm.control}
@@ -290,6 +297,11 @@ export default function SignInButton() {
                 onSubmit={registerLoginForm.handleSubmit(onRegisterLoginSubmit)}
                 className="space-y-5"
               >
+                {registerMutation.isError && (
+                  <div className="flex text-sm gap-2 text-destructive border-l-2 border-l-destructive bg-red-400/15  p-1.5">
+                    {registerMutation.error.message}
+                  </div>
+                )}
                 <div className="space-y-4">
                   <FormField
                     control={registerLoginForm.control}
@@ -406,7 +418,6 @@ export default function SignInButton() {
         <div className="before:bg-border after:bg-border flex items-center gap-3 before:h-px before:flex-1 after:h-px after:flex-1">
           <span className="text-muted-foreground text-xs">Or</span>
         </div>
-
         <Button variant="outline">Login with Google</Button>
       </DialogContent>
     </Dialog>
