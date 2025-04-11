@@ -171,7 +171,6 @@ export default function SignInButton() {
     registerMutation.mutate({ username, email, password });
   }
 
-  console.log({ idel: signinMutation.isIdle });
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>

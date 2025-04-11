@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+import { useId } from "react";
 import { Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -13,14 +13,30 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { WorkspaceIcon } from "./Workspace";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { getAuthToken } from "@/lib/utils";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { toast } from "sonner";
+
+export const createWorkspaceSchema = z.object({
+  name: z.string().min(4, {
+    message: "Workspace name must be at least 4 characters.",
+  }),
+});
 
 export default function AddWorkspace() {
   const id = useId();
-  const [inputValue, setInputValue] = useState("");
   const queryClient = useQueryClient();
 
   const workspaceMutation = useMutation({
@@ -38,18 +54,31 @@ export default function AddWorkspace() {
           name: name,
         }),
       });
-      const data = res.json();
-      return res;
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+      const data = await res.json();
+      return data;
     },
     onSuccess: (data) => {
-      console.log(data);
+      console.log({ data });
       queryClient.invalidateQueries({ queryKey: ["api-workspaces"] });
+    },
+    onError: (err) => {
+      toast.error(err.message);
     },
   });
 
-  function createWorkspace(event: any) {
-    event.preventDefault();
-    workspaceMutation.mutate({ name: inputValue });
+  const workspaceForm = useForm<z.infer<typeof createWorkspaceSchema>>({
+    resolver: zodResolver(createWorkspaceSchema),
+    defaultValues: {
+      name: "",
+    },
+  });
+
+  // Submit handler.
+  function createWorkspace(values: z.infer<typeof createWorkspaceSchema>) {
+    workspaceMutation.mutate(values);
   }
 
   return (
@@ -77,33 +106,49 @@ export default function AddWorkspace() {
             </DialogDescription>
           </DialogHeader>
         </div>
-
-        <form className="space-y-5" onSubmit={createWorkspace}>
-          <div className="*:not-first:mt-2">
-            <Label htmlFor={id}>Workspace name</Label>
-            <Input
-              id={id}
-              type="text"
-              placeholder="Enter name here..."
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
+        <Form {...workspaceForm}>
+          <form
+            onSubmit={workspaceForm.handleSubmit(createWorkspace)}
+            className="space-y-5"
+          >
+            {workspaceMutation.isError && (
+              <div className="flex text-sm gap-2 text-destructive border-l-2 border-l-destructive bg-red-400/15  p-1.5">
+                {workspaceMutation.error.message}
+              </div>
+            )}
+            <FormField
+              control={workspaceForm.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem className="*:not-first:mt-2">
+                  <FormLabel htmlFor={`${id}-workspace`}>
+                    Workspace name
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      id={`${id}-workspace`}
+                      type="text"
+                      placeholder="Enter name here..."
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button type="button" variant="destructive" className="flex-1">
-                Cancel
+
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button type="button" variant="destructive" className="flex-1">
+                  Cancel
+                </Button>
+              </DialogClose>
+              <Button type="submit" className="flex-1">
+                Create
               </Button>
-            </DialogClose>
-            <Button
-              type="submit"
-              className="flex-1"
-              disabled={inputValue.length < 3}
-            >
-              Create
-            </Button>
-          </DialogFooter>
-        </form>
+            </DialogFooter>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );
