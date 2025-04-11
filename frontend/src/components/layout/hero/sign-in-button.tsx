@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/form";
 import { useMutation } from "@tanstack/react-query";
 import { Eye, EyeOff } from "lucide-react";
+import { toast } from "sonner";
 
 export const loginFormSchema = z.object({
   email: z.string().min(4, {
@@ -66,7 +67,7 @@ export const registerLoginFormSchema = z
 
 export default function SignInButton() {
   const id = useId();
-
+  const [openDialog, setOpenDialog] = useState(false);
   const signinMutation = useMutation({
     mutationFn: async ({
       email,
@@ -85,11 +86,27 @@ export default function SignInButton() {
           password: password,
         }),
       });
+      if (!res.ok) {
+        throw new Error(`Error ${res.status}: ${res.statusText}`);
+      }
       const data = await res.json();
+
       return data;
     },
     onSuccess: (data) => {
       localStorage.setItem("auth-token", data?.jwt_token);
+      toast.success("You are now logged in. Start exploring your dashboard!");
+      setOpenDialog(false);
+    },
+    onError: (error) => {
+      console.error({ error });
+      if (error.message.includes("400")) {
+        toast.error("Bad Request: Please check your input");
+      } else if (error.message.includes("500")) {
+        toast.error("Server Error: Please try again later");
+      } else {
+        toast.error("Something went wrong while logging in");
+      }
     },
   });
   const registerMutation = useMutation({
@@ -154,7 +171,7 @@ export default function SignInButton() {
   }
 
   return (
-    <Dialog>
+    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
         <Button variant="default">Sign in</Button>
       </DialogTrigger>
