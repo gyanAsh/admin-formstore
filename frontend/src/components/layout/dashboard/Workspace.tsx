@@ -19,6 +19,9 @@ import { Link, useParams } from "react-router";
 import AddWorkspace from "./AddWorkspaceButton";
 import { useQuery } from "@tanstack/react-query";
 import { cn, getAuthToken } from "@/lib/utils";
+import { $all_workspaces } from "@/store/workspace";
+import { useStore } from "@nanostores/react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Workspace = {
   id: number;
@@ -28,32 +31,32 @@ type Workspace = {
 };
 
 const WorkspaceGroup = () => {
+  const workspaces = useStore($all_workspaces);
+
   const { workspaceId } = useParams();
 
-  const {
-    isPending: workspacesIsPending,
-    isError: workspacesError,
-    data: workspaces,
-  } = useQuery({
-    queryKey: ["api-workspaces"],
-    queryFn: async () => {
-      try {
-        const res = await fetch(`/api/workspaces`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${getAuthToken()}`,
-            "Content-Type": "application/json",
-          },
-        });
-        const data = await res.json();
-        return data as Workspace[];
-      } catch (err) {
-        console.error(err);
-      }
-      return [];
-    },
-    refetchOnWindowFocus: false,
-  });
+  const { isPending: workspacesIsPending, isSuccess: workspaceSuccess } =
+    useQuery({
+      queryKey: ["api-workspaces"],
+      queryFn: async () => {
+        try {
+          const res = await fetch(`/api/workspaces`, {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${getAuthToken()}`,
+              "Content-Type": "application/json",
+            },
+          });
+          const data = await res.json();
+          $all_workspaces.set(data);
+          return data as Workspace[];
+        } catch (err) {
+          console.error(err);
+        }
+        return [];
+      },
+      refetchOnWindowFocus: false,
+    });
 
   return (
     <SidebarGroup className="grid gap-1">
@@ -67,8 +70,13 @@ const WorkspaceGroup = () => {
 
       <SidebarGroupContent>
         <SidebarMenu>
-          {!workspacesIsPending &&
-            !workspacesError &&
+          {workspacesIsPending ? (
+            <SidebarMenuItem className="space-y-1 mt-2">
+              <Skeleton className="w-full h-7" />
+              <Skeleton className="w-full h-7" />
+              <Skeleton className="w-full h-7" />
+            </SidebarMenuItem>
+          ) : workspaceSuccess ? (
             workspaces?.map((project) => (
               <SidebarMenuItem key={project.name}>
                 <SidebarMenuButton asChild>
@@ -129,7 +137,12 @@ const WorkspaceGroup = () => {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </SidebarMenuItem>
-            ))}
+            ))
+          ) : (
+            <h2 className="text-destructive text-sm">
+              Error : Unable to load your Workspace
+            </h2>
+          )}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>
