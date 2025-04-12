@@ -4,6 +4,7 @@ import About from "@/pages/about";
 import { Route, Routes } from "react-router";
 import DashboardLayout from "@/components/layout/dashboard";
 import Workspace from "@/pages/workspace";
+import WorkspaceHome from "@/pages/workspace/home";
 import HeroLayout from "@/components/layout/hero";
 import Form from "@/pages/form";
 
@@ -26,6 +27,8 @@ export default function App() {
         <Route path="about" element={<About />} />
       </Route>
       <Route path="/workspace" element={<DashboardLayout />}>
+        <Route index element={<WorkspaceHome />} />
+
         <Route path=":workspaceId">
           <Route index element={<Workspace />} />
           <Route path=":fromId" element={<Form />} />
