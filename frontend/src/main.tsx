@@ -17,7 +17,7 @@ createRoot(document.getElementById("root")!).render(
           <App />
           <Toaster />
         </ThemeProvider>
-      </BrowserRouter>{" "}
+      </BrowserRouter>
     </QueryClientProvider>
   </StrictMode>
 );

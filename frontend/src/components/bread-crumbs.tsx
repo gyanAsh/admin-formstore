@@ -3,7 +3,6 @@ import { HomeIcon } from "lucide-react";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
@@ -35,16 +34,20 @@ export default function BreadCrumbs({
           return (
             <Fragment key={i}>
               <BreadcrumbItem>
-                <BreadcrumbLink to={link?.path || ""}>
+                <Link
+                  data-slot="breadcrumb-link"
+                  className="hover:text-foreground transition-colors"
+                  to={link?.path || ""}
+                >
                   {link.icons !== undefined ? (
                     <>
                       <HomeIcon size={16} aria-hidden="true" />
                       <span className="sr-only">Home</span>
                     </>
                   ) : (
-                      link.name
-                    )}
-                </BreadcrumbLink>
+                    link.name
+                  )}
+                </Link>
               </BreadcrumbItem>
               <BreadcrumbSeparator> / </BreadcrumbSeparator>
             </Fragment>

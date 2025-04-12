@@ -1,12 +1,10 @@
-import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { ChevronRightIcon, MoreHorizontal } from "lucide-react"
-import { Link } from "react-router";
-
-import { cn } from "@/lib/utils"
+import * as React from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { ChevronRightIcon, MoreHorizontal } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 function Breadcrumb({ ...props }: React.ComponentProps<"nav">) {
-  return <nav aria-label="breadcrumb" data-slot="breadcrumb" {...props} />
+  return <nav aria-label="breadcrumb" data-slot="breadcrumb" {...props} />;
 }
 
 function BreadcrumbList({ className, ...props }: React.ComponentProps<"ol">) {
@@ -19,7 +17,7 @@ function BreadcrumbList({ className, ...props }: React.ComponentProps<"ol">) {
       )}
       {...props}
     />
-  )
+  );
 }
 
 function BreadcrumbItem({ className, ...props }: React.ComponentProps<"li">) {
@@ -29,32 +27,25 @@ function BreadcrumbItem({ className, ...props }: React.ComponentProps<"li">) {
       className={cn("inline-flex items-center gap-1.5", className)}
       {...props}
     />
-  )
+  );
 }
 
-// Change `"a"` to Link and forward `to` as props to Comp that could be
-// forwarded to Slot for various reasons. I am not aware as of writing this
-// that there would be an issure or not. But uf you have made it here then it
-// means that there is some error. Thus you may want to conditionally render
-// in case of Slot.
 function BreadcrumbLink({
-  to,
   asChild,
   className,
   ...props
 }: React.ComponentProps<"a"> & {
-  asChild?: boolean
+  asChild?: boolean;
 }) {
-  const Comp = asChild ? Slot : Link
+  const Comp = asChild ? Slot : "a";
 
   return (
     <Comp
-      to={to}
       data-slot="breadcrumb-link"
       className={cn("hover:text-foreground transition-colors", className)}
       {...props}
     />
-  )
+  );
 }
 
 function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
@@ -67,7 +58,7 @@ function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
       className={cn("text-foreground font-normal", className)}
       {...props}
     />
-  )
+  );
 }
 
 function BreadcrumbSeparator({
@@ -85,7 +76,7 @@ function BreadcrumbSeparator({
     >
       {children ?? <ChevronRightIcon size={16} />}
     </li>
-  )
+  );
 }
 
 function BreadcrumbEllipsis({
@@ -103,7 +94,7 @@ function BreadcrumbEllipsis({
       <MoreHorizontal size={16} />
       <span className="sr-only">More</span>
     </span>
-  )
+  );
 }
 
 export {
@@ -114,4 +105,4 @@ export {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-}
+};
