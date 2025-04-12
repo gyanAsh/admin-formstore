@@ -1,11 +1,4 @@
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -20,8 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import BreadCrumbs from "@/components/bread-crumbs";
 import { useSidebar } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
-import AddFormButton from "@/components/layout/dashboard/AddFormButton";
-import { RiSkipLeftLine, RiSkipRightLine } from ".";
+import { RiSkipLeftLine, RiSkipRightLine } from "@/pages/workspace/index";
 
 export default memo(function WorkspaceHome() {
   return (

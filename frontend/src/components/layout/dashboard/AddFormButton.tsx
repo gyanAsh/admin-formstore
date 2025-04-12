@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { useId } from "react";
+import { useId, useState } from "react";
 
 import { toast } from "sonner";
 import {
@@ -38,6 +38,8 @@ export const createFormSchema = z.object({
 
 export default function AddFormButton() {
   const id = useId();
+  const [openDialog, setOpenDialog] = useState(false);
+
   const queryClient = useQueryClient();
   const { workspaceId } = useParams();
 
@@ -61,6 +63,7 @@ export default function AddFormButton() {
     onSuccess: (data) => {
       console.log({ create_form_data: data });
       queryClient.invalidateQueries({ queryKey: ["api-workspace-forms"] });
+      setOpenDialog(false);
     },
     onError: (err) => {
       toast.error(err.message);
@@ -80,7 +83,7 @@ export default function AddFormButton() {
   }
 
   return (
-    <Dialog>
+    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
         <Button effect={"click"}>
           <FigmaAdd /> Create Form

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { useId } from "react";
+import { useId, useState } from "react";
 import {
   Form,
   FormControl,
@@ -36,6 +36,8 @@ export const createWorkspaceSchema = z.object({
 
 export default function AddWorkspace() {
   const id = useId();
+  const [openDialog, setOpenDialog] = useState(false);
+
   const queryClient = useQueryClient();
 
   const workspaceMutation = useMutation({
@@ -62,6 +64,7 @@ export default function AddWorkspace() {
     onSuccess: (data) => {
       console.log({ create_workspace_data: data });
       queryClient.invalidateQueries({ queryKey: ["api-workspaces"] });
+      setOpenDialog(false);
     },
     onError: (err) => {
       toast.error(err.message);
@@ -81,7 +84,7 @@ export default function AddWorkspace() {
   }
 
   return (
-    <Dialog>
+    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
         <Button className="size-7" variant={"default"}>
           <Plus strokeWidth={3} />{" "}
