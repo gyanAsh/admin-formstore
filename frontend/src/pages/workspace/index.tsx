@@ -28,17 +28,22 @@ import AddFormButton from "@/components/layout/dashboard/AddFormButton";
 export default memo(function Workspace() {
   const { workspaceId } = useParams();
 
-  const { data: forms, isPending: formsIsPending, error: formsError } = useQuery({
+  const {
+    data: forms,
+    isPending: formsIsPending,
+    error: formsError,
+  } = useQuery({
     queryKey: ["api-workspace-forms", workspaceId],
     queryFn: async () => {
       const res = await fetch(`/api/workspace/${workspaceId}/forms`, {
         headers: {
-          Authorization: `Bearer ${getAuthToken()}`
-        }
+          Authorization: `Bearer ${getAuthToken()}`,
+        },
       });
       const data = await res.json();
       return data;
     },
+    refetchOnWindowFocus: false,
   });
   const forms_data = { forms: forms ?? [] };
   const parentRef = React.useRef(null);

@@ -21,16 +21,20 @@ import { useQuery } from "@tanstack/react-query";
 import { cn, getAuthToken } from "@/lib/utils";
 
 type Workspace = {
-  id: number,
-  name: string,
-  created_at: string,
-  updated_at: string,
+  id: number;
+  name: string;
+  created_at: string;
+  updated_at: string;
 };
 
 const WorkspaceGroup = () => {
   const { workspaceId } = useParams();
 
-  const { isPending: workspacesIsPending, isError: workspacesError, data: workspaces } = useQuery({
+  const {
+    isPending: workspacesIsPending,
+    isError: workspacesError,
+    data: workspaces,
+  } = useQuery({
     queryKey: ["api-workspaces"],
     queryFn: async () => {
       try {
@@ -48,6 +52,7 @@ const WorkspaceGroup = () => {
       }
       return [];
     },
+    refetchOnWindowFocus: false,
   });
 
   return (
@@ -62,67 +67,69 @@ const WorkspaceGroup = () => {
 
       <SidebarGroupContent>
         <SidebarMenu>
-          {!workspacesIsPending && !workspacesError && workspaces?.map((project) => (
-            <SidebarMenuItem key={project.name}>
-              <SidebarMenuButton asChild>
-                <Button
-                  variant="outline"
-                  className={cn("flex justify-start", {
-                    "bg-accent": workspaceId === project.id.toString(),
-                  })}
-                  asChild
-                >
-                  <Link to={project.id.toString()}>
-                    <span>{project.name}</span>
-                  </Link>
-                </Button>
-              </SidebarMenuButton>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <SidebarMenuAction
-                    className={cn("", {
-                      "hover:bg-background":
-                        workspaceId === project.id.toString(),
+          {!workspacesIsPending &&
+            !workspacesError &&
+            workspaces?.map((project) => (
+              <SidebarMenuItem key={project.name}>
+                <SidebarMenuButton asChild>
+                  <Button
+                    variant="outline"
+                    className={cn("flex justify-start", {
+                      "bg-accent": workspaceId === project.id.toString(),
                     })}
+                    asChild
                   >
-                    <MoreHorizontal />
-                  </SidebarMenuAction>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  className="space-y-0.5"
-                  side="right"
-                  align="start"
-                  alignOffset={-5}
-                  sideOffset={10}
-                >
-                  <DropdownMenuItem>
-                    <Share2
-                      size={16}
-                      className="opacity-60"
-                      aria-hidden="true"
-                    />
-                    Invite
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <FolderEditIcon
-                      size={16}
-                      className="opacity-60"
-                      aria-hidden="true"
-                    />
-                    Rename
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60">
-                    <Delete
-                      size={16}
-                      className="opacity-60"
-                      aria-hidden="true"
-                    />
-                    Delete
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </SidebarMenuItem>
-          ))}
+                    <Link to={project.id.toString()}>
+                      <span>{project.name}</span>
+                    </Link>
+                  </Button>
+                </SidebarMenuButton>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <SidebarMenuAction
+                      className={cn("", {
+                        "hover:bg-background":
+                          workspaceId === project.id.toString(),
+                      })}
+                    >
+                      <MoreHorizontal />
+                    </SidebarMenuAction>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    className="space-y-0.5"
+                    side="right"
+                    align="start"
+                    alignOffset={-5}
+                    sideOffset={10}
+                  >
+                    <DropdownMenuItem>
+                      <Share2
+                        size={16}
+                        className="opacity-60"
+                        aria-hidden="true"
+                      />
+                      Invite
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <FolderEditIcon
+                        size={16}
+                        className="opacity-60"
+                        aria-hidden="true"
+                      />
+                      Rename
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60">
+                      <Delete
+                        size={16}
+                        className="opacity-60"
+                        aria-hidden="true"
+                      />
+                      Delete
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </SidebarMenuItem>
+            ))}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>
