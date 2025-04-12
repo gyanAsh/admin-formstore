@@ -1,6 +1,15 @@
-import { useId, useState } from "react";
+import { z } from "zod";
+import { useId } from "react";
 
-import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import {
   Dialog,
   DialogClose,
@@ -11,23 +20,30 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { WorkspaceIcon } from "./Workspace";
-import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { getAuthToken } from "@/lib/utils";
-import { FigmaAdd } from "@/components/icons";
 import { useParams } from "react-router";
+import { useForm } from "react-hook-form";
+import { getAuthToken } from "@/lib/utils";
+import { WorkspaceIcon } from "./Workspace";
+import { FigmaAdd } from "@/components/icons";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
+
+export const createFormSchema = z.object({
+  name: z.string().min(4, {
+    message: "Workspace name must be at least 4 characters.",
+  }),
+});
 
 export default function AddFormButton() {
   const id = useId();
-  const [inputValue, setInputValue] = useState("");
   const queryClient = useQueryClient();
-  const {workspaceId} = useParams();
+  const { workspaceId } = useParams();
 
   const formMutation = useMutation({
-    mutationFn: async ({name}: {name: string}) => {
-      fetch(`/api/workspace/${workspaceId}/form`, {
+    mutationFn: async ({ name }: { name: string }) => {
+      const res = await fetch(`/api/workspace/${workspaceId}/form`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${getAuthToken()}`,
@@ -36,15 +52,31 @@ export default function AddFormButton() {
           title: name,
         }),
       });
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+      const data = await res.json();
+      return data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log({ create_form_data: data });
       queryClient.invalidateQueries({ queryKey: ["api-workspace-forms"] });
+    },
+    onError: (err) => {
+      toast.error(err.message);
     },
   });
 
-  function createFrom(event: any) {
-    event.preventDefault();
-    formMutation.mutate({name: inputValue});
+  const createNewForm = useForm<z.infer<typeof createFormSchema>>({
+    resolver: zodResolver(createFormSchema),
+    defaultValues: {
+      name: "",
+    },
+  });
+
+  // Submit handler.
+  function createFrom(values: z.infer<typeof createFormSchema>) {
+    formMutation.mutate(values);
   }
 
   return (
@@ -70,32 +102,47 @@ export default function AddFormButton() {
           </DialogHeader>
         </div>
 
-        <form className="space-y-5" onSubmit={createFrom}>
-          <div className="*:not-first:mt-2">
-            <Label htmlFor={id}>Form name</Label>
-            <Input
-              id={id}
-              type="text"
-              placeholder="Enter name here..."
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
+        <Form {...createNewForm}>
+          <form
+            onSubmit={createNewForm.handleSubmit(createFrom)}
+            className="space-y-5"
+          >
+            {formMutation.isError && (
+              <div className="flex text-sm gap-2 text-destructive border-l-2 border-l-destructive bg-red-400/15  p-1.5">
+                {formMutation.error.message}
+              </div>
+            )}
+            <FormField
+              control={createNewForm.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem className="*:not-first:mt-2">
+                  <FormLabel htmlFor={`${id}-form`}>Form name</FormLabel>
+                  <FormControl>
+                    <Input
+                      id={`${id}-form`}
+                      type="text"
+                      placeholder="Enter name here..."
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button type="button" variant="destructive" className="flex-1">
-                Cancel
+
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button type="button" variant="destructive" className="flex-1">
+                  Cancel
+                </Button>
+              </DialogClose>
+              <Button type="submit" className="flex-1">
+                Create
               </Button>
-            </DialogClose>
-            <Button
-              type="submit"
-              className="flex-1"
-              disabled={inputValue.length < 3}
-            >
-              Create
-            </Button>
-          </DialogFooter>
-        </form>
+            </DialogFooter>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );

@@ -1,7 +1,15 @@
+import { z } from "zod";
 import { useId } from "react";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { toast } from "sonner";
 import { Plus } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -12,22 +20,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { WorkspaceIcon } from "./Workspace";
-import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { getAuthToken } from "@/lib/utils";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
+import { getAuthToken } from "@/lib/utils";
+import { WorkspaceIcon } from "./Workspace";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { toast } from "sonner";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 
 export const createWorkspaceSchema = z.object({
   name: z.string().min(4, {
@@ -61,7 +60,7 @@ export default function AddWorkspace() {
       return data;
     },
     onSuccess: (data) => {
-      console.log({ data });
+      console.log({ create_workspace_data: data });
       queryClient.invalidateQueries({ queryKey: ["api-workspaces"] });
     },
     onError: (err) => {
