@@ -11,17 +11,11 @@ import { Fragment, ReactElement } from "react";
 import { Link } from "react-router";
 
 export default function BreadCrumbs({
-  otherPageLinks = [
-    {
-      path: "/",
-      name: "Home",
-      icons: <HomeIcon size={16} aria-hidden="true" />,
-    },
-  ],
-  currentPage = "Current-Page",
+  otherPageLinks,
+  currentPage,
 }: {
   currentPage: string;
-  otherPageLinks: {
+  otherPageLinks?: {
     path?: string;
     icons?: ReactElement;
     name: string;
@@ -30,7 +24,7 @@ export default function BreadCrumbs({
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        {otherPageLinks.map((link, i) => {
+        {otherPageLinks?.map((link, i) => {
           return (
             <Fragment key={i}>
               <BreadcrumbItem>
