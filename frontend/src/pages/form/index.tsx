@@ -9,15 +9,18 @@ import { Card } from "@/components/ui/card";
 import React, { memo, SVGProps } from "react";
 import { FigmaAdd } from "@/components/icons";
 import { useParams } from "react-router";
+import { useStore } from "@nanostores/react";
 import { Button } from "@/components/ui/button";
 import BreadCrumbs from "@/components/bread-crumbs";
 import ModeToggle from "@/components/theme-toggle";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSidebar } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
+import { $current_workspace } from "@/store/workspace";
 
 export default memo(function Form() {
   const { workspaceId } = useParams();
+  const currentWorkspace = useStore($current_workspace);
 
   return (
     <>
@@ -40,7 +43,7 @@ export default memo(function Form() {
                     path: "/workspace",
                   },
                   {
-                    name: "Workspace Name",
+                    name: currentWorkspace.name,
                     path: `/workspace/${workspaceId}`,
                   },
                 ]}

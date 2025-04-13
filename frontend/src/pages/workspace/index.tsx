@@ -24,9 +24,13 @@ import { Link, useParams } from "react-router";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useQuery } from "@tanstack/react-query";
 import AddFormButton from "@/components/layout/dashboard/AddFormButton";
+import { useStore } from "@nanostores/react";
+import { $all_workspaces, $current_workspace } from "@/store/workspace";
 
 export default memo(function Workspace() {
   const { workspaceId } = useParams();
+  const workspaces = useStore($all_workspaces);
+  const currentWorkspace = useStore($current_workspace);
 
   const {
     data: forms,
@@ -70,7 +74,7 @@ export default memo(function Workspace() {
                 decorative
               />
               <BreadCrumbs
-                currentPage={`Workspace Name`}
+                currentPage={currentWorkspace.name}
                 otherPageLinks={[
                   {
                     name: "Workspace",
@@ -180,8 +184,7 @@ export default memo(function Workspace() {
                           >
                             <Link to={`/workspace/${workspaceId}/${idx + 1}`}>
                               <div>
-                                {/* ID{forms_data?.forms[virtualItem.index]?.id} */}
-                                ID_FORM
+                                ID{forms_data?.forms[virtualItem.index]?.id}
                               </div>
                               <TooltipProvider>
                                 <Tooltip>
@@ -190,14 +193,18 @@ export default memo(function Workspace() {
                                     asChild
                                   >
                                     <div>
-                                      {/* {forms_data?.forms[virtualItem.index]?.title} */}
-                                      FORM TITLE
+                                      {
+                                        forms_data?.forms[virtualItem.index]
+                                          ?.title
+                                      }
                                     </div>
                                   </TooltipTrigger>
                                   <TooltipContent>
                                     <p>
-                                      {/* {forms_data?.forms[virtualItem.index]?.title} */}
-                                      FORM TITLE
+                                      {
+                                        forms_data?.forms[virtualItem.index]
+                                          ?.title
+                                      }
                                     </p>
                                   </TooltipContent>
                                 </Tooltip>
@@ -211,14 +218,15 @@ export default memo(function Workspace() {
                                 RESPONSE COUNT
                               </div>
                               <div>
-                                {/* {forms_data?.forms[
-                        virtualItem.index
-                      ]?.updatedAt.toLocaleDateString("en-GB", {
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric",
-                      })} */}
-                                DATE
+                                {new Date(
+                                  forms_data?.forms[
+                                    virtualItem.index
+                                  ]?.updated_at.replace(/\.(\d{3})\d+/, ".$1")
+                                ).toLocaleDateString("en-GB", {
+                                  day: "2-digit",
+                                  month: "short",
+                                  year: "numeric",
+                                })}
                               </div>
                             </Link>
                           </Button>

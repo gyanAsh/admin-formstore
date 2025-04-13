@@ -19,7 +19,7 @@ import { Link, useParams } from "react-router";
 import AddWorkspace from "./AddWorkspaceButton";
 import { useQuery } from "@tanstack/react-query";
 import { cn, getAuthToken } from "@/lib/utils";
-import { $all_workspaces } from "@/store/workspace";
+import { $all_workspaces, $current_workspace } from "@/store/workspace";
 import { useStore } from "@nanostores/react";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -87,7 +87,12 @@ const WorkspaceGroup = () => {
                     })}
                     asChild
                   >
-                    <Link to={project.id.toString()}>
+                    <Link
+                      to={project.id.toString()}
+                      onClick={() => {
+                        $current_workspace.set(project);
+                      }}
+                    >
                       <span>{project.name}</span>
                     </Link>
                   </Button>

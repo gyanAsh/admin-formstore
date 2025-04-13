@@ -28,7 +28,7 @@ export default memo(function WorkspaceHome() {
               className="bg-accent-foreground/40"
               decorative
             />
-            <BreadCrumbs currentPage={`Workspace Home`} />
+            <BreadCrumbs currentPage={`Workspace Dashboard`} />
           </div>
 
           <div className="flex h-5 items-center justify-between space-x-3">
