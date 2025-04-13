@@ -6,6 +6,13 @@ interface Workspace {
   created_at: string;
   updated_at: string;
 }
+interface Form {
+  id: number;
+  title: string;
+  created_at: string;
+  updated_at: string;
+  workspace_id: string;
+}
 
 export const $all_workspaces = atom<Workspace[]>([]);
 export const $current_workspace = atom<Workspace>({
@@ -14,4 +21,11 @@ export const $current_workspace = atom<Workspace>({
   user_id: 0,
   created_at: "",
   updated_at: "",
+});
+export const $current_form = atom<Form>({
+  id: 0,
+  title: "Current Form",
+  created_at: "",
+  updated_at: "",
+  workspace_id: "",
 });

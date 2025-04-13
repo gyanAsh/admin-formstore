@@ -25,11 +25,10 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import { useQuery } from "@tanstack/react-query";
 import AddFormButton from "@/components/layout/dashboard/AddFormButton";
 import { useStore } from "@nanostores/react";
-import { $all_workspaces, $current_workspace } from "@/store/workspace";
+import { $current_form, $current_workspace } from "@/store/workspace";
 
 export default memo(function Workspace() {
   const { workspaceId } = useParams();
-  const workspaces = useStore($all_workspaces);
   const currentWorkspace = useStore($current_workspace);
 
   const {
@@ -166,71 +165,66 @@ export default memo(function Workspace() {
                       {/* Only the visible items in the virtualizer, manually positioned to be in view */}
                       {rowVirtualizer
                         .getVirtualItems()
-                        .map((virtualItem, idx) => (
-                          <Button
-                            key={virtualItem.key}
-                            style={{
-                              position: "absolute",
-                              top: 0,
-                              left: 0,
-                              width: "100%",
-                              height: `${virtualItem.size}px`,
-                              transform: `translateY(${virtualItem.start}px)`,
-                            }}
-                            variant={"violet_secondary"}
-                            className="grid grid-cols-5 gap-4 text-start border active:scale-[0.998] active:translate-y-[2px]"
-                            onClick={() => console.log("btb lick lcik")}
-                            asChild
-                          >
-                            <Link to={`/workspace/${workspaceId}/${idx + 1}`}>
-                              <div>
-                                ID{forms_data?.forms[virtualItem.index]?.id}
-                              </div>
-                              <TooltipProvider>
-                                <Tooltip>
-                                  <TooltipTrigger
-                                    className=" overflow-hidden text-start"
-                                    asChild
-                                  >
-                                    <div>
-                                      {
-                                        forms_data?.forms[virtualItem.index]
-                                          ?.title
-                                      }
-                                    </div>
-                                  </TooltipTrigger>
-                                  <TooltipContent>
-                                    <p>
-                                      {
-                                        forms_data?.forms[virtualItem.index]
-                                          ?.title
-                                      }
-                                    </p>
-                                  </TooltipContent>
-                                </Tooltip>
-                              </TooltipProvider>
-                              <div className=" capitalize">
-                                {/* {forms_data?.forms[virtualItem.index]?.status} */}
-                                STATUS DRAFT/PUBLISHED
-                              </div>
-                              <div>
-                                {/* {forms_data?.forms[virtualItem.index]?.response} */}
-                                RESPONSE COUNT
-                              </div>
-                              <div>
-                                {new Date(
-                                  forms_data?.forms[
-                                    virtualItem.index
-                                  ]?.updated_at.replace(/\.(\d{3})\d+/, ".$1")
-                                ).toLocaleDateString("en-GB", {
-                                  day: "2-digit",
-                                  month: "short",
-                                  year: "numeric",
-                                })}
-                              </div>
-                            </Link>
-                          </Button>
-                        ))}
+                        .map((virtualItem, idx) => {
+                          let form = forms_data?.forms[virtualItem.index];
+                          return (
+                            <Button
+                              key={virtualItem.key}
+                              style={{
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                width: "100%",
+                                height: `${virtualItem.size}px`,
+                                transform: `translateY(${virtualItem.start}px)`,
+                              }}
+                              variant={"violet_secondary"}
+                              className="grid grid-cols-5 gap-4 text-start border active:scale-[0.998] active:translate-y-[2px]"
+                              asChild
+                            >
+                              <Link
+                                to={`/workspace/${workspaceId}/${idx + 1}`}
+                                onClick={() => {
+                                  $current_form.set(form);
+                                }}
+                              >
+                                <div>ID{form?.id}</div>
+                                <TooltipProvider>
+                                  <Tooltip>
+                                    <TooltipTrigger
+                                      className=" overflow-hidden text-start"
+                                      asChild
+                                    >
+                                      <div>{form?.title}</div>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                      <p>{form?.title}</p>
+                                    </TooltipContent>
+                                  </Tooltip>
+                                </TooltipProvider>
+                                <div className=" capitalize">
+                                  {/* {form?.status} */}
+                                  STATUS DRAFT/PUBLISHED
+                                </div>
+                                <div>
+                                  {/* {form?.response} */}
+                                  RESPONSE COUNT
+                                </div>
+                                <div>
+                                  {new Date(
+                                    forms_data?.forms[
+                                      virtualItem.index
+                                    ]?.updated_at.replace(/\.(\d{3})\d+/, ".$1")
+                                  ).toLocaleDateString("en-GB", {
+                                    day: "2-digit",
+                                    month: "short",
+                                    year: "numeric",
+                                  })}
+                                </div>
+                              </Link>
+                            </Button>
+                          );
+                        })}
                     </div>
                   </div>
                 </div>

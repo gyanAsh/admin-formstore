@@ -16,11 +16,12 @@ import ModeToggle from "@/components/theme-toggle";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSidebar } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
-import { $current_workspace } from "@/store/workspace";
+import { $current_form, $current_workspace } from "@/store/workspace";
 
 export default memo(function Form() {
   const { workspaceId } = useParams();
   const currentWorkspace = useStore($current_workspace);
+  const currentForm = useStore($current_form);
 
   return (
     <>
@@ -36,7 +37,7 @@ export default memo(function Form() {
                 decorative
               />
               <BreadCrumbs
-                currentPage={`Form Name`}
+                currentPage={currentForm.title}
                 otherPageLinks={[
                   {
                     name: "Workspace",
