@@ -17,6 +17,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useSidebar } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { $current_form, $current_workspace } from "@/store/workspace";
+import FormThemes from "./themes";
 
 export default memo(function Form() {
   const { workspaceId } = useParams();
@@ -76,10 +77,15 @@ export default memo(function Form() {
               </section>
             ) : true ? (
               <>
-                <div className="flex flex-col px-2 gap-3 max-w-[770px] w-full border mx-auto bg-rose-500">
-                  update theme color radio btn + new theme layout select option
-                  + single page layout/ one form layout toggle btn + preview
-                  page btn{" "}
+                <div className="flex px-2 gap-3 max-w-[770px] w-full border mx-auto border-rose-600">
+                  <FormThemes />
+                  <Separator
+                    orientation="vertical"
+                    className="bg-accent-foreground/40"
+                    decorative
+                  />
+                  new theme layout select option + single page layout/ one form
+                  layout toggle btn + preview page btn{" "}
                 </div>
                 <div className="flex flex-col px-2 gap-3 max-w-[770px] w-full border mx-auto bg-rose-500">
                   by defalut here will be elements options{" "}
