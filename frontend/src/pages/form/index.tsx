@@ -20,7 +20,14 @@ import { $current_form, $current_workspace } from "@/store/workspace";
 import FormThemes from "./themes";
 import TemplateSelect from "./form-styles";
 import LayoutToggle from "./layout-toggle";
-import { Eye } from "lucide-react";
+import {
+  ArrowDownSquare,
+  Calendar,
+  Eye,
+  Mail,
+  Phone,
+  Text,
+} from "lucide-react";
 
 export default memo(function Form() {
   const { workspaceId } = useParams();
@@ -80,7 +87,7 @@ export default memo(function Form() {
               </section>
             ) : true ? (
               <>
-                <div className="flex items-center px-2 space-x-3 max-w-[770px] w-full mx-auto">
+                <Card className="flex flex-row rounded-t-none border-t-0 items-center px-2 space-x-3 max-w-[770px] w-full mx-auto">
                   <FormThemes />
                   <Separator
                     orientation="vertical"
@@ -106,15 +113,30 @@ export default memo(function Form() {
                   >
                     <Eye /> Preview
                   </Button>
-                </div>
-                <div className="flex px-2 gap-3 max-w-[770px] w-full border mx-auto bg-rose-500">
-                  <Button variant={"secondary"}> Email</Button>
-                  <Button variant={"secondary"}> Phone</Button>
-                  <Button variant={"secondary"}>Text</Button>
-                  <Button variant={"secondary"}> Date</Button>
-                  <Button variant={"secondary"}>Drop Down</Button>
-                  <Button variant={"secondary"}>Multiple Select</Button>
-                </div>
+                </Card>
+                <Card className="grid grid-cols-4 px-2 gap-3 max-w-[770px] w-full border mx-auto shadow-2xl">
+                  <Button variant={"outline"}>
+                    {" "}
+                    <Mail /> Email
+                  </Button>
+                  <Button variant={"outline"}>
+                    {" "}
+                    <Phone /> Phone
+                  </Button>
+                  <Button variant={"outline"}>
+                    {" "}
+                    <Text /> Text
+                  </Button>
+                  <Button variant={"outline"}>
+                    {" "}
+                    <Calendar /> Date
+                  </Button>
+                  <Button variant={"outline"}>
+                    {" "}
+                    <ArrowDownSquare /> Drop Down
+                  </Button>
+                  <Button variant={"outline"}> Multiple Select</Button>
+                </Card>
                 <div className="flex flex-col px-2 gap-3 max-w-[200px] border mx-auto bg-rose-500">
                   + (this will be a add btn) to create new page element
                 </div>
