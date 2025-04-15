@@ -18,6 +18,9 @@ import { useSidebar } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { $current_form, $current_workspace } from "@/store/workspace";
 import FormThemes from "./themes";
+import TemplateSelect from "./form-styles";
+import LayoutToggle from "./layout-toggle";
+import { Eye } from "lucide-react";
 
 export default memo(function Form() {
   const { workspaceId } = useParams();
@@ -64,7 +67,7 @@ export default memo(function Form() {
               <ModeToggle
                 variant="outline"
                 effect={"click"}
-                className="size-7 bg-black text-white dark:bg-white dark:hover:text-white   dark:text-black"
+                className="size-7 bg-black text-white dark:bg-white dark:hover:text-white dark:text-black"
               />
             </div>
           </section>
@@ -77,15 +80,32 @@ export default memo(function Form() {
               </section>
             ) : true ? (
               <>
-                <div className="flex px-2 gap-3 max-w-[770px] w-full border mx-auto border-rose-600">
+                <div className="flex items-center px-2 space-x-3 max-w-[770px] w-full mx-auto">
                   <FormThemes />
                   <Separator
                     orientation="vertical"
                     className="bg-accent-foreground/40"
                     decorative
                   />
-                  new theme layout select option + single page layout/ one form
-                  layout toggle btn + preview page btn{" "}
+                  <TemplateSelect />
+                  <Separator
+                    orientation="vertical"
+                    className="bg-accent-foreground/40"
+                    decorative
+                  />
+                  <LayoutToggle />
+                  <Separator
+                    orientation="vertical"
+                    className="bg-accent-foreground/40"
+                    decorative
+                  />
+                  <Button
+                    variant={"outline"}
+                    effect={"click"}
+                    className="bg-black text-white dark:bg-white dark:hover:text-white dark:text-black"
+                  >
+                    <Eye /> Preview
+                  </Button>
                 </div>
                 <div className="flex flex-col px-2 gap-3 max-w-[770px] w-full border mx-auto bg-rose-500">
                   by defalut here will be elements options{" "}
