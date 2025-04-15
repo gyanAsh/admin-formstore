@@ -107,8 +107,13 @@ export default memo(function Form() {
                     <Eye /> Preview
                   </Button>
                 </div>
-                <div className="flex flex-col px-2 gap-3 max-w-[770px] w-full border mx-auto bg-rose-500">
-                  by defalut here will be elements options{" "}
+                <div className="flex px-2 gap-3 max-w-[770px] w-full border mx-auto bg-rose-500">
+                  <Button variant={"secondary"}> Email</Button>
+                  <Button variant={"secondary"}> Phone</Button>
+                  <Button variant={"secondary"}>Text</Button>
+                  <Button variant={"secondary"}> Date</Button>
+                  <Button variant={"secondary"}>Drop Down</Button>
+                  <Button variant={"secondary"}>Multiple Select</Button>
                 </div>
                 <div className="flex flex-col px-2 gap-3 max-w-[200px] border mx-auto bg-rose-500">
                   + (this will be a add btn) to create new page element
