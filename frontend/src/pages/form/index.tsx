@@ -20,15 +20,7 @@ import { $current_form, $current_workspace } from "@/store/workspace";
 import FormThemes from "./themes";
 import TemplateSelect from "./form-styles";
 import LayoutToggle from "./layout-toggle";
-import {
-  ArrowDownSquare,
-  Calendar,
-  Eye,
-  ListChecks,
-  Mail,
-  Phone,
-  Text,
-} from "lucide-react";
+import { Eye, ListChecks } from "lucide-react";
 
 export default memo(function Form() {
   const { workspaceId } = useParams();
@@ -123,10 +115,14 @@ export default memo(function Form() {
                   <Button
                     variant={"violet_secondary"}
                     effect={"click"}
-                    className="gap-3  justify-start shadow-md hover:scale-[1.02]"
+                    className={cn(
+                      "gap-3  justify-start shadow-md hover:scale-[1.02] p-2 h-fit text-base",
+                      "shadow-[2px_2px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)]",
+                      "dark:shadow-[4px_4px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)]"
+                    )}
                   >
                     {" "}
-                    <div className="p-1 flex items-center justify-center rounded bg-red-300 text-white">
+                    <div className="p-1 flex items-center justify-center rounded border bg-red-300 text-white">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -142,10 +138,14 @@ export default memo(function Form() {
                   <Button
                     variant={"violet_secondary"}
                     effect={"click"}
-                    className="gap-3  justify-start shadow-md hover:scale-[1.02]"
+                    className={cn(
+                      "gap-3  justify-start shadow-md hover:scale-[1.02] p-2 h-fit text-base",
+                      "shadow-[2px_2px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)]",
+                      "dark:shadow-[4px_4px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)]"
+                    )}
                   >
                     {" "}
-                    <div className="p-1 flex items-center justify-center rounded bg-blue-300 text-white">
+                    <div className="p-1 flex items-center justify-center rounded border bg-blue-300 text-white">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -164,10 +164,14 @@ export default memo(function Form() {
                   <Button
                     variant={"violet_secondary"}
                     effect={"click"}
-                    className="gap-3  justify-start shadow-md hover:scale-[1.02]"
+                    className={cn(
+                      "gap-3  justify-start shadow-md hover:scale-[1.02] p-2 h-fit text-base",
+                      "shadow-[2px_2px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)]",
+                      "dark:shadow-[4px_4px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)]"
+                    )}
                   >
                     {" "}
-                    <div className="p-1 flex items-center justify-center rounded bg-pink-300 text-white">
+                    <div className="p-1 flex items-center justify-center rounded border bg-pink-300 text-white">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -186,10 +190,14 @@ export default memo(function Form() {
                   <Button
                     variant={"violet_secondary"}
                     effect={"click"}
-                    className="gap-3  justify-start shadow-md hover:scale-[1.02]"
+                    className={cn(
+                      "gap-3  justify-start shadow-md hover:scale-[1.02] p-2 h-fit text-base",
+                      "shadow-[2px_2px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)]",
+                      "dark:shadow-[4px_4px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)]"
+                    )}
                   >
                     {" "}
-                    <div className="p-1 flex items-center justify-center rounded bg-emerald-300 text-white">
+                    <div className="p-1 flex items-center justify-center rounded border bg-emerald-300 text-white">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -208,10 +216,14 @@ export default memo(function Form() {
                   <Button
                     variant={"violet_secondary"}
                     effect={"click"}
-                    className="gap-3  justify-start shadow-md hover:scale-[1.02]"
+                    className={cn(
+                      "gap-3  justify-start shadow-md hover:scale-[1.02] p-2 h-fit text-base",
+                      "shadow-[2px_2px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)]",
+                      "dark:shadow-[4px_4px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)]"
+                    )}
                   >
                     {" "}
-                    <div className="p-1 flex items-center justify-center rounded bg-amber-300 text-white">
+                    <div className="p-1 flex items-center justify-center rounded border bg-amber-300 text-white">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -230,9 +242,13 @@ export default memo(function Form() {
                   <Button
                     variant={"violet_secondary"}
                     effect={"click"}
-                    className="gap-3  justify-start shadow-md hover:scale-[1.02]"
+                    className={cn(
+                      "gap-3  justify-start shadow-md hover:scale-[1.02] p-2 h-fit text-base",
+                      "shadow-[2px_2px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)]",
+                      "dark:shadow-[4px_4px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)]"
+                    )}
                   >
-                    <div className="p-1 flex items-center justify-center rounded bg-indigo-300 text-white">
+                    <div className="p-1 flex items-center justify-center rounded border bg-indigo-300 text-white">
                       <ListChecks className="size-5" strokeWidth={1.5} />
                     </div>
                     Multiple Select
