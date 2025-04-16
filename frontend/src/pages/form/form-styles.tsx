@@ -29,7 +29,7 @@ export default function FormStyles() {
           <SelectItem value="2" className=" cursor-pointer">
             <img
               src={candyStyle}
-              className=" aspect-3/2 w-22 object-cover"
+              className=" aspect-3/2 max-w-22 object-cover"
               data-desc
             />
 
