@@ -130,4 +130,27 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  .editable-paragraph {
+    padding: 4px;
+    word-break: break-word;
+    white-space: pre-wrap;
+  }
+
+  .editable-paragraph::before {
+    content: attr(data-placeholder);
+    color: currentColor;
+    position: absolute;
+    pointer-events: none;
+    white-space: nowrap;
+    font-style: italic;
+  }
+
+  .editable-paragraph:focus::before {
+    color: #888;
+  }
+
+  .editable-paragraph.has-content::before {
+    content: none;
+  }
 }
