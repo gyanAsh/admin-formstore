@@ -22,6 +22,7 @@ import TemplateSelect from "./form-styles";
 import LayoutToggle from "./layout-toggle";
 import { Eye } from "lucide-react";
 import { FormContent } from "./form-content";
+import { addNewElement } from "@/store/form";
 
 export default memo(function Form() {
   const { workspaceId } = useParams();
@@ -113,7 +114,11 @@ export default memo(function Form() {
                   </div>
                 </Card>
                 <FormContent />
-                <Button className="w-fit mx-auto" effect={"click"}>
+                <Button
+                  className="w-fit mx-auto"
+                  effect={"click"}
+                  onClick={addNewElement}
+                >
                   <FigmaAdd /> Add Element
                 </Button>
                 *these element pages are dragable.

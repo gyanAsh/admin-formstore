@@ -26,4 +26,12 @@ export function updateElementType(id: number, newType: FromTypes) {
 
   $current_form_elements.set(updated);
 }
+
+export function addNewElement() {
+  const current = $current_form_elements.get();
+  $current_form_elements.set([
+    ...current,
+    { id: current.length, type: FromTypes.default },
+  ]);
+}
 export const $active_form_element = atom<number>(0);
