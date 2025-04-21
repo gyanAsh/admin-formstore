@@ -19,11 +19,43 @@ export function FormContent() {
         let type = form.type;
         if (type === FromTypes.default)
           return <DefaultCard key={idx} position={form.id} />;
-        if (type === FromTypes.email) return <EmailCard key={idx} />;
+        else if (type === FromTypes.email) return <EmailCard key={idx} />;
+        else if (type === FromTypes.phone) return <PhoneCard key={idx} />;
       })}
     </>
   );
 }
+
+const PhoneCard = () => {
+  const titleRef = React.useRef<HTMLParagraphElement>(null);
+  const descriptionRef = React.useRef<HTMLParagraphElement>(null);
+
+  const updateText = debounce(() => {
+    console.log("updated");
+  }, 1500);
+  return (
+    <Card className="grid p-6 gap-3 max-w-[770px] w-full border mx-auto shadow-xl">
+      <section className="grid gap-0">
+        <EditableParagraph
+          className="text-xl"
+          paragraphRef={titleRef}
+          data-placeholder="Your question here."
+          handleChange={updateText}
+        />
+        <EditableParagraph
+          className="text-base font-light"
+          paragraphRef={descriptionRef}
+          data-placeholder="Description (optional)"
+        />
+      </section>
+      <input
+        disabled
+        placeholder="08173096350"
+        className="text-2xl placeholder:text-2xl focus:outline-0 border-b focus:border-b-2 border-blue-600"
+      />
+    </Card>
+  );
+};
 
 const EmailCard = () => {
   const titleRef = React.useRef<HTMLParagraphElement>(null);
@@ -33,12 +65,12 @@ const EmailCard = () => {
     console.log("updated");
   }, 1500);
   return (
-    <Card className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 px-2 gap-3 max-w-[770px] w-full border mx-auto shadow-xl">
+    <Card className="grid p-6 gap-3 max-w-[770px] w-full border mx-auto shadow-xl">
       <section className="grid gap-0">
         <EditableParagraph
           className="text-xl"
           paragraphRef={titleRef}
-          data-placeholder="Your question here. Recall information with @"
+          data-placeholder="Your question here."
           handleChange={updateText}
         />
         <EditableParagraph
@@ -159,7 +191,7 @@ const DefaultCard = ({ position }: { position: number }) => {
   ];
 
   return (
-    <Card className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 px-2 gap-3 max-w-[770px] w-full border mx-auto shadow-xl">
+    <Card className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 p-6 gap-3 max-w-[770px] w-full border mx-auto shadow-xl">
       {elements.map((e, idx) => (
         <Button
           key={idx}
