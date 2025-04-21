@@ -1,3 +1,4 @@
+import { EditableParagraph } from "@/components/editable-input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn, debounce } from "@/lib/utils";
@@ -9,6 +10,7 @@ import {
 import { useStore } from "@nanostores/react";
 import { ListChecks } from "lucide-react";
 import React from "react";
+import { EmailCard } from "./email-card";
 
 export function FormContent() {
   const formElements = useStore($current_form_elements);
@@ -51,37 +53,6 @@ const PhoneCard = () => {
       <input
         disabled
         placeholder="08173096350"
-        className="text-2xl placeholder:text-2xl focus:outline-0 border-b focus:border-b-2 border-blue-600"
-      />
-    </Card>
-  );
-};
-
-const EmailCard = () => {
-  const titleRef = React.useRef<HTMLParagraphElement>(null);
-  const descriptionRef = React.useRef<HTMLParagraphElement>(null);
-
-  const updateText = debounce(() => {
-    console.log("updated");
-  }, 1500);
-  return (
-    <Card className="grid p-6 gap-3 max-w-[770px] w-full border mx-auto shadow-xl">
-      <section className="grid gap-0">
-        <EditableParagraph
-          className="text-xl"
-          paragraphRef={titleRef}
-          data-placeholder="Your question here."
-          handleChange={updateText}
-        />
-        <EditableParagraph
-          className="text-base font-light"
-          paragraphRef={descriptionRef}
-          data-placeholder="Description (optional)"
-        />
-      </section>
-      <input
-        disabled
-        placeholder="name@example.com"
         className="text-2xl placeholder:text-2xl focus:outline-0 border-b focus:border-b-2 border-blue-600"
       />
     </Card>
@@ -218,43 +189,5 @@ const DefaultCard = ({ position }: { position: number }) => {
         </Button>
       ))}
     </Card>
-  );
-};
-
-interface EditableParagraphProps extends React.ComponentProps<"p"> {
-  paragraphRef: React.RefObject<HTMLParagraphElement | null>;
-  handleChange?: Function;
-}
-const EditableParagraph = ({
-  className,
-  paragraphRef,
-  handleChange,
-  ...props
-}: EditableParagraphProps) => {
-  const handleInput = () => {
-    const element = paragraphRef.current;
-    if (!element) return;
-
-    const hasContent = element.textContent?.trim() !== "";
-    element.classList.toggle("has-content", hasContent);
-    if (typeof handleChange === "function") handleChange(element.textContent);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-    }
-  };
-
-  return (
-    <p
-      ref={paragraphRef}
-      className={cn("editable-paragraph focus:outline-0 relative ", className)}
-      contentEditable
-      spellCheck="true"
-      onInput={handleInput}
-      onKeyDown={handleKeyDown}
-      {...props}
-    />
   );
 };
