@@ -3,7 +3,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Info } from "lucide-react";
+import { ChevronDown, Info } from "lucide-react";
 import { debounce } from "@/lib/utils";
 import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
@@ -14,36 +14,17 @@ import MultipleSelector, { Option } from "@/components/ui/multiselect";
 
 const tips = [
   {
-    title: "Default",
-    description: "By defalut all email domains are accepted.",
-  },
-  {
-    title: "Selected Domain",
-    description:
-      "For selected domains, you can select one or more domains from the list.",
-  },
-  {
-    title: "Custom Domain",
-    description:
-      "If you desired domain is not in the list, you can add a new domain by typing and pressing Enter.",
+    title: "Create Options",
+    description: "Add a new options by typing and pressing Enter.",
   },
 ];
 
-const emailDomain: Option[] = [
-  { value: "gmail.com", label: "gmail.com" },
-  { value: "yahoo.com", label: "yahoo.com" },
-  { value: "hotmail.com", label: "hotmail.com" },
-  { value: "outlook.com", label: "outlook.com" },
-  { value: "zoho.com", label: "zoho.com" },
-  { value: "aol.com", label: "aol.com" },
-  { value: "hotmail.co.uk", label: "hotmail.co.uk" },
-  { value: "msn.com", label: "msn.com" },
-  { value: "yahoo.co.uk", label: "yahoo.co.uk" },
-];
+const ddoptions: Option[] = [];
 
-export const EmailCard = () => {
+export const DropDownCard = () => {
   const titleRef = React.useRef<HTMLParagraphElement>(null);
   const descriptionRef = React.useRef<HTMLParagraphElement>(null);
+  const ddOptionPlaceholderRef = React.useRef<HTMLParagraphElement>(null);
 
   const updateText = debounce(() => {
     console.log("updated");
@@ -56,7 +37,7 @@ export const EmailCard = () => {
           <Switch />
         </div>
         <div className="grid col-span-1 gap-1.5">
-          <EmailOptions />
+          <DropDownOptions />
         </div>
       </section>
       <section className="grid gap-0">
@@ -72,16 +53,19 @@ export const EmailCard = () => {
           data-placeholder="Description (optional)"
         />
       </section>
-      <input
-        disabled
-        placeholder="name@example.com"
-        className="text-2xl placeholder:text-2xl focus:outline-0 border-b focus:border-b-2 border-blue-600"
-      />
+      <div className="flex items-center w-full relative">
+        <EditableParagraph
+          className="font-light text-2xl w-full placeholder:text-2xl focus:outline-0 border-b focus:border-b-2 border-blue-600"
+          paragraphRef={ddOptionPlaceholderRef}
+          data-placeholder="Add placeholder text..."
+        />
+        <ChevronDown className="absolute right-0 text-blue-600" />
+      </div>
     </Card>
   );
 };
 
-function EmailOptions() {
+function DropDownOptions() {
   const [currentTip, setCurrentTip] = useState(0);
 
   const handleNavigation = () => {
@@ -94,7 +78,7 @@ function EmailOptions() {
   return (
     <>
       <div className="flex items-center gap-1.5">
-        <Label>Emails:</Label>
+        <Label>Options:</Label>
         <Popover>
           <PopoverTrigger asChild>
             <Info
@@ -112,17 +96,6 @@ function EmailOptions() {
                   {tips[currentTip].description}
                 </p>
               </div>
-              <div className="flex items-center justify-between gap-2">
-                <span className="text-muted-foreground text-xs">
-                  {currentTip + 1}/{tips.length}
-                </span>
-                <button
-                  className="text-xs font-medium hover:underline"
-                  onClick={handleNavigation}
-                >
-                  {currentTip === tips.length - 1 ? "Start over" : "Next"}
-                </button>
-              </div>
             </div>
           </PopoverContent>
         </Popover>
@@ -133,14 +106,13 @@ function EmailOptions() {
         className="w-60"
         creatable
         commandProps={{
-          label: "Select email domain",
+          label: "Options",
         }}
-        value={emailDomain.slice(0, 0)}
-        defaultOptions={emailDomain}
-        placeholder="Select Email Domain"
+        value={ddoptions.slice(0, 0)}
+        defaultOptions={ddoptions}
+        placeholder="Create Options"
         hideClearAllButton
         hidePlaceholderWhenSelected
-        emptyIndicator={<p className="text-center text-sm">No results found</p>}
       />
     </>
   );
