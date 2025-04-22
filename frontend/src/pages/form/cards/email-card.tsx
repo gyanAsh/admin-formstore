@@ -1,33 +1,31 @@
-import React from "react";
-
-import { Label } from "@/components/ui/label";
-import MultipleSelector, { Option } from "@/components/ui/multiselect";
-import { debounce } from "@/lib/utils";
-import { Card } from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
-import { EditableParagraph } from "@/components/editable-input";
-
-import { useState } from "react";
-
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Info } from "lucide-react";
+import { debounce } from "@/lib/utils";
+import React, { useState } from "react";
+import { Card } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { EditableParagraph } from "@/components/editable-input";
+import MultipleSelector, { Option } from "@/components/ui/multiselect";
 
 const tips = [
   {
     title: "Default",
-    description: "All email domains are accepted.",
+    description: "By defalut all email domains are accepted.",
   },
   {
     title: "Selected Domain",
-    description: "You can select one or more domains from the list.",
+    description:
+      "For selected domains, you can select one or more domains from the list.",
   },
   {
     title: "Custom Domain",
-    description: "Add a new domain by typing and pressing Enter.",
+    description:
+      "If you desired domain is not in the list, you can add a new domain by typing and pressing Enter.",
   },
 ];
 
