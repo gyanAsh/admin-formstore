@@ -5,7 +5,7 @@ import {
 } from "@/components/ui/popover";
 import { ChevronDown, Info } from "lucide-react";
 import { debounce } from "@/lib/utils";
-import React, { useState } from "react";
+import React from "react";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
@@ -66,15 +66,8 @@ export const DropDownCard = () => {
 };
 
 function DropDownOptions() {
-  const [currentTip, setCurrentTip] = useState(0);
+  const currentTip = 0;
 
-  const handleNavigation = () => {
-    if (currentTip === tips.length - 1) {
-      setCurrentTip(0);
-    } else {
-      setCurrentTip(currentTip + 1);
-    }
-  };
   return (
     <>
       <div className="flex items-center gap-1.5">
