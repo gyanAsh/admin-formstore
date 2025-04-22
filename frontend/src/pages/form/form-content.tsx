@@ -11,6 +11,7 @@ import { ListChecks } from "lucide-react";
 import { EmailCard } from "./cards/email-card";
 import { PhoneCard } from "./cards/phone-card";
 import { TextCard } from "./cards/text-card";
+import { DateCard } from "./cards/date-card";
 
 export function FormContent() {
   const formElements = useStore($current_form_elements);
@@ -24,6 +25,7 @@ export function FormContent() {
         else if (type === FromTypes.email) return <EmailCard key={idx} />;
         else if (type === FromTypes.phone) return <PhoneCard key={idx} />;
         else if (type === FromTypes.text) return <TextCard key={idx} />;
+        else if (type === FromTypes.date) return <DateCard key={idx} />;
       })}
     </>
   );
