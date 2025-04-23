@@ -31,7 +31,7 @@ export default function App() {
 
         <Route path=":workspaceId">
           <Route index element={<Workspace />} />
-          <Route path=":fromId" element={<Form />} />
+          <Route path=":formId" element={<Form />} />
         </Route>
       </Route>
       <Route path="*" element={<NotFound />} />
