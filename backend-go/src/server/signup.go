@@ -1,64 +1,67 @@
-package services
+package server
 
 import (
+	"context"
 	"encoding/json"
 	"log"
 	"net/http"
 )
 
-func (s *Service) loginHandler(w http.ResponseWriter, r *http.Request) {
+type User struct {
+	ID       int64  `json:"id"`
+	Username string `json:"username"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+func (s *Service) signupHandler(w http.ResponseWriter, r *http.Request) {
 	var user User
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	if user.Username == "" {
+		log.Println("missing username is user data")
+		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(map[string]interface{}{
-			"messsage": "failed to parse json data check if data is formatted correctly",
+			"message": "username is empty",
 		}); err != nil {
 			log.Println(err)
 		}
 		return
 	}
 	if user.Email == "" {
+		log.Println("missing email is user data")
 		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(map[string]interface{}{
-			"message": "missing or null field email",
+			"message": "email is empty",
 		}); err != nil {
 			log.Println(err)
 		}
 		return
 	}
 	if user.Password == "" {
+		log.Println("missing password is user data")
 		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(map[string]interface{}{
-			"message": "missing or null field password",
+			"message": "password is empty",
 		}); err != nil {
 			log.Println(err)
 		}
 		return
 	}
-
-	row := s.DB.QueryRow(r.Context(), `SELECT ID, password FROM users WHERE email = $1`, user.Email)
-	var dbUserPassword string
-	if err := row.Scan(&user.ID, &dbUserPassword); err != nil {
+	row := s.DB.QueryRow(context.Background(), `INSERT INTO users
+		(username, email, password) VALUES ($1, $2, $3) RETURNING ID`,
+		user.Username, user.Email, user.Password)
+	if err := row.Scan(&user.ID); err != nil {
 		log.Println(err)
-		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(map[string]interface{}{
-			"message": "user not found, please signup user before continuing",
-		})
-		return
-	}
-	if dbUserPassword != user.Password {
-		w.WriteHeader(http.StatusUnauthorized)
-		if err := json.NewEncoder(w).Encode(map[string]interface{}{
-			"message": "incorrect email or password",
+		w.WriteHeader(http.StatusConflict)
+		if err = json.NewEncoder(w).Encode(map[string]interface{}{
+			"message": "email already used, please login or choose forget password",
 		}); err != nil {
 			log.Println(err)
 		}
-		return
-	}
-	if user.ID == 0 {
-		log.Println("invalid value in user id")
-		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	tokenString, err := generateAuthToken(user.ID, s.JwtSecret)
@@ -72,7 +75,6 @@ func (s *Service) loginHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-
 	if err = json.NewEncoder(w).Encode(map[string]interface{}{
 		"jwt_token": tokenString,
 	}); err != nil {

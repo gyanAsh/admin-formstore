@@ -1,10 +1,10 @@
 package main
 
 import (
-	"local.formstore.admin/src/services"
+	"local.formstore.admin/src/server"
 	"log"
 )
 
 func main() {
-	log.Fatal(services.HttpServiceStart())
+	log.Fatal(server.HttpServiceStart())
 }
