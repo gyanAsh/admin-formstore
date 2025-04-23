@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
-import React, { memo, SVGProps } from "react";
+import React, { SVGProps } from "react";
 import { FigmaAdd } from "@/components/icons";
 import { useParams } from "react-router";
 import { useStore } from "@nanostores/react";
@@ -24,7 +24,7 @@ import { Eye } from "lucide-react";
 import { FormContent } from "./form-content";
 import { addNewElement } from "@/store/form";
 
-export default memo(function Form() {
+export default function Form() {
   const { workspaceId } = useParams();
   const currentWorkspace = useStore($current_workspace);
   const currentForm = useStore($current_form);
@@ -137,7 +137,7 @@ export default memo(function Form() {
       </main>
     </>
   );
-});
+};
 
 function SidebarTriggerButton({
   className,
