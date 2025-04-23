@@ -33,8 +33,6 @@ export default function Workspace() {
 
   const {
     data: forms,
-    isPending: formsIsPending,
-    error: formsError,
   } = useQuery({
     queryKey: ["api-workspace-forms", workspaceId],
     queryFn: async () => {
