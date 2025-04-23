@@ -34,7 +34,8 @@ func (s *Service) formsHandler(w http.ResponseWriter, r *http.Request) {
 	rows, err := s.DB.Query(r.Context(), `
 		SELECT
 			forms.ID, forms.title, forms.created_at, forms.updated_at,
-			forms.workspace_id
+			workspaces.ID, workspaces.name, workspaces.created_at,
+			workspaces.updated_at
 		FROM
 			forms
 		INNER JOIN
@@ -54,16 +55,22 @@ func (s *Service) formsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	var forms []Form
+	var workspace Workspace
 	for rows.Next() {
 		var form Form
 		if err = rows.Scan(&form.ID, &form.Title, &form.CreatedAt,
-			&form.UpdatedAt, &form.WorkspaceID); err != nil {
+			&form.UpdatedAt, &workspace.ID, &workspace.Name,
+			&workspace.CreatedAt, &workspace.UpdatedAt); err != nil {
+			form.WorkspaceID = strconv.Itoa(int(workspace.ID))
 			log.Println(err)
 			continue
 		}
 		forms = append(forms, form)
 	}
-	if err = json.NewEncoder(w).Encode(forms); err != nil {
+	if err = json.NewEncoder(w).Encode(map[string]interface{}{
+		"forms":     forms,
+		"workspace": workspace,
+	}); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 	}
