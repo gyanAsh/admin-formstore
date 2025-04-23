@@ -24,15 +24,12 @@ import { Link, useParams } from "react-router";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useQuery } from "@tanstack/react-query";
 import AddFormButton from "@/components/layout/dashboard/AddFormButton";
-import { useStore } from "@nanostores/react";
-import { $current_form, $current_workspace } from "@/store/workspace";
 
 export default function Workspace() {
   const { workspaceId } = useParams();
-  const currentWorkspace = useStore($current_workspace);
 
   const {
-    data: forms,
+    data: formsData,
   } = useQuery({
     queryKey: ["api-workspace-forms", workspaceId],
     queryFn: async () => {
@@ -42,11 +39,12 @@ export default function Workspace() {
         },
       });
       const data = await res.json();
+      console.log(data);
       return data;
     },
     refetchOnWindowFocus: false,
   });
-  const forms_data = { forms: forms ?? [] };
+  const forms_data = { forms: formsData?.forms ?? [] };
   const parentRef = React.useRef(null);
 
   // The virtualizer
@@ -71,7 +69,7 @@ export default function Workspace() {
                 decorative
               />
               <BreadCrumbs
-                currentPage={currentWorkspace.name}
+                currentPage={formsData?.workspace?.name ?? `workspace: ID${workspaceId}`}
                 otherPageLinks={[
                   {
                     name: "Workspace",
@@ -182,9 +180,6 @@ export default function Workspace() {
                             >
                               <Link
                                 to={`/workspace/${workspaceId}/${form.id}`}
-                                onClick={() => {
-                                  $current_form.set(form);
-                                }}
                               >
                                 <div>ID{form?.id}</div>
                                 <TooltipProvider>
