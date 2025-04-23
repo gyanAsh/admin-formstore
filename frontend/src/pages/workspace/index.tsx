@@ -181,7 +181,7 @@ export default function Workspace() {
                               asChild
                             >
                               <Link
-                                to={`/workspace/${workspaceId}/${idx + 1}`}
+                                to={`/workspace/${workspaceId}/${form.id}`}
                                 onClick={() => {
                                   $current_form.set(form);
                                 }}
