@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/jackc/pgx/v5"
 )
 
 type Form struct {
@@ -131,6 +133,58 @@ func (s *Service) formCreateHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if err = json.NewEncoder(w).Encode(form); err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+}
+
+func (s *Service) formDataHandler(w http.ResponseWriter, r *http.Request) {
+	userID, err := authenticate(r, s.JwtSecret)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+	formID, err := strconv.Atoi(r.PathValue("form_id"))
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	row := s.DB.QueryRow(r.Context(), `
+		SELECT
+			forms.ID, forms.title, forms.created_at, forms.updated_at,
+			workspaces.ID, workspaces.name, workspaces.user_id,
+			workspaces.created_at, workspaces.updated_at
+		FROM
+			forms
+		INNER JOIN
+			workspaces
+		ON
+			forms.workspace_id = workspaces.id
+		WHERE
+			forms.ID = $1
+		AND
+			workspaces.user_id = $2
+		`, formID, userID)
+	var form Form
+	var workspace Workspace
+	if err := row.Scan(&form.ID, &form.Title, &form.CreatedAt, &form.UpdatedAt,
+		&workspace.ID, &workspace.Name, &workspace.UserID, &workspace.CreatedAt,
+		&workspace.UpdatedAt); err != nil {
+		log.Println(err)
+		if err == pgx.ErrNoRows {
+			w.WriteHeader(http.StatusForbidden)
+			return
+		}
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	if err = json.NewEncoder(w).Encode(map[string]interface{}{
+		"form":      form,
+		"workspace": workspace,
+	}); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
