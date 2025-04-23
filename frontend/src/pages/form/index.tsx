@@ -9,14 +9,12 @@ import { Card } from "@/components/ui/card";
 import React, { SVGProps } from "react";
 import { FigmaAdd } from "@/components/icons";
 import { useParams } from "react-router";
-import { useStore } from "@nanostores/react";
 import { Button } from "@/components/ui/button";
 import BreadCrumbs from "@/components/bread-crumbs";
 import ModeToggle from "@/components/theme-toggle";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSidebar } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
-import { $current_form, $current_workspace } from "@/store/workspace";
 import FormThemes from "./themes";
 import TemplateSelect from "./form-styles";
 import LayoutToggle from "./layout-toggle";
@@ -34,26 +32,30 @@ type Form = {
   workspace_id: string;
 };
 
+type Workspace = {
+  id: number;
+  name: string;
+  user_id: number;
+  created_at: string;
+  updated_at: string;
+};
+
 export default function Form() {
   const { workspaceId, formId } = useParams();
 
-  const { data: currentForm } = useQuery({
+  const { data: formData, isPending: loadingFormData, isError: errorFormData } = useQuery({
     queryFn: async () => {
       const res = await fetch(`/api/form/${formId}`, {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${getAuthToken()}`
+          Authorization: `Bearer ${getAuthToken()}`,
         },
       });
       const data = await res.json();
-      return data as Form;
+      return data as {form: Form, workspace: Workspace};
     },
     queryKey: ["api-form-id"],
   });
-
-  const currentWorkspace = undefined;
-
-  console.log(currentForm);
 
   return (
     <>
@@ -69,14 +71,14 @@ export default function Form() {
                 decorative
               />
               <BreadCrumbs
-                currentPage={currentForm?.title ?? "missing data"}
+                currentPage={(!loadingFormData && !errorFormData) ? formData.form.title : `form: ID${formId}`}
                 otherPageLinks={[
                   {
                     name: "Workspace",
                     path: "/workspace",
                   },
                   {
-                    name: currentWorkspace?.name ?? "missing data",
+                    name: (!loadingFormData && !errorFormData) ? formData.workspace.name : `workspace: ID${workspaceId}`,
                     path: `/workspace/${workspaceId}`,
                   },
                 ]}
