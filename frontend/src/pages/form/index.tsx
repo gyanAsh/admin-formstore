@@ -23,11 +23,37 @@ import LayoutToggle from "./layout-toggle";
 import { Eye } from "lucide-react";
 import { FormContent } from "./form-content";
 import { addNewElement } from "@/store/form";
+import { useQuery } from "@tanstack/react-query";
+import { getAuthToken } from "@/lib/utils";
+
+type Form = {
+  id: number;
+  title: string;
+  created_at: string;
+  updated_at: string;
+  workspace_id: string;
+};
 
 export default function Form() {
-  const { workspaceId } = useParams();
-  const currentWorkspace = useStore($current_workspace);
-  const currentForm = useStore($current_form);
+  const { workspaceId, formId } = useParams();
+
+  const { data: currentForm } = useQuery({
+    queryFn: async () => {
+      const res = await fetch(`/api/form/${formId}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${getAuthToken()}`
+        },
+      });
+      const data = await res.json();
+      return data as Form;
+    },
+    queryKey: ["api-form-id"],
+  });
+
+  const currentWorkspace = undefined;
+
+  console.log(currentForm);
 
   return (
     <>
@@ -43,14 +69,14 @@ export default function Form() {
                 decorative
               />
               <BreadCrumbs
-                currentPage={currentForm.title}
+                currentPage={currentForm?.title ?? "missing data"}
                 otherPageLinks={[
                   {
                     name: "Workspace",
                     path: "/workspace",
                   },
                   {
-                    name: currentWorkspace.name,
+                    name: currentWorkspace?.name ?? "missing data",
                     path: `/workspace/${workspaceId}`,
                   },
                 ]}
@@ -137,7 +163,7 @@ export default function Form() {
       </main>
     </>
   );
-};
+}
 
 function SidebarTriggerButton({
   className,
