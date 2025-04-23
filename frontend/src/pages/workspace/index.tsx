@@ -19,7 +19,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useSidebar } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import BreadCrumbs from "@/components/bread-crumbs";
-import React, { memo, SVGProps } from "react";
+import React, { SVGProps } from "react";
 import { Link, useParams } from "react-router";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useQuery } from "@tanstack/react-query";
@@ -27,7 +27,7 @@ import AddFormButton from "@/components/layout/dashboard/AddFormButton";
 import { useStore } from "@nanostores/react";
 import { $current_form, $current_workspace } from "@/store/workspace";
 
-export default memo(function Workspace() {
+export default function Workspace() {
   const { workspaceId } = useParams();
   const currentWorkspace = useStore($current_workspace);
 
@@ -243,7 +243,7 @@ export default memo(function Workspace() {
       </main>
     </>
   );
-});
+};
 
 function SidebarTriggerButton({
   className,
