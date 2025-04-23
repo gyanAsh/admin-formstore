@@ -163,7 +163,7 @@ export default function Workspace() {
                       {/* Only the visible items in the virtualizer, manually positioned to be in view */}
                       {rowVirtualizer
                         .getVirtualItems()
-                        .map((virtualItem, idx) => {
+                        .map((virtualItem, _idx) => {
                           let form = forms_data?.forms[virtualItem.index];
                           return (
                             <Button
