@@ -21,7 +21,7 @@ type Workspace struct {
 }
 
 func (s *Service) workspacesHandler(w http.ResponseWriter, r *http.Request) {
-	userID, err := authenticate(r, s.JwtSecret)
+	userID, err := s.authenticate(r)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusUnauthorized)
@@ -53,7 +53,7 @@ func (s *Service) workspacesHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Service) workspaceCreateHandler(w http.ResponseWriter, r *http.Request) {
-	userID, err := authenticate(r, s.JwtSecret)
+	userID, err := s.authenticate(r)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusUnauthorized)

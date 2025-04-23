@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func authenticate(r *http.Request, jwtSecret []byte) (int64, error) {
+func (s *Service) authenticate(r *http.Request) (int64, error) {
 	authorizationHeader := r.Header.Get("Authorization")
 	chunks := strings.Split(authorizationHeader, " ")
 	if len(chunks) < 2 {
@@ -19,5 +19,5 @@ func authenticate(r *http.Request, jwtSecret []byte) (int64, error) {
 		log.Println(authorizationHeader)
 		return 0, fmt.Errorf("failed to authenticate with Error: failed to parse bearer token Bearer keyword not found within %s", authorizationHeader)
 	}
-	return parseAuthToken(tokenString, jwtSecret)
+	return parseAuthToken(tokenString, s.JwtSecret)
 }

@@ -20,7 +20,7 @@ type Form struct {
 }
 
 func (s *Service) formsHandler(w http.ResponseWriter, r *http.Request) {
-	userID, err := authenticate(r, s.JwtSecret)
+	userID, err := s.authenticate(r)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusUnauthorized)
@@ -77,7 +77,7 @@ func (s *Service) formsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Service) formCreateHandler(w http.ResponseWriter, r *http.Request) {
-	userID, err := authenticate(r, s.JwtSecret)
+	userID, err := s.authenticate(r)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusUnauthorized)
@@ -147,7 +147,7 @@ func (s *Service) formCreateHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Service) formDataHandler(w http.ResponseWriter, r *http.Request) {
-	userID, err := authenticate(r, s.JwtSecret)
+	userID, err := s.authenticate(r)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusUnauthorized)
