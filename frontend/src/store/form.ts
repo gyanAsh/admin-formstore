@@ -2,10 +2,10 @@ import { atom } from "nanostores";
 
 interface FormElement {
   id: number;
-  type: FromTypes;
+  type: FormTypes;
 }
 
-export enum FromTypes {
+export enum FormTypes {
   "default",
   "multiselect",
   "dropdown",
@@ -16,9 +16,9 @@ export enum FromTypes {
 }
 
 export const $current_form_elements = atom<FormElement[]>([
-  { id: 0, type: FromTypes.default },
+  { id: 0, type: FormTypes.default },
 ]);
-export function updateElementType(id: number, newType: FromTypes) {
+export function updateElementType(id: number, newType: FormTypes) {
   const current = $current_form_elements.get();
   const updated: FormElement[] = current.map((item) =>
     item.id === id ? { ...(item as FormElement), type: newType } : item
@@ -31,7 +31,7 @@ export function addNewElement() {
   const current = $current_form_elements.get();
   $current_form_elements.set([
     ...current,
-    { id: current.length, type: FromTypes.default },
+    { id: current.length, type: FormTypes.default },
   ]);
 }
 export const $active_form_element = atom<number>(0);

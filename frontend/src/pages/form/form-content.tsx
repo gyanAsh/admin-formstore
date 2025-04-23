@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import {
   $current_form_elements,
-  FromTypes,
+  FormTypes,
   updateElementType,
 } from "@/store/form";
 import { useStore } from "@nanostores/react";
@@ -21,13 +21,13 @@ export function FormContent() {
     <>
       {formElements.map((form, idx) => {
         let type = form.type;
-        if (type === FromTypes.default)
+        if (type === FormTypes.default)
           return <DefaultCard key={idx} position={form.id} />;
-        else if (type === FromTypes.email) return <EmailCard key={idx} />;
-        else if (type === FromTypes.phone) return <PhoneCard key={idx} />;
-        else if (type === FromTypes.text) return <TextCard key={idx} />;
-        else if (type === FromTypes.date) return <DateCard key={idx} />;
-        else if (type === FromTypes.dropdown) return <DropDownCard key={idx} />;
+        else if (type === FormTypes.email) return <EmailCard key={idx} />;
+        else if (type === FormTypes.phone) return <PhoneCard key={idx} />;
+        else if (type === FormTypes.text) return <TextCard key={idx} />;
+        else if (type === FormTypes.date) return <DateCard key={idx} />;
+        else if (type === FormTypes.dropdown) return <DropDownCard key={idx} />;
       })}
     </>
   );
@@ -49,7 +49,7 @@ const DefaultCard = ({ position }: { position: number }) => {
       ),
       icon_color: "bg-red-300",
       name: "Email",
-      type: FromTypes.email,
+      type: FormTypes.email,
     },
     {
       icon: (
@@ -68,7 +68,7 @@ const DefaultCard = ({ position }: { position: number }) => {
       ),
       icon_color: "bg-blue-300",
       name: "Phone",
-      type: FromTypes.phone,
+      type: FormTypes.phone,
     },
     {
       icon: (
@@ -87,7 +87,7 @@ const DefaultCard = ({ position }: { position: number }) => {
       ),
       icon_color: "bg-pink-300",
       name: "Text",
-      type: FromTypes.text,
+      type: FormTypes.text,
     },
     {
       icon: (
@@ -106,7 +106,7 @@ const DefaultCard = ({ position }: { position: number }) => {
       ),
       icon_color: "bg-emerald-300",
       name: "Date",
-      type: FromTypes.date,
+      type: FormTypes.date,
     },
     {
       icon: (
@@ -125,13 +125,13 @@ const DefaultCard = ({ position }: { position: number }) => {
       ),
       icon_color: "bg-amber-300",
       name: "Drop Down",
-      type: FromTypes.dropdown,
+      type: FormTypes.dropdown,
     },
     {
       icon: <ListChecks className="size-5" strokeWidth={1.5} />,
       icon_color: "bg-indigo-300",
       name: "Multiple Select",
-      type: FromTypes.multiselect,
+      type: FormTypes.multiselect,
     },
   ];
 
