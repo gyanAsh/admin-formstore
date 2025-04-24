@@ -43,7 +43,11 @@ type Workspace = {
 export default function Form() {
   const { workspaceId, formId } = useParams();
 
-  const { data: formData, isPending: loadingFormData, isError: errorFormData } = useQuery({
+  const {
+    data: formData,
+    isPending: loadingFormData,
+    isError: errorFormData,
+  } = useQuery({
     queryFn: async () => {
       const res = await fetch(`/api/form/${formId}`, {
         method: "GET",
@@ -52,7 +56,7 @@ export default function Form() {
         },
       });
       const data = await res.json();
-      return data as {form: Form, workspace: Workspace};
+      return data as { form: Form; workspace: Workspace };
     },
     queryKey: ["api-form-id"],
   });
@@ -71,14 +75,21 @@ export default function Form() {
                 decorative
               />
               <BreadCrumbs
-                currentPage={(!loadingFormData && !errorFormData) ? formData.form.title : `form: ID${formId}`}
+                currentPage={
+                  !loadingFormData && !errorFormData
+                    ? formData.form.title
+                    : `Form: ID${formId}`
+                }
                 otherPageLinks={[
                   {
                     name: "Workspace",
                     path: "/workspace",
                   },
                   {
-                    name: (!loadingFormData && !errorFormData) ? formData.workspace.name : `workspace: ID${workspaceId}`,
+                    name:
+                      !loadingFormData && !errorFormData
+                        ? formData.workspace.name
+                        : `Workspace: ID${workspaceId}`,
                     path: `/workspace/${workspaceId}`,
                   },
                 ]}

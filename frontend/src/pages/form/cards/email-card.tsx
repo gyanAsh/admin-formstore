@@ -3,7 +3,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Info } from "lucide-react";
+import { Info, Trash2 } from "lucide-react";
 import { debounce } from "@/lib/utils";
 import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
@@ -11,6 +11,8 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { EditableParagraph } from "@/components/editable-input";
 import MultipleSelector, { Option } from "@/components/ui/multiselect";
+import { Button } from "@/components/ui/button";
+import { removeExistingElement } from "@/store/form";
 
 const tips = [
   {
@@ -41,7 +43,7 @@ const emailDomain: Option[] = [
   { value: "yahoo.co.uk", label: "yahoo.co.uk" },
 ];
 
-export const EmailCard = () => {
+export const EmailCard = ({ position }: { position: number }) => {
   const titleRef = React.useRef<HTMLParagraphElement>(null);
   const descriptionRef = React.useRef<HTMLParagraphElement>(null);
 
@@ -50,15 +52,27 @@ export const EmailCard = () => {
   }, 1500);
   return (
     <Card className="grid p-6 gap-3 max-w-[770px] w-full border mx-auto shadow-xl">
-      <section className=" border grid grid-cols-10 p-2 rounded-lg bg-accent">
-        <div className="grid col-span-1 gap-1.5">
-          <Label>Required:</Label>
-          <Switch />
-        </div>
-        <div className="grid col-span-1 gap-1.5">
-          <EmailOptions />
-        </div>
-      </section>
+      <div className="flex items-center gap-2">
+        <section className=" border grid grid-cols-10 p-2 rounded-lg bg-accent">
+          <div className="grid col-span-1 gap-1.5">
+            <Label>Required:</Label>
+            <Switch />
+          </div>
+          <div className="grid col-span-1 gap-1.5">
+            <EmailOptions />
+          </div>
+        </section>
+
+        <Button
+          size={"icon"}
+          variant={"destructive"}
+          effect={"click"}
+          onClick={() => removeExistingElement(position)}
+        >
+          <Trash2 />
+        </Button>
+      </div>
+
       <section className="grid gap-0">
         <EditableParagraph
           className="text-xl"

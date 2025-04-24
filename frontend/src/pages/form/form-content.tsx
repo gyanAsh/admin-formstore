@@ -13,6 +13,7 @@ import { PhoneCard } from "./cards/phone-card";
 import { TextCard } from "./cards/text-card";
 import { DateCard } from "./cards/date-card";
 import { DropDownCard } from "./cards/drop-down-card";
+import { MultiSelectCard } from "./cards/multi-select-card";
 
 export function FormContent() {
   const formElements = useStore($current_form_elements);
@@ -23,11 +24,14 @@ export function FormContent() {
         let type = form.type;
         if (type === FormTypes.default)
           return <DefaultCard key={idx} position={form.id} />;
-        else if (type === FormTypes.email) return <EmailCard key={idx} />;
+        else if (type === FormTypes.email)
+          return <EmailCard key={idx} position={form.id} />;
         else if (type === FormTypes.phone) return <PhoneCard key={idx} />;
         else if (type === FormTypes.text) return <TextCard key={idx} />;
         else if (type === FormTypes.date) return <DateCard key={idx} />;
         else if (type === FormTypes.dropdown) return <DropDownCard key={idx} />;
+        else if (type === FormTypes.multiselect)
+          return <MultiSelectCard key={idx} />;
       })}
     </>
   );
