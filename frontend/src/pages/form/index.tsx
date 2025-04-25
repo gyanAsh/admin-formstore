@@ -120,8 +120,8 @@ export default function Form() {
                 <Skeleton className="w-full h-[55px]" />
               </section>
             ) : true ? (
-              <>
-                <Card className="flex flex-row justify-between p-2 rounded-t-none border-t-0 items-center max-w-[770px] w-full mx-auto">
+              <div className="grid grow gap-3 relative h-1 overflow-y-auto">
+                <Card className=" sticky top-0 z-20 flex flex-row justify-between p-2 rounded-t-none border-t-0 items-center max-w-[770px] w-full mx-auto">
                   <div className="flex flex-row h-6 items-center space-x-3.5">
                     <FormThemes />
                     <Separator
@@ -129,12 +129,12 @@ export default function Form() {
                       className="bg-accent-foreground/40"
                       decorative
                     />
-                    <TemplateSelect />
+                    {/* <TemplateSelect /> 
                     <Separator
                       orientation="vertical"
                       className="bg-accent-foreground/40"
                       decorative
-                    />
+                    />//on hold right now */}
                     <LayoutToggle />
                   </div>
                   <div>
@@ -161,7 +161,7 @@ export default function Form() {
                   <FigmaAdd /> Add Element
                 </Button>
                 *these element pages are dragable.
-              </>
+              </div>
             ) : (
               <div>
                 <div className="text-red-600">Error</div>

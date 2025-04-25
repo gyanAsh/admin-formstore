@@ -45,4 +45,18 @@ export function removeExistingElement(id: string) {
   const updated = current.filter((item) => item.id !== id);
   $current_form_elements.set(updated);
 }
+
 export const $active_form_element = atom<number>(0);
+
+export interface FormStyles {
+  layout: "page" | "list";
+}
+
+export const $form_styles = persistentAtom<FormStyles>(
+  "form_styles",
+  { layout: "list" },
+  {
+    encode: JSON.stringify,
+    decode: JSON.parse,
+  }
+);

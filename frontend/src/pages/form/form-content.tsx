@@ -3,12 +3,14 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import {
   $current_form_elements,
+  $form_styles,
   FormElement,
   FormTypes,
+  removeExistingElement,
   updateElementType,
 } from "@/store/form";
 import { useStore } from "@nanostores/react";
-import { ListChecks } from "lucide-react";
+import { ListChecks, Trash2 } from "lucide-react";
 import { EmailCard } from "./cards/email-card";
 import { PhoneCard } from "./cards/phone-card";
 import { TextCard } from "./cards/text-card";
@@ -18,6 +20,7 @@ import { MultiSelectCard } from "./cards/multi-select-card";
 
 export function FormContent() {
   const formElements = useStore($current_form_elements);
+  const formStyles = useStore($form_styles);
 
   return (
     <>
@@ -145,32 +148,45 @@ const DefaultCard = ({ form }: { form: FormElement }) => {
   ];
 
   return (
-    <Card className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 p-6 gap-3 max-w-[770px] w-full border mx-auto shadow-xl">
-      {elements.map((e, idx) => (
+    <Card className="p-6 gap-3 max-w-[770px] w-full border mx-auto shadow-xl">
+      <div className="flex justify-between gap-2">
+        <h2 className=" font-semibold">Select Element you wish to add :</h2>
         <Button
-          key={idx}
-          variant={"violet_secondary"}
+          size={"icon"}
+          variant={"destructive"}
           effect={"click"}
-          className={cn(
-            "gap-3  justify-start shadow-md hover:scale-[1.02] p-2 h-fit text-base",
-            "shadow-[2px_2px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)]",
-            "dark:shadow-[2px_2px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)]"
-          )}
-          onClick={() => {
-            updateElementType(form.id, e.type);
-          }}
+          onClick={() => removeExistingElement(form.id)}
         >
-          <div
-            className={cn(
-              "p-1 flex items-center justify-center rounded border text-white",
-              e.icon_color
-            )}
-          >
-            {e.icon}
-          </div>
-          {e.name}
+          <Trash2 />
         </Button>
-      ))}
+      </div>
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 ">
+        {elements.map((e, idx) => (
+          <Button
+            key={idx}
+            variant={"violet_secondary"}
+            effect={"click"}
+            className={cn(
+              "gap-3  justify-start shadow-md hover:scale-[1.02] p-2 h-fit text-base",
+              "shadow-[2px_2px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)]",
+              "dark:shadow-[2px_2px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)]"
+            )}
+            onClick={() => {
+              updateElementType(form.id, e.type);
+            }}
+          >
+            <div
+              className={cn(
+                "p-1 flex items-center justify-center rounded border text-white",
+                e.icon_color
+              )}
+            >
+              {e.icon}
+            </div>
+            {e.name}
+          </Button>
+        ))}
+      </div>
     </Card>
   );
 };

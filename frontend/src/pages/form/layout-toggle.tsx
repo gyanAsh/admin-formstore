@@ -1,23 +1,28 @@
-import { useState } from "react";
 import { Toggle } from "@/components/ui/toggle";
 import { Button } from "@/components/ui/button";
+import { useStore } from "@nanostores/react";
+import { $form_styles } from "@/store/form";
 
 export default function LayoutToggle() {
-  const [theme, setTheme] = useState<string>("classic");
+  const formStyles = useStore($form_styles);
+  {
+    /* Note: After page mode implementation, rely on page: prefix rather than group-data-[state=on]: */
+  }
 
   return (
-    <Button variant="outline" asChild>
-      <Toggle
-        // variant="default"
-        className="group data-[state=on]:hover:bg-muted size-8 data-[state=on]:bg-transparent cursor-pointer"
-        pressed={theme === "page"}
-        onPressedChange={() =>
-          setTheme((prev) => (prev === "page" ? "classic" : "page"))
-        }
-        aria-label={`Switch to ${theme === "page" ? "classic" : "page"} mode`}
-      >
-        {/* Note: After page mode implementation, rely on page: prefix rather than group-data-[state=on]: */}
-
+    <Toggle
+      className="group data-[state=on]:hover:bg-muted size-8 data-[state=on]:bg-transparent cursor-pointer"
+      pressed={formStyles.layout === "page"}
+      onPressedChange={() => {
+        const current = $form_styles.get();
+        $form_styles.set({
+          ...current,
+          layout: current.layout === "list" ? "page" : "list",
+        });
+      }}
+      asChild
+    >
+      <Button variant="outline">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -42,7 +47,7 @@ export default function LayoutToggle() {
         >
           <path d="M5.625 3.75a2.625 2.625 0 1 0 0 5.25h12.75a2.625 2.625 0 0 0 0-5.25H5.625ZM3.75 11.25a.75.75 0 0 0 0 1.5h16.5a.75.75 0 0 0 0-1.5H3.75ZM3 15.75a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75ZM3.75 18.75a.75.75 0 0 0 0 1.5h16.5a.75.75 0 0 0 0-1.5H3.75Z" />
         </svg>
-      </Toggle>
-    </Button>
+      </Button>
+    </Toggle>
   );
 }
