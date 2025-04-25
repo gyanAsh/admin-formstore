@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import {
   $current_form_elements,
+  FormElement,
   FormTypes,
   updateElementType,
 } from "@/store/form";
@@ -23,21 +24,25 @@ export function FormContent() {
       {formElements.map((form, idx) => {
         let type = form.type;
         if (type === FormTypes.default)
-          return <DefaultCard key={idx} position={form.id} />;
+          return <DefaultCard key={idx} form={form} />;
         else if (type === FormTypes.email)
-          return <EmailCard key={idx} position={form.id} />;
-        else if (type === FormTypes.phone) return <PhoneCard key={idx} />;
-        else if (type === FormTypes.text) return <TextCard key={idx} />;
-        else if (type === FormTypes.date) return <DateCard key={idx} />;
-        else if (type === FormTypes.dropdown) return <DropDownCard key={idx} />;
+          return <EmailCard key={idx} form={form} />;
+        else if (type === FormTypes.phone)
+          return <PhoneCard key={idx} form={form} />;
+        else if (type === FormTypes.text)
+          return <TextCard key={idx} form={form} />;
+        else if (type === FormTypes.date)
+          return <DateCard key={idx} form={form} />;
+        else if (type === FormTypes.dropdown)
+          return <DropDownCard key={idx} form={form} />;
         else if (type === FormTypes.multiselect)
-          return <MultiSelectCard key={idx} />;
+          return <MultiSelectCard key={idx} form={form} />;
       })}
     </>
   );
 }
 
-const DefaultCard = ({ position }: { position: number }) => {
+const DefaultCard = ({ form }: { form: FormElement }) => {
   const elements = [
     {
       icon: (
@@ -152,7 +157,7 @@ const DefaultCard = ({ position }: { position: number }) => {
             "dark:shadow-[2px_2px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)]"
           )}
           onClick={() => {
-            updateElementType(position, e.type);
+            updateElementType(form.id, e.type);
           }}
         >
           <div

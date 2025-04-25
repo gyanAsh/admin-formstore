@@ -1,31 +1,32 @@
 import { atom } from "nanostores";
 import { persistentAtom } from "@nanostores/persistent";
+import { generateMicroId } from "@/lib/utils";
 
-interface FormElement {
-  id: number;
+export interface FormElement {
+  id: string;
   type: FormTypes;
 }
 
 export enum FormTypes {
-  "default",
-  "multiselect",
-  "dropdown",
-  "date",
-  "text",
-  "phone",
-  "email",
+  default = "default",
+  multiselect = "multiselect",
+  dropdown = "dropdown",
+  date = "date",
+  text = "text",
+  phone = "phone",
+  email = "email",
 }
 
 export const $current_form_elements = persistentAtom<FormElement[]>(
   "form_elements", // Key to store in localStorage
-  [{ id: 0, type: FormTypes.default }], // Default value
+  [{ id: generateMicroId(8), type: FormTypes.default }], // Default value
   {
     encode: JSON.stringify,
     decode: JSON.parse,
   }
 );
 
-export function updateElementType(id: number, newType: FormTypes) {
+export function updateElementType(id: string, newType: FormTypes) {
   const current = $current_form_elements.get();
   const updated = current.map((item) =>
     item.id === id ? { ...item, type: newType } : item
@@ -35,11 +36,11 @@ export function updateElementType(id: number, newType: FormTypes) {
 
 export function addNewElement() {
   const current = $current_form_elements.get();
-  const newElement = { id: current.length, type: FormTypes.default };
+  const newElement = { id: generateMicroId(8), type: FormTypes.default };
   $current_form_elements.set([...current, newElement]);
 }
 
-export function removeExistingElement(id: number) {
+export function removeExistingElement(id: string) {
   const current = $current_form_elements.get();
   const updated = current.filter((item) => item.id !== id);
   $current_form_elements.set(updated);

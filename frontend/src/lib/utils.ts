@@ -22,3 +22,21 @@ export function debounce<T extends (...args: any[]) => void>(
     }, wait);
   };
 }
+
+export function generateMicroId(length = 12): string {
+  const characters =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  const charactersLength = characters.length;
+  const randomValues = new Uint8Array(length);
+
+  // Fill array with secure random numbers
+  crypto.getRandomValues(randomValues);
+
+  let result = "";
+  for (let i = 0; i < length; i++) {
+    // Use modulo to pick a character from the allowed set
+    result += characters[randomValues[i] % charactersLength];
+  }
+
+  return result;
+}

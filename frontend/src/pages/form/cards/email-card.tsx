@@ -12,7 +12,7 @@ import { Switch } from "@/components/ui/switch";
 import { EditableParagraph } from "@/components/editable-input";
 import MultipleSelector, { Option } from "@/components/ui/multiselect";
 import { Button } from "@/components/ui/button";
-import { removeExistingElement } from "@/store/form";
+import { FormElement, removeExistingElement } from "@/store/form";
 
 const tips = [
   {
@@ -43,7 +43,7 @@ const emailDomain: Option[] = [
   { value: "yahoo.co.uk", label: "yahoo.co.uk" },
 ];
 
-export const EmailCard = ({ position }: { position: number }) => {
+export const EmailCard = ({ form }: { form: FormElement }) => {
   const titleRef = React.useRef<HTMLParagraphElement>(null);
   const descriptionRef = React.useRef<HTMLParagraphElement>(null);
 
@@ -67,7 +67,7 @@ export const EmailCard = ({ position }: { position: number }) => {
           size={"icon"}
           variant={"destructive"}
           effect={"click"}
-          onClick={() => removeExistingElement(position)}
+          onClick={() => removeExistingElement(form.id)}
         >
           <Trash2 />
         </Button>
