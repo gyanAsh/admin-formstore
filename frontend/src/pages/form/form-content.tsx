@@ -23,25 +23,38 @@ export function FormContent() {
   const formStyles = useStore($form_styles);
 
   return (
-    <>
+    <div className="grid gap-5">
       {formElements.map((form, idx) => {
         let type = form.type;
-        if (type === FormTypes.default)
-          return <DefaultCard key={idx} form={form} />;
-        else if (type === FormTypes.email)
-          return <EmailCard key={idx} form={form} />;
-        else if (type === FormTypes.phone)
-          return <PhoneCard key={idx} form={form} />;
-        else if (type === FormTypes.text)
-          return <TextCard key={idx} form={form} />;
-        else if (type === FormTypes.date)
-          return <DateCard key={idx} form={form} />;
-        else if (type === FormTypes.dropdown)
-          return <DropDownCard key={idx} form={form} />;
-        else if (type === FormTypes.multiselect)
-          return <MultiSelectCard key={idx} form={form} />;
+        return (
+          <Card
+            className={cn(
+              "p-6 gap-3 max-w-[770px] w-full border mx-auto shadow-xl snap-center",
+              {
+                "h-[80dvh] max-w-full px-50 gap-12 justify-center":
+                  formStyles.layout === "page",
+              }
+            )}
+          >
+            {type === FormTypes.default ? (
+              <DefaultCard key={idx} form={form} />
+            ) : type === FormTypes.email ? (
+              <EmailCard key={idx} form={form} />
+            ) : type === FormTypes.phone ? (
+              <PhoneCard key={idx} form={form} />
+            ) : type === FormTypes.text ? (
+              <TextCard key={idx} form={form} />
+            ) : type === FormTypes.date ? (
+              <DateCard key={idx} form={form} />
+            ) : type === FormTypes.dropdown ? (
+              <DropDownCard key={idx} form={form} />
+            ) : type === FormTypes.multiselect ? (
+              <MultiSelectCard key={idx} form={form} />
+            ) : null}
+          </Card>
+        );
       })}
-    </>
+    </div>
   );
 }
 
@@ -148,7 +161,8 @@ const DefaultCard = ({ form }: { form: FormElement }) => {
   ];
 
   return (
-    <Card className="p-6 gap-3 max-w-[770px] w-full border mx-auto shadow-xl">
+    <>
+      {" "}
       <div className="flex justify-between gap-2">
         <h2 className=" font-semibold">Select Element you wish to add :</h2>
         <Button
@@ -187,6 +201,6 @@ const DefaultCard = ({ form }: { form: FormElement }) => {
           </Button>
         ))}
       </div>
-    </Card>
+    </>
   );
 };

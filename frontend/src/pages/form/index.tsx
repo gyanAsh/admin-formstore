@@ -120,7 +120,7 @@ export default function Form() {
                 <Skeleton className="w-full h-[55px]" />
               </section>
             ) : true ? (
-              <div className="grid grow gap-3 relative h-1 overflow-y-auto">
+              <div className="grid grow gap-3 relative h-1 overflow-y-auto snap-y">
                 <Card className=" sticky top-0 z-20 flex flex-row justify-between p-2 rounded-t-none border-t-0 items-center max-w-[770px] w-full mx-auto">
                   <div className="flex flex-row h-6 items-center space-x-3.5">
                     <FormThemes />

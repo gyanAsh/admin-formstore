@@ -17,7 +17,7 @@ export const DateCard = ({ form }: { form: FormElement }) => {
     console.log("updated");
   }, 1500);
   return (
-    <Card className="grid p-6 gap-3 max-w-[770px] w-full border mx-auto shadow-xl">
+    <>
       <div className="flex items-center gap-2">
         <section className=" border grid grid-cols-10 p-2 rounded-lg bg-accent">
           <div className="flex col-span-1 gap-1.5">
@@ -68,6 +68,6 @@ export const DateCard = ({ form }: { form: FormElement }) => {
           className="w-10 text-2xl placeholder:text-2xl focus:outline-0 border-b focus:border-b-2 border-blue-600"
         />
       </div>
-    </Card>
+    </>
   );
 };

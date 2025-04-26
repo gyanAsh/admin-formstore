@@ -32,7 +32,7 @@ export const DropDownCard = ({ form }: { form: FormElement }) => {
     console.log("updated");
   }, 1500);
   return (
-    <Card className="grid p-6 gap-3 max-w-[770px] w-full border mx-auto shadow-xl">
+    <>
       <div className="flex items-center gap-2">
         <section className=" border grid grid-cols-10 p-2 rounded-lg bg-accent">
           <div className="grid col-span-1 gap-1.5">
@@ -74,7 +74,7 @@ export const DropDownCard = ({ form }: { form: FormElement }) => {
         />
         <ChevronDown className="absolute right-0 text-blue-600" />
       </div>
-    </Card>
+    </>
   );
 };
 
