@@ -20,7 +20,12 @@ func (s *Service) formElementCreationHandler(w http.ResponseWriter, r *http.Requ
 		return
 	}
 	var formData map[string]string
-	json.NewDecoder(r.Body).Decode(&formData)
+	if err = json.NewDecoder(r.Body).Decode(&formData); err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("invalid json"))
+		return
+	}
 	log.Println(formData)
 	elementType := formData["element_type"]
 	formID, err := strconv.ParseInt(formData["form_id"], 10, 64)
