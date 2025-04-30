@@ -174,9 +174,13 @@ export default function SignInButton() {
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
-        <Button variant="default">Sign in</Button>
+        <Button
+          variant="outline"
+          effect={"click"}
+          className=" rounded-2xl"
+        >{`Get Started Free`}</Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-h-[calc(100%-2rem)] rounded-2xl overflow-y-auto">
         <div className="flex flex-col items-center gap-2">
           <div
             className="flex size-11 shrink-0 items-center justify-center rounded-full border"

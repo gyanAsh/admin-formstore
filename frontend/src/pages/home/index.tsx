@@ -2,6 +2,7 @@ import { memo } from "react";
 import { cn } from "@/lib/utils";
 import { NavLink } from "react-router";
 import { Button } from "@/components/ui/button";
+import SignInButton from "@/components/layout/hero/sign-in-button";
 
 export default memo(function Home() {
   return (
