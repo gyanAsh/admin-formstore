@@ -28,28 +28,29 @@ export function FormContent() {
         let type = form.type;
         return (
           <Card
+            key={idx}
             className={cn(
               "p-6 gap-3 max-w-[770px] w-full border mx-auto shadow-xl snap-center",
               {
                 "h-[80dvh] max-w-full px-50 gap-12 justify-center":
                   formStyles.layout === "page",
-              }
+              },
             )}
           >
             {type === FormTypes.default ? (
-              <DefaultCard key={idx} form={form} />
+              <DefaultCard form={form} />
             ) : type === FormTypes.email ? (
-              <EmailCard key={idx} form={form} />
+              <EmailCard form={form} />
             ) : type === FormTypes.phone ? (
-              <PhoneCard key={idx} form={form} />
+              <PhoneCard form={form} />
             ) : type === FormTypes.text ? (
-              <TextCard key={idx} form={form} />
+              <TextCard form={form} />
             ) : type === FormTypes.date ? (
-              <DateCard key={idx} form={form} />
+              <DateCard form={form} />
             ) : type === FormTypes.dropdown ? (
-              <DropDownCard key={idx} form={form} />
+              <DropDownCard form={form} />
             ) : type === FormTypes.multiselect ? (
-              <MultiSelectCard key={idx} form={form} />
+              <MultiSelectCard form={form} />
             ) : null}
           </Card>
         );
@@ -183,7 +184,7 @@ const DefaultCard = ({ form }: { form: FormElement }) => {
             className={cn(
               "gap-3  justify-start shadow-md hover:scale-[1.02] p-2 h-fit text-base",
               "shadow-[2px_2px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)]",
-              "dark:shadow-[2px_2px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)]"
+              "dark:shadow-[2px_2px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)]",
             )}
             onClick={() => {
               updateElementType(form.id, e.type);
@@ -192,7 +193,7 @@ const DefaultCard = ({ form }: { form: FormElement }) => {
             <div
               className={cn(
                 "p-1 flex items-center justify-center rounded border text-white",
-                e.icon_color
+                e.icon_color,
               )}
             >
               {e.icon}
