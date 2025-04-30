@@ -16,13 +16,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useSidebar } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import FormThemes from "./themes";
-import TemplateSelect from "./form-styles";
 import LayoutToggle from "./layout-toggle";
 import { Eye } from "lucide-react";
 import { FormContent } from "./form-content";
 import { addNewElement } from "@/store/form";
 import { useQuery } from "@tanstack/react-query";
 import { getAuthToken } from "@/lib/utils";
+import { useState } from "react";
 
 type Form = {
   id: number;
@@ -40,8 +40,26 @@ type Workspace = {
   updated_at: string;
 };
 
+enum FormTypes {
+  default = "default",
+  multiselect = "multiple select",
+  dropdown = "dropdown",
+  date = "date",
+  text = "text",
+  phone = "phone",
+  email = "email",
+}
+
+type FormElement = {
+  id: number;
+  type: FormTypes;
+};
+
 export default function Form() {
   const { workspaceId, formId } = useParams();
+  const [formElements, setFormElements] = useState([
+    { id: 0, type: "default" },
+  ] as FormElement[]);
 
   const {
     data: formData,
@@ -56,7 +74,16 @@ export default function Form() {
         },
       });
       const data = await res.json();
-      return data as { form: Form; workspace: Workspace };
+      const elements = data?.form_elements;
+      if (elements && elements.length > 0) {
+        console.log(elements);
+        // setFormElements(elements);
+      }
+      return data as {
+        form: Form;
+        workspace: Workspace;
+        form_elements: FormElement;
+      };
     },
     queryKey: ["api-form-id"],
   });
@@ -152,7 +179,10 @@ export default function Form() {
                     </Button>
                   </div>
                 </Card>
-                <FormContent />
+                <FormContent
+                  formElements={formElements}
+                  setFormElements={setFormElements}
+                />
                 <Button
                   className="w-fit mx-auto"
                   effect={"click"}

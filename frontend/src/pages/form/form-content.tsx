@@ -1,15 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import {
-  $current_form_elements,
-  $form_styles,
-  FormElement,
-  FormTypes,
-  removeExistingElement,
-  updateElementType,
-} from "@/store/form";
-import { useStore } from "@nanostores/react";
 import { ListChecks, Trash2 } from "lucide-react";
 import { EmailCard } from "./cards/email-card";
 import { PhoneCard } from "./cards/phone-card";
@@ -18,10 +9,23 @@ import { DateCard } from "./cards/date-card";
 import { DropDownCard } from "./cards/drop-down-card";
 import { MultiSelectCard } from "./cards/multi-select-card";
 
-export function FormContent() {
-  const formElements = useStore($current_form_elements);
-  const formStyles = useStore($form_styles);
+interface FormElement {
+  id: number;
+  type: FormTypes;
+}
 
+enum FormTypes {
+  default = "default",
+  multiselect = "multiple select",
+  dropdown = "dropdown",
+  date = "date",
+  text = "text",
+  phone = "phone",
+  email = "email",
+}
+
+
+export function FormContent({ formElements }: { formElements: any[] }) {
   return (
     <div className="grid gap-5">
       {formElements.map((form, idx) => {
@@ -32,8 +36,7 @@ export function FormContent() {
             className={cn(
               "p-6 gap-3 max-w-[770px] w-full border mx-auto shadow-xl snap-center",
               {
-                "h-[80dvh] max-w-full px-50 gap-12 justify-center":
-                  formStyles.layout === "page",
+                "h-[80dvh] max-w-full px-50 gap-12 justify-center": false,
               },
             )}
           >
@@ -186,9 +189,7 @@ const DefaultCard = ({ form }: { form: FormElement }) => {
               "shadow-[2px_2px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)]",
               "dark:shadow-[2px_2px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)]",
             )}
-            onClick={() => {
-              updateElementType(form.id, e.type);
-            }}
+            onClick={() => {}}
           >
             <div
               className={cn(
