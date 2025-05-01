@@ -242,4 +242,12 @@
   .editable-paragraph.has-content::before {
     content: none;
   }
+  .text-stroke-black {
+    paint-order: stroke fill;
+    -webkit-text-stroke: 1px #000;
+  }
+  .text-stroke-white {
+    paint-order: stroke fill;
+    -webkit-text-stroke: 1px #fff;
+  }
 }
