@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,6 +25,7 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
+import { VariantProps } from "class-variance-authority";
 
 export const loginFormSchema = z.object({
   email: z.string().min(4, {
@@ -65,7 +66,13 @@ export const registerLoginFormSchema = z
     message: "Passwords don't match",
   });
 
-export default function SignInButton() {
+export default function SignInButton({
+  triggerText = "Login",
+  ...triggerProps
+}: React.ComponentProps<"button"> &
+  VariantProps<typeof buttonVariants> & {
+    triggerText?: string;
+  }) {
   const id = useId();
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -174,11 +181,7 @@ export default function SignInButton() {
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
-        <Button
-          variant="black"
-          effect={"click"}
-          className=" rounded-2xl"
-        >{`Get Started Free`}</Button>
+        <Button {...triggerProps}>{triggerText}</Button>
       </DialogTrigger>
       <DialogContent className="max-h-[calc(100%-2rem)] rounded-2xl overflow-y-auto">
         <div className="flex flex-col items-center gap-2">

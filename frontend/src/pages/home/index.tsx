@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import { Animate, AnimateKeyframes, AnimateGroup } from "react-simple-animate";
+import SignInButton from "@/components/sign-in-button";
 
 export default memo(function Home() {
   return (
@@ -26,7 +26,8 @@ export default memo(function Home() {
             // "bg-radial from-15%",
             // " from-teal-400 to-lime-500",
             " bg-gradient-to-tl from-blue-700 to-purple-700",
-            "dark:from-teal-200 dark:to-lime-200"
+            "dark:from-blue-400 dark:to-purple-400"
+            // "dark:from-teal-200 dark:to-lime-200"
           )}
         >
           <span>Formstore</span>
@@ -42,18 +43,34 @@ export default memo(function Home() {
         </p>
       </div>
       <div className="flex gap-2">
+        <SignInButton
+          triggerText="Get Started-it's free"
+          effect={"click"}
+          className="rounded-2xl"
+        />
         <Button className="rounded-2xl" effect={"click"} variant={"black"}>
-          Get Started-it's free
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className=""
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z"
+            />
+          </svg>
+          Watch a 1-minute Demo
         </Button>
-        <Button asChild>
-          <NavLink to={"/about"}>About</NavLink>
-        </Button>
-        <Button asChild>
+        {/* <Button asChild>
           <NavLink to={"/workspace"}>Workspace (Protected)</NavLink>
         </Button>
         <Button asChild>
           <NavLink to={"/login"}>Login</NavLink>
-        </Button>
+        </Button> */}
       </div>
       <FormTemplates />
     </main>

@@ -1,6 +1,6 @@
 import ModeToggle from "@/components/theme-toggle";
 import { Outlet } from "react-router";
-import SignInButton from "./sign-in-button";
+import SignInButton from "../../sign-in-button";
 import { Separator } from "@/components/ui/separator";
 
 export default function HeroLayout() {
@@ -22,7 +22,11 @@ export default function HeroLayout() {
           />
         </div>
         <div className="flex items-center space-x-3 h-6">
-          <SignInButton />
+          <SignInButton
+            triggerText="Login"
+            effect={"click"}
+            className="rounded-2xl"
+          />
           <Separator
             orientation="vertical"
             className="bg-accent-foreground/40 h-4"
