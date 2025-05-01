@@ -175,7 +175,7 @@ export default function SignInButton() {
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
         <Button
-          variant="outline"
+          variant="black"
           effect={"click"}
           className=" rounded-2xl"
         >{`Get Started Free`}</Button>

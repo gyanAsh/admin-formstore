@@ -9,10 +9,16 @@ export default function HeroLayout() {
       <div className="fixed top-0 left-0 w-full z-10 flex items-center justify-between gap-4 min-h-10 p-3">
         <div>
           <img
-            src={"/formstore-logo.svg"}
+            src={"/formstore-logo-light.svg"}
             alt="Logo"
             loading="lazy"
-            className=""
+            className="dark:hidden block"
+          />
+          <img
+            src={"/formstore-logo-dark.svg"}
+            alt="Logo"
+            loading="lazy"
+            className="hidden dark:block"
           />
         </div>
         <div className="flex items-center space-x-3 h-6">
@@ -23,13 +29,12 @@ export default function HeroLayout() {
             decorative
           />
           <ModeToggle
-            variant={"secondary"}
+            variant="secondary"
             effect={"click"}
-            className="size-7"
+            className="size-7 border"
           />
         </div>
       </div>
-
       <Outlet />
     </div>
   );

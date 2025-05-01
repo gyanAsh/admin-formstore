@@ -21,14 +21,8 @@ export default function ModeToggle({ ...props }) {
             onClick={() => setTheme(theme === "light" ? "dark" : "light")}
             {...props}
           >
-            <Sun
-              strokeWidth={3}
-              className="h-[1.2rem] w-[1.2rem] transition-all dark:hidden"
-            />
-            <Moon
-              strokeWidth={3}
-              className="h-[1.2rem] w-[1.2rem] transition-all hidden dark:block"
-            />
+            <Sun className="h-[1.2rem] w-[1.2rem] transition-all dark:hidden" />
+            <Moon className="h-[1.2rem] w-[1.2rem] transition-all hidden dark:block" />
             <span className="sr-only">Toggle theme</span>
           </Button>
         </TooltipTrigger>
