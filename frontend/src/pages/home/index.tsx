@@ -140,12 +140,17 @@ const GoBoldForm = () => {
         }
         className={cn(
           " relative",
-          { "text-green-950": theme === themeEnum.default },
           {
-            "text-purple-950": theme === themeEnum.black_plum,
+            "text-green-950 cursor-[url('/cursor/go-bold/green.svg'),_pointer]":
+              theme === themeEnum.default,
           },
           {
-            "text-zinc-950": theme === themeEnum.blue_sky,
+            "text-purple-950 cursor-[url('/cursor/go-bold/purple.svg'),_pointer]":
+              theme === themeEnum.black_plum,
+          },
+          {
+            "text-zinc-950 cursor-[url('/cursor/go-bold/sky.svg'),_pointer]":
+              theme === themeEnum.blue_sky,
           }
         )}
       >
