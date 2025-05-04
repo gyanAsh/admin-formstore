@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 
-const formBGCardVariants = cva(" p-6 rounded-t-3xl w-full h-full ", {
+const formBGCardVariants = cva("rounded-t-3xl w-full h-full ", {
   variants: {
     theme: {
       default:
@@ -34,31 +34,26 @@ function FormBGCard({
   );
 }
 
-const formCardVariants = cva(" p-6 w-full h-full rounded-[calc(24px_-_12px)]", {
+const formCardVariants = cva("w-full h-full rounded-[calc(24px_-_12px)]", {
   variants: {
     theme: {
       default: "bg-green-200/90",
-      black_plum: "bg-purple-400/80",
+      black_plum: "bg-purple-400/75",
       blue_sky: "bg-sky-200",
-    },
-    direction: {
-      left_right: "grid grid-col-1 xl:grid-cols-2",
     },
   },
   defaultVariants: {
     theme: "default",
-    direction: "left_right",
   },
 });
 function FormCard({
   className,
   theme,
-  direction,
   ...props
 }: React.ComponentProps<"div"> & VariantProps<typeof formCardVariants>) {
   return (
     <div
-      className={cn("", formCardVariants({ theme, direction, className }))}
+      className={cn("", formCardVariants({ theme, className }))}
       {...props}
     />
   );
