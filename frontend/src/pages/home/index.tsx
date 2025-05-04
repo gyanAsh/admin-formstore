@@ -96,7 +96,7 @@ const FormTemplates = () => {
             <div className="mx-2 flex-[0_0_80%] p-6 bg-sky-400/20 dark:bg-sky-800/40 rounded-t-3xl border">
               {`make these demo forms interation ( give user the feel of how easy it will be to create form with our website)`}
             </div>
-            <section className="mx-2 flex-[0_0_80%] h-[80dvh]">
+            <section className="mx-2 flex-[0_0_1014px] h-[80dvh]">
               <GoBoldForm />
             </section>
 
@@ -116,9 +116,15 @@ const GoBoldForm = () => {
     "black_plum",
     "blue_sky",
   }
-
+  enum feedback {
+    "definitely",
+    "probably",
+    "not_sure",
+    "probably_not",
+    "definitely_not",
+  }
   const [theme, setTheme] = useState<themeEnum>(themeEnum.default);
-
+  const [selectedOption, setSelectedOption] = useState<feedback>();
   return (
     <FormBGCard
       className="duration-300"
@@ -183,7 +189,7 @@ const GoBoldForm = () => {
                     "flex items-center justify-center rounded-[calc(14px_-_4px)] size-full p-2",
                     { "bg-green-200": _ == themeEnum.default },
                     {
-                      "bg-purple-400": _ == themeEnum.black_plum,
+                      "bg-purple-400/80": _ == themeEnum.black_plum,
                     },
                     {
                       "bg-sky-200": _ == themeEnum.blue_sky,
@@ -216,33 +222,37 @@ const GoBoldForm = () => {
         <section className="flex items-center">
           <div className="text-3xl grid gap-2 w-full">
             {[
-              "Definitely",
-              "Probably",
-              "Not sure",
-              "Probably not",
-              "Definitely not",
+              { name: "Definitely", value: feedback.definitely },
+              { name: "Probably", value: feedback.probably },
+              { name: "Not sure", value: feedback.not_sure },
+              { name: "Probably not", value: feedback.probably_not },
+              { name: "Definitely not", value: feedback.definitely_not },
             ].map((_, idx) => (
               <p
                 key={idx}
+                data-selected={_.value === selectedOption}
                 className={cn(
                   "border-3 rounded-4xl py-2 px-8",
-                  " hover:-translate-y-0.5 transition-all",
-                  "active:scale-95",
+                  " data-[selected=false]:hover:-translate-y-0.5 transition-all",
+                  "data-[selected=false]:active:scale-95",
                   {
-                    "border-green-900 bg-green-500/50 hover:bg-green-700 hover:text-green-200":
+                    "border-green-900 bg-green-500/50 hover:bg-green-600 hover:text-green-200 data-[selected=true]:bg-green-800/85 data-[selected=true]:text-green-100":
                       theme === themeEnum.default,
                   },
                   {
-                    "border-purple-900 bg-purple-200/50 hover:bg-purple-800 hover:text-purple-200":
+                    "border-purple-900 bg-purple-200/50 hover:bg-purple-600 hover:text-purple-200 data-[selected=true]:bg-purple-800/85 data-[selected=true]:text-purple-100":
                       theme === themeEnum.black_plum,
                   },
                   {
-                    "border-zinc-900 bg-sky-400/40 hover:bg-zinc-800 hover:text-zinc-200":
+                    "border-zinc-900 bg-sky-400/40 hover:bg-zinc-600 hover:text-zinc-200  data-[selected=true]:bg-zinc-800 data-[selected=true]:text-zinc-100":
                       theme === themeEnum.blue_sky,
                   }
                 )}
+                onClick={() => {
+                  setSelectedOption(_.value);
+                }}
               >
-                {_}
+                {_.name}
               </p>
             ))}
           </div>

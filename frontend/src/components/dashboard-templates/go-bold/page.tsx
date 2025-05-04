@@ -38,7 +38,7 @@ const formCardVariants = cva(" p-6 w-full h-full rounded-[calc(24px_-_12px)]", {
   variants: {
     theme: {
       default: "bg-green-200/90",
-      black_plum: "bg-purple-400",
+      black_plum: "bg-purple-400/80",
       blue_sky: "bg-sky-200",
     },
     direction: {
