@@ -21,7 +21,7 @@ export default memo(function Home() {
       dark:bg-[#181818] dark:[background-image:radial-gradient(at_70%_84%,_#181818_0%,_transparent_60%),_radial-gradient(at_36%_99%,_#8758ff_0%,_transparent_50%),_radial-gradient(at_35%_62%,_#5cb8e4_0%,_transparent_40%),_radial-gradient(at_28%_50%,_#f2f2f2_0%,_transparent_30%)]
       "
     >
-      <section className="flex flex-col items-center justify-center grow sm:h-[55dvh] w-full relative">
+      <section className="flex flex-col items-center justify-center grow min-h-[55dvh] sm:h-[55dvh] w-full relative">
         <div className="container flex flex-col items-center justify-center gap-1 px-4 my-6">
           <h1
             className={cn(
@@ -97,17 +97,87 @@ const FormTemplates = () => {
             <div className="mx-2 flex-[0_0_80%] p-6 bg-sky-400/20 dark:bg-sky-800/40 rounded-t-3xl border">
               {`make these demo forms interation ( give user the feel of how easy it will be to create form with our website)`}
             </div>
-            <section className="mx-2 flex-[0_0_80%] xl:flex-[0_0_1014px] max-lg:aspect-16/10 md:h-[80dvh]">
+            <section className="mx-2 flex-[0_0_80%] xl:flex-[0_0_1014px] max-lg:aspect-16/10 max-sm:aspect-4/6 md:h-[80dvh]">
               <GoBoldForm />
             </section>
 
-            <div className="mx-2 flex-[0_0_80%] p-6 bg-pink-400/20 dark:bg-pink-800/40 rounded-t-3xl"></div>
+            <div className="mx-2 flex-[0_0_80%] sm:flex-[0_0_300px] md:flex-[0_0_400px] p-6 bg-zinc-900 rounded-t-3xl">
+              <GoBoldMobileForm />
+            </div>
             <div className="mx-2 flex-[0_0_80%] p-6 bg-emerald-400/20 dark:bg-emerald-800/40 rounded-t-3xl"></div>
             <div className="mx-2 flex-[0_0_80%] p-6 bg-amber-400/20 dark:bg-amber-800/40 rounded-t-3xl"></div>
           </div>
         </div>
       </div>
     </>
+  );
+};
+
+const GoBoldMobileForm = () => {
+  return (
+    <GoBoldMobileForm.Card className="">
+      <GoBoldMobileForm.ImageContent className="bg-red-50"></GoBoldMobileForm.ImageContent>
+      <GoBoldMobileForm.QuestionContent className="bg-red-50"></GoBoldMobileForm.QuestionContent>
+      <GoBoldMobileForm.ElementContent className="bg-red-50"></GoBoldMobileForm.ElementContent>
+    </GoBoldMobileForm.Card>
+  );
+};
+GoBoldMobileForm.Card = ({
+  className,
+  ...props
+}: React.ComponentProps<"div">) => {
+  return (
+    <div
+      className={cn(
+        "duration-300 size-full rounded-[calc(24px_-_12px)]",
+        " flex flex-col items-center justify-center",
+        className
+      )}
+      {...props}
+    />
+  );
+};
+
+GoBoldMobileForm.ImageContent = ({
+  className,
+  ...props
+}: React.ComponentProps<"div">) => {
+  return (
+    <div
+      className={cn(
+        "duration-300 p-1 w-full aspect-square rounded-[calc(24px_-_12px)]",
+        className
+      )}
+      {...props}
+    />
+  );
+};
+GoBoldMobileForm.QuestionContent = ({
+  className,
+  ...props
+}: React.ComponentProps<"div">) => {
+  return (
+    <div
+      className={cn(
+        "duration-300 p-1 w-full min-h-24  rounded-[calc(24px_-_12px)]",
+        className
+      )}
+      {...props}
+    />
+  );
+};
+GoBoldMobileForm.ElementContent = ({
+  className,
+  ...props
+}: React.ComponentProps<"div">) => {
+  return (
+    <div
+      className={cn(
+        "duration-300 p-1 w-full min-h-24  rounded-[calc(24px_-_12px)]",
+        className
+      )}
+      {...props}
+    />
   );
 };
 
@@ -226,12 +296,12 @@ const GoBoldForm = () => {
           )}
         >
           <section className="max-lg:pb-3 p-4 flex items-center">
-            <h2 className=" text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl">
-              Would you recommend our product to others?
+            <h2 className=" text-3xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl">
+              Would you recommend our service to others?
             </h2>
           </section>
           <section className="max-lg:pt-2 p-4 flex items-center">
-            <div className=" text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-3xl grid gap-2 w-full">
+            <div className=" text-lg sm:text-lg md:text-xl lg:text-2xl xl:text-3xl grid gap-2 w-full">
               {[
                 { name: "Definitely", value: feedback.definitely },
                 { name: "Probably", value: feedback.probably },
@@ -243,7 +313,7 @@ const GoBoldForm = () => {
                   key={idx}
                   data-selected={_.value === selectedOption}
                   className={cn(
-                    "border-2 md:border-3 rounded-4xl py-1 md:py-2 px-4 md:px-8",
+                    "border-2 md:border-3 rounded-4xl sm:py-1 md:py-2 px-4 md:px-8",
                     " data-[selected=false]:hover:-translate-y-0.5 transition-all",
                     "data-[selected=false]:active:scale-95",
                     {
@@ -251,7 +321,7 @@ const GoBoldForm = () => {
                         theme === themeEnum.green_grass,
                     },
                     {
-                      "border-purple-900 bg-purple-200/50 hover:bg-purple-600 hover:text-purple-200 data-[selected=true]:bg-purple-800/85 data-[selected=true]:text-purple-100":
+                      "border-purple-900 bg-purple-200/50 hover:bg-purple-500/90 hover:text-purple-200 data-[selected=true]:bg-purple-800/85 data-[selected=true]:text-purple-100":
                         theme === themeEnum.black_plum,
                     },
                     {
