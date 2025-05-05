@@ -11,6 +11,68 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+const getFormsInWorkspace = `-- name: GetFormsInWorkspace :many
+SELECT
+	forms.ID, forms.title, forms.created_at, forms.updated_at,
+	workspaces.ID, workspaces.name, workspaces.created_at,
+	workspaces.updated_at
+FROM
+	forms
+INNER JOIN
+	workspaces
+ON
+	forms.workspace_id = workspaces.id
+WHERE
+	workspace_id = $1
+AND
+	workspaces.user_id = $2
+`
+
+type GetFormsInWorkspaceParams struct {
+	WorkspaceID int32
+	UserID      int32
+}
+
+type GetFormsInWorkspaceRow struct {
+	ID          int32
+	Title       string
+	CreatedAt   pgtype.Timestamp
+	UpdatedAt   pgtype.Timestamp
+	ID_2        int32
+	Name        string
+	CreatedAt_2 pgtype.Timestamp
+	UpdatedAt_2 pgtype.Timestamp
+}
+
+func (q *Queries) GetFormsInWorkspace(ctx context.Context, arg GetFormsInWorkspaceParams) ([]GetFormsInWorkspaceRow, error) {
+	rows, err := q.db.Query(ctx, getFormsInWorkspace, arg.WorkspaceID, arg.UserID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetFormsInWorkspaceRow
+	for rows.Next() {
+		var i GetFormsInWorkspaceRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.Title,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.ID_2,
+			&i.Name,
+			&i.CreatedAt_2,
+			&i.UpdatedAt_2,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getWorkspacesForUser = `-- name: GetWorkspacesForUser :many
 SELECT ID, name, created_at, updated_at FROM workspaces WHERE user_id = $1
 `

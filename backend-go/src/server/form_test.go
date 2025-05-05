@@ -11,12 +11,12 @@ func TestParseFormData(t *testing.T) {
 	assert := require.New(t)
 
 	rows := []RowFormData{}
-	_, err := parseFormData(rows)
+	_, err := parseFormElements(rows)
 	assert.NotNil(err)
 	rows = append(rows, RowFormData{
 		FormID: 2,
 	})
-	rowData, err := parseFormData(rows)
+	rowData, err := parseFormElements(rows)
 	log.Println(rowData)
 	assert.NotNil(err)
 }

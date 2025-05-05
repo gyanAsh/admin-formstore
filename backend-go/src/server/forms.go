@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+
+	"local.formstore.admin/db"
 )
 
 type Form struct {
@@ -86,29 +88,17 @@ func (s *Service) formsHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
-	workspaceID := r.PathValue("workspace_id")
-	if workspaceID == "" {
+	workspaceID, err := strconv.Atoi(r.PathValue("workspace_id"))
+	if err != nil {
+		log.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("invalid workspace id"))
 		return
 	}
-	rows, err := s.Conn.Query(r.Context(), `
-		SELECT
-			forms.ID, forms.title, forms.created_at, forms.updated_at,
-			workspaces.ID, workspaces.name, workspaces.created_at,
-			workspaces.updated_at
-		FROM
-			forms
-		INNER JOIN
-			workspaces
-		ON
-			forms.workspace_id = workspaces.id
-		WHERE
-			workspace_id = $1
-		AND
-			workspaces.user_id = $2
-		`,
-		workspaceID, userID)
-	defer rows.Close()
+	rows, err := s.DB.GetFormsInWorkspace(r.Context(), db.GetFormsInWorkspaceParams{
+		WorkspaceID: int32(workspaceID),
+		UserID:      int32(userID),
+	})
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -116,14 +106,16 @@ func (s *Service) formsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	var forms []Form
 	var workspace Workspace
-	for rows.Next() {
+	for i, row := range rows {
 		var form Form
-		if err = rows.Scan(&form.ID, &form.Title, &form.CreatedAt,
-			&form.UpdatedAt, &workspace.ID, &workspace.Name,
-			&workspace.CreatedAt, &workspace.UpdatedAt); err != nil {
-			form.WorkspaceID = strconv.Itoa(int(workspace.ID))
-			log.Println(err)
-			continue
+		form.ID = int64(row.ID)
+		form.Title = row.Title
+		form.CreatedAt = row.CreatedAt.Time
+		form.UpdatedAt = row.UpdatedAt.Time
+		if i == 0 {
+			workspace.ID = int64(row.ID_2)
+			workspace.CreatedAt = row.CreatedAt_2.Time
+			workspace.UpdatedAt = row.UpdatedAt_2.Time
 		}
 		forms = append(forms, form)
 	}
