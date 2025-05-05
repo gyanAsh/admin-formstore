@@ -52,7 +52,7 @@ type FormData struct {
 	FormElements []FormElement `json:"form_elements"`
 }
 
-func parseFormData(rows []RowFormData) (FormData, error) {
+func parseFormElementsAndData(rows []RowFormData) (FormData, error) {
 	if len(rows) == 0 {
 		return FormData{}, fmt.Errorf("failed to parse rows: no rows found")
 	}
@@ -276,7 +276,7 @@ func (s *Service) formDataHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		rowsData = append(rowsData, rowData)
 	}
-	formData, err := parseFormData(rowsData)
+	formData, err := parseFormElementsAndData(rowsData)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
