@@ -20,6 +20,7 @@ import AddWorkspace from "./AddWorkspaceButton";
 import { useQuery } from "@tanstack/react-query";
 import { cn, getAuthToken } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getWorkspaces } from "@/lib/workspaces";
 
 type Workspace = {
   id: number;
@@ -31,27 +32,22 @@ type Workspace = {
 const WorkspaceGroup = () => {
   const { workspaceId } = useParams();
 
-  const { isPending: workspacesIsPending, isSuccess: workspaceSuccess, data: workspaces } =
-    useQuery({
-      queryKey: ["api-workspaces"],
-      queryFn: async () => {
-        try {
-          const res = await fetch(`/api/workspaces`, {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${getAuthToken()}`,
-              "Content-Type": "application/json",
-            },
-          });
-          const data = await res.json();
-          return data as Workspace[];
-        } catch (err) {
-          console.error(err);
-        }
-        return [];
-      },
-      refetchOnWindowFocus: false,
-    });
+  const {
+    isPending: workspacesIsPending,
+    isSuccess: workspaceSuccess,
+    data: workspaces,
+  } = useQuery({
+    queryKey: ["api-workspaces"],
+    queryFn: async () => {
+      try {
+        const data = await getWorkspaces();
+        return data;
+      } catch (err) {
+        console.error(err);
+      }
+      return [];
+    },
+  });
 
   return (
     <SidebarGroup className="grid gap-1">
@@ -82,11 +78,7 @@ const WorkspaceGroup = () => {
                     })}
                     asChild
                   >
-                    <Link
-                      to={project.id.toString()}
-                      onClick={() => {
-                      }}
-                    >
+                    <Link to={project.id.toString()} onClick={() => {}}>
                       <span>{project.name}</span>
                     </Link>
                   </Button>

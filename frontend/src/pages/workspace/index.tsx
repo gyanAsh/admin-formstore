@@ -19,18 +19,41 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useSidebar } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import BreadCrumbs from "@/components/bread-crumbs";
-import React, { SVGProps } from "react";
+import React, { SVGProps, useState, useEffect } from "react";
 import { Link, useParams } from "react-router";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useQuery } from "@tanstack/react-query";
 import AddFormButton from "@/components/layout/dashboard/AddFormButton";
+import { getWorkspaces } from "@/lib/workspaces";
 
 export default function Workspace() {
   const { workspaceId } = useParams();
+  const [ workspace, setWorkspace ] = useState();
 
   const {
-    data: formsData,
+    isSuccess: workspaceSuccess,
+    data: workspaces,
   } = useQuery({
+    queryKey: ["api-workspaces"],
+    queryFn: async () => {
+      try {
+        const data = await getWorkspaces();
+        return data;
+      } catch (err) {
+        console.error(err);
+      }
+      return [];
+    },
+  });
+
+  useEffect(() => {
+    if (workspaceSuccess) {
+      setWorkspace(workspaces.filter(x => x.id == workspaceId)[0]);
+    }
+    console.count("effect run")
+  }, [workspaceId, workspaces]);
+
+  const { data: formsData } = useQuery({
     queryKey: ["api-workspace-forms", workspaceId],
     queryFn: async () => {
       const res = await fetch(`/api/workspace/${workspaceId}/forms`, {
@@ -39,7 +62,6 @@ export default function Workspace() {
         },
       });
       const data = await res.json();
-      console.log(data);
       return data;
     },
     refetchOnWindowFocus: false,
@@ -69,7 +91,9 @@ export default function Workspace() {
                 decorative
               />
               <BreadCrumbs
-                currentPage={formsData?.workspace?.name ?? `workspace: ID${workspaceId}`}
+                currentPage={
+                  workspace?.name ?? `workspace: ID${workspaceId}`
+                }
                 otherPageLinks={[
                   {
                     name: "Workspace",
@@ -178,9 +202,7 @@ export default function Workspace() {
                               className="grid grid-cols-5 gap-4 text-start border active:scale-[0.998] active:translate-y-[2px]"
                               asChild
                             >
-                              <Link
-                                to={`/workspace/${workspaceId}/${form.id}`}
-                              >
+                              <Link to={`/workspace/${workspaceId}/${form.id}`}>
                                 <div>ID{form?.id}</div>
                                 <TooltipProvider>
                                   <Tooltip>
@@ -207,7 +229,10 @@ export default function Workspace() {
                                   {new Date(
                                     forms_data?.forms[
                                       virtualItem.index
-                                    ]?.updated_at.replace(/\.(\d{3})\d+/, ".$1")
+                                    ]?.updated_at.replace(
+                                      /\.(\d{3})\d+/,
+                                      ".$1",
+                                    ),
                                   ).toLocaleDateString("en-GB", {
                                     day: "2-digit",
                                     month: "short",
@@ -236,7 +261,7 @@ export default function Workspace() {
       </main>
     </>
   );
-};
+}
 
 function SidebarTriggerButton({
   className,
