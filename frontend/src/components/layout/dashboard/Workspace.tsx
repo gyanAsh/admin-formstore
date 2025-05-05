@@ -19,8 +19,6 @@ import { Link, useParams } from "react-router";
 import AddWorkspace from "./AddWorkspaceButton";
 import { useQuery } from "@tanstack/react-query";
 import { cn, getAuthToken } from "@/lib/utils";
-import { $all_workspaces, $current_workspace } from "@/store/workspace";
-import { useStore } from "@nanostores/react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 type Workspace = {
@@ -31,11 +29,9 @@ type Workspace = {
 };
 
 const WorkspaceGroup = () => {
-  const workspaces = useStore($all_workspaces);
-
   const { workspaceId } = useParams();
 
-  const { isPending: workspacesIsPending, isSuccess: workspaceSuccess } =
+  const { isPending: workspacesIsPending, isSuccess: workspaceSuccess, data: workspaces } =
     useQuery({
       queryKey: ["api-workspaces"],
       queryFn: async () => {
@@ -48,7 +44,6 @@ const WorkspaceGroup = () => {
             },
           });
           const data = await res.json();
-          $all_workspaces.set(data);
           return data as Workspace[];
         } catch (err) {
           console.error(err);
@@ -90,7 +85,6 @@ const WorkspaceGroup = () => {
                     <Link
                       to={project.id.toString()}
                       onClick={() => {
-                        $current_workspace.set(project);
                       }}
                     >
                       <span>{project.name}</span>
