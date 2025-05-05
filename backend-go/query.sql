@@ -51,3 +51,6 @@ WHERE
 	forms.ID = $1
 AND
 	workspaces.user_id = $2;
+
+-- name: GetWorkspacesByID :one
+SELECT * FROM workspaces WHERE ID = $1;

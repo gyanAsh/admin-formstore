@@ -160,6 +160,23 @@ func (q *Queries) GetFormsInWorkspace(ctx context.Context, arg GetFormsInWorkspa
 	return items, nil
 }
 
+const getWorkspacesByID = `-- name: GetWorkspacesByID :one
+SELECT id, name, created_at, updated_at, user_id FROM workspaces WHERE ID = $1
+`
+
+func (q *Queries) GetWorkspacesByID(ctx context.Context, id int32) (Workspace, error) {
+	row := q.db.QueryRow(ctx, getWorkspacesByID, id)
+	var i Workspace
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.UserID,
+	)
+	return i, err
+}
+
 const getWorkspacesForUser = `-- name: GetWorkspacesForUser :many
 SELECT ID, name, created_at, updated_at FROM workspaces WHERE user_id = $1
 `
