@@ -95,7 +95,7 @@ func (s *Service) formsHandler(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("invalid workspace id"))
 		return
 	}
-	rows, err := s.DB.GetFormsInWorkspace(r.Context(), db.GetFormsInWorkspaceParams{
+	rows, err := s.Queries.GetFormsInWorkspace(r.Context(), db.GetFormsInWorkspaceParams{
 		WorkspaceID: int32(workspaceID),
 		UserID:      int32(userID),
 	})

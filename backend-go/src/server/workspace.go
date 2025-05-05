@@ -43,7 +43,7 @@ func (s *Service) workspacesHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
-	rows, err := s.DB.GetWorkspacesForUser(r.Context(), int32(userID))
+	rows, err := s.Queries.GetWorkspacesForUser(r.Context(), int32(userID))
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)

@@ -12,7 +12,7 @@ import (
 )
 
 type Service struct {
-	DB        *db.Queries
+	Queries   *db.Queries
 	Conn      *pgxpool.Pool
 	JwtSecret []byte
 }
@@ -45,7 +45,7 @@ func HttpServiceStart() error {
 	dbQueries := db.New(pool)
 
 	s := Service{
-		DB:        dbQueries,
+		Queries:   dbQueries,
 		Conn:      pool,
 		JwtSecret: []byte(jwtSecret),
 	}
