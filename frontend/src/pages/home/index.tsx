@@ -101,7 +101,12 @@ const FormTemplates = () => {
               <GoBoldForm />
             </section>
 
-            <div className="mx-2 flex-[0_0_80%] sm:flex-[0_0_300px] md:flex-[0_0_390px] p-6 bg-zinc-900 rounded-t-3xl">
+            <div
+              className={cn(
+                "mx-2 flex-[0_0_80%] sm:flex-[0_0_300px] md:flex-[0_0_390px] p-6 rounded-t-3xl",
+                "bg-[url('/background/black-dots.svg')] bg-repeat"
+              )}
+            >
               <GoBoldMobileForm />
             </div>
             <div className="mx-2 flex-[0_0_80%] p-6 bg-emerald-400/20 dark:bg-emerald-800/40 rounded-t-3xl"></div>
@@ -115,22 +120,21 @@ const FormTemplates = () => {
 
 const GoBoldMobileForm = () => {
   return (
-    <GoBoldMobileForm.Card className=" overflow-y-auto h-full font-['IBM_Plex_Serif','serif']">
-      <GoBoldMobileForm.ImageContent className="bg-red-50">
+    <GoBoldMobileForm.Card className=" overflow-y-auto h-full font-['IBM_Plex_Serif','serif'] text-zinc-950 ">
+      <GoBoldMobileForm.ImageContent className="bg-amber-50">
         <img
           src="/landing-page/cans-dupe.jpeg"
           className="rounded-[calc(24px_-_16px)]"
         />
       </GoBoldMobileForm.ImageContent>
-      <GoBoldMobileForm.QuestionContent className="bg-red-50 text-lg p-5 flex items-center justify-center font-semibold">
-        <h2> What did you like most about the product?</h2>
+      <GoBoldMobileForm.QuestionContent className="bg-amber-50 text-lg p-5 flex items-center justify-center font-semibold leading-5.5">
+        <h2> What did you like most about our product?</h2>
       </GoBoldMobileForm.QuestionContent>
-      <GoBoldMobileForm.ElementContent className="bg-red-50  text-lg p-5 flex items-center justify-center">
+      <GoBoldMobileForm.ElementContent className="bg-amber-50  text-lg p-5 flex items-center justify-center flex-col">
         <input
           type="text"
-          defaultValue={"Light texture that made it easy to drink."}
           placeholder="Share your favorite thing..."
-          className="w-full px-1 font-medium text-[15px] transition-all duration-300  border-b-[1.5px] border-gray-400/85 placeholder:italicfocus:leading-7 focus:border-b-[1.5px] focus:border-zinc-900/75 focus:outline-none line-clamp-3"
+          className="w-full px-1 font-medium transition-all duration-300 border-b-[1.5px] border-gray-400/85 placeholder:tracking-tight placeholder:italicfocus:leading-7 focus:border-b-[1.5px] focus:border-zinc-900/75 focus:outline-none line-clamp-3"
         />
       </GoBoldMobileForm.ElementContent>
     </GoBoldMobileForm.Card>
@@ -187,7 +191,7 @@ GoBoldMobileForm.ElementContent = ({
   return (
     <div
       className={cn(
-        "duration-300 p-1 w-full min-h-20  rounded-[calc(24px_-_12px)]",
+        "duration-300 p-1 w-full min-h-16  rounded-[calc(24px_-_12px)]",
         className
       )}
       {...props}
