@@ -3,7 +3,6 @@ package server
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -52,31 +51,35 @@ type FormData struct {
 	FormElements []FormElement `json:"form_elements"`
 }
 
-func parseFormElementsAndData(rows []RowFormData) (FormData, error) {
-	if len(rows) == 0 {
-		return FormData{}, fmt.Errorf("failed to parse rows: no rows found")
-	}
+func parseFormDataAndElements(rows []db.GetFormDataAndElementsRow) (FormData, error) {
 	var formData FormData
-	formData.Form.ID = rows[0].FormID
-	formData.Form.Title = rows[0].FormTitle
-	formData.Form.CreatedAt = rows[0].FormCreatedAt
-	formData.Form.UpdatedAt = rows[0].FormUpdatedAt
-	formData.Workspace.ID = rows[0].WorkspaceID
-	formData.Workspace.Name = rows[0].WorkspaceName
-	formData.Workspace.CreatedAt = rows[0].WorkspaceCreatedAt
-	formData.Workspace.UpdatedAt = rows[0].WorkspaceUpdatedAt
-	for _, row := range rows {
+	var formElements []FormElement
+	for i, row := range rows {
+		if i == 0 {
+			var form Form
+			var workspace Workspace
+			form.ID = int64(row.ID)
+			form.Title = row.Title
+			form.CreatedAt = row.CreatedAt.Time
+			form.UpdatedAt = row.UpdatedAt.Time
+			workspace.ID = int64(row.ID_2)
+			workspace.Name = row.Name
+			workspace.CreatedAt = row.CreatedAt_2.Time
+			workspace.UpdatedAt = row.UpdatedAt_2.Time
+			formData.Form = form
+			formData.Workspace = workspace
+		}
+
 		var element FormElement
-		if row.FormElementID != nil {
-			element.ID = *row.FormElementID
+		if row.ID_3.Valid {
+			element.ID = int64(row.ID_3.Int32)
+			var elementType, elementValue string
+			row.ElementType.FormElementTypes.Scan(elementType)
+			element.Type = elementType
+			row.ElementType.FormElementTypes.Scan(elementValue)
+			element.Value = row.Value.String
 		}
-		if row.FormElementType != nil {
-			element.Type = *row.FormElementType
-		}
-		if row.FormElementValue != nil {
-			element.Value = *row.FormElementValue
-		}
-		formData.FormElements = append(formData.FormElements, element)
+		formElements = append(formElements, element)
 	}
 	return formData, nil
 }
@@ -211,72 +214,16 @@ func (s *Service) formDataHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	rows, err := s.Conn.Query(r.Context(), `
-		SELECT
-			-- form
-			forms.ID,
-			forms.title,
-			forms.created_at,
-			forms.updated_at,
-			-- workspace
-			workspaces.ID,
-			workspaces.name,
-			workspaces.created_at,
-			workspaces.updated_at,
-			-- user
-			workspaces.user_id,
-			-- form elements (null values, due to left outer join)
-			form_elements.ID,
-			form_elements.element_type,
-			form_elements.value
-		FROM
-			forms
-		INNER JOIN
-			workspaces
-		ON
-			forms.workspace_id = workspaces.ID
-		LEFT OUTER JOIN
-			form_elements
-		ON
-			form_elements.form_id = forms.ID
-		WHERE
-			forms.ID = $1
-		AND
-			workspaces.user_id = $2
-		`, formID, userID)
+	rows, err := s.Queries.GetFormDataAndElements(r.Context(), db.GetFormDataAndElementsParams{
+		ID:     int32(formID),
+		UserID: int32(userID),
+	})
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-
-	var rowsData []RowFormData
-	for rows.Next() {
-		var rowData RowFormData
-		if err := rows.Scan(
-			// forms
-			&rowData.FormID,
-			&rowData.FormTitle,
-			&rowData.FormCreatedAt,
-			&rowData.FormUpdatedAt,
-			// workspace
-			&rowData.WorkspaceID,
-			&rowData.WorkspaceName,
-			&rowData.WorkspaceCreatedAt,
-			&rowData.WorkspaceUpdatedAt,
-			// user
-			&rowData.UserID,
-			// form elements
-			&rowData.FormElementID,
-			&rowData.FormElementType,
-			&rowData.FormElementValue,
-		); err != nil {
-			log.Println(err)
-			continue
-		}
-		rowsData = append(rowsData, rowData)
-	}
-	formData, err := parseFormElementsAndData(rowsData)
+	formData, err := parseFormDataAndElements(rows)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)

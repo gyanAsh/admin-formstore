@@ -11,6 +11,93 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+const getFormDataAndElements = `-- name: GetFormDataAndElements :many
+SELECT
+	-- form
+	forms.ID,
+	forms.title,
+	forms.created_at,
+	forms.updated_at,
+	-- workspace
+	workspaces.ID,
+	workspaces.name,
+	workspaces.created_at,
+	workspaces.updated_at,
+	-- user
+	workspaces.user_id,
+	-- form elements (null values, due to left outer join)
+	form_elements.ID,
+	form_elements.element_type,
+	form_elements.value
+FROM
+	forms
+INNER JOIN
+	workspaces
+ON
+	forms.workspace_id = workspaces.ID
+LEFT OUTER JOIN
+	form_elements
+ON
+	form_elements.form_id = forms.ID
+WHERE
+	forms.ID = $1
+AND
+	workspaces.user_id = $2
+`
+
+type GetFormDataAndElementsParams struct {
+	ID     int32
+	UserID int32
+}
+
+type GetFormDataAndElementsRow struct {
+	ID          int32
+	Title       string
+	CreatedAt   pgtype.Timestamp
+	UpdatedAt   pgtype.Timestamp
+	ID_2        int32
+	Name        string
+	CreatedAt_2 pgtype.Timestamp
+	UpdatedAt_2 pgtype.Timestamp
+	UserID      int32
+	ID_3        pgtype.Int4
+	ElementType NullFormElementTypes
+	Value       pgtype.Text
+}
+
+func (q *Queries) GetFormDataAndElements(ctx context.Context, arg GetFormDataAndElementsParams) ([]GetFormDataAndElementsRow, error) {
+	rows, err := q.db.Query(ctx, getFormDataAndElements, arg.ID, arg.UserID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetFormDataAndElementsRow
+	for rows.Next() {
+		var i GetFormDataAndElementsRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.Title,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.ID_2,
+			&i.Name,
+			&i.CreatedAt_2,
+			&i.UpdatedAt_2,
+			&i.UserID,
+			&i.ID_3,
+			&i.ElementType,
+			&i.Value,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getFormsInWorkspace = `-- name: GetFormsInWorkspace :many
 SELECT
 	forms.ID, forms.title, forms.created_at, forms.updated_at,
