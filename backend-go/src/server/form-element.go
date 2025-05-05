@@ -35,7 +35,7 @@ func (s *Service) formElementCreationHandler(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	row := s.DB.QueryRow(r.Context(), `SELECT user_id from forms WHERE form_id = $1`, formID)
+	row := s.Conn.QueryRow(r.Context(), `SELECT user_id from forms WHERE form_id = $1`, formID)
 	var dbUserID int64
 	if err = row.Scan(&dbUserID); err != nil {
 		log.Println(err)
@@ -48,7 +48,7 @@ func (s *Service) formElementCreationHandler(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	row = s.DB.QueryRow(r.Context(), `INSERT INTO form_elements (element_type,
+	row = s.Conn.QueryRow(r.Context(), `INSERT INTO form_elements (element_type,
 		form_id) VALUES ($1, $2) RETURNING ID`,
 		elementType, formID)
 	var formElementID int64

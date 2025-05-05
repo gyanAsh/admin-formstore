@@ -8,10 +8,12 @@ import (
 
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/joho/godotenv"
+	"local.formstore.admin/db"
 )
 
 type Service struct {
-	DB        *pgxpool.Pool
+	DB        *db.Queries
+	Conn      *pgxpool.Pool
 	JwtSecret []byte
 }
 
@@ -40,8 +42,11 @@ func HttpServiceStart() error {
 		log.Fatalf("failed to load JWT_SECRET: %s", jwtSecret)
 	}
 
+	dbQueries := db.New(pool)
+
 	s := Service{
-		DB:        pool,
+		DB:        dbQueries,
+		Conn:      pool,
 		JwtSecret: []byte(jwtSecret),
 	}
 

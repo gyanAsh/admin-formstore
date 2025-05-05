@@ -91,7 +91,7 @@ func (s *Service) formsHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	rows, err := s.DB.Query(r.Context(), `
+	rows, err := s.Conn.Query(r.Context(), `
 		SELECT
 			forms.ID, forms.title, forms.created_at, forms.updated_at,
 			workspaces.ID, workspaces.name, workspaces.created_at,
@@ -175,7 +175,7 @@ func (s *Service) formCreateHandler(w http.ResponseWriter, r *http.Request) {
 			log.Println(err)
 		}
 	}
-	row := s.DB.QueryRow(context.Background(), `SELECT user_id FROM workspaces WHERE id = $1`, workspaceID)
+	row := s.Conn.QueryRow(context.Background(), `SELECT user_id FROM workspaces WHERE id = $1`, workspaceID)
 	var dbUserID int64
 	if err = row.Scan(&dbUserID); err != nil {
 		log.Println(err)
@@ -190,7 +190,7 @@ func (s *Service) formCreateHandler(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	}
-	row = s.DB.QueryRow(context.Background(), `INSERT INTO forms (title,
+	row = s.Conn.QueryRow(context.Background(), `INSERT INTO forms (title,
 		workspace_id) VALUES ($1, $2) RETURNING ID, title, created_at,
 	updated_at, workspace_id`, formTitle, workspaceID)
 	var form Form
@@ -219,7 +219,7 @@ func (s *Service) formDataHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	rows, err := s.DB.Query(r.Context(), `
+	rows, err := s.Conn.Query(r.Context(), `
 		SELECT
 			-- form
 			forms.ID,

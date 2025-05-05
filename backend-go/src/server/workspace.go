@@ -6,6 +6,8 @@ import (
 	"log"
 	"net/http"
 	"time"
+
+	"local.formstore.admin/db"
 )
 
 type WorkspaceRequest struct {
@@ -20,6 +22,20 @@ type Workspace struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
+func parseRowsToWorkspaces(rows []db.GetWorkspacesForUserRow, userID int64) []Workspace {
+	var workspaces []Workspace
+	for _, row := range rows {
+		var workspace Workspace
+		workspace.ID = int64(row.ID)
+		workspace.Name = row.Name
+		workspace.UserID = userID
+		workspace.CreatedAt = row.CreatedAt.Time
+		workspace.UpdatedAt = row.UpdatedAt.Time
+		workspaces = append(workspaces, workspace)
+	}
+	return workspaces
+}
+
 func (s *Service) workspacesHandler(w http.ResponseWriter, r *http.Request) {
 	userID, err := s.authenticate(r)
 	if err != nil {
@@ -27,24 +43,13 @@ func (s *Service) workspacesHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
-	rows, err := s.DB.Query(r.Context(), `SELECT ID, name, created_at,
-		updated_at FROM workspaces WHERE user_id = $1`, userID)
-	defer rows.Close()
+	rows, err := s.DB.GetWorkspacesForUser(r.Context(), int32(userID))
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	var workspaces []Workspace
-	for rows.Next() {
-		var workspace Workspace
-		if err = rows.Scan(&workspace.ID, &workspace.Name,
-			&workspace.CreatedAt, &workspace.UpdatedAt); err != nil {
-			log.Println(err)
-			continue
-		}
-		workspaces = append(workspaces, workspace)
-	}
+	workspaces := parseRowsToWorkspaces(rows, userID)
 	if err = json.NewEncoder(w).Encode(workspaces); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -70,7 +75,7 @@ func (s *Service) workspaceCreateHandler(w http.ResponseWriter, r *http.Request)
 		}
 		return
 	}
-	row := s.DB.QueryRow(context.Background(), `INSERT INTO workspaces
+	row := s.Conn.QueryRow(context.Background(), `INSERT INTO workspaces
 		(name, user_id) VALUES ($1, $2) RETURNING ID, created_at,
 	updated_at`, workspaceRequest.Name, userID)
 	var workspace Workspace

@@ -51,7 +51,7 @@ func (s *Service) signupHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-	row := s.DB.QueryRow(context.Background(), `INSERT INTO users
+	row := s.Conn.QueryRow(context.Background(), `INSERT INTO users
 		(username, email, password) VALUES ($1, $2, $3) RETURNING ID`,
 		user.Username, user.Email, user.Password)
 	if err := row.Scan(&user.ID); err != nil {
