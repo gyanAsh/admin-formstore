@@ -11,7 +11,7 @@ import (
 )
 
 type Service struct {
-	DB        *pgxpool.Pool
+	Conn      *pgxpool.Pool
 	JwtSecret []byte
 }
 
@@ -41,7 +41,7 @@ func HttpServiceStart() error {
 	}
 
 	s := Service{
-		DB:        pool,
+		Conn:      pool,
 		JwtSecret: []byte(jwtSecret),
 	}
 

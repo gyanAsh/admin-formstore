@@ -37,7 +37,7 @@ func (s *Service) loginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	row := s.DB.QueryRow(r.Context(), `SELECT ID, password FROM users WHERE email = $1`, user.Email)
+	row := s.Conn.QueryRow(r.Context(), `SELECT ID, password FROM users WHERE email = $1`, user.Email)
 	var dbUserPassword string
 	if err := row.Scan(&user.ID, &dbUserPassword); err != nil {
 		log.Println(err)

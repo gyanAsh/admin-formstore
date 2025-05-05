@@ -27,7 +27,7 @@ func (s *Service) workspacesHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
-	rows, err := s.DB.Query(r.Context(), `SELECT ID, name, created_at,
+	rows, err := s.Conn.Query(r.Context(), `SELECT ID, name, created_at,
 		updated_at FROM workspaces WHERE user_id = $1`, userID)
 	defer rows.Close()
 	if err != nil {
@@ -70,7 +70,7 @@ func (s *Service) workspaceCreateHandler(w http.ResponseWriter, r *http.Request)
 		}
 		return
 	}
-	row := s.DB.QueryRow(context.Background(), `INSERT INTO workspaces
+	row := s.Conn.QueryRow(context.Background(), `INSERT INTO workspaces
 		(name, user_id) VALUES ($1, $2) RETURNING ID, created_at,
 	updated_at`, workspaceRequest.Name, userID)
 	var workspace Workspace
