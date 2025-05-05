@@ -117,6 +117,7 @@ func (s *Service) formsHandler(w http.ResponseWriter, r *http.Request) {
 		form.UpdatedAt = row.UpdatedAt.Time
 		if i == 0 {
 			workspace.ID = int64(row.ID_2)
+			workspace.Name = row.Name
 			workspace.CreatedAt = row.CreatedAt_2.Time
 			workspace.UpdatedAt = row.UpdatedAt_2.Time
 		}
