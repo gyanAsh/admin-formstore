@@ -130,7 +130,7 @@ const GoBoldMobileForm = () => {
           type="text"
           defaultValue={"Light texture that made it easy to drink."}
           placeholder="Share your favorite thing..."
-          className="w-full px-1 text-[15px] transition-all duration-300  border-b-[1.5px] border-gray-400/85 placeholder:italicfocus:leading-7 focus:border-b-[1.5px] focus:border-zinc-900/75 focus:outline-none line-clamp-3"
+          className="w-full px-1 font-medium text-[15px] transition-all duration-300  border-b-[1.5px] border-gray-400/85 placeholder:italicfocus:leading-7 focus:border-b-[1.5px] focus:border-zinc-900/75 focus:outline-none line-clamp-3"
         />
       </GoBoldMobileForm.ElementContent>
     </GoBoldMobileForm.Card>
