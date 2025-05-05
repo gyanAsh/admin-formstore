@@ -98,16 +98,27 @@ func (s *Service) formsHandler(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("invalid workspace id"))
 		return
 	}
-	workspaceRow, err := s.Queries.GetWorkspaceByID(r.Context(), db.GetWorkspaceByIDParams{
-		ID:     int32(workspaceID),
-		UserID: int32(userID),
-	})
-	workspace := Workspace{
-		ID:        int64(workspaceRow.ID),
-		Name:      workspaceRow.Name,
-		CreatedAt: workspaceRow.CreatedAt.Time,
-		UpdatedAt: workspaceRow.UpdatedAt.Time,
+	type WorkspaceRes struct {
+		data Workspace
+		err  error
 	}
+	workspaceChan := make(chan WorkspaceRes)
+	go func(c chan WorkspaceRes) {
+		workspaceRow, err := s.Queries.GetWorkspaceByID(r.Context(), db.GetWorkspaceByIDParams{
+			ID:     int32(workspaceID),
+			UserID: int32(userID),
+		})
+		workspace := Workspace{
+			ID:        int64(workspaceRow.ID),
+			Name:      workspaceRow.Name,
+			CreatedAt: workspaceRow.CreatedAt.Time,
+			UpdatedAt: workspaceRow.UpdatedAt.Time,
+		}
+		c <- WorkspaceRes{
+			data: workspace,
+			err:  err,
+		}
+	}(workspaceChan)
 	formRows, err := s.Queries.GetFormsInWorkspace(r.Context(), int32(workspaceID))
 	if err != nil {
 		log.Println(err)
@@ -123,6 +134,15 @@ func (s *Service) formsHandler(w http.ResponseWriter, r *http.Request) {
 		form.UpdatedAt = row.UpdatedAt.Time
 		forms = append(forms, form)
 	}
+	workspaceRes := <-workspaceChan
+	err = workspaceRes.err
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusForbidden)
+		w.Write([]byte("invalid workspace"))
+		return
+	}
+	workspace := workspaceRes.data
 	if err = json.NewEncoder(w).Encode(map[string]interface{}{
 		"forms":     forms,
 		"workspace": workspace,
