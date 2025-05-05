@@ -98,29 +98,29 @@ func (s *Service) formsHandler(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("invalid workspace id"))
 		return
 	}
-	rows, err := s.Queries.GetFormsInWorkspace(r.Context(), db.GetFormsInWorkspaceParams{
-		WorkspaceID: int32(workspaceID),
-		UserID:      int32(userID),
+	workspaceRow, err := s.Queries.GetWorkspaceByID(r.Context(), db.GetWorkspaceByIDParams{
+		ID:     int32(workspaceID),
+		UserID: int32(userID),
 	})
+	workspace := Workspace{
+		ID:        int64(workspaceRow.ID),
+		Name:      workspaceRow.Name,
+		CreatedAt: workspaceRow.CreatedAt.Time,
+		UpdatedAt: workspaceRow.UpdatedAt.Time,
+	}
+	formRows, err := s.Queries.GetFormsInWorkspace(r.Context(), int32(workspaceID))
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	var forms []Form
-	var workspace Workspace
-	for i, row := range rows {
+	for _, row := range formRows {
 		var form Form
 		form.ID = int64(row.ID)
 		form.Title = row.Title
 		form.CreatedAt = row.CreatedAt.Time
 		form.UpdatedAt = row.UpdatedAt.Time
-		if i == 0 {
-			workspace.ID = int64(row.ID_2)
-			workspace.Name = row.Name
-			workspace.CreatedAt = row.CreatedAt_2.Time
-			workspace.UpdatedAt = row.UpdatedAt_2.Time
-		}
 		forms = append(forms, form)
 	}
 	if err = json.NewEncoder(w).Encode(map[string]interface{}{

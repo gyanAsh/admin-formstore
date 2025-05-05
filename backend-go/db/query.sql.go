@@ -99,56 +99,24 @@ func (q *Queries) GetFormDataAndElements(ctx context.Context, arg GetFormDataAnd
 }
 
 const getFormsInWorkspace = `-- name: GetFormsInWorkspace :many
-SELECT
-	forms.ID, forms.title, forms.created_at, forms.updated_at,
-	workspaces.ID, workspaces.name, workspaces.created_at,
-	workspaces.updated_at
-FROM
-	forms
-INNER JOIN
-	workspaces
-ON
-	forms.workspace_id = workspaces.id
-WHERE
-	workspace_id = $1
-AND
-	workspaces.user_id = $2
+SELECT id, title, created_at, updated_at, workspace_id FROM forms WHERE workspace_id = $1
 `
 
-type GetFormsInWorkspaceParams struct {
-	WorkspaceID int32
-	UserID      int32
-}
-
-type GetFormsInWorkspaceRow struct {
-	ID          int32
-	Title       string
-	CreatedAt   pgtype.Timestamp
-	UpdatedAt   pgtype.Timestamp
-	ID_2        int32
-	Name        string
-	CreatedAt_2 pgtype.Timestamp
-	UpdatedAt_2 pgtype.Timestamp
-}
-
-func (q *Queries) GetFormsInWorkspace(ctx context.Context, arg GetFormsInWorkspaceParams) ([]GetFormsInWorkspaceRow, error) {
-	rows, err := q.db.Query(ctx, getFormsInWorkspace, arg.WorkspaceID, arg.UserID)
+func (q *Queries) GetFormsInWorkspace(ctx context.Context, workspaceID int32) ([]Form, error) {
+	rows, err := q.db.Query(ctx, getFormsInWorkspace, workspaceID)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []GetFormsInWorkspaceRow
+	var items []Form
 	for rows.Next() {
-		var i GetFormsInWorkspaceRow
+		var i Form
 		if err := rows.Scan(
 			&i.ID,
 			&i.Title,
 			&i.CreatedAt,
 			&i.UpdatedAt,
-			&i.ID_2,
-			&i.Name,
-			&i.CreatedAt_2,
-			&i.UpdatedAt_2,
+			&i.WorkspaceID,
 		); err != nil {
 			return nil, err
 		}
@@ -160,12 +128,17 @@ func (q *Queries) GetFormsInWorkspace(ctx context.Context, arg GetFormsInWorkspa
 	return items, nil
 }
 
-const getWorkspacesByID = `-- name: GetWorkspacesByID :one
-SELECT id, name, created_at, updated_at, user_id FROM workspaces WHERE ID = $1
+const getWorkspaceByID = `-- name: GetWorkspaceByID :one
+SELECT id, name, created_at, updated_at, user_id FROM workspaces WHERE ID = $1 AND workspaces.user_id = $2
 `
 
-func (q *Queries) GetWorkspacesByID(ctx context.Context, id int32) (Workspace, error) {
-	row := q.db.QueryRow(ctx, getWorkspacesByID, id)
+type GetWorkspaceByIDParams struct {
+	ID     int32
+	UserID int32
+}
+
+func (q *Queries) GetWorkspaceByID(ctx context.Context, arg GetWorkspaceByIDParams) (Workspace, error) {
+	row := q.db.QueryRow(ctx, getWorkspaceByID, arg.ID, arg.UserID)
 	var i Workspace
 	err := row.Scan(
 		&i.ID,
