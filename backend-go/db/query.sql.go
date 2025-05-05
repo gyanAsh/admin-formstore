@@ -11,26 +11,26 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-const getWorkspacesForUser = `-- name: getWorkspacesForUser :many
+const getWorkspacesForUser = `-- name: GetWorkspacesForUser :many
 SELECT ID, name, created_at, updated_at FROM workspaces WHERE user_id = $1
 `
 
-type getWorkspacesForUserRow struct {
+type GetWorkspacesForUserRow struct {
 	ID        int32
 	Name      string
 	CreatedAt pgtype.Timestamp
 	UpdatedAt pgtype.Timestamp
 }
 
-func (q *Queries) getWorkspacesForUser(ctx context.Context, userID int32) ([]getWorkspacesForUserRow, error) {
+func (q *Queries) GetWorkspacesForUser(ctx context.Context, userID int32) ([]GetWorkspacesForUserRow, error) {
 	rows, err := q.db.Query(ctx, getWorkspacesForUser, userID)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []getWorkspacesForUserRow
+	var items []GetWorkspacesForUserRow
 	for rows.Next() {
-		var i getWorkspacesForUserRow
+		var i GetWorkspacesForUserRow
 		if err := rows.Scan(
 			&i.ID,
 			&i.Name,
