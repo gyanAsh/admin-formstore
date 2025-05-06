@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -25,35 +26,15 @@ type FormElement struct {
 	Value string `json:"value,omitempty"`
 }
 
-// nil values are pointers
-type RowFormData struct {
-	// form
-	FormID        int64
-	FormTitle     string
-	FormCreatedAt time.Time
-	FormUpdatedAt time.Time
-	// workspace
-	WorkspaceID        int64
-	WorkspaceName      string
-	WorkspaceCreatedAt time.Time
-	WorkspaceUpdatedAt time.Time
-	// user
-	UserID int64
-	// form elements
-	FormElementID    *int64
-	FormElementType  *string
-	FormElementValue *string
-}
-
 type FormData struct {
 	Form         Form          `json:"form"`
 	Workspace    Workspace     `json:"workspace"`
 	FormElements []FormElement `json:"form_elements"`
 }
 
-func parseFormDataAndElements(rows []db.GetFormDataAndElementsRow) (FormData, error) {
+func parseFormDataAndElements(rows []db.GetFormDataAndElementsRow) FormData {
 	var formData FormData
-	var formElements []FormElement
+	formData.FormElements = []FormElement{}
 	for i, row := range rows {
 		if i == 0 {
 			var form Form
@@ -66,6 +47,7 @@ func parseFormDataAndElements(rows []db.GetFormDataAndElementsRow) (FormData, er
 			workspace.Name = row.Name
 			workspace.CreatedAt = row.CreatedAt_2.Time
 			workspace.UpdatedAt = row.UpdatedAt_2.Time
+			workspace.UserID = int64(row.UserID)
 			formData.Form = form
 			formData.Workspace = workspace
 		}
@@ -73,15 +55,20 @@ func parseFormDataAndElements(rows []db.GetFormDataAndElementsRow) (FormData, er
 		var element FormElement
 		if row.ID_3.Valid {
 			element.ID = int64(row.ID_3.Int32)
-			var elementType, elementValue string
-			row.ElementType.FormElementTypes.Scan(elementType)
-			element.Type = elementType
-			row.ElementType.FormElementTypes.Scan(elementValue)
+			val, err := row.ElementType.Value()
+			var ok bool
+			element.Type, ok = val.(string)
+			if !ok {
+				log.Println(fmt.Errorf("invalid value for element type"))
+			}
+			if err != nil {
+				log.Println(err)
+			}
 			element.Value = row.Value.String
+			formData.FormElements = append(formData.FormElements, element)
 		}
-		formElements = append(formElements, element)
 	}
-	return formData, nil
+	return formData
 }
 
 func (s *Service) formsHandler(w http.ResponseWriter, r *http.Request) {
@@ -244,12 +231,7 @@ func (s *Service) formDataHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	formData, err := parseFormDataAndElements(rows)
-	if err != nil {
-		log.Println(err)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
+	formData := parseFormDataAndElements(rows)
 	if err = json.NewEncoder(w).Encode(formData); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
