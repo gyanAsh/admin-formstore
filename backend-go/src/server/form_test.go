@@ -111,4 +111,72 @@ func TestParseFormDataAndElements_WithFullDataSingleRow(t *testing.T) {
 	})
 }
 
-func TestParseFormDataAndElements_WithFullDataMulitRow(t *testing.T) {}
+func TestParseFormDataAndElements_WithFullDataMulitRow(t *testing.T) {
+	assert := require.New(t)
+	currentTime := time.Now()
+	rows := []db.GetFormDataAndElementsRow{
+		db.GetFormDataAndElementsRow{
+			ID:          2,
+			Title:       "form title",
+			CreatedAt:   pgtype.Timestamp{Time: currentTime, InfinityModifier: pgtype.Finite, Valid: true},
+			UpdatedAt:   pgtype.Timestamp{Time: currentTime, InfinityModifier: pgtype.Finite, Valid: true},
+			ID_2:        3,
+			Name:        "workspace name",
+			CreatedAt_2: pgtype.Timestamp{Time: currentTime, InfinityModifier: pgtype.Finite, Valid: true},
+			UpdatedAt_2: pgtype.Timestamp{Time: currentTime, InfinityModifier: pgtype.Finite, Valid: true},
+			UserID:      4,
+			ID_3:        pgtype.Int4{Int32: 5, Valid: true},
+			ElementType: db.NullFormElementTypes{FormElementTypes: db.FormElementTypesEmail, Valid: true},
+			Value:       pgtype.Text{String: "example@mail.com", Valid: true},
+		},
+		db.GetFormDataAndElementsRow{
+			ID:          2,
+			Title:       "form title",
+			CreatedAt:   pgtype.Timestamp{Time: currentTime, InfinityModifier: pgtype.Finite, Valid: true},
+			UpdatedAt:   pgtype.Timestamp{Time: currentTime, InfinityModifier: pgtype.Finite, Valid: true},
+			ID_2:        3,
+			Name:        "workspace name",
+			CreatedAt_2: pgtype.Timestamp{Time: currentTime, InfinityModifier: pgtype.Finite, Valid: true},
+			UpdatedAt_2: pgtype.Timestamp{Time: currentTime, InfinityModifier: pgtype.Finite, Valid: true},
+			UserID:      4,
+			ID_3:        pgtype.Int4{Int32: 6, Valid: true},
+			ElementType: db.NullFormElementTypes{FormElementTypes: db.FormElementTypesPhone, Valid: true},
+			Value:       pgtype.Text{String: "9876543210", Valid: true},
+		},
+		db.GetFormDataAndElementsRow{
+			ID:          2,
+			Title:       "form title",
+			CreatedAt:   pgtype.Timestamp{Time: currentTime, InfinityModifier: pgtype.Finite, Valid: true},
+			UpdatedAt:   pgtype.Timestamp{Time: currentTime, InfinityModifier: pgtype.Finite, Valid: true},
+			ID_2:        3,
+			Name:        "workspace name",
+			CreatedAt_2: pgtype.Timestamp{Time: currentTime, InfinityModifier: pgtype.Finite, Valid: true},
+			UpdatedAt_2: pgtype.Timestamp{Time: currentTime, InfinityModifier: pgtype.Finite, Valid: true},
+			UserID:      4,
+			ID_3:        pgtype.Int4{Int32: 7, Valid: true},
+			ElementType: db.NullFormElementTypes{FormElementTypes: db.FormElementTypesPhone, Valid: true},
+			Value:       pgtype.Text{String: "9876543210", Valid: true},
+		},
+	}
+	formData := parseFormDataAndElements(rows)
+	assert.Equal(formData, FormData{
+		Form: Form{
+			ID:        2,
+			Title:     "form title",
+			CreatedAt: currentTime,
+			UpdatedAt: currentTime,
+		},
+		Workspace: Workspace{
+			ID:        3,
+			Name:      "workspace name",
+			CreatedAt: currentTime,
+			UpdatedAt: currentTime,
+			UserID:    4,
+		},
+		FormElements: []FormElement{
+			FormElement{ID: 5, Type: "email", Value: "example@mail.com"},
+			FormElement{ID: 6, Type: "phone", Value: "9876543210"},
+			FormElement{ID: 7, Type: "phone", Value: "9876543210"},
+		},
+	})
+}
