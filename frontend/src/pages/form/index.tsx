@@ -41,9 +41,8 @@ type Workspace = {
 };
 
 enum FormTypes {
-  default = "default",
-  multiselect = "multiple select",
-  dropdown = "dropdown",
+  multiselect = "multiple_selection",
+  dropdown = "drop_down",
   date = "date",
   text = "text",
   phone = "phone",
