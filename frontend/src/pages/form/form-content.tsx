@@ -20,10 +20,22 @@ enum FormTypes {
   email = "email",
 }
 
-
 export function FormContent({ formElements }: { formElements: FormElement[] }) {
   return (
     <div className="grid gap-5">
+      {formElements.length == 0 && (
+        <Card
+          key={99}
+          className={cn(
+            "p-6 gap-3 max-w-[770px] w-full border mx-auto shadow-xl snap-center",
+            {
+              "h-[80dvh] max-w-full px-50 gap-12 justify-center": false,
+            },
+          )}
+        >
+          <DefaultCard />
+        </Card>
+      )}
       {formElements.map((form, idx) => {
         let type = form.type;
         return (
@@ -36,9 +48,7 @@ export function FormContent({ formElements }: { formElements: FormElement[] }) {
               },
             )}
           >
-            {type === FormTypes.default ? (
-              <DefaultCard form={form} />
-            ) : type === FormTypes.email ? (
+            {type === FormTypes.email ? (
               <EmailCard form={form} />
             ) : type === FormTypes.phone ? (
               <PhoneCard form={form} />
