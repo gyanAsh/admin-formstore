@@ -4,12 +4,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Info, Trash2 } from "lucide-react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import MultipleSelector, { Option } from "@/components/ui/multiselect";
 import { Button } from "@/components/ui/button";
 import type { FormElement } from "../index";
+import { EditableParagraph } from "@/components/editable-input";
 
 const tips = [
   {
@@ -48,6 +49,8 @@ export const EmailCard = ({
   updateFormElementValues: any;
 }) => {
   const [formValue, setFormValue] = useState(form.value);
+  const titleRef = React.useRef<HTMLParagraphElement>(null);
+  const descriptionRef = React.useRef<HTMLParagraphElement>(null);
 
   return (
     <>
@@ -72,18 +75,23 @@ export const EmailCard = ({
         </Button>
       </div>
 
+      <section className="grid gap-0">
+        <EditableParagraph
+          className="text-xl"
+          paragraphRef={titleRef}
+          data-placeholder="Your question here."
+          handleChange={()=>{}}
+        />
+        <EditableParagraph
+          className="text-base font-light"
+          paragraphRef={descriptionRef}
+          data-placeholder="Description (optional)"
+        />
+      </section>
       <input
+        disabled
         placeholder="name@example.com"
         className="text-2xl placeholder:text-2xl focus:outline-0 border-b focus:border-b-2 border-blue-600"
-        value={formValue}
-        onChange={(e: any) => {
-          setFormValue(e.target.value);
-          updateFormElementValues({
-            id: form.id,
-            type: form.type,
-            value: e.target.value,
-          });
-        }}
       />
     </>
   );
