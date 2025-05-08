@@ -66,6 +66,7 @@ func parseFormDataAndElements(rows []db.GetFormDataAndElementsRow) FormData {
 				log.Println(err)
 			}
 			element.Label = row.Label.String
+			element.Description = row.Description.String
 			formData.FormElements = append(formData.FormElements, element)
 		}
 	}
