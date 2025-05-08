@@ -6,13 +6,12 @@ import {
 import { Info, Trash2 } from "lucide-react";
 import { debounce } from "@/lib/utils";
 import React, { useState } from "react";
-import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { EditableParagraph } from "@/components/editable-input";
 import MultipleSelector, { Option } from "@/components/ui/multiselect";
 import { Button } from "@/components/ui/button";
-import { FormElement, removeExistingElement } from "@/store/form";
+import type { FormElement } from "../index";
 
 const tips = [
   {
@@ -67,7 +66,7 @@ export const EmailCard = ({ form }: { form: FormElement }) => {
           size={"icon"}
           variant={"destructive"}
           effect={"click"}
-          onClick={() => removeExistingElement(form.id)}
+          onClick={() => {}}
         >
           <Trash2 />
         </Button>

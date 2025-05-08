@@ -1,13 +1,12 @@
 import { EditableParagraph } from "@/components/editable-input";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { debounce } from "@/lib/utils";
-import { FormElement, removeExistingElement } from "@/store/form";
 import { Trash2 } from "lucide-react";
 import React from "react";
+import type { FormElement } from "../index";
 
 export const DateCard = ({ form }: { form: FormElement }) => {
   const titleRef = React.useRef<HTMLParagraphElement>(null);
@@ -30,7 +29,7 @@ export const DateCard = ({ form }: { form: FormElement }) => {
           size={"icon"}
           variant={"destructive"}
           effect={"click"}
-          onClick={() => removeExistingElement(form.id)}
+          onClick={() => {}}
         >
           <Trash2 />
         </Button>

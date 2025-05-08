@@ -8,11 +8,7 @@ import { TextCard } from "./cards/text-card";
 import { DateCard } from "./cards/date-card";
 import { DropDownCard } from "./cards/drop-down-card";
 import { MultiSelectCard } from "./cards/multi-select-card";
-
-interface FormElement {
-  id: number;
-  type: FormTypes;
-}
+import type { FormElement } from "./index";
 
 enum FormTypes {
   default = "default",
@@ -25,7 +21,7 @@ enum FormTypes {
 }
 
 
-export function FormContent({ formElements }: { formElements: any[] }) {
+export function FormContent({ formElements }: { formElements: FormElement[] }) {
   return (
     <div className="grid gap-5">
       {formElements.map((form, idx) => {
@@ -62,7 +58,7 @@ export function FormContent({ formElements }: { formElements: any[] }) {
   );
 }
 
-const DefaultCard = ({ form }: { form: FormElement }) => {
+const DefaultCard = () => {
   const elements = [
     {
       icon: (
@@ -173,7 +169,7 @@ const DefaultCard = ({ form }: { form: FormElement }) => {
           size={"icon"}
           variant={"destructive"}
           effect={"click"}
-          onClick={() => removeExistingElement(form.id)}
+          onClick={() => {}}
         >
           <Trash2 />
         </Button>

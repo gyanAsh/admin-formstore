@@ -6,13 +6,12 @@ import {
 import { ChevronDown, Info, Trash2 } from "lucide-react";
 import { debounce } from "@/lib/utils";
 import React from "react";
-import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { EditableParagraph } from "@/components/editable-input";
 import MultipleSelector, { Option } from "@/components/ui/multiselect";
-import { FormElement, removeExistingElement } from "@/store/form";
 import { Button } from "@/components/ui/button";
+import type { FormElement } from "../index";
 
 const tips = [
   {
@@ -48,7 +47,7 @@ export const DropDownCard = ({ form }: { form: FormElement }) => {
           size={"icon"}
           variant={"destructive"}
           effect={"click"}
-          onClick={() => removeExistingElement(form.id)}
+          onClick={() => {}}
         >
           <Trash2 />
         </Button>

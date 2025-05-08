@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
-import React, { SVGProps } from "react";
+import React, { SVGProps, useEffect } from "react";
 import { FigmaAdd } from "@/components/icons";
 import { useParams } from "react-router";
 import { Button } from "@/components/ui/button";
@@ -50,14 +50,15 @@ enum FormTypes {
   email = "email",
 }
 
-type FormElement = {
+export type FormElement = {
   id: number;
   type: FormTypes;
+  value: string;
 };
 
 export default function Form() {
   const { workspaceId, formId } = useParams();
-  const [formElements, setFormElements] = useState([
+  const [formElements, setFormElements] = useState<FormElement[]>([
     { id: 0, type: "default" },
   ] as FormElement[]);
 
@@ -74,19 +75,20 @@ export default function Form() {
         },
       });
       const data = await res.json();
-      const elements = data?.form_elements;
-      if (elements && elements.length > 0) {
-        console.log(elements);
-        // setFormElements(elements);
-      }
       return data as {
         form: Form;
         workspace: Workspace;
-        form_elements: FormElement;
+        form_elements: FormElement[];
       };
     },
     queryKey: ["api-form-id"],
   });
+
+  useEffect(() => {
+    if (formData && formData.form_elements) {
+      setFormElements(formData.form_elements);
+    }
+  }, [formData]);
 
   return (
     <>
