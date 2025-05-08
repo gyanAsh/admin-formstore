@@ -12,6 +12,9 @@ import {
 } from "@/components/dashboard-templates/go-bold/page";
 import { Droplet } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import AppointmentDateAndTimePicker from "@/components/custom-input/appointment-date-picker";
+import { Label } from "@/components/ui/label";
+import { getLocalTimeZone, today } from "@internationalized/date";
 
 export default memo(function Home() {
   return (
@@ -109,8 +112,29 @@ const FormTemplates = () => {
             >
               <GoBoldMobileForm />
             </div>
-            <div className="mx-2 flex-[0_0_80%] p-6 bg-emerald-400/20 dark:bg-emerald-800/40 rounded-t-3xl"></div>
-            <div className="mx-2 flex-[0_0_80%] p-6 bg-amber-400/20 dark:bg-amber-800/40 rounded-t-3xl"></div>
+            <div
+              className={cn(
+                "mx-2 flex-[0_0_80%] p-6 rounded-t-3xl",
+                "flex items-center justify-center relative overflow-hidden",
+                " bg-emerald-400/20 dark:bg-emerald-800/40"
+              )}
+            >
+              <img
+                src={"/background/office.jpg"}
+                alt={"alt"}
+                className="absolute inset-0 w-full h-full object-cover blur-xs"
+              />
+              <BGImagePatternForm />
+            </div>
+            <div
+              className={cn(
+                "mx-2 flex-[0_0_80%] p-6 rounded-t-3xl",
+                "border border-zinc-400 bg-gray-200  font-['Playfair_Display','serif']",
+                "grid sm:grid-cols-2 gap-2"
+              )}
+            >
+              <ModernPages />
+            </div>
           </div>
         </div>
       </div>
@@ -118,6 +142,7 @@ const FormTemplates = () => {
   );
 };
 
+// ------------Component------------
 const GoBoldMobileForm = () => {
   return (
     <GoBoldMobileForm.Card className=" overflow-y-auto h-full font-['IBM_Plex_Serif','serif'] text-zinc-950 ">
@@ -199,6 +224,7 @@ GoBoldMobileForm.ElementContent = ({
   );
 };
 
+// ------------Component------------
 const GoBoldForm = () => {
   enum themeEnum {
     "green_grass",
@@ -252,7 +278,7 @@ const GoBoldForm = () => {
         <section className="max-md:scale-70 text-base rounded-2xl animate-bounce duration-1000 absolute -top-8 md:-top-11 -left-10 -rotate-5 bg-inherit p-1 px-2 border">
           Toggle Color
         </section>
-        <section className="max-md:scale-55 absolute flex items-center gap-1 top-0 -left-8.5 md:left-0 -translate-y-1/3">
+        <section className="max-md:scale-70 absolute flex items-center gap-1 top-0 -left-6 md:left-0 -translate-y-1/3">
           {[
             themeEnum.blue_sky,
             themeEnum.black_plum,
@@ -360,5 +386,72 @@ const GoBoldForm = () => {
         </main>
       </FormCard>
     </FormBGCard>
+  );
+};
+
+// ------------Component------------
+const BGImagePatternForm = () => {
+  const now = today(getLocalTimeZone());
+  return (
+    <section
+      className={cn(
+        "*:text-black",
+        "bg-zinc-50 p-5 z-10 flex flex-col items-center justify-center gap-3 size-fit border overflow-y-auto max-h-full rounded-[calc(24px_-_12px)]",
+        "font-['Roboto','sans-serif']"
+      )}
+    >
+      <div className=" max-w-[450px] grid gap-1.5">
+        <h2 className=" text-xl leading-5 sm:text-2xl sm:leading-6 md:text-4xl md:leading-10 text-wrap  ">
+          What is your preferred appointment date?
+        </h2>
+        <p className="text-zinc-700/80 text-sm md:text-base">
+          Appointments can be scheduled up to 30 days in advance.
+        </p>
+      </div>
+
+      <AppointmentDateAndTimePicker
+        aria-label="Appointment Date"
+        minValue={now}
+        maxValue={now.add({ days: 30 })}
+      />
+    </section>
+  );
+};
+
+const ModernPages = () => {
+  const now = today(getLocalTimeZone());
+
+  return (
+    <>
+      <section className="relative overflow-hidden h-full rounded-[calc(24px)]">
+        <img
+          src={"/background/butler-dupe.jpeg"}
+          alt={"alt"}
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      </section>
+
+      <section
+        className={cn(
+          "relative overflow-y-auto h-full bg-orange-300/85 rounded-[calc(24px)] p-8",
+          "grid space-y-5"
+        )}
+      >
+        <div className=" max-w-[450px] grid gap-1">
+          <h2 className=" text-xl leading-5 sm:text-2xl sm:leading-6 md:text-4xl md:leading-10 text-wrap font-bold text-zinc-800  ">
+            What is your preferred appointment date?
+          </h2>
+          <p className="text-zinc-800 text-sm md:text-base">
+            Appointments can be scheduled up to 30 days in advance.
+          </p>
+        </div>
+
+        <AppointmentDateAndTimePicker
+          aria-label="Appointment Date"
+          minValue={now}
+          maxValue={now.add({ days: 30 })}
+        />
+      </section>
+    </>
   );
 };
