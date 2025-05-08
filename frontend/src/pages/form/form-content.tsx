@@ -11,7 +11,7 @@ import { MultiSelectCard } from "./cards/multi-select-card";
 import type { FormElement } from "./index";
 import { FormTypes } from "./index";
 
-export function FormContent({ formElements }: { formElements: FormElement[] }) {
+export function FormContent({ formElements, updateFormElementValues }: { formElements: FormElement[], updateFormElementValues: any }) {
   return (
     <div className="grid gap-5">
       {formElements.length == 0 && (
@@ -40,7 +40,7 @@ export function FormContent({ formElements }: { formElements: FormElement[] }) {
             )}
           >
             {type === FormTypes.email ? (
-              <EmailCard form={form} />
+              <EmailCard form={form} updateFormElementValues={updateFormElementValues} />
             ) : type === FormTypes.phone ? (
               <PhoneCard form={form} />
             ) : type === FormTypes.text ? (

@@ -40,7 +40,15 @@ const emailDomain: Option[] = [
   { value: "yahoo.co.uk", label: "yahoo.co.uk" },
 ];
 
-export const EmailCard = ({ form }: { form: FormElement }) => {
+export const EmailCard = ({
+  form,
+  updateFormElementValues,
+}: {
+  form: FormElement;
+  updateFormElementValues: any;
+}) => {
+  const [formValue, setFormValue] = useState(form.value);
+
   return (
     <>
       <div className="flex items-center gap-2">
@@ -67,7 +75,15 @@ export const EmailCard = ({ form }: { form: FormElement }) => {
       <input
         placeholder="name@example.com"
         className="text-2xl placeholder:text-2xl focus:outline-0 border-b focus:border-b-2 border-blue-600"
-        value={form.value}
+        value={formValue}
+        onChange={(e: any) => {
+          setFormValue(e.target.value);
+          updateFormElementValues({
+            id: form.id,
+            type: form.type,
+            value: e.target.value,
+          });
+        }}
       />
     </>
   );

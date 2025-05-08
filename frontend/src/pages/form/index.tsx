@@ -4,7 +4,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { cn, debounce } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
 import React, { SVGProps, useEffect } from "react";
 import { FigmaAdd } from "@/components/icons";
@@ -20,7 +20,7 @@ import LayoutToggle from "./layout-toggle";
 import { Eye } from "lucide-react";
 import { FormContent } from "./form-content";
 import { addNewElement } from "@/store/form";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getAuthToken } from "@/lib/utils";
 import { useState } from "react";
 
@@ -80,6 +80,33 @@ export default function Form() {
     },
     queryKey: ["api-form-id"],
   });
+
+  const queryClient = useQueryClient();
+
+  const formElementMutation = useMutation({
+    mutationFn: async ({id, type, value}: {id: number, type: FormTypes, value: string}) => {
+      console.log("mutation running");
+      const res = await fetch("/api/form/element/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getAuthToken()}`,
+        },
+        body: JSON.stringify({
+          id: id,
+          type: type,
+          value: value,
+        }),
+      });
+      const data = await res.json();
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKeys: ["api-form-id"]});
+    },
+  });
+
+  const updateFormElementValues = debounce(formElementMutation.mutate);
 
   useEffect(() => {
     if (formData && formData.form_elements) {
@@ -180,6 +207,7 @@ export default function Form() {
                 </Card>
                 <FormContent
                   formElements={formElements}
+                  updateFormElementValues={updateFormElementValues}
                 />
                 <Button
                   className="w-fit mx-auto"
