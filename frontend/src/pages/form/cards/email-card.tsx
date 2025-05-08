@@ -4,7 +4,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Info, Trash2 } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import MultipleSelector, { Option } from "@/components/ui/multiselect";
@@ -48,9 +48,7 @@ export const EmailCard = ({
   form: FormElement;
   updateFormElementValues: any;
 }) => {
-  const [formValue, setFormValue] = useState(form.value);
-  const titleRef = React.useRef<HTMLParagraphElement>(null);
-  const descriptionRef = React.useRef<HTMLParagraphElement>(null);
+  const [formLabel, setFormLabel] = useState(form.label);
 
   return (
     <>
@@ -76,16 +74,18 @@ export const EmailCard = ({
       </div>
 
       <section className="grid gap-0">
-        <EditableParagraph
+        <input
           className="text-xl"
-          paragraphRef={titleRef}
-          data-placeholder="Your question here."
-          handleChange={()=>{}}
+          placeholder="Your question here."
+          value={formLabel}
+          onChange={(e)=>{
+            setFormLabel(e.target.value);
+            updateFormElementValues({id: form.id, type: form.type, label: e.target.value});
+          }}
         />
-        <EditableParagraph
+        <input
           className="text-base font-light"
-          paragraphRef={descriptionRef}
-          data-placeholder="Description (optional)"
+          placeholder="Description (optional)"
         />
       </section>
       <input
