@@ -23,7 +23,8 @@ SELECT
 	-- form elements (null values, due to left outer join)
 	form_elements.ID,
 	form_elements.element_type,
-	form_elements.value
+	form_elements.label,
+	form_elements.description
 FROM
 	forms
 INNER JOIN

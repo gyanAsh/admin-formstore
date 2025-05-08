@@ -21,9 +21,10 @@ type Form struct {
 }
 
 type FormElement struct {
-	ID    int64  `json:"id,omitempty"`
-	Type  string `json:"type,omitempty"`
-	Value string `json:"value,omitempty"`
+	ID          int64  `json:"id"`
+	Type        string `json:"type"`
+	Label       string `json:"label"`
+	Description string `json:"description"`
 }
 
 type FormData struct {
@@ -64,7 +65,8 @@ func parseFormDataAndElements(rows []db.GetFormDataAndElementsRow) FormData {
 			if err != nil {
 				log.Println(err)
 			}
-			element.Value = row.Value.String
+			element.Label = row.Label.String
+			element.Description = row.Description.String
 			formData.FormElements = append(formData.FormElements, element)
 		}
 	}

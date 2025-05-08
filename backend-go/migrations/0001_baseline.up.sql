@@ -1,8 +1,3 @@
--- This the refernce schema, this will be update along with the database as
--- soon as modification are made to the database. This cannot be used for
--- migartion unless the tables are being created from the scratch.
-
--- placeholder user until google oauth has been implemented
 CREATE TABLE IF NOT EXISTS users (
 	ID SERIAL PRIMARY KEY,
 	username VARCHAR NOT NULL,
@@ -30,15 +25,10 @@ CREATE TABLE IF NOT EXISTS forms (
 
 CREATE TYPE form_element_types AS ENUM ('email', 'phone', 'text', 'date', 'drop_down', 'multiple_selection');
 
--- This table is used to store form_elements in cases of single element type.
--- In case of multi values a different table (form_el ement_multi_values)
--- would be used. That table is references by it's corresponding id to the
--- original table.
 CREATE TABLE IF NOT EXISTS form_elements (
 	ID SERIAL PRIMARY KEY,
 	element_type form_element_types NOT NULL,
-	label VARCHAR,
-	description VARCHAR,
+	value VARCHAR,
 	date_value DATE,
 	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
 	updated_at TIMESTAMP NOT NULL DEFAULT NOW(),

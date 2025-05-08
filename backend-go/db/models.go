@@ -68,7 +68,8 @@ type Form struct {
 type FormElement struct {
 	ID          int32
 	ElementType FormElementTypes
-	Value       pgtype.Text
+	Label       pgtype.Text
+	Description pgtype.Text
 	DateValue   pgtype.Date
 	CreatedAt   pgtype.Timestamp
 	UpdatedAt   pgtype.Timestamp

@@ -84,10 +84,9 @@ export default function Form() {
   const queryClient = useQueryClient();
 
   const formElementMutation = useMutation({
-    mutationFn: async ({id, type, value}: {id: number, type: FormTypes, value: string}) => {
-      console.log("mutation running");
-      const res = await fetch("/api/form/element/create", {
-        method: "POST",
+    mutationFn: async ({id, type, label}: {id: number, type: FormTypes, value: string}) => {
+      const res = await fetch("/api/form/element", {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${getAuthToken()}`,
@@ -95,7 +94,7 @@ export default function Form() {
         body: JSON.stringify({
           id: id,
           type: type,
-          value: value,
+          label: label,
         }),
       });
       const data = await res.json();
