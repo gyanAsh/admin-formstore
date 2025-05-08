@@ -27,7 +27,7 @@ func parseAuthToken(tokenString string, signedSecret []byte) (int64, error) {
 	if claims, ok := token.Claims.(jwt.MapClaims); ok {
 		userID_f, ok := claims["user_id"].(float64)
 		if !ok {
-			fmt.Errorf("failed to parse claims with Error: failed to parse user_id to float64")
+			return 0, fmt.Errorf("failed to parse claims with Error: failed to parse user_id to float64")
 		}
 		return int64(userID_f), nil
 	}
