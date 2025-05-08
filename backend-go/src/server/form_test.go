@@ -26,7 +26,7 @@ func TestParseFormDataAndElements_WithEmptyValue(t *testing.T) {
 func TestParseFormDataAndElements_WithPartialFill(t *testing.T) {
 	assert := require.New(t)
 	rows := []db.GetFormDataAndElementsRow{
-		db.GetFormDataAndElementsRow{ID: 2, Name: "black name"},
+		{ID: 2, Name: "black name"},
 	}
 	formData := parseFormDataAndElements(rows)
 	assert.Equal(formData, FormData{
@@ -40,7 +40,7 @@ func TestParseFormDataAndElements_WithNonElements(t *testing.T) {
 	assert := require.New(t)
 	currentTime := time.Now()
 	rows := []db.GetFormDataAndElementsRow{
-		db.GetFormDataAndElementsRow{
+		{
 			ID:          2,
 			Title:       "form title",
 			CreatedAt:   pgtype.Timestamp{Time: currentTime, InfinityModifier: pgtype.Finite, Valid: true},
@@ -75,7 +75,7 @@ func TestParseFormDataAndElements_WithFullDataSingleRow(t *testing.T) {
 	assert := require.New(t)
 	currentTime := time.Now()
 	rows := []db.GetFormDataAndElementsRow{
-		db.GetFormDataAndElementsRow{
+		{
 			ID:          2,
 			Title:       "form title",
 			CreatedAt:   pgtype.Timestamp{Time: currentTime, InfinityModifier: pgtype.Finite, Valid: true},
@@ -106,7 +106,7 @@ func TestParseFormDataAndElements_WithFullDataSingleRow(t *testing.T) {
 			UserID:    4,
 		},
 		FormElements: []FormElement{
-			FormElement{ID: 5, Type: "email", Value: "example@mail.com"},
+			{ID: 5, Type: "email", Value: "example@mail.com"},
 		},
 	})
 }
@@ -115,7 +115,7 @@ func TestParseFormDataAndElements_WithFullDataMulitRow(t *testing.T) {
 	assert := require.New(t)
 	currentTime := time.Now()
 	rows := []db.GetFormDataAndElementsRow{
-		db.GetFormDataAndElementsRow{
+		{
 			ID:          2,
 			Title:       "form title",
 			CreatedAt:   pgtype.Timestamp{Time: currentTime, InfinityModifier: pgtype.Finite, Valid: true},
@@ -129,7 +129,7 @@ func TestParseFormDataAndElements_WithFullDataMulitRow(t *testing.T) {
 			ElementType: db.NullFormElementTypes{FormElementTypes: db.FormElementTypesEmail, Valid: true},
 			Value:       pgtype.Text{String: "example@mail.com", Valid: true},
 		},
-		db.GetFormDataAndElementsRow{
+		{
 			ID:          2,
 			Title:       "form title",
 			CreatedAt:   pgtype.Timestamp{Time: currentTime, InfinityModifier: pgtype.Finite, Valid: true},
@@ -143,7 +143,7 @@ func TestParseFormDataAndElements_WithFullDataMulitRow(t *testing.T) {
 			ElementType: db.NullFormElementTypes{FormElementTypes: db.FormElementTypesPhone, Valid: true},
 			Value:       pgtype.Text{String: "9876543210", Valid: true},
 		},
-		db.GetFormDataAndElementsRow{
+		{
 			ID:          2,
 			Title:       "form title",
 			CreatedAt:   pgtype.Timestamp{Time: currentTime, InfinityModifier: pgtype.Finite, Valid: true},
@@ -174,9 +174,9 @@ func TestParseFormDataAndElements_WithFullDataMulitRow(t *testing.T) {
 			UserID:    4,
 		},
 		FormElements: []FormElement{
-			FormElement{ID: 5, Type: "email", Value: "example@mail.com"},
-			FormElement{ID: 6, Type: "phone", Value: "9876543210"},
-			FormElement{ID: 7, Type: "phone", Value: "9876543210"},
+			{ID: 5, Type: "email", Value: "example@mail.com"},
+			{ID: 6, Type: "phone", Value: "9876543210"},
+			{ID: 7, Type: "phone", Value: "9876543210"},
 		},
 	})
 }
