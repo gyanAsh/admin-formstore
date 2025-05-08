@@ -37,7 +37,8 @@ CREATE TYPE form_element_types AS ENUM ('email', 'phone', 'text', 'date', 'drop_
 CREATE TABLE IF NOT EXISTS form_elements (
 	ID SERIAL PRIMARY KEY,
 	element_type form_element_types NOT NULL,
-	value VARCHAR,
+	label VARCHAR,
+	description VARCHAR,
 	date_value DATE,
 	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
 	updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
