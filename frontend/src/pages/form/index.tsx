@@ -86,8 +86,8 @@ export default function Form() {
   const formElementMutation = useMutation({
     mutationFn: async ({id, type, value}: {id: number, type: FormTypes, value: string}) => {
       console.log("mutation running");
-      const res = await fetch("/api/form/element/create", {
-        method: "POST",
+      const res = await fetch("/api/form/element", {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${getAuthToken()}`,
