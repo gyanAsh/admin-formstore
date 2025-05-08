@@ -9,16 +9,7 @@ import { DateCard } from "./cards/date-card";
 import { DropDownCard } from "./cards/drop-down-card";
 import { MultiSelectCard } from "./cards/multi-select-card";
 import type { FormElement } from "./index";
-
-enum FormTypes {
-  default = "default",
-  multiselect = "multiple select",
-  dropdown = "dropdown",
-  date = "date",
-  text = "text",
-  phone = "phone",
-  email = "email",
-}
+import { FormTypes } from "./index";
 
 export function FormContent({ formElements }: { formElements: FormElement[] }) {
   return (

@@ -4,11 +4,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Info, Trash2 } from "lucide-react";
-import { debounce } from "@/lib/utils";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { EditableParagraph } from "@/components/editable-input";
 import MultipleSelector, { Option } from "@/components/ui/multiselect";
 import { Button } from "@/components/ui/button";
 import type { FormElement } from "../index";
@@ -43,12 +41,6 @@ const emailDomain: Option[] = [
 ];
 
 export const EmailCard = ({ form }: { form: FormElement }) => {
-  const titleRef = React.useRef<HTMLParagraphElement>(null);
-  const descriptionRef = React.useRef<HTMLParagraphElement>(null);
-
-  const updateText = debounce(() => {
-    console.log("updated");
-  }, 1500);
   return (
     <>
       <div className="flex items-center gap-2">

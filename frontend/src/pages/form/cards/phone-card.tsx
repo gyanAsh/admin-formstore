@@ -1,19 +1,11 @@
-import { EditableParagraph } from "@/components/editable-input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { debounce } from "@/lib/utils";
 import { Trash2 } from "lucide-react";
-import React from "react";
 import type { FormElement } from "../index";
 
 export const PhoneCard = ({ form }: { form: FormElement }) => {
-  const titleRef = React.useRef<HTMLParagraphElement>(null);
-  const descriptionRef = React.useRef<HTMLParagraphElement>(null);
 
-  const updateText = debounce(() => {
-    console.log("updated");
-  }, 1500);
   return (
     <>
       <div className="flex items-center gap-2">

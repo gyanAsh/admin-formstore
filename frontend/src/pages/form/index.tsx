@@ -40,7 +40,7 @@ type Workspace = {
   updated_at: string;
 };
 
-enum FormTypes {
+export enum FormTypes {
   multiselect = "multiple_selection",
   dropdown = "drop_down",
   date = "date",
@@ -57,9 +57,7 @@ export type FormElement = {
 
 export default function Form() {
   const { workspaceId, formId } = useParams();
-  const [formElements, setFormElements] = useState<FormElement[]>([
-    { id: 0, type: "default" },
-  ] as FormElement[]);
+  const [formElements, setFormElements] = useState<FormElement[]>([]);
 
   const {
     data: formData,
@@ -182,7 +180,6 @@ export default function Form() {
                 </Card>
                 <FormContent
                   formElements={formElements}
-                  setFormElements={setFormElements}
                 />
                 <Button
                   className="w-fit mx-auto"
