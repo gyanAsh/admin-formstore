@@ -72,23 +72,10 @@ export const EmailCard = ({ form }: { form: FormElement }) => {
         </Button>
       </div>
 
-      <section className="grid gap-0">
-        <EditableParagraph
-          className="text-xl"
-          paragraphRef={titleRef}
-          data-placeholder="Your question here."
-          handleChange={updateText}
-        />
-        <EditableParagraph
-          className="text-base font-light"
-          paragraphRef={descriptionRef}
-          data-placeholder="Description (optional)"
-        />
-      </section>
       <input
-        disabled
         placeholder="name@example.com"
         className="text-2xl placeholder:text-2xl focus:outline-0 border-b focus:border-b-2 border-blue-600"
+        value={form.value}
       />
     </>
   );
