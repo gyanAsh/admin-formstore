@@ -109,8 +109,8 @@ func (s *Service) formElementUpdateHandler(w http.ResponseWriter, r *http.Reques
 	}
 
 	_, err = s.Conn.Exec(r.Context(), `
-		UPDATE form_elements SET value = $1 WHERE ID = $2 AND element_type = $3
-		`, element.Value, element.ID, element.Type)
+		UPDATE form_elements SET label = $1 WHERE ID = $2 AND element_type = $3
+		`, element.Label, element.ID, element.Type)
 
 	if err != nil {
 		log.Println(err)

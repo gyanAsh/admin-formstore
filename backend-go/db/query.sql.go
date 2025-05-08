@@ -28,7 +28,8 @@ SELECT
 	-- form elements (null values, due to left outer join)
 	form_elements.ID,
 	form_elements.element_type,
-	form_elements.value
+	form_elements.label,
+	form_elements.description
 FROM
 	forms
 INNER JOIN
@@ -62,7 +63,8 @@ type GetFormDataAndElementsRow struct {
 	UserID      int32
 	ID_3        pgtype.Int4
 	ElementType NullFormElementTypes
-	Value       pgtype.Text
+	Label       pgtype.Text
+	Description pgtype.Text
 }
 
 func (q *Queries) GetFormDataAndElements(ctx context.Context, arg GetFormDataAndElementsParams) ([]GetFormDataAndElementsRow, error) {
@@ -86,7 +88,8 @@ func (q *Queries) GetFormDataAndElements(ctx context.Context, arg GetFormDataAnd
 			&i.UserID,
 			&i.ID_3,
 			&i.ElementType,
-			&i.Value,
+			&i.Label,
+			&i.Description,
 		); err != nil {
 			return nil, err
 		}
