@@ -112,24 +112,11 @@ const FormTemplates = () => {
             >
               <GoBoldMobileForm />
             </div>
+
             <div
               className={cn(
                 "mx-2 flex-[0_0_80%] p-6 rounded-t-3xl",
-                "flex items-center justify-center relative overflow-hidden",
-                " bg-emerald-400/20 dark:bg-emerald-800/40"
-              )}
-            >
-              <img
-                src={"/background/office.jpg"}
-                alt={"alt"}
-                className="absolute inset-0 w-full h-full object-cover blur-xs"
-              />
-              <BGImagePatternForm />
-            </div>
-            <div
-              className={cn(
-                "mx-2 flex-[0_0_80%] p-6 rounded-t-3xl",
-                "border border-zinc-400 bg-gray-200  font-['Playfair_Display','serif']",
+                "border border-zinc-400 bg-gray-300  font-['Playfair_Display','serif']",
                 "grid sm:grid-cols-2 gap-2"
               )}
             >
@@ -390,34 +377,6 @@ const GoBoldForm = () => {
 };
 
 // ------------Component------------
-const BGImagePatternForm = () => {
-  const now = today(getLocalTimeZone());
-  return (
-    <section
-      className={cn(
-        "*:text-black",
-        "bg-zinc-50 p-5 z-10 flex flex-col items-center justify-center gap-3 size-fit border overflow-y-auto max-h-full rounded-[calc(24px_-_12px)]",
-        "font-['Roboto','sans-serif']"
-      )}
-    >
-      <div className=" max-w-[450px] grid gap-1.5">
-        <h2 className=" text-xl leading-5 sm:text-2xl sm:leading-6 md:text-4xl md:leading-10 text-wrap  ">
-          What is your preferred appointment date?
-        </h2>
-        <p className="text-zinc-700/80 text-sm md:text-base">
-          Appointments can be scheduled up to 30 days in advance.
-        </p>
-      </div>
-
-      <AppointmentDateAndTimePicker
-        aria-label="Appointment Date"
-        minValue={now}
-        maxValue={now.add({ days: 30 })}
-      />
-    </section>
-  );
-};
-
 const ModernPages = () => {
   const now = today(getLocalTimeZone());
 
@@ -433,23 +392,33 @@ const ModernPages = () => {
 
       <section
         className={cn(
-          "relative overflow-y-auto h-full bg-orange-300/85 rounded-[calc(24px)] p-8",
+          "relative overflow-y-auto h-full bg-red-200 rounded-[calc(24px)] p-8",
           "grid space-y-5"
         )}
       >
-        <div className=" max-w-[450px] grid gap-1">
+        <img
+          alt="Logo"
+          loading="lazy"
+          className="grayscale flex items-center justify-center w-full size-8"
+          src="/formstore-logo-light.svg"
+        />
+        <div className=" max-w-[450px] flex flex-col gap-3">
           <h2 className=" text-xl leading-5 sm:text-2xl sm:leading-6 md:text-4xl md:leading-10 text-wrap font-bold text-zinc-800  ">
             What is your preferred appointment date?
           </h2>
-          <p className="text-zinc-800 text-sm md:text-base">
+          <p className="text-zinc-800/90 text-sm md:text-base">
             Appointments can be scheduled up to 30 days in advance.
           </p>
         </div>
 
         <AppointmentDateAndTimePicker
+          dataSegment_className="data-focused:text-zinc-900 data-focused:bg-red-300 text-zinc-900"
+          dateInput_className="data-focus-within:ring-red-300 "
           aria-label="Appointment Date"
-          minValue={now}
-          maxValue={now.add({ days: 30 })}
+          calendar_bg_theme="light"
+          calendar_tw_color="red"
+          minValue={now.add({ days: 1 })}
+          maxValue={now.add({ days: 30 + 1 })}
         />
       </section>
     </>

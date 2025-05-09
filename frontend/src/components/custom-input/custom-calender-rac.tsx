@@ -1,6 +1,6 @@
 "use client";
 
-import { ComponentProps } from "react";
+import React, { ComponentProps } from "react";
 import { getLocalTimeZone, today } from "@internationalized/date";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import {
@@ -8,6 +8,7 @@ import {
   CalendarCell as CalendarCellRac,
   CalendarGridBody as CalendarGridBodyRac,
   CalendarGridHeader as CalendarGridHeaderRac,
+  CalendarGridProps,
   CalendarGrid as CalendarGridRac,
   CalendarHeaderCell as CalendarHeaderCellRac,
   Calendar as CalendarRac,
@@ -16,7 +17,7 @@ import {
   RangeCalendar as RangeCalendarRac,
 } from "react-aria-components";
 
-import { cn } from "@/lib/utils";
+import { cn, tw_colors } from "@/lib/utils";
 
 interface BaseCalendarProps {
   className?: string;
@@ -26,19 +27,32 @@ type CalendarProps = ComponentProps<typeof CalendarRac> & BaseCalendarProps;
 type RangeCalendarProps = ComponentProps<typeof RangeCalendarRac> &
   BaseCalendarProps;
 
-function CalendarHeader() {
+function CalendarHeader({
+  headerBtn,
+  className,
+  ...props
+}: React.ComponentProps<"header"> & { headerBtn?: string }) {
   return (
-    <header className="flex w-full items-center gap-1 pb-1">
+    <header
+      className={cn("flex w-full items-center gap-1 pb-1", className)}
+      {...props}
+    >
       <Button
         slot="previous"
-        className="text-muted-foreground/80 hover:bg-accent hover:text-foreground focus-visible:ring-ring/50 flex size-9 items-center justify-center rounded-md transition-[color,box-shadow] outline-none focus-visible:ring-[3px]"
+        className={cn(
+          "text-muted-foreground/80 hover:bg-accent hover:text-foreground focus-visible:ring-ring/50 flex size-9 items-center justify-center rounded-md transition-[color,box-shadow] outline-none focus-visible:ring-[3px]",
+          headerBtn
+        )}
       >
         <ChevronLeftIcon size={16} />
       </Button>
       <HeadingRac className="grow text-center text-sm font-medium" />
       <Button
         slot="next"
-        className="text-muted-foreground/80 hover:bg-accent hover:text-foreground focus-visible:ring-ring/50 flex size-9 items-center justify-center rounded-md transition-[color,box-shadow] outline-none focus-visible:ring-[3px]"
+        className={cn(
+          "text-muted-foreground/80 hover:bg-accent hover:text-foreground focus-visible:ring-ring/50 flex size-9 items-center justify-center rounded-md transition-[color,box-shadow] outline-none focus-visible:ring-[3px]",
+          headerBtn
+        )}
       >
         <ChevronRightIcon size={16} />
       </Button>
@@ -46,11 +60,14 @@ function CalendarHeader() {
   );
 }
 
-function CalendarGridComponent({ isRange = false }: { isRange?: boolean }) {
+function CalendarGridComponent({
+  isRange = false,
+  className,
+}: Omit<CalendarGridProps, "children"> & { isRange?: boolean }) {
   const now = today(getLocalTimeZone());
 
   return (
-    <CalendarGridRac>
+    <CalendarGridRac className={className}>
       <CalendarGridHeaderRac>
         {(day) => (
           <CalendarHeaderCellRac className="text-inherit size-9 rounded-md p-0 text-xs font-medium">
@@ -74,7 +91,8 @@ function CalendarGridComponent({ isRange = false }: { isRange?: boolean }) {
                   isRange
                     ? "data-selection-end:after:bg-background data-selection-start:after:bg-background"
                     : "data-selected:after:bg-background"
-                )
+                ),
+              className
             )}
           />
         )}
@@ -83,7 +101,27 @@ function CalendarGridComponent({ isRange = false }: { isRange?: boolean }) {
   );
 }
 
-function Calendar({ className, ...props }: CalendarProps) {
+function Calendar({
+  className,
+  calendar_bg_theme,
+  calendar_tw_color,
+  ...props
+}: CalendarProps & {
+  calendar_bg_theme?: "light" | "dark";
+  calendar_tw_color?: tw_colors;
+}) {
+  let headerStyle = cn({
+    "bg-red-200 text-zinc-900": calendar_tw_color === "red",
+  });
+  let headerBtn = cn({
+    "hover:bg-red-400/70 hover:text-zinc-900 text-zinc-900 data-disabled:text-zinc-900/20  hover:data-disabled:text-zinc-900/20 hover:data-disabled:bg-inherit":
+      calendar_tw_color === "red",
+  });
+  let componentStyle = cn({
+    "bg-red-200 text-zinc-900 data-selected:bg-red-400/70 data-selected:text-inherit data-hovered:bg-red-300/85 data-hovered:text-zinc-900 data-hovered:cursor-pointer":
+      calendar_tw_color === "red",
+  });
+
   return (
     <CalendarRac
       {...props}
@@ -91,8 +129,8 @@ function Calendar({ className, ...props }: CalendarProps) {
         cn("w-fit", className)
       )}
     >
-      <CalendarHeader />
-      <CalendarGridComponent />
+      <CalendarHeader headerBtn={headerBtn} className={headerStyle} />
+      <CalendarGridComponent className={componentStyle} />
     </CalendarRac>
   );
 }

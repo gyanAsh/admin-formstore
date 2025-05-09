@@ -49,7 +49,12 @@ function DateSegment({ className, ...props }: DateSegmentProps) {
     <DateSegmentRac
       className={composeRenderProps(className, (className) =>
         cn(
-          "text-inherit data-focused:bg-zinc-300 data-invalid:data-focused:bg-destructive data-focused:data-placeholder:text-foreground data-focused:text-foreground data-invalid:data-placeholder:text-destructive data-invalid:text-destructive data-placeholder:text-muted-foreground/70 data-[type=literal]:text-muted-foreground/70 inline rounded p-0.5 caret-transparent outline-hidden data-disabled:cursor-not-allowed data-disabled:opacity-50 data-invalid:data-focused:text-white data-invalid:data-focused:data-placeholder:text-white data-[type=literal]:px-0",
+          "text-muted inline rounded p-0.5 caret-transparent outline-hidden  ",
+          " data-focused:bg-inherit data-invalid:data-focused:bg-destructive data-focused:data-placeholder:text-foreground",
+          "data-focused:text-foreground data-invalid:data-placeholder:text-destructive data-invalid:text-destructive ",
+          "data-placeholder:text-muted-foreground/70 data-[type=literal]:text-muted-foreground/70",
+          "data-disabled:cursor-not-allowed data-disabled:opacity-50",
+          " data-invalid:data-focused:text-white data-invalid:data-focused:data-placeholder:text-white data-[type=literal]:px-0",
           className
         )
       )}
@@ -59,9 +64,12 @@ function DateSegment({ className, ...props }: DateSegmentProps) {
   );
 }
 
-const dateInputStyle =
-  "relative inline-flex h-9 w-full items-center overflow-hidden whitespace-nowrap rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs transition-[color,box-shadow] outline-none data-focus-within:border-ring data-focus-within:ring-ring/50 data-focus-within:ring-[1px] data-focus-within:has-aria-invalid:ring-destructive/20 dark:data-focus-within:has-aria-invalid:ring-destructive/40 data-focus-within:has-aria-invalid:border-destructive";
-
+const dateInputStyle = cn(
+  "relative inline-flex h-9 w-full items-center overflow-hidden whitespace-nowrap rounded-md border border-input bg-background",
+  " px-3 py-2 text-sm shadow-xs transition-[color,box-shadow] outline-none data-focus-within:border-ring ",
+  " data-focus-within:ring-ring/50 data-focus-within:ring-[3px] data-focus-within:has-aria-invalid:ring-destructive/20",
+  " dark:data-focus-within:has-aria-invalid:ring-destructive/40 data-focus-within:has-aria-invalid:border-destructive"
+);
 interface DateInputProps extends DateInputPropsRac {
   className?: string;
   unstyled?: boolean;
@@ -69,9 +77,12 @@ interface DateInputProps extends DateInputPropsRac {
 
 function DateInput({
   className,
+  dataSegment_className,
   unstyled = false,
   ...props
-}: Omit<DateInputProps, "children">) {
+}: Omit<DateInputProps, "children"> & {
+  dataSegment_className?: string;
+}) {
   return (
     <DateInputRac
       className={composeRenderProps(className, (className) =>
@@ -79,7 +90,9 @@ function DateInput({
       )}
       {...props}
     >
-      {(segment) => <DateSegment segment={segment} />}
+      {(segment) => (
+        <DateSegment className={dataSegment_className} segment={segment} />
+      )}
     </DateInputRac>
   );
 }
