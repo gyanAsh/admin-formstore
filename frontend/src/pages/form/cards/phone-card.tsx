@@ -1,14 +1,12 @@
-import { EditableParagraph } from "@/components/editable-input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Trash2 } from "lucide-react";
-import React from "react";
+import React, {useState} from "react";
 import type { FormElement } from "../index";
 
 export const PhoneCard = ({ form }: { form: FormElement }) => {
-  const titleRef = React.useRef<HTMLParagraphElement>(null);
-  const descriptionRef = React.useRef<HTMLParagraphElement>(null);
+  const [formLabel, setFormLabel] = useState(form.label);
 
   return (
     <>
@@ -31,16 +29,17 @@ export const PhoneCard = ({ form }: { form: FormElement }) => {
       </div>
 
       <section className="grid gap-0">
-        <EditableParagraph
+        <input
           className="text-xl"
-          paragraphRef={titleRef}
-          data-placeholder="Your question here."
-          handleChange={()=>{}}
+          placeholder="Your question here."
+          value={formLabel}
+          onChange={(e)=>{
+            setFormLabel(e.target.value);
+          }}
         />
-        <EditableParagraph
+        <input
           className="text-base font-light"
-          paragraphRef={descriptionRef}
-          data-placeholder="Description (optional)"
+          placeholder="Description (optional)"
         />
       </section>
       <input
