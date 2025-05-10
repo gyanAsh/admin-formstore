@@ -42,7 +42,7 @@ export function FormContent({ formElements, updateFormElementValues }: { formEle
             {type === FormTypes.email ? (
               <EmailCard form={form} updateFormElementValues={updateFormElementValues} />
             ) : type === FormTypes.phone ? (
-              <PhoneCard form={form} />
+              <PhoneCard form={form} updateFormElementValues={updateFormElementValues} />
             ) : type === FormTypes.text ? (
               <TextCard form={form} />
             ) : type === FormTypes.date ? (
