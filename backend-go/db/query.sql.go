@@ -44,6 +44,8 @@ WHERE
 	forms.ID = $1
 AND
 	workspaces.user_id = $2
+ORDER BY
+	form_elements.ID
 `
 
 type GetFormDataAndElementsParams struct {

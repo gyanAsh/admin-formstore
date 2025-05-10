@@ -38,7 +38,9 @@ ON
 WHERE
 	forms.ID = $1
 AND
-	workspaces.user_id = $2;
+	workspaces.user_id = $2
+ORDER BY
+	form_elements.ID;
 
 
 -- name: GetWorkspaceByID :one
