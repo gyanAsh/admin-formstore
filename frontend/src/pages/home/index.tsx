@@ -98,7 +98,36 @@ const FormTemplates = () => {
         <div className=" overflow-hidden pt-8" ref={emblaRef}>
           <div className="flex px-[calc(1rem_*_-1)] touch-pan-y touch-pinch-zoom">
             <div className="mx-2 flex-[0_0_80%] p-6 bg-sky-400/20 dark:bg-sky-800/40 rounded-t-3xl border">
-              {`make these demo forms interation ( give user the feel of how easy it will be to create form with our website)`}
+              {/* demo demo */}
+              <div className="max-w-xl mx-auto p-6 mt-10 bg-white shadow-lg rounded-xl">
+                <h1 className="text-3xl font-semibold text-gray-800 mb-4">
+                  Product Feedback Survey
+                </h1>
+
+                <p className="text-gray-700 mb-4">
+                  Thank you for using our product! We’re always looking to
+                  improve and would love to hear your thoughts. This short
+                  survey will take less than 3 minutes to complete. Your
+                  feedback helps us enhance your experience and build better
+                  features. All responses are completely confidential.
+                </p>
+
+                <label className="flex items-start space-x-2 mb-6">
+                  <input
+                    type="checkbox"
+                    className="mt-1 text-blue-600"
+                    required
+                  />
+                  <span className="text-gray-700">
+                    I agree to participate in this survey and understand my
+                    responses will remain confidential.
+                  </span>
+                </label>
+
+                <button className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors duration-200">
+                  Start Survey
+                </button>
+              </div>
             </div>
             <section className="mx-2 flex-[0_0_80%] xl:flex-[0_0_1014px] max-md:aspect-16/10  md:h-[80dvh]">
               <GoBoldForm />
@@ -117,7 +146,7 @@ const FormTemplates = () => {
               className={cn(
                 "mx-2 flex-[0_0_80%] p-6 rounded-t-3xl",
                 "border border-zinc-400 bg-gray-300  font-['Playfair_Display','serif']",
-                "grid sm:grid-cols-2 gap-2"
+                "flex flex-col"
               )}
             >
               <ModernPages />
@@ -139,15 +168,21 @@ const GoBoldMobileForm = () => {
           className="rounded-[calc(24px_-_16px)]"
         />
       </GoBoldMobileForm.ImageContent>
-      <GoBoldMobileForm.QuestionContent className="bg-amber-50 text-lg p-5 flex items-center justify-center font-semibold leading-5.5">
-        <h2> What did you like most about our product?</h2>
+      <GoBoldMobileForm.QuestionContent className="bg-amber-50 text-lg md:text-xl lg:text-2xl p-5 flex items-center justify-center font-semibold leading-6.5">
+        <h2>What did you like most about our product?</h2>
       </GoBoldMobileForm.QuestionContent>
-      <GoBoldMobileForm.ElementContent className="bg-amber-50  text-lg p-5 flex items-center justify-center flex-col">
-        <input
-          type="text"
-          placeholder="Share your favorite thing..."
-          className="w-full px-1 font-medium transition-all duration-300 border-b-[1.5px] border-gray-400/85 placeholder:tracking-tight placeholder:italicfocus:leading-7 focus:border-b-[1.5px] focus:border-zinc-900/75 focus:outline-none line-clamp-3"
-        />
+      <GoBoldMobileForm.ElementContent className="bg-amber-50 text-sm md:text-base py-5 px-3 flex items-center justify-center flex-col">
+        <div className=" w-full border p-2 px-4 rounded-3xl bg-gray-200 border-zinc-500">
+          <input
+            type="text"
+            placeholder="Share your favorite thing..."
+            className={cn(
+              "w-full px-1 font-medium transition-all duration-300  placeholder:tracking-tight",
+              "focus:outline-none line-clamp-3 focus:placeholder:text-zinc-400 placeholder:text-zinc-700"
+              // "relative before:content-['“'] after:content-['”'] before:absolute after:absolute before:-left-4 after:-right-4",
+            )}
+          />
+        </div>
       </GoBoldMobileForm.ElementContent>
     </GoBoldMobileForm.Card>
   );
@@ -175,7 +210,7 @@ GoBoldMobileForm.ImageContent = ({
   return (
     <div
       className={cn(
-        "duration-300 p-1 w-full aspect-4/3 rounded-[calc(24px_-_12px)]",
+        "duration-300 p-1 w-full aspect-4/3 rounded-t-[calc(24px_-_12px)]",
         className
       )}
       {...props}
@@ -189,7 +224,7 @@ GoBoldMobileForm.QuestionContent = ({
   return (
     <div
       className={cn(
-        "duration-300 p-1 w-full min-h-24  rounded-[calc(24px_-_12px)]",
+        "duration-300 zp-1 w-full min-h-24  zrounded-[calc(24px_-_12px)]",
         className
       )}
       {...props}
@@ -203,7 +238,7 @@ GoBoldMobileForm.ElementContent = ({
   return (
     <div
       className={cn(
-        "duration-300 p-1 w-full min-h-16  rounded-[calc(24px_-_12px)]",
+        "duration-300 zp-1 w-full min-h-16  rounded-b-[calc(24px_-_12px)]",
         className
       )}
       {...props}
@@ -381,8 +416,13 @@ const ModernPages = () => {
   const now = today(getLocalTimeZone());
 
   return (
-    <>
-      <section className="relative overflow-hidden h-full rounded-[calc(24px)]">
+    <div className="max-sm:h-[433.33px] grow overflow-y-auto grid sm:grid-cols-2 gap-2">
+      <section
+        className={cn(
+          "relative overflow-hidden h-full rounded-[calc(24px)]",
+          "min-h-[220px]"
+        )}
+      >
         <img
           src={"/background/butler-dupe.jpeg"}
           alt={"alt"}
@@ -393,7 +433,8 @@ const ModernPages = () => {
       <section
         className={cn(
           "relative overflow-y-auto h-full bg-red-200 rounded-[calc(24px)] p-8",
-          "grid space-y-5"
+          "grid space-y-5",
+          "min-h-[320px]"
         )}
       >
         <img
@@ -406,14 +447,14 @@ const ModernPages = () => {
           <h2 className=" text-xl leading-5 sm:text-2xl sm:leading-6 md:text-4xl md:leading-10 text-wrap font-bold text-zinc-800  ">
             What is your preferred appointment date?
           </h2>
-          <p className="text-zinc-800/90 text-sm md:text-base">
+          <p className="text-zinc-800/90 text-sm md:text-base border-">
             Appointments can be scheduled up to 30 days in advance.
           </p>
         </div>
 
         <AppointmentDateAndTimePicker
-          dataSegment_className="data-focused:text-zinc-900 data-focused:bg-red-300 text-zinc-900"
-          dateInput_className="data-focus-within:ring-red-300 "
+          dataSegment_className="data-focused:text-zinc-900 data-focused:bg-red-300 text-zinc-900 data-placeholder:text-zinc-900 data-focused:data-placeholder:text-white"
+          dateInput_className="data-focus-within:ring-red-300 data-focus-within:border-zinc-900"
           aria-label="Appointment Date"
           calendar_bg_theme="light"
           calendar_tw_color="red"
@@ -421,6 +462,6 @@ const ModernPages = () => {
           maxValue={now.add({ days: 30 + 1 })}
         />
       </section>
-    </>
+    </div>
   );
 };

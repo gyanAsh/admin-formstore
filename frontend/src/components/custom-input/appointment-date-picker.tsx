@@ -28,7 +28,7 @@ export default function Component<T extends DateValue>({
   calendar_tw_color?: tw_colors;
 }) {
   let popoverStyle = cn({
-    "bg-red-200 border-red-300": calendar_tw_color === "red",
+    "bg-red-200 border-zinc-500": calendar_tw_color === "red",
   });
   return (
     <DatePicker className={cn("*:not-first:mt-2 w-full", className)} {...props}>
