@@ -90,44 +90,56 @@ export default memo(function Home() {
 
 const FormTemplates = () => {
   const [emblaRef] = useEmblaCarousel({ loop: true }, [
-    // Autoplay({ delay: 2500 }),
+    Autoplay({ delay: 2500 }),
   ]);
   return (
     <>
       <div className="w-full flex items-center justify-center">
         <div className=" overflow-hidden pt-8" ref={emblaRef}>
           <div className="flex px-[calc(1rem_*_-1)] touch-pan-y touch-pinch-zoom">
-            <div className="mx-2 flex-[0_0_80%] p-6 bg-sky-400/20 dark:bg-sky-800/40 rounded-t-3xl border">
+            <div
+              className={cn(
+                "mx-2 flex-[0_0_80%] bg-sky-400/20 dark:bg-sky-800/40 rounded-t-3xl border ",
+                "overflow-hidden font-['Roboto']"
+              )}
+            >
+              <GrainOverlay className="w-full h-full -z-1">
+                <img
+                  src={"/background/fishing-net.jpg"}
+                  alt={"alt"}
+                  className={cn(
+                    "absolute blur-[0px] -z-1 inset-0 w-full h-full object-cover"
+                  )}
+                />
+
+                <div className="">
+                  <h1 className="text-3xl font-semibold text-gray-800 mb-4">
+                    Product Feedback Survey
+                  </h1>
+                  <p className="text-white mb-4">
+                    {`We’re always looking to improve and would love to hear your
+                  thoughts. Your feedback helps us enhance your experience and
+                  build better features. All responses are completely
+                  confidential.`}
+                  </p>
+                  <label className="flex items-start space-x-2 mb-6">
+                    <input
+                      type="checkbox"
+                      className="mt-1 text-blue-600"
+                      required
+                    />
+                    <span className="text-gray-700">
+                      I agree to participate in this survey and understand my
+                      responses will remain confidential.
+                    </span>
+                  </label>
+                  <button className="w-fit bg-zinc-900  text-white py-2 px-4 rounded-xl hover:bg-blue-700 transition-colors duration-200">
+                    Start Survey
+                  </button>
+                </div>
+              </GrainOverlay>
+
               {/* demo demo */}
-              <div className="max-w-xl mx-auto p-6 mt-10 bg-white shadow-lg rounded-xl">
-                <h1 className="text-3xl font-semibold text-gray-800 mb-4">
-                  Product Feedback Survey
-                </h1>
-
-                <p className="text-gray-700 mb-4">
-                  Thank you for using our product! We’re always looking to
-                  improve and would love to hear your thoughts. This short
-                  survey will take less than 3 minutes to complete. Your
-                  feedback helps us enhance your experience and build better
-                  features. All responses are completely confidential.
-                </p>
-
-                <label className="flex items-start space-x-2 mb-6">
-                  <input
-                    type="checkbox"
-                    className="mt-1 text-blue-600"
-                    required
-                  />
-                  <span className="text-gray-700">
-                    I agree to participate in this survey and understand my
-                    responses will remain confidential.
-                  </span>
-                </label>
-
-                <button className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors duration-200">
-                  Start Survey
-                </button>
-              </div>
             </div>
             <section className="mx-2 flex-[0_0_80%] xl:flex-[0_0_1014px] max-md:aspect-16/10  md:h-[80dvh]">
               <GoBoldForm />
@@ -139,6 +151,7 @@ const FormTemplates = () => {
                 "bg-[url('/background/black-dots.svg')] bg-repeat"
               )}
             >
+              <h2 className="text-5xl text-white"> toggle form element</h2>
               <GoBoldMobileForm />
             </div>
 
@@ -149,6 +162,10 @@ const FormTemplates = () => {
                 "flex flex-col"
               )}
             >
+              <h2 className="text-5xl text-white">
+                toggle form validation date
+              </h2>
+
               <ModernPages />
             </div>
           </div>
@@ -172,7 +189,7 @@ const GoBoldMobileForm = () => {
         <h2>What did you like most about our product?</h2>
       </GoBoldMobileForm.QuestionContent>
       <GoBoldMobileForm.ElementContent className="bg-amber-50 text-sm md:text-base py-5 px-3 flex items-center justify-center flex-col">
-        <div className=" w-full border p-2 px-4 rounded-3xl bg-gray-200 border-zinc-500">
+        <div className=" w-full border p-2 px-4 rounded-[calc(24px_-_16px)] bg-gray-200 border-zinc-500">
           <input
             type="text"
             placeholder="Share your favorite thing..."
@@ -462,6 +479,19 @@ const ModernPages = () => {
           maxValue={now.add({ days: 30 + 1 })}
         />
       </section>
+    </div>
+  );
+};
+
+const GrainOverlay = ({
+  className,
+  children,
+  ...props
+}: React.ComponentProps<"div">) => {
+  return (
+    <div className={cn("relative", className)} {...props}>
+      {children}
+      <div className="grain-overlay" />
     </div>
   );
 };

@@ -250,6 +250,20 @@
     paint-order: stroke fill;
     -webkit-text-stroke: 1px #fff;
   }
+
+  /* GrainOverlay.css */
+  .grain-overlay {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Dissolve_Noise_Texture.png");
+    background-size: cover;
+    opacity: 0.1;
+    pointer-events: none;
+  }
 }
 
 /* Apply to scrollable container or globally with `body` */
