@@ -5,7 +5,7 @@ import { Trash2 } from "lucide-react";
 import React, {useState} from "react";
 import type { FormElement } from "../index";
 
-export const PhoneCard = ({ form }: { form: FormElement }) => {
+export const PhoneCard = ({ form, updateFormElementValues }: { form: FormElement, updateFormElementValues: any }) => {
   const [formLabel, setFormLabel] = useState(form.label);
 
   return (
@@ -35,6 +35,7 @@ export const PhoneCard = ({ form }: { form: FormElement }) => {
           value={formLabel}
           onChange={(e)=>{
             setFormLabel(e.target.value);
+            updateFormElementValues({id: form.id, type: form.type, label: e.target.value});
           }}
         />
         <input
