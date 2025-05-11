@@ -97,51 +97,48 @@ const FormTemplates = () => {
       <div className="w-full flex items-center justify-center">
         <div className=" overflow-hidden pt-8" ref={emblaRef}>
           <div className="flex px-[calc(1rem_*_-1)] touch-pan-y touch-pinch-zoom">
-            <div
+            <section
               className={cn(
-                "mx-2 flex-[0_0_80%] bg-sky-400/20 dark:bg-sky-800/40 rounded-t-3xl border ",
-                "overflow-hidden font-['Roboto']"
+                "mx-2 flex-[0_0_80%] bg-lime-300  rounded-t-3xl border ",
+                "overflow-hidden font-['Cal_Sans','sans-serif']",
+                "grid md:grid-cols-2 grow"
               )}
             >
-              <GrainOverlay className="w-full h-full -z-1">
+              <section className="overflow-hidden rounded-[0%_0%_0%_40%/0%_0%_0%_40%] md:rounded-[0%_40%_0%_0%/0%_40%_0%_0%]">
                 <img
                   src={"/background/fishing-net.jpg"}
                   alt={"alt"}
-                  className={cn(
-                    "absolute blur-[0px] -z-1 inset-0 w-full h-full object-cover"
-                  )}
+                  className={cn(" max-md:w-full md:h-full  object-cover")}
                 />
-
-                <div className="">
-                  <h1 className="text-3xl font-semibold text-gray-800 mb-4">
-                    Product Feedback Survey
-                  </h1>
-                  <p className="text-white mb-4">
-                    {`We’re always looking to improve and would love to hear your
+              </section>
+              <section className="rounded flex flex-col text-center items-center justify-center p-6 gap-0">
+                <h1
+                  className={cn(
+                    "text-3xl md:text-4xl lg:text-5xl tracking-wider font-semibold text-emerald-900 mb-4"
+                    // "[text-shadow:0px_0px_4px_#fff]"
+                    // "[paint-order:stroke_fill] [-webkit-text-stroke:8px_#000]"
+                  )}
+                >
+                  Product Feedback Survey
+                </h1>
+                <p
+                  className={cn(
+                    "text-emerald-900  text-base lg:text-xl tracking-wide mb-4"
+                    // "[text-shadow:0px_0px_2px_#fff]"
+                    // "[paint-order:stroke_fill] [-webkit-text-stroke:2px_#000]"
+                  )}
+                >
+                  {`We’re always looking to improve and would love to hear your
                   thoughts. Your feedback helps us enhance your experience and
                   build better features. All responses are completely
                   confidential.`}
-                  </p>
-                  <label className="flex items-start space-x-2 mb-6">
-                    <input
-                      type="checkbox"
-                      className="mt-1 text-blue-600"
-                      required
-                    />
-                    <span className="text-gray-700">
-                      I agree to participate in this survey and understand my
-                      responses will remain confidential.
-                    </span>
-                  </label>
-                  <button className="w-fit bg-zinc-900  text-white py-2 px-4 rounded-xl hover:bg-blue-700 transition-colors duration-200">
-                    Start Survey
-                  </button>
-                </div>
-              </GrainOverlay>
-
-              {/* demo demo */}
-            </div>
-            <section className="mx-2 flex-[0_0_80%] xl:flex-[0_0_1014px] max-md:aspect-16/10  md:h-[80dvh]">
+                </p>
+                <button className="w-fit  tracking-wide bg-zinc-900  text-white py-2 px-4 rounded-full cursor-pointer hover:bg-zinc-100 hover:text-zinc-950 transition-colors duration-200">
+                  Start Survey
+                </button>
+              </section>
+            </section>
+            <section className="mx-2 flex-[0_0_80%] xl:flex-[0_0_1014px] ">
               <GoBoldForm />
             </section>
 
@@ -151,7 +148,7 @@ const FormTemplates = () => {
                 "bg-[url('/background/black-dots.svg')] bg-repeat"
               )}
             >
-              <h2 className="text-5xl text-white"> toggle form element</h2>
+              {/* <h2 className="text-5xl text-white"> toggle form element</h2> */}
               <GoBoldMobileForm />
             </div>
 
@@ -162,9 +159,9 @@ const FormTemplates = () => {
                 "flex flex-col"
               )}
             >
-              <h2 className="text-5xl text-white">
+              {/* <h2 className="text-5xl text-white">
                 toggle form validation date
-              </h2>
+              </h2> */}
 
               <ModernPages />
             </div>
@@ -457,7 +454,7 @@ const ModernPages = () => {
         <img
           alt="Logo"
           loading="lazy"
-          className="grayscale flex items-center justify-center w-full size-8"
+          className="[mix-blend-mode:multiply] grayscale flex items-center justify-center w-full size-8"
           src="/formstore-logo-light.svg"
         />
         <div className=" max-w-[450px] flex flex-col gap-3">
@@ -483,7 +480,7 @@ const ModernPages = () => {
   );
 };
 
-const GrainOverlay = ({
+export const GrainOverlay = ({
   className,
   children,
   ...props
