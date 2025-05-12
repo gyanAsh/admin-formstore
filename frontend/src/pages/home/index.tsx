@@ -115,8 +115,8 @@ const FormTemplates = () => {
                 <h1
                   className={cn(
                     "text-3xl md:text-4xl lg:text-5xl tracking-wider font-semibold text-emerald-900 mb-4"
-                    // "[text-shadow:0px_0px_4px_#fff]"
-                    // "[paint-order:stroke_fill] [-webkit-text-stroke:8px_#000]"
+                    // "[text-shadow:0px_0px_4px_#fff]",
+                    // "[paint-order:stroke_fill] [-webkit-text-stroke:8px_oklch(43.2%_0.095_166.913)]"
                   )}
                 >
                   Product Feedback Survey
@@ -178,7 +178,7 @@ const GoBoldMobileForm = () => {
     <GoBoldMobileForm.Card className=" overflow-y-auto h-full font-['IBM_Plex_Serif','serif'] text-zinc-950 ">
       <GoBoldMobileForm.ImageContent className="bg-amber-50">
         <img
-          src="/landing-page/cans-dupe.jpeg"
+          src="/background/razor.jpg"
           className="rounded-[calc(24px_-_16px)]"
         />
       </GoBoldMobileForm.ImageContent>
@@ -186,17 +186,16 @@ const GoBoldMobileForm = () => {
         <h2>What did you like most about our product?</h2>
       </GoBoldMobileForm.QuestionContent>
       <GoBoldMobileForm.ElementContent className="bg-amber-50 text-sm md:text-base py-5 px-3 flex items-center justify-center flex-col">
-        <div className=" w-full border p-2 px-4 rounded-[calc(24px_-_16px)] bg-gray-200 border-zinc-500">
-          <input
-            type="text"
-            placeholder="Share your favorite thing..."
-            className={cn(
-              "w-full px-1 font-medium transition-all duration-300  placeholder:tracking-tight",
-              "focus:outline-none line-clamp-3 focus:placeholder:text-zinc-400 placeholder:text-zinc-700"
-              // "relative before:content-['“'] after:content-['”'] before:absolute after:absolute before:-left-4 after:-right-4",
-            )}
-          />
-        </div>
+        <input
+          type="text"
+          placeholder="Share your favorite thing..."
+          className={cn(
+            "w-full px-1 font-medium transition-all duration-300  placeholder:tracking-tight",
+            "focus:outline-none line-clamp-3 focus:placeholder:text-zinc-400 placeholder:text-zinc-700",
+            " w-full border p-2 px-4 rounded-[calc(24px_-_16px)] bg-gray-200 border-zinc-500 focus:border-zinc-800 focus:border-[1.5px] duration-0 mb-[1px] focus:mb-0"
+            // "relative before:content-['“'] after:content-['”'] before:absolute after:absolute before:-left-4 after:-right-4",
+          )}
+        />
       </GoBoldMobileForm.ElementContent>
     </GoBoldMobileForm.Card>
   );
