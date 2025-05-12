@@ -10,11 +10,21 @@ import {
   FormBGCard,
   FormCard,
 } from "@/components/dashboard-templates/go-bold/page";
-import { Droplet } from "lucide-react";
+import {
+  ArrowLeftToLine,
+  ChevronLeft,
+  ChevronRight,
+  Droplet,
+} from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import AppointmentDateAndTimePicker from "@/components/custom-input/appointment-date-picker";
 import { Label } from "@/components/ui/label";
 import { getLocalTimeZone, today } from "@internationalized/date";
+import {
+  NextButton,
+  PrevButton,
+  usePrevNextButtons,
+} from "@/lib/embla-carousel-nav-btns";
 
 export default memo(function Home() {
   return (
@@ -89,12 +99,20 @@ export default memo(function Home() {
 });
 
 const FormTemplates = () => {
-  const [emblaRef] = useEmblaCarousel({ loop: true }, [
-    Autoplay({ delay: 2500 }),
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
+    Autoplay({ delay: 4500 }),
   ]);
+
+  const {
+    prevBtnDisabled,
+    nextBtnDisabled,
+    onPrevButtonClick,
+    onNextButtonClick,
+  } = usePrevNextButtons(emblaApi);
+
   return (
     <>
-      <div className="w-full flex items-center justify-center">
+      <div className="w-full flex items-center justify-center relative">
         <div className=" overflow-hidden pt-8" ref={emblaRef}>
           <div className="flex px-[calc(1rem_*_-1)] touch-pan-y touch-pinch-zoom">
             <section
@@ -139,7 +157,10 @@ const FormTemplates = () => {
                   build better features. All responses are completely
                   confidential.`}
                 </p>
-                <button className="w-fit  tracking-wide bg-zinc-900  text-white py-2 px-4 rounded-full cursor-pointer hover:bg-zinc-100 hover:text-zinc-950 transition-colors duration-200">
+                <button
+                  onClick={onNextButtonClick}
+                  className="w-fit  tracking-wide bg-zinc-900  text-white py-2 px-4 rounded-full cursor-pointer hover:bg-zinc-100 hover:text-zinc-950 transition-colors duration-200"
+                >
                   Start Survey
                 </button>
               </section>
@@ -173,6 +194,37 @@ const FormTemplates = () => {
             </div>
           </div>
         </div>
+        <section className="absolute right-3 bottom-3 flex items-center bg-sky-100 p-2 rounded space-x-1.5">
+          <button
+            onClick={onPrevButtonClick}
+            disabled={prevBtnDisabled}
+            className="rounded bg-black hover:bg-slate-800 text-white flex items-center justify-center size-7 "
+          >
+            <ChevronLeft />
+          </button>
+          <button
+            onClick={onNextButtonClick}
+            disabled={nextBtnDisabled}
+            className="rounded bg-black hover:bg-slate-800 text-white flex items-center justify-center size-7 "
+          >
+            <ChevronRight />
+          </button>
+          <h2 className="text-base font-semibold text-slate-900">
+            Build with{" "}
+            <span
+              className={cn(
+                "bg-clip-text text-transparent",
+                // "bg-gradient-to-r from-15% from-cyan-500 to-green-500"
+                // "bg-radial from-15%",
+                // " from-teal-400 to-lime-500",
+                " bg-gradient-to-tl from-blue-700 to-purple-700"
+                // "dark:from-blue-400 dark:to-purple-400"
+              )}
+            >
+              Formstore
+            </span>
+          </h2>
+        </section>
       </div>
     </>
   );
@@ -195,7 +247,7 @@ const GoBoldMobileForm = () => {
           className={cn(
             "w-full px-1 font-medium transition-all duration-300  placeholder:tracking-tight",
             "focus:outline-none line-clamp-3 focus:placeholder:text-zinc-500 placeholder:text-violet-950",
-            " w-full border p-2 px-4 rounded-full bg-pink-200 border-zinc-500 focus:border-violet-500 focus:border-[1.5px] duration-0 mb-[1px] focus:mb-0"
+            " w-full border p-2 px-4 srounded-full bg-pink-200 border-zinc-500 focus:border-violet-500 focus:border-[1.5px] duration-0 mb-[1px] focus:mb-0"
             // "relative before:content-['“'] after:content-['”'] before:absolute after:absolute before:-left-4 after:-right-4",
           )}
         />
