@@ -112,6 +112,12 @@ const FormTemplates = () => {
                 />
               </section>
               <section className="rounded flex flex-col text-center items-center justify-center p-6 gap-0">
+                <img
+                  alt="Logo"
+                  loading="lazy"
+                  className="[mix-blend-mode:multiply] flex items-center justify-center w-fit rounded size-9 mb-4"
+                  src="/formstore-logo-light.svg"
+                />
                 <h1
                   className={cn(
                     "text-3xl md:text-4xl lg:text-5xl tracking-wider font-semibold text-emerald-900 mb-4"
@@ -123,7 +129,7 @@ const FormTemplates = () => {
                 </h1>
                 <p
                   className={cn(
-                    "text-emerald-900  text-base lg:text-xl tracking-wide mb-4"
+                    "text-emerald-900  text-base lg:text-xl tracking-wide mb-12"
                     // "[text-shadow:0px_0px_2px_#fff]"
                     // "[paint-order:stroke_fill] [-webkit-text-stroke:2px_#000]"
                   )}
@@ -175,24 +181,21 @@ const FormTemplates = () => {
 // ------------Component------------
 const GoBoldMobileForm = () => {
   return (
-    <GoBoldMobileForm.Card className=" overflow-y-auto h-full font-['IBM_Plex_Serif','serif'] text-zinc-950 ">
-      <GoBoldMobileForm.ImageContent className="bg-amber-50">
-        <img
-          src="/background/razor.jpg"
-          className="rounded-[calc(24px_-_16px)]"
-        />
+    <GoBoldMobileForm.Card className=" overflow-y-auto h-full font-['Roboto','sans-serif'] ffont-['IBM_Plex_Serif','serif'] text-zinc-950 ">
+      <GoBoldMobileForm.ImageContent className="bg-violet-950">
+        <img src="/background/razor.jpg" />
       </GoBoldMobileForm.ImageContent>
-      <GoBoldMobileForm.QuestionContent className="bg-amber-50 text-lg md:text-xl lg:text-2xl p-5 flex items-center justify-center font-semibold leading-6.5">
+      <GoBoldMobileForm.QuestionContent className="bg-violet-950 text-pink-200 text-lg md:text-xl lg:text-2xl p-5 flex items-center justify-center font-semibold leading-6.5">
         <h2>What did you like most about our product?</h2>
       </GoBoldMobileForm.QuestionContent>
-      <GoBoldMobileForm.ElementContent className="bg-amber-50 text-sm md:text-base py-5 px-3 flex items-center justify-center flex-col">
+      <GoBoldMobileForm.ElementContent className="bg-violet-950 text-sm md:text-base pb-5 px-3 flex items-center justify-center flex-col">
         <input
           type="text"
           placeholder="Share your favorite thing..."
           className={cn(
             "w-full px-1 font-medium transition-all duration-300  placeholder:tracking-tight",
-            "focus:outline-none line-clamp-3 focus:placeholder:text-zinc-400 placeholder:text-zinc-700",
-            " w-full border p-2 px-4 rounded-[calc(24px_-_16px)] bg-gray-200 border-zinc-500 focus:border-zinc-800 focus:border-[1.5px] duration-0 mb-[1px] focus:mb-0"
+            "focus:outline-none line-clamp-3 focus:placeholder:text-zinc-500 placeholder:text-violet-950",
+            " w-full border p-2 px-4 rounded-full bg-pink-200 border-zinc-500 focus:border-violet-500 focus:border-[1.5px] duration-0 mb-[1px] focus:mb-0"
             // "relative before:content-['“'] after:content-['”'] before:absolute after:absolute before:-left-4 after:-right-4",
           )}
         />
@@ -207,7 +210,7 @@ GoBoldMobileForm.Card = ({
   return (
     <div
       className={cn(
-        "duration-300 size-full rounded-[calc(24px_-_12px)]",
+        "duration-300 size-full",
         " flex flex-col items-center justify-center",
         className
       )}
@@ -222,10 +225,7 @@ GoBoldMobileForm.ImageContent = ({
 }: React.ComponentProps<"div">) => {
   return (
     <div
-      className={cn(
-        "duration-300 p-1 w-full aspect-4/3 rounded-t-[calc(24px_-_12px)]",
-        className
-      )}
+      className={cn("duration-300 p-1 w-full aspect-4/3", className)}
       {...props}
     />
   );
@@ -236,10 +236,7 @@ GoBoldMobileForm.QuestionContent = ({
 }: React.ComponentProps<"div">) => {
   return (
     <div
-      className={cn(
-        "duration-300 zp-1 w-full min-h-24  zrounded-[calc(24px_-_12px)]",
-        className
-      )}
+      className={cn("duration-300 zp-1 w-full min-h-24", className)}
       {...props}
     />
   );
@@ -250,10 +247,7 @@ GoBoldMobileForm.ElementContent = ({
 }: React.ComponentProps<"div">) => {
   return (
     <div
-      className={cn(
-        "duration-300 zp-1 w-full min-h-16  rounded-b-[calc(24px_-_12px)]",
-        className
-      )}
+      className={cn("duration-300 zp-1 w-full min-h-16", className)}
       {...props}
     />
   );
@@ -375,6 +369,11 @@ const GoBoldForm = () => {
             " lg:gap-2 xl:gap-4  lg:p-10 xl:p-0"
           )}
         >
+          <section className="[mix-blend-mode:multiply] grayscale absolute bottom-5 left-10 size-8 flex items-center gap-2">
+            <img alt="Logo" loading="lazy" src="/formstore-logo-light.svg" />
+            <h2 className="text-xl">Formstore</h2>
+          </section>
+
           <section className="max-lg:pb-3 p-4 flex items-center">
             <h2 className=" text-3xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl">
               Would you recommend our service to others?
@@ -429,7 +428,7 @@ const ModernPages = () => {
   const now = today(getLocalTimeZone());
 
   return (
-    <div className="max-sm:h-[433.33px] grow overflow-y-auto grid sm:grid-cols-2 gap-2">
+    <div className="max-sm:h-[433.33px] grow overflow-y-auto grid md:grid-cols-2 gap-2">
       <section
         className={cn(
           "relative overflow-hidden h-full rounded-[calc(24px)]",
@@ -453,7 +452,7 @@ const ModernPages = () => {
         <img
           alt="Logo"
           loading="lazy"
-          className="[mix-blend-mode:multiply] grayscale flex items-center justify-center w-full size-8"
+          className="[mix-blend-mode:multiply] flex items-center justify-center w-full size-8"
           src="/formstore-logo-light.svg"
         />
         <div className=" max-w-[450px] flex flex-col gap-3">
