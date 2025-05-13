@@ -81,3 +81,24 @@ func (s *Service) loginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+func (s *Service) verifyUserHandler(w http.ResponseWriter, r *http.Request) {
+	userID, err := s.authenticate(r)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+	row := s.Conn.QueryRow(r.Context(), `SELECT ID, username, email FROM users WHERE ID = $1`, userID)
+	var dbuser User
+	if err = row.Scan(&dbuser.ID, &dbuser.Username, &dbuser.Email); err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	if err = json.NewEncoder(w).Encode(dbuser); err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+}
