@@ -117,7 +117,7 @@ const FormTemplates = () => {
           <div className="flex px-[calc(1rem_*_-1)] touch-pan-y touch-pinch-zoom">
             <section
               className={cn(
-                "mx-2 flex-[0_0_80%] bg-lime-300  rounded-t-3xl border ",
+                "mx-2 flex-[0_0_80%] xl:flex-[0_0_1014px] bg-lime-300  rounded-t-3xl border ",
                 "overflow-hidden font-['Cal_Sans','sans-serif']",
                 "grid md:grid-cols-2 grow"
               )}
@@ -181,7 +181,7 @@ const FormTemplates = () => {
 
             <div
               className={cn(
-                "mx-2 flex-[0_0_80%] p-6 rounded-t-3xl",
+                "mx-2 flex-[0_0_80%] xl:flex-[0_0_1014px] p-6 rounded-t-3xl",
                 "border border-zinc-400 bg-gray-300  font-['Playfair_Display','serif']",
                 "flex flex-col"
               )}
@@ -194,22 +194,25 @@ const FormTemplates = () => {
             </div>
           </div>
         </div>
-        <section className="absolute right-3 bottom-3 flex items-center bg-sky-100 p-2 rounded space-x-1.5">
-          <button
-            onClick={onPrevButtonClick}
-            disabled={prevBtnDisabled}
-            className="rounded bg-black hover:bg-slate-800 text-white flex items-center justify-center size-7 "
-          >
-            <ChevronLeft />
-          </button>
-          <button
-            onClick={onNextButtonClick}
-            disabled={nextBtnDisabled}
-            className="rounded bg-black hover:bg-slate-800 text-white flex items-center justify-center size-7 "
-          >
-            <ChevronRight />
-          </button>
-          <h2 className="text-base font-semibold text-slate-900">
+        <section className="absolute max-sm:w-full right-0 sm:right-3 bottom-0 sm:bottom-3 flex items-center max-sm:justify-center bg-sky-100 max-md:p-2 p-3 md:rounded-full space-x-2.5">
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={onPrevButtonClick}
+              disabled={prevBtnDisabled}
+              className="rounded md:rounded-md  bg-black hover:bg-slate-800 text-white flex items-center justify-center max-sm:size-5 size-6 md:size-7 "
+            >
+              <ChevronLeft className="text-inherit" />
+            </button>
+            <button
+              onClick={onNextButtonClick}
+              disabled={nextBtnDisabled}
+              className="rounded md:rounded-md bg-black hover:bg-slate-800 text-white flex items-center justify-center max-sm:size-5 size-6 md:size-7 "
+            >
+              <ChevronRight className="text-inherit" />
+            </button>
+          </div>
+
+          <h2 className="text-xs sm:text-sm md:text-base font-semibold text-slate-900">
             Build with{" "}
             <span
               className={cn(
