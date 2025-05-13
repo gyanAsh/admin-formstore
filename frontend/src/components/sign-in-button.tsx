@@ -75,6 +75,7 @@ export default function SignInButton({
   }) {
   const id = useId();
   const [openDialog, setOpenDialog] = useState(false);
+  const [tabStateValue, setTabStateValue] = useState("login");
 
   const signinMutation = useMutation({
     mutationFn: async ({
@@ -186,28 +187,38 @@ export default function SignInButton({
       <DialogContent className="max-h-[calc(100%-2rem)] rounded-2xl overflow-y-auto">
         <div className="flex flex-col items-center gap-2">
           <div
-            className="flex size-11 shrink-0 items-center justify-center rounded-full border"
+            className="flex size-11 shrink-0 items-center justify-center "
             aria-hidden="true"
           >
-            <svg
-              className="stroke-zinc-800 dark:stroke-zinc-100"
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 32 32"
-              aria-hidden="true"
-            >
-              <circle cx="16" cy="16" r="12" fill="none" strokeWidth="8" />
-            </svg>
+            <img
+              src={"/formstore-logo-light.svg"}
+              alt="Logo"
+              loading="lazy"
+              className="dark:hidden block"
+            />
+            <img
+              src={"/formstore-logo-dark.svg"}
+              alt="Logo"
+              loading="lazy"
+              className="hidden dark:block"
+            />
           </div>
           <DialogHeader>
-            <DialogTitle className="sm:text-center">Welcome back</DialogTitle>
+            <DialogTitle className="sm:text-center">
+              Welcome {tabStateValue === "login" ? "back" : "👋"}
+            </DialogTitle>
             <DialogDescription className="sm:text-center">
-              Enter your credentials to login to your account.
+              Enter your credentials to{" "}
+              {tabStateValue === "login" ? "login to" : "register"} your
+              account.
             </DialogDescription>
           </DialogHeader>
         </div>
-        <Tabs defaultValue="login" className="w-full">
+        <Tabs
+          onValueChange={(v) => setTabStateValue(v)}
+          defaultValue="login"
+          className="w-full"
+        >
           <TabsList className="grid w-full grid-cols-2 bg-secondary">
             <TabsTrigger
               className="cursor-pointer hover:text-black/50 dark:hover:text-white"

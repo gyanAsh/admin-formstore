@@ -1,6 +1,5 @@
 import React, { memo, useState } from "react";
 import { cn } from "@/lib/utils";
-import { NavLink } from "react-router";
 import { Button } from "@/components/ui/button";
 
 import useEmblaCarousel from "embla-carousel-react";
@@ -10,21 +9,10 @@ import {
   FormBGCard,
   FormCard,
 } from "@/components/dashboard-templates/go-bold/page";
-import {
-  ArrowLeftToLine,
-  ChevronLeft,
-  ChevronRight,
-  Droplet,
-} from "lucide-react";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ChevronLeft, ChevronRight, Droplet } from "lucide-react";
 import AppointmentDateAndTimePicker from "@/components/custom-input/appointment-date-picker";
-import { Label } from "@/components/ui/label";
 import { getLocalTimeZone, today } from "@internationalized/date";
-import {
-  NextButton,
-  PrevButton,
-  usePrevNextButtons,
-} from "@/lib/embla-carousel-nav-btns";
+import { usePrevNextButtons } from "@/lib/embla-carousel-nav-btns";
 
 export default memo(function Home() {
   return (
@@ -194,7 +182,7 @@ const FormTemplates = () => {
             </div>
           </div>
         </div>
-        <section className="absolute max-sm:w-full right-0 sm:right-3 bottom-0 sm:bottom-3 flex items-center max-sm:justify-center bg-sky-100 max-md:p-2 p-3 md:rounded-full space-x-2.5">
+        <section className="absolute max-sm:w-full right-0 sm:right-3 bottom-0 sm:bottom-3 flex items-center max-sm:justify-center border border-zinc-800 bg-sky-100 max-md:p-2 px-3 py-2 md:rounded-full space-x-2.5">
           <div className="flex items-center gap-1.5">
             <button
               onClick={onPrevButtonClick}
@@ -212,11 +200,11 @@ const FormTemplates = () => {
             </button>
           </div>
 
-          <h2 className="text-xs sm:text-sm md:text-base font-semibold text-slate-900">
-            Build with{" "}
+          <h2 className="text-xs sm:text-sm md:text-base font-normal italic text-slate-900">
+            build with{" "}
             <span
               className={cn(
-                "bg-clip-text text-transparent",
+                "bg-clip-text text-transparent not-italic",
                 // "bg-gradient-to-r from-15% from-cyan-500 to-green-500"
                 // "bg-radial from-15%",
                 // " from-teal-400 to-lime-500",
