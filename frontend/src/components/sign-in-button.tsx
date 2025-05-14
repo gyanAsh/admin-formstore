@@ -23,7 +23,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useMutation } from "@tanstack/react-query";
-import { CircleDashed, Eye, EyeOff } from "lucide-react";
+import { CircleCheck, CircleDashed, Eye, EyeOff, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { VariantProps } from "class-variance-authority";
 import { getAuthToken } from "@/lib/utils";
@@ -251,8 +251,8 @@ export default function SignInButton({
           </DialogHeader>
         )}
         {dialogStep === DialogStepsEnum.verified && (
-          <section className="aspect-video flex flex-col gap-3">
-            <DialogHeader className="flex items-center justify-center grow">
+          <section className="aspect-video flex flex-col justify-between gap-3">
+            <DialogHeader className="flex items-center justify-center">
               <DialogTitle className="text-2xl">
                 Welcome {userLoginData?.username ?? "👋"}!
               </DialogTitle>
@@ -260,6 +260,26 @@ export default function SignInButton({
                 Account authenticated.
               </DialogDescription>
             </DialogHeader>
+            <section className="relative flex items-center justify-center">
+              <CircleCheck className="size-15 text-green-700 dark:text-green-500  " />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                className="absolute size-4 -translate-x-8 -translate-y-5 text-yellow-400 animate-pulse [animation-duration:1.3s]"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5 4a.75.75 0 0 1 .738.616l.252 1.388A1.25 1.25 0 0 0 6.996 7.01l1.388.252a.75.75 0 0 1 0 1.476l-1.388.252A1.25 1.25 0 0 0 5.99 9.996l-.252 1.388a.75.75 0 0 1-1.476 0L4.01 9.996A1.25 1.25 0 0 0 3.004 8.99l-1.388-.252a.75.75 0 0 1 0-1.476l1.388-.252A1.25 1.25 0 0 0 4.01 6.004l.252-1.388A.75.75 0 0 1 5 4ZM12 1a.75.75 0 0 1 .721.544l.195.682c.118.415.443.74.858.858l.682.195a.75.75 0 0 1 0 1.442l-.682.195a1.25 1.25 0 0 0-.858.858l-.195.682a.75.75 0 0 1-1.442 0l-.195-.682a1.25 1.25 0 0 0-.858-.858l-.682-.195a.75.75 0 0 1 0-1.442l.682-.195a1.25 1.25 0 0 0 .858-.858l.195-.682A.75.75 0 0 1 12 1ZM10 11a.75.75 0 0 1 .728.568.968.968 0 0 0 .704.704.75.75 0 0 1 0 1.456.968.968 0 0 0-.704.704.75.75 0 0 1-1.456 0 .968.968 0 0 0-.704-.704.75.75 0 0 1 0-1.456.968.968 0 0 0 .704-.704A.75.75 0 0 1 10 11Z"
+                  clipRule="evenodd"
+                />
+              </svg>
+
+              <Sparkles
+                fill="currentColor"
+                className="absolute size-4 translate-x-8 translate-y-4 text-yellow-400 animate-pulse [animation-duration:2.7s]"
+              />
+            </section>
             <section className="flex items-center gap-3.5">
               <Button
                 className="rounded-full w-1/2"
