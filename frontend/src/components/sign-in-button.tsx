@@ -23,9 +23,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useMutation } from "@tanstack/react-query";
-import { Eye, EyeOff } from "lucide-react";
+import { CircleDashed, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import { VariantProps } from "class-variance-authority";
+import { getAuthToken } from "@/lib/utils";
+import { useNavigate } from "react-router";
+import { $userLoginData } from "@/store/user";
+import { useStore } from "@nanostores/react";
 
 export const loginFormSchema = z.object({
   email: z.string().min(4, {
@@ -73,9 +77,49 @@ export default function SignInButton({
   VariantProps<typeof buttonVariants> & {
     triggerText?: string;
   }) {
+  enum DialogStepsEnum {
+    "loading",
+    "verified",
+    "unverified",
+  }
   const id = useId();
+
+  const navigate = useNavigate();
+  const userLoginData = useStore($userLoginData);
   const [openDialog, setOpenDialog] = useState(false);
+  const [dialogStep, setDialogStep] = useState<DialogStepsEnum>(
+    DialogStepsEnum.loading
+  );
   const [tabStateValue, setTabStateValue] = useState("login");
+
+  const verifyUserMutation = useMutation({
+    mutationFn: async () => {
+      const res = await fetch("/api/verify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getAuthToken()}`,
+        },
+        body: null,
+      });
+      if (!res.ok) {
+        if (res.status >= 400)
+          throw new Error(`${res.status} : ${res.statusText}`);
+        else throw new Error(res.statusText);
+      }
+      const data = await res.json();
+      return data;
+    },
+    onSuccess: (data) => {
+      $userLoginData.set(data);
+      toast.success("User verified.");
+      setDialogStep(DialogStepsEnum.verified);
+    },
+    onError: (error) => {
+      console.error({ error });
+      setDialogStep(DialogStepsEnum.unverified);
+    },
+  });
 
   const signinMutation = useMutation({
     mutationFn: async ({
@@ -95,17 +139,19 @@ export default function SignInButton({
           password: password,
         }),
       });
-      if (!res.ok) {
-        if (res.status >= 400)
-          throw new Error(`${res.status} : ${res.statusText}`);
-        else throw new Error(res.statusText);
-      }
       const data = await res.json();
+
+      if (!res.ok) {
+        if (res.status > 400 && !Boolean(data?.message))
+          throw new Error(`${res.status} : ${res.statusText}`);
+        else throw new Error(data.message);
+      }
       return data;
     },
     onSuccess: (data) => {
       localStorage.setItem("auth-token", data?.jwt_token);
       toast.success("You are now logged in. Start exploring your dashboard!");
+      navigate("/workspace");
       setOpenDialog(false);
     },
     onError: (error) => {
@@ -133,17 +179,19 @@ export default function SignInButton({
           password: password,
         }),
       });
-      if (!res.ok) {
-        if (res.status >= 400)
-          throw new Error(`Error ${res.status}: ${res.statusText}`);
-        else throw new Error(res.statusText);
-      }
       const data = await res.json();
+
+      if (!res.ok) {
+        if (res.status > 400 && !Boolean(data?.message))
+          throw new Error(`${res.status} : ${res.statusText}`);
+        else throw new Error(data.message);
+      }
       return data;
     },
     onSuccess: (data) => {
       localStorage.setItem("auth-token", data?.jwt_token);
       toast.success("You are now logged in. Start exploring your dashboard!");
+      navigate("/workspace");
       setOpenDialog(false);
     },
     onError: (error) => {
@@ -180,262 +228,315 @@ export default function SignInButton({
   }
 
   return (
-    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+    <Dialog
+      open={openDialog}
+      onOpenChange={(open) => {
+        if (open) verifyUserMutation.mutate();
+        setOpenDialog(open);
+      }}
+    >
       <DialogTrigger asChild>
         <Button {...triggerProps}>{triggerText}</Button>
       </DialogTrigger>
       <DialogContent className="max-h-[calc(100%-2rem)] rounded-2xl overflow-y-auto">
-        <div className="flex flex-col items-center gap-2">
-          <div
-            className="flex size-11 shrink-0 items-center justify-center "
-            aria-hidden="true"
-          >
-            <img
-              src={"/formstore-logo-light.svg"}
-              alt="Logo"
-              loading="lazy"
-              className="dark:hidden block"
-            />
-            <img
-              src={"/formstore-logo-dark.svg"}
-              alt="Logo"
-              loading="lazy"
-              className="hidden dark:block"
-            />
-          </div>
-          <DialogHeader>
-            <DialogTitle className="sm:text-center">
-              Welcome {tabStateValue === "login" ? "back" : "👋"}
+        {dialogStep === DialogStepsEnum.loading && (
+          <DialogHeader className="aspect-video flex items-center justify-center">
+            <DialogTitle className="text-2xl">
+              Authenticating your account
             </DialogTitle>
-            <DialogDescription className="sm:text-center">
-              Enter your credentials to{" "}
-              {tabStateValue === "login" ? "login to" : "register"} your
-              account.
+            <DialogDescription className="text-base">
+              Please wait while we authenticate your account.
             </DialogDescription>
+            <CircleDashed className="text-primary mt-10 size-12 animate-spin [animation-duration:1.8s] [animation-timing-function:ease-in-out]" />
           </DialogHeader>
-        </div>
-        <Tabs
-          onValueChange={(v) => setTabStateValue(v)}
-          defaultValue="login"
-          className="w-full"
-        >
-          <TabsList className="grid w-full grid-cols-2 bg-secondary">
-            <TabsTrigger
-              className="cursor-pointer hover:text-black/50 dark:hover:text-white"
-              value="login"
-            >
-              Login
-            </TabsTrigger>
-            <TabsTrigger
-              className="cursor-pointer hover:text-black/50 dark:hover:text-white"
-              value="register"
-            >
-              Register
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="login">
-            <Form {...loginForm}>
-              <form
-                onSubmit={loginForm.handleSubmit(onLoginSubmit)}
-                className="space-y-5"
+        )}
+        {dialogStep === DialogStepsEnum.verified && (
+          <section className="aspect-video flex flex-col gap-3">
+            <DialogHeader className="flex items-center justify-center grow">
+              <DialogTitle className="text-2xl">
+                Welcome {userLoginData?.username ?? "👋"}!
+              </DialogTitle>
+              <DialogDescription className="text-base">
+                Account authenticated.
+              </DialogDescription>
+            </DialogHeader>
+            <section className="flex items-center gap-3.5">
+              <Button
+                className="rounded-full w-1/2"
+                onClick={() => navigate("/workspace")}
               >
-                {signinMutation.isError && (
-                  <div className="flex text-sm gap-2 text-destructive border-l-2 border-l-destructive bg-red-400/15  p-1.5">
-                    {signinMutation.error.message}
-                  </div>
-                )}
-                <div className="space-y-4">
-                  <FormField
-                    control={loginForm.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem className="*:not-first:mt-2">
-                        <FormLabel htmlFor={`${id}-email`}>Email</FormLabel>
-                        <FormControl>
-                          <Input
-                            id={`${id}-email`}
-                            placeholder="your@email.com"
-                            type="email"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={loginForm.control}
-                    name="password"
-                    render={({ field }) => {
-                      const [show, setShow] = useState(false);
-                      return (
-                        <FormItem className="*:not-first:mt-2">
-                          <FormLabel htmlFor={`${id}-password`}>
-                            Password
-                          </FormLabel>
-                          <FormControl>
-                            <div className="relative">
-                              <Input
-                                id={`${id}-password`}
-                                placeholder="Enter your password"
-                                type={show ? "text" : "password"}
-                                {...field}
-                              />
-                              <Button
-                                className=" absolute size-7 top-1 right-1"
-                                variant="ghost"
-                                type="button"
-                                onClick={() => setShow((e) => !e)}
-                              >
-                                {show ? <Eye /> : <EyeOff />}
-                              </Button>
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      );
-                    }}
-                  />
-                </div>
-                <div className="flex justify-end gap-2">
-                  <a className="text-sm underline hover:no-underline" href="#">
-                    Forgot password? **not right now
-                  </a>
-                </div>
-                <Button type="submit" className="w-full">
-                  Sign in
-                </Button>
-              </form>
-            </Form>
-          </TabsContent>
-          <TabsContent value="register">
-            <Form {...registerLoginForm}>
-              <form
-                onSubmit={registerLoginForm.handleSubmit(onRegisterLoginSubmit)}
-                className="space-y-5"
+                Login as {userLoginData?.username}
+              </Button>
+              <Button
+                variant={"black"}
+                className="rounded-full w-1/2"
+                onClick={() => setDialogStep(DialogStepsEnum.unverified)}
               >
-                {registerMutation.isError && (
-                  <div className="flex text-sm gap-2 text-destructive border-l-2 border-l-destructive bg-red-400/15  p-1.5">
-                    {registerMutation.error.message}
-                  </div>
-                )}
-                <div className="space-y-4">
-                  <FormField
-                    control={registerLoginForm.control}
-                    name="username"
-                    render={({ field }) => (
-                      <FormItem className="*:not-first:mt-2">
-                        <FormLabel htmlFor={`${id}-username`}>
-                          Username
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            id={`${id}-username`}
-                            placeholder="Enter your username"
-                            type="text"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
+                Switch Account
+              </Button>
+            </section>
+          </section>
+        )}
+        {dialogStep === DialogStepsEnum.unverified && (
+          <>
+            <div className="flex flex-col items-center gap-2">
+              <div
+                className="flex size-11 shrink-0 items-center justify-center "
+                aria-hidden="true"
+              >
+                <img
+                  src={"/formstore-logo-light.svg"}
+                  alt="Logo"
+                  loading="lazy"
+                  className="dark:hidden block"
+                />
+                <img
+                  src={"/formstore-logo-dark.svg"}
+                  alt="Logo"
+                  loading="lazy"
+                  className="hidden dark:block"
+                />
+              </div>
+              <DialogHeader>
+                <DialogTitle className="sm:text-center">
+                  Welcome {tabStateValue === "login" ? "back" : "👋"}
+                </DialogTitle>
+                <DialogDescription className="sm:text-center">
+                  Enter your credentials to{" "}
+                  {tabStateValue === "login" ? "login to" : "register"} your
+                  account.
+                </DialogDescription>
+              </DialogHeader>
+            </div>
+            <Tabs
+              onValueChange={(v) => setTabStateValue(v)}
+              defaultValue="login"
+              className="w-full"
+            >
+              <TabsList className="grid w-full grid-cols-2 bg-secondary">
+                <TabsTrigger
+                  className="cursor-pointer hover:text-black/50 dark:hover:text-white"
+                  value="login"
+                >
+                  Login
+                </TabsTrigger>
+                <TabsTrigger
+                  className="cursor-pointer hover:text-black/50 dark:hover:text-white"
+                  value="register"
+                >
+                  Register
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="login">
+                <Form {...loginForm}>
+                  <form
+                    onSubmit={loginForm.handleSubmit(onLoginSubmit)}
+                    className="space-y-5"
+                  >
+                    {signinMutation.isError && (
+                      <div className="flex text-sm gap-2 text-destructive border-l-2 border-l-destructive bg-red-400/15  p-1.5">
+                        {signinMutation.error.message}
+                      </div>
                     )}
-                  />
-                  <FormField
-                    control={registerLoginForm.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem className="*:not-first:mt-2">
-                        <FormLabel htmlFor={`${id}-email`}>Email</FormLabel>
-                        <FormControl>
-                          <Input
-                            id={`${id}-email`}
-                            placeholder="your@email.com"
-                            type="email"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={registerLoginForm.control}
-                    name="password"
-                    render={({ field }) => {
-                      const [show, setShow] = useState(false);
-                      return (
-                        <FormItem className="*:not-first:mt-2">
-                          <FormLabel htmlFor={`${id}-password`}>
-                            Password
-                          </FormLabel>
-                          <FormControl>
-                            <div className="relative">
+                    <div className="space-y-4">
+                      <FormField
+                        control={loginForm.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem className="*:not-first:mt-2">
+                            <FormLabel htmlFor={`${id}-email`}>Email</FormLabel>
+                            <FormControl>
                               <Input
-                                id={`${id}-password`}
-                                placeholder="Enter your password"
-                                type={show ? "text" : "password"}
+                                id={`${id}-email`}
+                                placeholder="your@email.com"
+                                type="email"
                                 {...field}
                               />
-                              <Button
-                                className=" absolute size-7 top-1 right-1"
-                                variant="ghost"
-                                type="button"
-                                onClick={() => setShow((e) => !e)}
-                              >
-                                {show ? <Eye /> : <EyeOff />}
-                              </Button>
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      );
-                    }}
-                  />
-                  <FormField
-                    control={registerLoginForm.control}
-                    name="confirmPassword"
-                    render={({ field }) => {
-                      const [show, setShow] = useState(false);
-                      return (
-                        <FormItem className="*:not-first:mt-2">
-                          <FormLabel htmlFor={`${id}-confirm-password`}>
-                            Confirm Password
-                          </FormLabel>
-                          <FormControl>
-                            <div className="relative">
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={loginForm.control}
+                        name="password"
+                        render={({ field }) => {
+                          const [show, setShow] = useState(false);
+                          return (
+                            <FormItem className="*:not-first:mt-2">
+                              <FormLabel htmlFor={`${id}-password`}>
+                                Password
+                              </FormLabel>
+                              <FormControl>
+                                <div className="relative">
+                                  <Input
+                                    id={`${id}-password`}
+                                    placeholder="Enter your password"
+                                    type={show ? "text" : "password"}
+                                    {...field}
+                                  />
+                                  <Button
+                                    className=" absolute size-7 top-1 right-1"
+                                    variant="ghost"
+                                    type="button"
+                                    onClick={() => setShow((e) => !e)}
+                                  >
+                                    {show ? <Eye /> : <EyeOff />}
+                                  </Button>
+                                </div>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          );
+                        }}
+                      />
+                    </div>
+                    <div className="flex justify-end gap-2">
+                      <a
+                        className="text-sm underline hover:no-underline"
+                        href="#"
+                      >
+                        Forgot password? **not right now
+                      </a>
+                    </div>
+                    <Button type="submit" className="w-full">
+                      Sign in
+                    </Button>
+                  </form>
+                </Form>
+              </TabsContent>
+              <TabsContent value="register">
+                <Form {...registerLoginForm}>
+                  <form
+                    onSubmit={registerLoginForm.handleSubmit(
+                      onRegisterLoginSubmit
+                    )}
+                    className="space-y-5"
+                  >
+                    {registerMutation.isError && (
+                      <div className="flex text-sm gap-2 text-destructive border-l-2 border-l-destructive bg-red-400/15  p-1.5">
+                        {registerMutation.error.message}
+                      </div>
+                    )}
+                    <div className="space-y-4">
+                      <FormField
+                        control={registerLoginForm.control}
+                        name="username"
+                        render={({ field }) => (
+                          <FormItem className="*:not-first:mt-2">
+                            <FormLabel htmlFor={`${id}-username`}>
+                              Username
+                            </FormLabel>
+                            <FormControl>
                               <Input
-                                id={`${id}-confirm-password`}
-                                placeholder="Enter same password again"
-                                type={show ? "text" : "password"}
+                                id={`${id}-username`}
+                                placeholder="Enter your username"
+                                type="text"
                                 {...field}
                               />
-                              <Button
-                                className=" absolute size-7 top-1 right-1"
-                                variant="ghost"
-                                type="button"
-                                onClick={() => setShow((e) => !e)}
-                              >
-                                {show ? <Eye /> : <EyeOff />}
-                              </Button>
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      );
-                    }}
-                  />
-                </div>
-                <Button type="submit" className="w-full">
-                  Sign in as New User
-                </Button>
-              </form>
-            </Form>
-          </TabsContent>
-        </Tabs>
-        <div className="before:bg-border after:bg-border flex items-center gap-3 before:h-px before:flex-1 after:h-px after:flex-1">
-          <span className="text-muted-foreground text-xs">Or</span>
-        </div>
-        <Button variant="outline">Login with Google</Button>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={registerLoginForm.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem className="*:not-first:mt-2">
+                            <FormLabel htmlFor={`${id}-email`}>Email</FormLabel>
+                            <FormControl>
+                              <Input
+                                id={`${id}-email`}
+                                placeholder="your@email.com"
+                                type="email"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={registerLoginForm.control}
+                        name="password"
+                        render={({ field }) => {
+                          const [show, setShow] = useState(false);
+                          return (
+                            <FormItem className="*:not-first:mt-2">
+                              <FormLabel htmlFor={`${id}-password`}>
+                                Password
+                              </FormLabel>
+                              <FormControl>
+                                <div className="relative">
+                                  <Input
+                                    id={`${id}-password`}
+                                    placeholder="Enter your password"
+                                    type={show ? "text" : "password"}
+                                    {...field}
+                                  />
+                                  <Button
+                                    className=" absolute size-7 top-1 right-1"
+                                    variant="ghost"
+                                    type="button"
+                                    onClick={() => setShow((e) => !e)}
+                                  >
+                                    {show ? <Eye /> : <EyeOff />}
+                                  </Button>
+                                </div>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          );
+                        }}
+                      />
+                      <FormField
+                        control={registerLoginForm.control}
+                        name="confirmPassword"
+                        render={({ field }) => {
+                          const [show, setShow] = useState(false);
+                          return (
+                            <FormItem className="*:not-first:mt-2">
+                              <FormLabel htmlFor={`${id}-confirm-password`}>
+                                Confirm Password
+                              </FormLabel>
+                              <FormControl>
+                                <div className="relative">
+                                  <Input
+                                    id={`${id}-confirm-password`}
+                                    placeholder="Enter same password again"
+                                    type={show ? "text" : "password"}
+                                    {...field}
+                                  />
+                                  <Button
+                                    className=" absolute size-7 top-1 right-1"
+                                    variant="ghost"
+                                    type="button"
+                                    onClick={() => setShow((e) => !e)}
+                                  >
+                                    {show ? <Eye /> : <EyeOff />}
+                                  </Button>
+                                </div>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          );
+                        }}
+                      />
+                    </div>
+                    <Button type="submit" className="w-full">
+                      Sign in as New User
+                    </Button>
+                  </form>
+                </Form>
+              </TabsContent>
+            </Tabs>
+            <div className="before:bg-border after:bg-border flex items-center gap-3 before:h-px before:flex-1 after:h-px after:flex-1">
+              <span className="text-muted-foreground text-xs">Or</span>
+            </div>
+            <Button variant="outline">Login with Google</Button>
+          </>
+        )}
       </DialogContent>
     </Dialog>
   );
