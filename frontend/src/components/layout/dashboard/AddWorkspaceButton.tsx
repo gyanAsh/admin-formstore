@@ -27,7 +27,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-
+import * as motion from "motion/react-client";
 export const createWorkspaceSchema = z.object({
   name: z.string().min(4, {
     message: "Workspace name must be at least 4 characters.",
@@ -86,10 +86,18 @@ export default function AddWorkspace() {
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
-        <Button className="size-7" variant={"default"}>
-          <Plus strokeWidth={3} />{" "}
-          <span className="sr-only">Add Workspace</span>
-        </Button>
+        <motion.div
+          whileHover={{
+            scale: 1.04,
+            transition: { duration: 0.07 },
+          }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Button className="size-7" variant={"default"}>
+            <Plus strokeWidth={3} />
+            <span className="sr-only">Add Workspace</span>
+          </Button>
+        </motion.div>
       </DialogTrigger>
       <DialogContent className="rounded-4xl">
         <div className="flex flex-col items-center gap-2">

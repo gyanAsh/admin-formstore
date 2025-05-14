@@ -1,4 +1,4 @@
-import { HomeIcon } from "lucide-react";
+import { ChevronRight, HomeIcon } from "lucide-react";
 
 import {
   Breadcrumb,
@@ -8,7 +8,8 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Fragment, ReactElement } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import * as motion from "motion/react-client";
 
 export default function BreadCrumbs({
   otherPageLinks,
@@ -21,6 +22,8 @@ export default function BreadCrumbs({
     name: string;
   }[];
 }) {
+  const navigate = useNavigate();
+
   return (
     <Breadcrumb>
       <BreadcrumbList>
@@ -28,10 +31,18 @@ export default function BreadCrumbs({
           return (
             <Fragment key={i}>
               <BreadcrumbItem>
-                <Link
+                <motion.button
+                  whileHover={{
+                    scale: 1.02,
+                    transition: {
+                      type: "spring",
+                      duration: 0.7,
+                      bounce: 0.5,
+                    },
+                  }}
                   data-slot="breadcrumb-link"
-                  className="hover:text-foreground transition-colors"
-                  to={link?.path || ""}
+                  className="hover:text-foreground transition-colors hover:bg-primary/25 px-2 py-1 rounded-md"
+                  onClick={() => navigate(link?.path || "")}
                 >
                   {link.icons !== undefined ? (
                     <>
@@ -41,9 +52,11 @@ export default function BreadCrumbs({
                   ) : (
                     link.name
                   )}
-                </Link>
+                </motion.button>
               </BreadcrumbItem>
-              <BreadcrumbSeparator> / </BreadcrumbSeparator>
+              <BreadcrumbSeparator>
+                <ChevronRight className="size-3.5" />
+              </BreadcrumbSeparator>
             </Fragment>
           );
         })}

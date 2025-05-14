@@ -30,6 +30,7 @@ import { getAuthToken } from "@/lib/utils";
 import { useNavigate } from "react-router";
 import { $userLoginData } from "@/store/user";
 import { useStore } from "@nanostores/react";
+import * as motion from "motion/react-client";
 
 export const loginFormSchema = z.object({
   email: z.string().min(4, {
@@ -261,7 +262,16 @@ export default function SignInButton({
               </DialogDescription>
             </DialogHeader>
             <section className="relative flex items-center justify-center">
-              <CircleCheck className="size-15 text-green-700 dark:text-green-500  " />
+              <motion.div
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{
+                  duration: 0.9,
+                  scale: { type: "spring", visualDuration: 0.4, bounce: 0.5 },
+                }}
+              >
+                <CircleCheck className="size-15 text-green-700 dark:text-green-500  " />
+              </motion.div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 16 16"

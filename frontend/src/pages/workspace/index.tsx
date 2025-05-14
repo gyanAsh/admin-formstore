@@ -25,15 +25,13 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import { useQuery } from "@tanstack/react-query";
 import AddFormButton from "@/components/layout/dashboard/AddFormButton";
 import { getWorkspaces } from "@/lib/workspaces";
+import UpgradeFormstore from "@/components/upgrade-premium";
 
 export default function Workspace() {
   const { workspaceId } = useParams();
-  const [ workspace, setWorkspace ] = useState();
+  const [workspace, setWorkspace] = useState();
 
-  const {
-    isSuccess: workspaceSuccess,
-    data: workspaces,
-  } = useQuery({
+  const { isSuccess: workspaceSuccess, data: workspaces } = useQuery({
     queryKey: ["api-workspaces"],
     queryFn: async () => {
       try {
@@ -48,9 +46,9 @@ export default function Workspace() {
 
   useEffect(() => {
     if (workspaceSuccess) {
-      setWorkspace(workspaces.filter(x => x.id == workspaceId)[0]);
+      setWorkspace(workspaces.filter((x) => x.id == workspaceId)[0]);
     }
-    console.count("effect run")
+    console.count("effect run");
   }, [workspaceId, workspaces]);
 
   const { data: formsData } = useQuery({
@@ -82,29 +80,27 @@ export default function Workspace() {
       <main className="flex grow w-full flex-col items-center justify-center p-2">
         <Card className="flex w-full grow p-2 overflow-y-auto border-sidebar-accent relative">
           {/* top-navbar */}
-          <section className="sticky top-0 flex items-center justify-between pt-2 px-2 w-full">
-            <div className="flex h-5 items-center justify-between space-x-3">
+          <section
+            className={cn(
+              "sticky top-0 flex items-center justify-between p-2.5 w-full"
+              // "bg-background border  dark:border-zinc-900/75"
+            )}
+          >
+            <div className="flex items-center justify-between space-x-3">
               <SidebarTriggerButton className="size-7" />
-              <Separator
-                orientation="vertical"
-                className="bg-accent-foreground/40"
-                decorative
-              />
               <BreadCrumbs
-                currentPage={
-                  workspace?.name ?? `workspace: ID${workspaceId}`
-                }
+                currentPage={workspace?.name ?? `Workspace: ID${workspaceId}`}
                 otherPageLinks={[
                   {
-                    name: "Workspace",
+                    name: "Dashboard",
                     path: "/workspace",
                   },
                 ]}
               />
             </div>
 
-            <div className="flex h-5 items-center justify-between space-x-3">
-              <AddFormButton />
+            <div className="flex items-center justify-between space-x-3">
+              <UpgradeFormstore />
               <Separator
                 orientation="vertical"
                 className="bg-accent-foreground/40"
@@ -117,6 +113,7 @@ export default function Workspace() {
               />
             </div>
           </section>
+
           <section className="grow gap-3">
             {false ? (
               <section className="flex flex-col gap-3 m-4">
@@ -229,10 +226,7 @@ export default function Workspace() {
                                   {new Date(
                                     forms_data?.forms[
                                       virtualItem.index
-                                    ]?.updated_at.replace(
-                                      /\.(\d{3})\d+/,
-                                      ".$1",
-                                    ),
+                                    ]?.updated_at.replace(/\.(\d{3})\d+/, ".$1")
                                   ).toLocaleDateString("en-GB", {
                                     day: "2-digit",
                                     month: "short",

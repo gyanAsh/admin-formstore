@@ -15,13 +15,13 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Delete, FolderEditIcon, MoreHorizontal, Share2 } from "lucide-react";
-import { Link, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import AddWorkspace from "./AddWorkspaceButton";
 import { useQuery } from "@tanstack/react-query";
 import { cn, getAuthToken } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getWorkspaces } from "@/lib/workspaces";
-
+import * as motion from "motion/react-client";
 type Workspace = {
   id: number;
   name: string;
@@ -31,6 +31,7 @@ type Workspace = {
 
 const WorkspaceGroup = () => {
   const { workspaceId } = useParams();
+  const navigate = useNavigate();
 
   const {
     isPending: workspacesIsPending,
@@ -73,28 +74,35 @@ const WorkspaceGroup = () => {
             workspaces?.map((project) => (
               <SidebarMenuItem className="space-y-0.5" key={project.name}>
                 <SidebarMenuButton asChild>
-                  <Button
+                  <motion.button
+                    onTap={() => {
+                      navigate(project.id.toString());
+                    }}
+                    whileHover={{
+                      scale: 1.04,
+                      transition: { duration: 0.07 },
+                    }}
+                    whileTap={{ scale: 0.95 }}
                     className={cn(
-                      "bg-primary/10 text-zinc-900 hover:text-primary dark:text-zinc-200 hover:dark:text-primary hover:bg-primary/15 transition-all duration-150",
-                      "flex rounded-lg font-semibold p-4 justify-start",
+                      "bg-primary/10 text-zinc-900 hover:text-primary! dark:text-zinc-200 hover:dark:text-primary hover:bg-primary/15 transition-all duration-150",
+                      "flex rounded-lg font-semibold p-4 justify-start cursor-pointer w-full",
                       {
-                        "bg-primary/55": workspaceId === project.id.toString(),
+                        "bg-primary/35": workspaceId === project.id.toString(),
                       }
                     )}
-                    asChild
                   >
-                    <Link to={project.id.toString()} onClick={() => {}}>
-                      <span>{project.name}</span>
-                    </Link>
-                  </Button>
+                    <span>{project.name}</span>
+                  </motion.button>
                 </SidebarMenuButton>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <SidebarMenuAction
-                      className={cn("right-2.5", {
-                        "hover:bg-background":
-                          workspaceId === project.id.toString(),
-                      })}
+                      className={cn(
+                        "right-2.5 cursor-pointer hover:bg-background !rounded-lg",
+                        {
+                          "": workspaceId === project.id.toString(),
+                        }
+                      )}
                     >
                       <MoreHorizontal />
                     </SidebarMenuAction>
