@@ -50,11 +50,13 @@ const WorkspaceGroup = () => {
   });
 
   return (
-    <SidebarGroup className="grid gap-1">
+    <SidebarGroup className="grid space-y-3.5 mt-3">
       <section className="flex items-center justify-between">
         <div className="flex items-center gap-1">
           <WorkspaceIcon />
-          <Label>Workspaces</Label>
+          <Label className="text-muted-foreground font-semibold text-sm">
+            Workspaces
+          </Label>
         </div>
         <AddWorkspace />
       </section>
@@ -69,13 +71,16 @@ const WorkspaceGroup = () => {
             </SidebarMenuItem>
           ) : workspaceSuccess ? (
             workspaces?.map((project) => (
-              <SidebarMenuItem key={project.name}>
+              <SidebarMenuItem className="space-y-0.5" key={project.name}>
                 <SidebarMenuButton asChild>
                   <Button
-                    variant="outline"
-                    className={cn("flex justify-start", {
-                      "bg-accent": workspaceId === project.id.toString(),
-                    })}
+                    className={cn(
+                      "bg-primary/10 text-zinc-900 hover:text-primary dark:text-zinc-200 hover:dark:text-primary hover:bg-primary/15 transition-all duration-150",
+                      "flex rounded-lg font-semibold p-4 justify-start",
+                      {
+                        "bg-primary/55": workspaceId === project.id.toString(),
+                      }
+                    )}
                     asChild
                   >
                     <Link to={project.id.toString()} onClick={() => {}}>
@@ -86,7 +91,7 @@ const WorkspaceGroup = () => {
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <SidebarMenuAction
-                      className={cn("", {
+                      className={cn("right-2.5", {
                         "hover:bg-background":
                           workspaceId === project.id.toString(),
                       })}

@@ -21,7 +21,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useForm } from "react-hook-form";
-import { getAuthToken } from "@/lib/utils";
+import { cn, getAuthToken } from "@/lib/utils";
 import { WorkspaceIcon } from "./Workspace";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -91,7 +91,7 @@ export default function AddWorkspace() {
           <span className="sr-only">Add Workspace</span>
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="rounded-4xl">
         <div className="flex flex-col items-center gap-2">
           <div
             className="flex size-9 shrink-0 items-center justify-center rounded-full border"
@@ -140,14 +140,29 @@ export default function AddWorkspace() {
             />
 
             <DialogFooter>
+              <Button
+                type="submit"
+                effect={"small_scale"}
+                className={cn(
+                  "flex-1 rounded-lg",
+                  "bg-primary/85 text-zinc-900"
+                )}
+              >
+                Create
+              </Button>
               <DialogClose asChild>
-                <Button type="button" variant="destructive" className="flex-1">
+                <Button
+                  type="button"
+                  // variant="outline"
+                  effect="small_scale"
+                  className={cn(
+                    "flex-1 rounded-lg",
+                    "bg-transparent border border-red-500 text-red-500 hover:text-red-500 hover:bg-destructive/25"
+                  )}
+                >
                   Cancel
                 </Button>
               </DialogClose>
-              <Button type="submit" className="flex-1">
-                Create
-              </Button>
             </DialogFooter>
           </form>
         </Form>
