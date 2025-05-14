@@ -1,36 +1,34 @@
-import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
   SidebarHeader,
 } from "@/components/ui/sidebar";
 
-import { Crown } from "lucide-react";
 import { Footer } from "@/components/layout/dashboard/Footer";
 import WorkspaceGroup from "./Workspace";
 
 export function AppSidebar() {
   return (
-    <Sidebar variant="floating" collapsible="offcanvas">
-      <SidebarHeader className="flex-row justify-between">
-        <h2
-          className="font-bold text-2xl"
-          style={{ textShadow: "1px 1px 2px #e7f900" }}
-        >
-          Formstore
-        </h2>
+    <Sidebar variant="inset" className="!bg-transparent">
+      <SidebarHeader className="flex-row gap-2.5">
+        <img
+          src={"/formstore-logo-light.svg"}
+          alt="Logo"
+          loading="lazy"
+          className="dark:hidden block"
+        />
+        <img
+          src={"/formstore-logo-dark.svg"}
+          alt="Logo"
+          loading="lazy"
+          className="hidden dark:block"
+        />
+        <h2 className="text-3xl font-semibold">formstore</h2>
       </SidebarHeader>
       <SidebarContent>
         <ScrollArea className="min-h-[150px]">
-          <SidebarGroup>
-            <Button variant="lemon_primary" effect="click" className=" ">
-              <Crown strokeWidth={3} className="text-yellow-500/80" />
-              Buy Premium{" "}
-            </Button>
-          </SidebarGroup>
           <WorkspaceGroup />
           {/* <SidebarGroup>
             <Button

@@ -17,8 +17,12 @@ import { RiSkipLeftLine, RiSkipRightLine } from "@/pages/workspace/index";
 
 export default memo(function WorkspaceHome() {
   return (
-    <main className="flex grow w-full flex-col items-center justify-center p-2">
-      <Card className="flex w-full grow p-2 overflow-y-auto border-sidebar-accent relative">
+    <main className="flex grow w-full flex-col items-center justify-center">
+      <Card
+        className={cn(
+          "flex w-full grow p-2 overflow-y-auto border-0 rounded-none"
+        )}
+      >
         {/* top-navbar */}
         <section className="sticky top-0 flex items-center justify-between pt-2 px-2 w-full">
           <div className="flex h-5 items-center justify-between space-x-3">

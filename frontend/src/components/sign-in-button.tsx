@@ -238,7 +238,7 @@ export default function SignInButton({
       <DialogTrigger asChild>
         <Button {...triggerProps}>{triggerText}</Button>
       </DialogTrigger>
-      <DialogContent className="max-h-[calc(100%-2rem)] rounded-2xl overflow-y-auto">
+      <DialogContent className="max-h-[calc(100%-2rem)] rounded-4xl overflow-y-auto">
         {dialogStep === DialogStepsEnum.loading && (
           <DialogHeader className="aspect-video flex items-center justify-center">
             <DialogTitle className="text-2xl">

@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -6,43 +6,23 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar,
-} from "@/components/ui/sidebar";
-import {
-  EllipsisVertical,
-  LogOut,
-  Logs,
-  Search,
-  Settings,
-  Timer,
-  User,
-} from "lucide-react";
+import { SidebarMenu, SidebarMenuItem } from "@/components/ui/sidebar";
+import { $userLoginData } from "@/store/user";
+import { LogOut, Logs, Search, Settings, Timer, User } from "lucide-react";
 export function Footer() {
-  const { isMobile } = useSidebar();
+  let user = $userLoginData.get();
   return (
     <>
-      {/* <Button
-        className="bg-black dark:bg-white"
-        effect={"click"}
-        onClick={async () => {
-          console.log("logout-user");
-        }}
-      >
-        <LogOut strokeWidth={2} /> Sign Out
-      </Button> */}
       <SidebarMenu>
         <SidebarMenuItem className="flex items-center justify-between">
           <div className="flex items-center gap-1">
-            <Avatar className="in-data-[state=expanded]:size-6 transition-[width,height] duration-200 ease-in-out">
-              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-              <AvatarFallback>CN</AvatarFallback>
+            <Avatar className="in-data-[state=expanded]:size-7.5 flex items-center justify-center bg-primary rounded-lg transition-[width,height] duration-200 ease-in-out">
+              <div className="text-white leading-0 font-bold">
+                {user?.username?.slice(0, 2).toUpperCase()}
+              </div>
             </Avatar>
-            <div className="grid flex-1 text-left text-sm leading-tight ms-1">
-              <span className="truncate font-medium">{"Chad CN"}</span>
+            <div className="grid flex-1 text-left text-base leading-tight ms-1">
+              <span className="truncate font-medium">{user?.username}</span>
             </div>
           </div>
 
