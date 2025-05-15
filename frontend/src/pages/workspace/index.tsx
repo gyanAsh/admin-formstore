@@ -121,39 +121,19 @@ export default function Workspace() {
                 <Skeleton className="w-full h-[55px]" />
               </section>
             ) : true ? (
-              <div className="flex flex-col px-2 gap-3">
-                <section className="flex justify-between w-full">
-                  <div className="flex items-center gap-1">
-                    {/* {forms_data?.workspace?.name} */}
-                    Workspace Name
+              <div className="flex flex-col px-2 gap-4">
+                <section className="flex items-end justify-between w-full">
+                  <div className="flex flex-col">
+                    <h2 className="text-base text-muted-foreground">
+                      Workspace
+                    </h2>
+                    <h2 className="text-3xl font-bold">{workspace?.name}</h2>
                   </div>
                   <div className="flex gap-2 mx-6">
-                    <Select>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Filter" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="light">
-                          All Forms (Default)
-                        </SelectItem>
-                        <SelectItem value="dark">Drafted Form</SelectItem>
-                        <SelectItem value="system">Published Form</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <Select>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Sort" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="light">
-                          Last Updated (Default)
-                        </SelectItem>
-                        <SelectItem value="dark">Date created</SelectItem>
-                        <SelectItem value="system">Alphabetical</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <AddFormButton />
                   </div>
                 </section>
+                <Separator />
                 <div className="flex flex-col gap-3">
                   {/* The scrollable element for your list */}
                   <div className="grid grid-cols-5 gap-4 text-start">
@@ -166,7 +146,7 @@ export default function Workspace() {
                   <div
                     ref={parentRef}
                     style={{
-                      height: `calc(100dvh - 180px)`,
+                      height: `calc(100dvh - 250px)`,
                       overflow: "auto", // Make it scroll!
                     }}
                   >

@@ -27,6 +27,9 @@ const buttonVariants = cva(
           "shadow-[4px_4px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_rgba(0,0,0,1)]",
           "dark:shadow-[4px_4px_0px_rgba(250,250,250,1)] dark:hover:shadow-[0px_0px_0px_rgba(250,250,250,1)]"
         ),
+        lime_primary: cn(
+          "text-black bg-[#D9ED92] lte hover:bg-[#D9ED92] transition ease-in-out duration-150 border"
+        ),
         violet_secondary:
           "bg-violet-200 dark:bg-violet-400/75  hover:bg-violet-300 dark:hover:bg-violet-400 shadow-sm",
       },

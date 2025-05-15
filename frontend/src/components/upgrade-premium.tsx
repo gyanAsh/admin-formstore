@@ -3,7 +3,7 @@ import * as motion from "motion/react-client";
 export default function UpgradeFormstore() {
   return (
     <>
-      <Button className="rounded-lg p-3 font-semibold text-white" asChild>
+      <Button className="rounded-lg p-3 font-semibold" variant="black" asChild>
         <motion.div
           whileHover={{
             scale: 1.04,

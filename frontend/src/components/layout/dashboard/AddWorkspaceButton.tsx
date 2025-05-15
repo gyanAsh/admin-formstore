@@ -100,18 +100,18 @@ export default function AddWorkspace() {
         </motion.div>
       </DialogTrigger>
       <DialogContent className="rounded-4xl">
-        <div className="flex flex-col items-center gap-2">
-          <div
+        <div className="flex flex-col items-center">
+          {/* <div
             className="flex size-9 shrink-0 items-center justify-center rounded-full border"
             aria-hidden="true"
           >
             <WorkspaceIcon strokeWidth={3} />
-          </div>
-          <DialogHeader>
-            <DialogTitle className="sm:text-center">
+          </div> */}
+          <DialogHeader className="gap-0">
+            <DialogTitle className="sm:text-center text-lg text-zinc-800 dark:text-zinc-200">
               Create Workspace
             </DialogTitle>
-            <DialogDescription className="sm:text-center">
+            <DialogDescription className="sm:text-center text-base text-zinc-500 dark:text-zinc-400">
               To create a new wordspace, please enter a name below.
             </DialogDescription>
           </DialogHeader>
@@ -130,12 +130,16 @@ export default function AddWorkspace() {
               control={workspaceForm.control}
               name="name"
               render={({ field }) => (
-                <FormItem className="*:not-first:mt-2">
-                  <FormLabel htmlFor={`${id}-workspace`}>
+                <FormItem className="">
+                  <FormLabel
+                    className="text-base cursor-pointer w-fit"
+                    htmlFor={`${id}-workspace`}
+                  >
                     Workspace name
                   </FormLabel>
                   <FormControl>
                     <Input
+                      className="rounded-lg hover:ring-1 hover:ring-ring"
                       id={`${id}-workspace`}
                       type="text"
                       placeholder="Enter name here..."
@@ -152,8 +156,8 @@ export default function AddWorkspace() {
                 type="submit"
                 effect={"small_scale"}
                 className={cn(
-                  "flex-1 rounded-lg",
-                  "bg-primary/85 text-zinc-900"
+                  "flex-1 rounded-lg text-white! dark:text-black!",
+                  "bg-primary/85"
                 )}
               >
                 Create

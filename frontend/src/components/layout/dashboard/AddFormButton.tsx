@@ -22,14 +22,14 @@ import {
 } from "@/components/ui/dialog";
 import { useParams } from "react-router";
 import { useForm } from "react-hook-form";
-import { getAuthToken } from "@/lib/utils";
+import { cn, getAuthToken } from "@/lib/utils";
 import { WorkspaceIcon } from "./Workspace";
 import { FigmaAdd } from "@/components/icons";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-
+import * as motion from "motion/react-client";
 export const createFormSchema = z.object({
   name: z.string().min(4, {
     message: "Workspace name must be at least 4 characters.",
@@ -85,21 +85,32 @@ export default function AddFormButton() {
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
-        <Button effect={"click"}>
-          <FigmaAdd /> Create Form
-        </Button>
+        <motion.div
+          whileHover={{
+            scale: 1.04,
+            transition: { duration: 0.07 },
+          }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Button className="text-sm font-semibold text-white rounded-lg">
+            Create Form
+            <span className="sr-only">Add Form</span>
+          </Button>
+        </motion.div>
       </DialogTrigger>
-      <DialogContent>
-        <div className="flex flex-col items-center gap-2">
-          <div
+      <DialogContent className="rounded-4xl">
+        <div className="flex flex-col items-center">
+          {/* <div
             className="flex size-9 shrink-0 items-center justify-center rounded-full border"
             aria-hidden="true"
           >
             <WorkspaceIcon strokeWidth={3} />
-          </div>
-          <DialogHeader>
-            <DialogTitle className="sm:text-center">Create Form</DialogTitle>
-            <DialogDescription className="sm:text-center">
+          </div> */}
+          <DialogHeader className="gap-0">
+            <DialogTitle className="sm:text-center text-lg text-zinc-800 dark:text-zinc-200">
+              Create Form
+            </DialogTitle>
+            <DialogDescription className="sm:text-center text-base text-zinc-500 dark:text-zinc-400">
               To create a new form, please enter a name below.
             </DialogDescription>
           </DialogHeader>
@@ -119,10 +130,16 @@ export default function AddFormButton() {
               control={createNewForm.control}
               name="name"
               render={({ field }) => (
-                <FormItem className="*:not-first:mt-2">
-                  <FormLabel htmlFor={`${id}-form`}>Form name</FormLabel>
+                <FormItem>
+                  <FormLabel
+                    className="text-base cursor-pointer w-fit"
+                    htmlFor={`${id}-form`}
+                  >
+                    Form name
+                  </FormLabel>
                   <FormControl>
                     <Input
+                      className="rounded-lg hover:ring-1 hover:ring-ring"
                       id={`${id}-form`}
                       type="text"
                       placeholder="Enter name here..."
@@ -135,14 +152,28 @@ export default function AddFormButton() {
             />
 
             <DialogFooter>
+              <Button
+                type="submit"
+                effect={"small_scale"}
+                className={cn(
+                  "flex-1 rounded-lg text-white! dark:text-black!",
+                  "bg-primary/85"
+                )}
+              >
+                Create
+              </Button>
               <DialogClose asChild>
-                <Button type="button" variant="destructive" className="flex-1">
+                <Button
+                  type="button"
+                  effect="small_scale"
+                  className={cn(
+                    "flex-1 rounded-lg",
+                    "bg-transparent border border-red-500 text-red-500 hover:text-red-500 hover:bg-destructive/25"
+                  )}
+                >
                   Cancel
                 </Button>
               </DialogClose>
-              <Button type="submit" className="flex-1">
-                Create
-              </Button>
             </DialogFooter>
           </form>
         </Form>
