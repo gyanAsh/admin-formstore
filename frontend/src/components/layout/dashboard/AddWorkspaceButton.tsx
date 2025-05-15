@@ -22,7 +22,6 @@ import {
 } from "@/components/ui/dialog";
 import { useForm } from "react-hook-form";
 import { cn, getAuthToken } from "@/lib/utils";
-import { WorkspaceIcon } from "./Workspace";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";

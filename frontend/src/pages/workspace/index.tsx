@@ -26,6 +26,8 @@ import { useQuery } from "@tanstack/react-query";
 import AddFormButton from "@/components/layout/dashboard/AddFormButton";
 import { getWorkspaces } from "@/lib/workspaces";
 import UpgradeFormstore from "@/components/upgrade-premium";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Label } from "@/components/ui/label";
 
 export default function Workspace() {
   const { workspaceId } = useParams();
@@ -56,7 +58,7 @@ export default function Workspace() {
     console.count("effect run");
   }, [workspaceId, workspaces]);
 
-  const { data: formsData } = useQuery({
+  const { data: formsData, isLoading: form_isLoading } = useQuery({
     queryKey: ["api-workspace-forms", workspaceId],
     queryFn: async () => {
       const res = await fetch(`/api/workspace/${workspaceId}/forms`, {
@@ -119,7 +121,7 @@ export default function Workspace() {
           </section>
 
           <section className="grow gap-3">
-            {false ? (
+            {form_isLoading ? (
               <section className="flex flex-col gap-3 m-4">
                 <Skeleton className="w-[120px] h-[40px]" />
                 <Skeleton className="w-full h-[55px]" />
@@ -129,7 +131,7 @@ export default function Workspace() {
               <div className="flex flex-col px-2 gap-4">
                 <section className="flex items-end justify-between w-full">
                   <div className="flex flex-col">
-                    <h2 className="text-base text-muted-foreground">
+                    <h2 className="font-semibold text-zinc-500 dark:text-zinc-100/75">
                       Workspace
                     </h2>
                     <h2 className="text-3xl font-bold">{workspace?.name}</h2>
@@ -138,6 +140,17 @@ export default function Workspace() {
                     <AddFormButton />
                   </div>
                 </section>
+
+                <section className="flex items-center gap-2 mt-4">
+                  <Avatar className="bg-red-800 size-6">
+                    <AvatarImage></AvatarImage>
+                    <AvatarFallback className="bg-red-600">Av</AvatarFallback>
+                  </Avatar>
+                  <Label className="font-semibold text-zinc-500 dark:text-zinc-100/75">
+                    1 member
+                  </Label>
+                </section>
+
                 <Separator />
                 <div className="flex flex-col gap-3">
                   {/* The scrollable element for your list */}
@@ -151,7 +164,7 @@ export default function Workspace() {
                   <div
                     ref={parentRef}
                     style={{
-                      height: `calc(100dvh - 250px)`,
+                      height: `calc(100dvh - 350px)`,
                       overflow: "auto", // Make it scroll!
                     }}
                   >

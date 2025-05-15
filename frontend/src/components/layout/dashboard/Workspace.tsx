@@ -17,16 +17,10 @@ import { MoreHorizontal, Pencil, Share2, Trash2 } from "lucide-react";
 import { useNavigate, useParams } from "react-router";
 import AddWorkspace from "./AddWorkspaceButton";
 import { useQuery } from "@tanstack/react-query";
-import { cn, getAuthToken } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getWorkspaces } from "@/lib/workspaces";
 import * as motion from "motion/react-client";
-type Workspace = {
-  id: number;
-  name: string;
-  created_at: string;
-  updated_at: string;
-};
 
 const WorkspaceGroup = () => {
   const { workspaceId } = useParams();
