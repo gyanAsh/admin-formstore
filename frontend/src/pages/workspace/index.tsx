@@ -20,6 +20,7 @@ import AddFormButton from "@/components/layout/dashboard/AddFormButton";
 import UpgradeFormstore from "@/components/upgrade-premium";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function Workspace() {
   const { workspaceId } = useParams();
@@ -43,19 +44,21 @@ export default function Workspace() {
   // The virtualizer
   const rowVirtualizer = useVirtualizer({
     count: forms_data?.forms.length ?? 0,
-    // count: 0,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 35,
+    estimateSize: () => 160,
+    gap: 5,
+    lanes: 3,
   });
   console.log({ formsData });
   return (
     <>
       <main className="flex grow w-full flex-col items-center justify-center p-2">
-        <Card className="flex w-full grow p-2 overflow-y-auto border-sidebar-accent relative">
+        {/* <Card className="flex w-full grow p-2 zoverflow-y-auto zborder-sidebar-accent relative"> */}
+        <ScrollArea className="h-[97.5dvh] w-full rounded-2xl p-2 pt-0 border">
           {/* top-navbar */}
           <section
             className={cn(
-              "sticky top-0 flex items-center justify-between p-2.5 w-full"
+              "sticky top-0 z-10 flex items-center justify-between p-2.5 w-full bg-zinc-100/90 mt-2"
             )}
           >
             <div className="flex items-center justify-between space-x-3">
@@ -120,19 +123,25 @@ export default function Workspace() {
                 </section>
 
                 <Separator />
-                <div className="flex flex-col gap-3">
+                <div className="grid">
                   {/* The scrollable element for your list */}
-                  <div className="grid grid-cols-5 gap-4 text-start">
+                  {/* <div
+                    className={cn(
+                      "grid grid-cols-5 gap-4 text-start font-semibold text-base text-zinc-700/95 dark:text-zinc-100/90 ",
+                      "bg-zinc-200/65 dark:bg-slate-700 px-3 py-3 rounded-t-2xl ml-5 mr-3.5"
+                    )}
+                  >
                     <div>ID</div>
                     <div>Title</div>
                     <div>Status</div>
                     <div>Response</div>
                     <div>Updated</div>
-                  </div>
+                  </div> */}
                   <div
                     ref={parentRef}
+                    className="pl-5"
                     style={{
-                      height: `calc(100dvh - 350px)`,
+                      maxHeight: `calc(100dvh - 90px)`,
                       overflow: "auto", // Make it scroll!
                     }}
                   >
@@ -155,13 +164,15 @@ export default function Workspace() {
                               style={{
                                 position: "absolute",
                                 top: 0,
-                                left: 0,
-                                width: "100%",
+                                left: `${virtualItem.lane * 33.33}%`,
+                                width: "32.8%",
                                 height: `${virtualItem.size}px`,
                                 transform: `translateY(${virtualItem.start}px)`,
                               }}
                               variant={"violet_secondary"}
-                              className="grid grid-cols-5 gap-4 text-start border active:scale-[0.998] active:translate-y-[2px]"
+                              className={cn(
+                                "grid gap-4 text-start border active:scale-[0.998] active:translate-y-[2px]"
+                              )}
                               asChild
                             >
                               <Link to={`/workspace/${workspaceId}/${form.id}`}>
@@ -216,7 +227,8 @@ export default function Workspace() {
               </div>
             )}
           </section>
-        </Card>
+        </ScrollArea>
+        {/* </Card> */}
       </main>
     </>
   );

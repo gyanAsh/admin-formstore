@@ -49,7 +49,7 @@ const WorkspaceGroup = () => {
       <section className="flex items-center justify-between">
         <div className="flex items-center gap-1">
           {/* <WorkspaceIcon /> */}
-          <Label className="text-muted-foreground font-semibold text-base">
+          <Label className="text-zinc-500 dark:text-zinc-100/75 font-semibold text-base">
             Workspaces
           </Label>
         </div>
