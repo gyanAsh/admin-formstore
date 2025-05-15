@@ -1,11 +1,4 @@
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -19,44 +12,17 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useSidebar } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import BreadCrumbs from "@/components/bread-crumbs";
-import React, { SVGProps, useState, useEffect } from "react";
+import React, { SVGProps } from "react";
 import { Link, useParams } from "react-router";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useQuery } from "@tanstack/react-query";
 import AddFormButton from "@/components/layout/dashboard/AddFormButton";
-import { getWorkspaces } from "@/lib/workspaces";
 import UpgradeFormstore from "@/components/upgrade-premium";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Label } from "@/components/ui/label";
 
 export default function Workspace() {
   const { workspaceId } = useParams();
-  const [workspace, setWorkspace] = useState<{
-    id: number;
-    name: string;
-    user_id: number;
-    created_at: string;
-    updated_at: string;
-  }>();
-  const { isSuccess: workspaceSuccess, data: workspaces } = useQuery({
-    queryKey: ["api-workspaces"],
-    queryFn: async () => {
-      try {
-        const data = await getWorkspaces();
-        return data;
-      } catch (err) {
-        console.error(err);
-      }
-      return [];
-    },
-  });
-
-  useEffect(() => {
-    if (workspaceSuccess) {
-      setWorkspace(workspaces.filter((x) => x.id == workspaceId)[0]);
-    }
-    console.count("effect run");
-  }, [workspaceId, workspaces]);
 
   const { data: formsData, isLoading: form_isLoading } = useQuery({
     queryKey: ["api-workspace-forms", workspaceId],
@@ -81,7 +47,7 @@ export default function Workspace() {
     getScrollElement: () => parentRef.current,
     estimateSize: () => 35,
   });
-
+  console.log({ formsData });
   return (
     <>
       <main className="flex grow w-full flex-col items-center justify-center p-2">
@@ -95,7 +61,7 @@ export default function Workspace() {
             <div className="flex items-center justify-between space-x-3">
               <SidebarTriggerButton className="size-7" />
               <BreadCrumbs
-                currentPage={workspace?.name ?? `Workspace: ID${workspaceId}`}
+                currentPage={formsData?.workspace?.name ?? "Current Workspace"}
                 otherPageLinks={[
                   {
                     name: "Dashboard",
@@ -134,7 +100,9 @@ export default function Workspace() {
                     <h2 className="font-semibold text-zinc-500 dark:text-zinc-100/75">
                       Workspace
                     </h2>
-                    <h2 className="text-3xl font-bold">{workspace?.name}</h2>
+                    <h2 className="text-3xl font-bold">
+                      {formsData?.workspace?.name}
+                    </h2>
                   </div>
                   <div className="flex gap-2 mx-6">
                     <AddFormButton />
@@ -212,12 +180,12 @@ export default function Workspace() {
                                   </Tooltip>
                                 </TooltipProvider>
                                 <div className=" capitalize">
-                                  {/* {form?.status} */}
-                                  STATUS DRAFT/PUBLISHED
+                                  {form?.status}
+                                  {/* STATUS DRAFT/PUBLISHED */}
                                 </div>
                                 <div>
-                                  {/* {form?.response} */}
-                                  RESPONSE COUNT
+                                  {form?.response}
+                                  {/* RESPONSE COUNT */}
                                 </div>
                                 <div>
                                   {new Date(

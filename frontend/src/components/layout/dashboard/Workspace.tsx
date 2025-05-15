@@ -41,6 +41,7 @@ const WorkspaceGroup = () => {
       }
       return [];
     },
+    refetchOnWindowFocus: false,
   });
 
   return (
