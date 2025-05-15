@@ -83,7 +83,6 @@ export default function Workspace() {
           <section
             className={cn(
               "sticky top-0 flex items-center justify-between p-2.5 w-full"
-              // "bg-background border  dark:border-zinc-900/75"
             )}
           >
             <div className="flex items-center justify-between space-x-3">

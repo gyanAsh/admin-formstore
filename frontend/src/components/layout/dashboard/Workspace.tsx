@@ -14,7 +14,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Delete, FolderEditIcon, MoreHorizontal, Share2 } from "lucide-react";
+import { MoreHorizontal, Pencil, Share2, Trash2 } from "lucide-react";
 import { useNavigate, useParams } from "react-router";
 import AddWorkspace from "./AddWorkspaceButton";
 import { useQuery } from "@tanstack/react-query";
@@ -54,8 +54,8 @@ const WorkspaceGroup = () => {
     <SidebarGroup className="grid space-y-3.5 mt-3">
       <section className="flex items-center justify-between">
         <div className="flex items-center gap-1">
-          <WorkspaceIcon />
-          <Label className="text-muted-foreground font-semibold text-sm">
+          {/* <WorkspaceIcon /> */}
+          <Label className="text-muted-foreground font-semibold text-base">
             Workspaces
           </Label>
         </div>
@@ -84,10 +84,11 @@ const WorkspaceGroup = () => {
                     }}
                     whileTap={{ scale: 0.95 }}
                     className={cn(
-                      "bg-primary/10 text-zinc-900 hover:text-primary! dark:text-zinc-200 hover:dark:text-primary hover:bg-primary/15 transition-all duration-150",
+                      "bg-primary/10 text-zinc-600 hover:text-primary! dark:text-zinc-300 hover:dark:text-primary hover:bg-primary/15 transition-all duration-150",
                       "flex rounded-lg font-semibold p-4 justify-start cursor-pointer w-full",
                       {
-                        "bg-primary/35": workspaceId === project.id.toString(),
+                        "bg-primary/35 text-primary/90 dark:text-primary":
+                          workspaceId === project.id.toString(),
                       }
                     )}
                   >
@@ -100,7 +101,7 @@ const WorkspaceGroup = () => {
                       className={cn(
                         "right-2.5 cursor-pointer hover:bg-background !rounded-lg",
                         {
-                          "": workspaceId === project.id.toString(),
+                          "text-primary": workspaceId === project.id.toString(),
                         }
                       )}
                     >
@@ -108,35 +109,38 @@ const WorkspaceGroup = () => {
                     </SidebarMenuAction>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent
-                    className="space-y-0.5"
+                    className="space-y-0.5 rounded-lg  font-semibold text-zinc-700 dark:text-zinc-300"
                     side="right"
                     align="start"
                     alignOffset={-5}
                     sideOffset={10}
                   >
-                    <DropdownMenuItem>
+                    <DropdownMenuItem className="rounded-lg space-x-1 hover:text-zinc-900! hover:dark:text-zinc-100!">
                       <Share2
                         size={16}
-                        className="opacity-60"
+                        strokeWidth={3}
+                        className="opacity-100"
                         aria-hidden="true"
                       />
-                      Invite
+                      <p>Invite</p>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <FolderEditIcon
+                    <DropdownMenuItem className="rounded-lg space-x-1 hover:text-zinc-900! hover:dark:text-zinc-100!">
+                      <Pencil
                         size={16}
-                        className="opacity-60"
+                        strokeWidth={3}
+                        className="opacity-100"
                         aria-hidden="true"
                       />
-                      Rename
+                      <p>Rename</p>
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60">
-                      <Delete
+                    <DropdownMenuItem className="rounded-lg space-x-1 bg-destructive/75 shadow-xs hover:text-white! hover:bg-destructive!">
+                      <Trash2
                         size={16}
-                        className="opacity-60"
+                        strokeWidth={3}
+                        className="opacity-100"
                         aria-hidden="true"
                       />
-                      Delete
+                      <p>Delete</p>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>

@@ -14,28 +14,26 @@ import BreadCrumbs from "@/components/bread-crumbs";
 import { useSidebar } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { RiSkipLeftLine, RiSkipRightLine } from "@/pages/workspace/index";
+import UpgradeFormstore from "@/components/upgrade-premium";
 
 export default memo(function WorkspaceHome() {
   return (
-    <main className="flex grow w-full flex-col items-center justify-center">
-      <Card
-        className={cn(
-          "flex w-full grow p-2 overflow-y-auto border-0 rounded-none"
-        )}
-      >
+    <main className="flex grow w-full flex-col items-center justify-center p-2">
+      <Card className="flex w-full grow p-2 overflow-y-auto border-sidebar-accent relative">
         {/* top-navbar */}
-        <section className="sticky top-0 flex items-center justify-between pt-2 px-2 w-full">
-          <div className="flex h-5 items-center justify-between space-x-3">
+
+        <section
+          className={cn(
+            "sticky top-0 flex items-center justify-between p-2.5 w-full"
+          )}
+        >
+          <div className="flex items-center justify-between space-x-3">
             <SidebarTriggerButton className="size-7" />
-            <Separator
-              orientation="vertical"
-              className="bg-accent-foreground/40"
-              decorative
-            />
             <BreadCrumbs currentPage={`Dashboard`} />
           </div>
 
-          <div className="flex h-5 items-center justify-between space-x-3">
+          <div className="flex items-center justify-between space-x-3">
+            <UpgradeFormstore />
             <Separator
               orientation="vertical"
               className="bg-accent-foreground/40"
