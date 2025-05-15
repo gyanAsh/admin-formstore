@@ -139,7 +139,7 @@ export default function AddWorkspace() {
                   </FormLabel>
                   <FormControl>
                     <Input
-                      className="rounded-lg hover:ring-1 hover:ring-ring"
+                      className="rounded-lg hover:ring-1 hover:ring-ring text-base"
                       id={`${id}-workspace`}
                       type="text"
                       placeholder="Enter name here..."
@@ -156,7 +156,7 @@ export default function AddWorkspace() {
                 type="submit"
                 effect={"small_scale"}
                 className={cn(
-                  "flex-1 rounded-lg text-white! dark:text-black!",
+                  "flex-1 rounded-lg text-white! text-base  ease-in duration-80",
                   "bg-primary/85"
                 )}
               >
@@ -165,11 +165,10 @@ export default function AddWorkspace() {
               <DialogClose asChild>
                 <Button
                   type="button"
-                  // variant="outline"
                   effect="small_scale"
                   className={cn(
-                    "flex-1 rounded-lg",
-                    "bg-transparent border border-red-500 text-red-500 hover:text-red-500 hover:bg-destructive/25"
+                    "flex-1 rounded-lg text-base",
+                    "bg-transparent border border-red-500 text-red-500 hover:text-red-500 ease-in duration-80 hover:bg-destructive/25"
                   )}
                 >
                   Cancel

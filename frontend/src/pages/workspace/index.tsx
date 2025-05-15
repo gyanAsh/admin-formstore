@@ -29,8 +29,13 @@ import UpgradeFormstore from "@/components/upgrade-premium";
 
 export default function Workspace() {
   const { workspaceId } = useParams();
-  const [workspace, setWorkspace] = useState();
-
+  const [workspace, setWorkspace] = useState<{
+    id: number;
+    name: string;
+    user_id: number;
+    created_at: string;
+    updated_at: string;
+  }>();
   const { isSuccess: workspaceSuccess, data: workspaces } = useQuery({
     queryKey: ["api-workspaces"],
     queryFn: async () => {
