@@ -159,4 +159,49 @@ func (s *Service) workspaceUpdateHandler(w http.ResponseWriter, r *http.Request)
 }
 
 func (s *Service) workspaceDeleteHandler(w http.ResponseWriter, r *http.Request) {
+	userID, err := s.authenticate(r)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+	var workspace Workspace
+	if err = json.NewDecoder(r.Body).Decode(&workspace); err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	if workspace.ID == 0 {
+		log.Println(fmt.Errorf("empty values in workspace"))
+		log.Println(workspace)
+		return
+	}
+	workspace.UserID = userID
+
+	row := s.Conn.QueryRow(r.Context(), `SELECT user_id FROM workspaces
+		WHERE ID = $1 AND user_id = $2`, workspace.ID,
+		workspace.UserID)
+	var dbUserID int64
+	if err = row.Scan(&dbUserID); err != nil {
+		log.Println(err)
+		if err == pgx.ErrNoRows {
+			w.WriteHeader(http.StatusForbidden)
+			return
+		}
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	if dbUserID != workspace.UserID {
+		log.Println(fmt.Errorf("queried user id did not match"))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// soft delete user id
+
+	if err = json.NewEncoder(w).Encode(workspace); err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 }

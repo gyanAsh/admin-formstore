@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS workspaces (
 	name VARCHAR NOT NULL,
 	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
 	updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+	deleted_at TIMESTAMP,
 	user_id INTEGER NOT NULL,
 	FOREIGN KEY (user_id) REFERENCES users(ID)
 );
