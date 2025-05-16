@@ -78,7 +78,7 @@ const WorkspaceGroup = () => {
                     }}
                     whileTap={{ scale: 0.95 }}
                     className={cn(
-                      "bg-primary/10 text-zinc-600 hover:text-primary! dark:text-zinc-300 hover:dark:text-primary hover:bg-primary/15 transition-all duration-150",
+                      "bg-primary/5 text-zinc-600 hover:text-primary! dark:text-zinc-300 hover:dark:text-primary hover:bg-primary/15 transition-all duration-150",
                       "flex rounded-lg font-semibold p-4 justify-start cursor-pointer w-full",
                       {
                         "bg-primary/35 text-primary/90 dark:text-primary":

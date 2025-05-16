@@ -4,7 +4,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn, getAuthToken } from "@/lib/utils";
+import { cn, formatDateISO, getAuthToken } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import ModeToggle from "@/components/theme-toggle";
@@ -13,15 +13,18 @@ import { useSidebar } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import BreadCrumbs from "@/components/bread-crumbs";
 import React, { SVGProps } from "react";
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import AddFormButton from "@/components/layout/dashboard/AddFormButton";
 import UpgradeFormstore from "@/components/upgrade-premium";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { Circle } from "lucide-react";
 
 export default function Workspace() {
   const { workspaceId } = useParams();
+  const navigate = useNavigate();
 
   const { data: formsData, isLoading: form_isLoading } = useQuery({
     queryKey: ["api-workspace-forms", workspaceId],
@@ -112,7 +115,7 @@ export default function Workspace() {
                 </section>
 
                 <Separator />
-                <div className="grid">
+                <div className="grid grid-cols-3 2xl:grid-cols-4 gap-3">
                   {/* The scrollable element for your list */}
                   {/* <div
                     className={cn(
@@ -133,30 +136,51 @@ export default function Workspace() {
                       <Card
                         key={form.id}
                         className={cn(
-                          "grid gap-4 text-start border active:scale-[0.998] active:translate-y-[2px]"
+                          "hover:shadow-2xl hover:scale-[1.01] transition-all ease-in-out duration-200",
+                          "p-3 rounded-xl"
                         )}
+                        // onClick={() => {
+                        //   navigate(`/workspace/${workspaceId}/${form.id}`);
+                        // }}
                       >
-                        <div>ID{form?.id}</div>
-                        <div>{form?.title}</div>
-                        <div className=" capitalize">
-                          {form?.status}
-                          {/* STATUS DRAFT/PUBLISHED */}
-                        </div>
-                        <div>
-                          {form?.response}
-                          {/* RESPONSE COUNT */}
-                        </div>
-                        <div>
-                          {new Date(
-                            form.updated_at.replace(/\.(\d{3})\d+/, ".$1")
-                          ).toLocaleDateString("en-GB", {
-                            day: "2-digit",
-                            month: "short",
-                            year: "numeric",
-                          })}
-                        </div>
-                        {/* <Link to={`/workspace/${workspaceId}/${form.id}`}> */}{" "}
-                        {/* </Link> */}
+                        <section className="flex items-start">
+                          <div className="grow">
+                            <h2 className="text-base font-semibold">
+                              {form.title}
+                            </h2>
+                            <h2 className="text-muted-foreground text-xs">
+                              Published on {formatDateISO(form.created_at)}
+                            </h2>
+                          </div>
+                          <Badge
+                            // className={cn(
+                            //   "rounded-xl gap-1 px-1 border border-zinc-900/20 dark:border-zinc-100/30 cursor-pointer ",
+                            //   " bg-green-100 text-zinc-700",
+                            //   "dark:bg-green-500/15 dark:text-zinc-100"
+                            // )}
+                            variant={"green"}
+                          >
+                            <div className="relative">
+                              <Circle
+                                className="size-3 z-1 fill-green-400 dark:fill-green-500"
+                                strokeWidth={0}
+                              />
+                              <Circle
+                                className="size-3 fill-green-400 dark:fill-green-500 absolute left-0 top-0 animate-ping"
+                                strokeWidth={0}
+                              />
+                            </div>
+                            Active
+                          </Badge>
+                        </section>
+                        <section>template image</section>
+                        <section className="flex items-center">
+                          <div>info. container eg: "res. count"</div>
+                          <div>
+                            Action btn "edit / duplicate / delete / rename /
+                            pause"
+                          </div>
+                        </section>
                       </Card>
                     );
                   })}

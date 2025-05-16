@@ -32,7 +32,7 @@ export default memo(function Home() {
             ref={ref}
             initial={{ filter: "blur(8px)", opacity: 0 }}
             animate={isInView ? { filter: "blur(0px)", opacity: 1 } : {}}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.5 }}
             className={cn(
               "inline-flex tracking-tight flex-col gap-1 transition text-center",
               "font-display text-6xl md:text-7xl font-semibold leading-none lg:text-8xl",
