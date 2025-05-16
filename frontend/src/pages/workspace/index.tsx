@@ -137,7 +137,7 @@ export default function Workspace() {
                         key={form.id}
                         className={cn(
                           "hover:shadow-2xl hover:scale-[1.01] transition-all ease-in-out duration-200",
-                          "p-3 rounded-xl"
+                          " cursor-default p-3 rounded-xl bg-zinc-50/75 dark:bg-slate-900/35"
                         )}
                         // onClick={() => {
                         //   navigate(`/workspace/${workspaceId}/${form.id}`);
