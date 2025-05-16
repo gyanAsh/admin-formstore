@@ -151,6 +151,18 @@ export default function AddWorkspace() {
             />
 
             <DialogFooter>
+              <DialogClose asChild>
+                <Button
+                  type="button"
+                  effect="small_scale"
+                  className={cn(
+                    "flex-1 rounded-lg text-base",
+                    "bg-transparent border border-white-500 text-white-500 hover:text-white-500 ease-in duration-80 hover:bg-destructive/25"
+                  )}
+                >
+                  Cancel
+                </Button>
+              </DialogClose>
               <Button
                 type="submit"
                 effect={"small_scale"}
@@ -161,18 +173,6 @@ export default function AddWorkspace() {
               >
                 Create
               </Button>
-              <DialogClose asChild>
-                <Button
-                  type="button"
-                  effect="small_scale"
-                  className={cn(
-                    "flex-1 rounded-lg text-base",
-                    "bg-transparent border border-red-500 text-red-500 hover:text-red-500 ease-in duration-80 hover:bg-destructive/25"
-                  )}
-                >
-                  Cancel
-                </Button>
-              </DialogClose>
             </DialogFooter>
           </form>
         </Form>
