@@ -14,13 +14,11 @@ import { Separator } from "@/components/ui/separator";
 import BreadCrumbs from "@/components/bread-crumbs";
 import React, { SVGProps } from "react";
 import { Link, useParams } from "react-router";
-import { useVirtualizer } from "@tanstack/react-virtual";
 import { useQuery } from "@tanstack/react-query";
 import AddFormButton from "@/components/layout/dashboard/AddFormButton";
 import UpgradeFormstore from "@/components/upgrade-premium";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Label } from "@/components/ui/label";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function Workspace() {
   const { workspaceId } = useParams();
@@ -38,27 +36,16 @@ export default function Workspace() {
     },
     refetchOnWindowFocus: false,
   });
-  const forms_data = { forms: formsData?.forms ?? [] };
-  const parentRef = React.useRef(null);
 
-  // The virtualizer
-  const rowVirtualizer = useVirtualizer({
-    count: forms_data?.forms.length ?? 0,
-    getScrollElement: () => parentRef.current,
-    estimateSize: () => 160,
-    gap: 5,
-    lanes: 3,
-  });
   console.log({ formsData });
   return (
     <>
-      <main className="flex grow w-full flex-col items-center justify-center p-2">
-        {/* <Card className="flex w-full grow p-2 zoverflow-y-auto zborder-sidebar-accent relative"> */}
-        <ScrollArea className="h-[97.5dvh] w-full rounded-2xl p-2 pt-0 border">
+      <main className="flex grow w-full flex-col items-center justify-center p-2 ">
+        <Card className="flex w-full grow p-[0px_8px_8px_8px] h-[97.5dvh] overflow-y-auto border-sidebar-accent relative">
           {/* top-navbar */}
           <section
             className={cn(
-              "sticky top-0 z-10 flex items-center justify-between p-2.5 w-full bg-zinc-100/90 mt-2"
+              "sticky top-0 z-10 flex items-center justify-between p-2.5 w-full bg-inherit py-3.5"
             )}
           >
             <div className="flex items-center justify-between space-x-3">
@@ -107,15 +94,17 @@ export default function Workspace() {
                       {formsData?.workspace?.name}
                     </h2>
                   </div>
-                  <div className="flex gap-2 mx-6">
+                  <div className="flex gap-2">
                     <AddFormButton />
                   </div>
                 </section>
 
                 <section className="flex items-center gap-2 mt-4">
-                  <Avatar className="bg-red-800 size-6">
+                  <Avatar className="size-6">
                     <AvatarImage></AvatarImage>
-                    <AvatarFallback className="bg-red-600">Av</AvatarFallback>
+                    <AvatarFallback className="bg-yellow-200 text-sm text-zinc-800">
+                      ek
+                    </AvatarFallback>
                   </Avatar>
                   <Label className="font-semibold text-zinc-500 dark:text-zinc-100/75">
                     1 member
@@ -137,84 +126,40 @@ export default function Workspace() {
                     <div>Response</div>
                     <div>Updated</div>
                   </div> */}
-                  <div
-                    ref={parentRef}
-                    className="pl-5"
-                    style={{
-                      maxHeight: `calc(100dvh - 90px)`,
-                      overflow: "auto", // Make it scroll!
-                    }}
-                  >
-                    {/* The large inner element to hold all of the items */}
-                    <div
-                      style={{
-                        height: `${rowVirtualizer.getTotalSize()}px`,
-                        width: "100%",
-                        position: "relative",
-                      }}
-                    >
-                      {/* Only the visible items in the virtualizer, manually positioned to be in view */}
-                      {rowVirtualizer
-                        .getVirtualItems()
-                        .map((virtualItem, _idx) => {
-                          let form = forms_data?.forms[virtualItem.index];
-                          return (
-                            <Button
-                              key={virtualItem.key}
-                              style={{
-                                position: "absolute",
-                                top: 0,
-                                left: `${virtualItem.lane * 33.33}%`,
-                                width: "32.8%",
-                                height: `${virtualItem.size}px`,
-                                transform: `translateY(${virtualItem.start}px)`,
-                              }}
-                              variant={"violet_secondary"}
-                              className={cn(
-                                "grid gap-4 text-start border active:scale-[0.998] active:translate-y-[2px]"
-                              )}
-                              asChild
-                            >
-                              <Link to={`/workspace/${workspaceId}/${form.id}`}>
-                                <div>ID{form?.id}</div>
-                                <TooltipProvider>
-                                  <Tooltip>
-                                    <TooltipTrigger
-                                      className=" overflow-hidden text-start"
-                                      asChild
-                                    >
-                                      <div>{form?.title}</div>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                      <p>{form?.title}</p>
-                                    </TooltipContent>
-                                  </Tooltip>
-                                </TooltipProvider>
-                                <div className=" capitalize">
-                                  {form?.status}
-                                  {/* STATUS DRAFT/PUBLISHED */}
-                                </div>
-                                <div>
-                                  {form?.response}
-                                  {/* RESPONSE COUNT */}
-                                </div>
-                                <div>
-                                  {new Date(
-                                    forms_data?.forms[
-                                      virtualItem.index
-                                    ]?.updated_at.replace(/\.(\d{3})\d+/, ".$1")
-                                  ).toLocaleDateString("en-GB", {
-                                    day: "2-digit",
-                                    month: "short",
-                                    year: "numeric",
-                                  })}
-                                </div>
-                              </Link>
-                            </Button>
-                          );
-                        })}
-                    </div>
-                  </div>
+
+                  {/* Only the visible items in the virtualizer, manually positioned to be in view */}
+                  {formsData?.forms?.map((form: any) => {
+                    return (
+                      <Card
+                        key={form.id}
+                        className={cn(
+                          "grid gap-4 text-start border active:scale-[0.998] active:translate-y-[2px]"
+                        )}
+                      >
+                        <div>ID{form?.id}</div>
+                        <div>{form?.title}</div>
+                        <div className=" capitalize">
+                          {form?.status}
+                          {/* STATUS DRAFT/PUBLISHED */}
+                        </div>
+                        <div>
+                          {form?.response}
+                          {/* RESPONSE COUNT */}
+                        </div>
+                        <div>
+                          {new Date(
+                            form.updated_at.replace(/\.(\d{3})\d+/, ".$1")
+                          ).toLocaleDateString("en-GB", {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                          })}
+                        </div>
+                        {/* <Link to={`/workspace/${workspaceId}/${form.id}`}> */}{" "}
+                        {/* </Link> */}
+                      </Card>
+                    );
+                  })}
                 </div>
               </div>
             ) : (
@@ -227,8 +172,7 @@ export default function Workspace() {
               </div>
             )}
           </section>
-        </ScrollArea>
-        {/* </Card> */}
+        </Card>
       </main>
     </>
   );

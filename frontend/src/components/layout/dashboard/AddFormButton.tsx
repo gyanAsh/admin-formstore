@@ -150,6 +150,18 @@ export default function AddFormButton() {
             />
 
             <DialogFooter>
+              <DialogClose asChild>
+                <Button
+                  type="button"
+                  effect="small_scale"
+                  className={cn(
+                    "flex-1 rounded-lg text-base",
+                    "bg-transparent border text-red-500 hover:text-red-500 ease-in duration-80 hover:bg-destructive/25"
+                  )}
+                >
+                  Cancel
+                </Button>
+              </DialogClose>
               <Button
                 type="submit"
                 effect={"small_scale"}
@@ -160,18 +172,6 @@ export default function AddFormButton() {
               >
                 Create
               </Button>
-              <DialogClose asChild>
-                <Button
-                  type="button"
-                  effect="small_scale"
-                  className={cn(
-                    "flex-1 rounded-lg text-base",
-                    "bg-transparent border border-red-500 text-red-500 hover:text-red-500 ease-in duration-80 hover:bg-destructive/25"
-                  )}
-                >
-                  Cancel
-                </Button>
-              </DialogClose>
             </DialogFooter>
           </form>
         </Form>

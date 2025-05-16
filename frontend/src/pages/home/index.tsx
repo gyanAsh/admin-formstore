@@ -13,8 +13,12 @@ import { ChevronLeft, ChevronRight, Droplet } from "lucide-react";
 import AppointmentDateAndTimePicker from "@/components/custom-input/appointment-date-picker";
 import { getLocalTimeZone, today } from "@internationalized/date";
 import { usePrevNextButtons } from "@/lib/embla-carousel-nav-btns";
+import * as motion from "motion/react-client";
+import { useInView } from "motion/react";
 
 export default memo(function Home() {
+  const ref = React.useRef(null);
+  const isInView = useInView(ref, { once: true });
   return (
     <main
       className="flex min-h-screen w-full flex-col items-center justify-center relative isolate
@@ -24,7 +28,11 @@ export default memo(function Home() {
     >
       <section className="flex flex-col items-center justify-center grow min-h-[55dvh] sm:h-[55dvh] w-full relative">
         <div className="container flex flex-col items-center justify-center gap-1 px-4 my-6">
-          <h1
+          <motion.h1
+            ref={ref}
+            initial={{ filter: "blur(8px)", opacity: 0 }}
+            animate={isInView ? { filter: "blur(0px)", opacity: 1 } : {}}
+            transition={{ duration: 0.8 }}
             className={cn(
               "inline-flex tracking-tight flex-col gap-1 transition text-center",
               "font-display text-6xl md:text-7xl font-semibold leading-none lg:text-8xl",
@@ -38,16 +46,20 @@ export default memo(function Home() {
             )}
           >
             <span>Formstore</span>
-          </h1>
-
-          <p className="text-xl/7 md:text-2xl/8 text-pretty sm:text-wrap sm:text-center text-center">
-            &bull; Effortless Surveys &bull; Instant Insights
-            <br />
-            <span className="inline sm:block text-base md:text-xl mt-1.5">
-              Launch fully branded, web & mobile-ready surveys in minutes—no
-              code required.
-            </span>
-          </p>
+          </motion.h1>
+          <TextFade
+            direction="up"
+            className=" flex flex-col  justify-center items-center space-y-0"
+          >
+            <p className="text-xl/7 md:text-2xl/8 text-pretty sm:text-wrap sm:text-center text-center">
+              &bull; Effortless Surveys &bull; Instant Insights
+              <br />
+              <span className="inline sm:block text-base md:text-xl mt-1.5">
+                Launch fully branded, web & mobile-ready surveys in minutes—no
+                code required.
+              </span>
+            </p>
+          </TextFade>
         </div>
         <div className="flex gap-2">
           <SignInButton
@@ -80,7 +92,6 @@ export default memo(function Home() {
         </Button> */}
         </div>
       </section>
-
       <FormTemplates />
     </main>
   );
@@ -533,3 +544,46 @@ export const GrainOverlay = ({
     </div>
   );
 };
+
+export function TextFade({
+  direction,
+  children,
+  className = "",
+  staggerChildren = 0.1,
+}: {
+  direction: "up" | "down";
+  children: React.ReactNode;
+  className?: string;
+  staggerChildren?: number;
+}) {
+  const FADE_DOWN = {
+    show: { opacity: 1, y: 0, transition: { type: "spring" } },
+    hidden: { opacity: 0, y: direction === "down" ? -18 : 18 },
+  };
+  const ref = React.useRef(null);
+  const isInView = useInView(ref, { once: true });
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={isInView ? "show" : ""}
+      variants={{
+        hidden: {},
+        show: {
+          transition: {
+            staggerChildren: staggerChildren,
+          },
+        },
+      }}
+      className={className}
+    >
+      {React.Children.map(children, (child) =>
+        React.isValidElement(child) ? (
+          <motion.div variants={FADE_DOWN}>{child}</motion.div>
+        ) : (
+          child
+        )
+      )}
+    </motion.div>
+  );
+}
