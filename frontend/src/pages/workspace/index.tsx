@@ -20,7 +20,7 @@ import UpgradeFormstore from "@/components/upgrade-premium";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Circle } from "lucide-react";
+import { Circle, Ellipsis } from "lucide-react";
 
 export default function Workspace() {
   const { workspaceId } = useParams();
@@ -98,6 +98,11 @@ export default function Workspace() {
                     </h2>
                   </div>
                   <div className="flex gap-2">
+                    <Button variant={"outline"} size={"icon"}>
+                      <Ellipsis />
+                      {/* Action btn "edit / duplicate / delete / rename /
+                            pause" */}
+                    </Button>
                     <AddFormButton />
                   </div>
                 </section>
@@ -115,7 +120,7 @@ export default function Workspace() {
                 </section>
 
                 <Separator />
-                <div className="grid grid-cols-3 2xl:grid-cols-4 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-3">
                   {/* The scrollable element for your list */}
                   {/* <div
                     className={cn(
@@ -137,49 +142,75 @@ export default function Workspace() {
                         key={form.id}
                         className={cn(
                           "hover:shadow-2xl hover:scale-[1.01] transition-all ease-in-out duration-200",
-                          " cursor-default p-3 rounded-xl bg-zinc-50/75 dark:bg-slate-900/35"
+                          " cursor-default p-3 rounded-xl bg-zinc-50/75 dark:bg-slate-900/35 gap-4"
                         )}
                         // onClick={() => {
                         //   navigate(`/workspace/${workspaceId}/${form.id}`);
                         // }}
                       >
-                        <section className="flex items-start">
-                          <div className="grow">
-                            <h2 className="text-base font-semibold">
-                              {form.title}
-                            </h2>
-                            <h2 className="text-muted-foreground text-xs">
-                              Published on {formatDateISO(form.created_at)}
-                            </h2>
-                          </div>
-                          <Badge
-                            // className={cn(
-                            //   "rounded-xl gap-1 px-1 border border-zinc-900/20 dark:border-zinc-100/30 cursor-pointer ",
-                            //   " bg-green-100 text-zinc-700",
-                            //   "dark:bg-green-500/15 dark:text-zinc-100"
-                            // )}
-                            variant={"green"}
-                          >
-                            <div className="relative">
-                              <Circle
-                                className="size-3 z-1 fill-green-400 dark:fill-green-500"
-                                strokeWidth={0}
-                              />
-                              <Circle
-                                className="size-3 fill-green-400 dark:fill-green-500 absolute left-0 top-0 animate-ping"
-                                strokeWidth={0}
-                              />
+                        <section className="flex flex-col items-start">
+                          <div className="flex items-center justify-between w-full">
+                            <div className="flex items-center gap-2">
+                              <Avatar className="size-6">
+                                <AvatarImage></AvatarImage>
+                                <AvatarFallback className="bg-yellow-200 text-sm text-zinc-800">
+                                  ek
+                                </AvatarFallback>
+                              </Avatar>
+                              <h2 className="text-base font-semibold">
+                                {form.title}
+                              </h2>
                             </div>
-                            Active
-                          </Badge>
-                        </section>
-                        <section>template image</section>
-                        <section className="flex items-center">
-                          <div>info. container eg: "res. count"</div>
-                          <div>
-                            Action btn "edit / duplicate / delete / rename /
-                            pause"
+
+                            <Badge variant={"green"}>
+                              <div className="relative">
+                                <Circle
+                                  className="size-3 z-1 fill-green-400 dark:fill-green-500"
+                                  strokeWidth={0}
+                                />
+                                <Circle
+                                  className="size-3 fill-green-400 dark:fill-green-500 absolute left-0 top-0 animate-ping"
+                                  strokeWidth={0}
+                                />
+                              </div>
+                              Active
+                            </Badge>
                           </div>
+
+                          <h2 className="text-muted-foreground text-sm">
+                            Published on {formatDateISO(form.created_at)}
+                          </h2>
+                        </section>
+                        <img
+                          src="/sand-style.png"
+                          alt=""
+                          className=" object-contain border rounded-xl"
+                        />
+
+                        <section className="grid grid-cols-2 gap-1 text-sm">
+                          <div className=" text-nowrap leading-4">
+                            <h2 className="text-muted-foreground">
+                              Submissions :
+                            </h2>{" "}
+                            <p className="text-base font-bold">5240</p>
+                          </div>
+                          <div className=" text-nowrap leading-4">
+                            <h2 className="text-muted-foreground">
+                              Last Updated :
+                            </h2>{" "}
+                            <p className="text-base font-bold">2 days ago</p>
+                          </div>
+                        </section>
+
+                        <section className="flex items-center gap-1.5">
+                          <Button variant={"black"} className="grow">
+                            View Form
+                          </Button>
+                          <Button variant={"outline"} size={"icon"}>
+                            <Ellipsis />
+                            {/* Action btn "edit / duplicate / delete / rename /
+                            pause" */}
+                          </Button>
                         </section>
                       </Card>
                     );

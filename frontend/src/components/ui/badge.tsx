@@ -16,7 +16,7 @@ const badgeVariants = cva(
           "border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80",
         outline: "text-foreground",
         green: cn(
-          "rounded-xl gap-1 px-1 border border-zinc-900/20 dark:border-zinc-100/30 cursor-pointer ",
+          "rounded-xl gap-1 px-1 border border-zinc-900/20 dark:border-zinc-100/30",
           " bg-green-100 text-zinc-700 dark:bg-green-500/15 dark:text-zinc-100"
         ),
       },
