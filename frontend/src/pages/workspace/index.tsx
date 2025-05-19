@@ -355,7 +355,7 @@ const AnimatedHamburgerButton = ({ active }: { active: boolean }) => {
         ease: "easeInOut",
       }}
     >
-      <motion.button
+      <motion.div
         initial={false}
         animate={active ? "open" : "closed"}
         className="relative size-9"
@@ -381,7 +381,7 @@ const AnimatedHamburgerButton = ({ active }: { active: boolean }) => {
             // left: "calc(50% + 10px)",
           }}
         />
-      </motion.button>
+      </motion.div>
     </MotionConfig>
   );
 };

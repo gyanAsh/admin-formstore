@@ -1,41 +1,18 @@
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { cn, debounce } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
-import React, { SVGProps, useEffect } from "react";
-import { FigmaAdd } from "@/components/icons";
 import { useParams } from "react-router";
-import { Button } from "@/components/ui/button";
 import BreadCrumbs from "@/components/bread-crumbs";
 import ModeToggle from "@/components/theme-toggle";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useSidebar } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
-import { Eye, MoreHorizontal } from "lucide-react";
-import { addNewElement } from "@/store/form";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getAuthToken } from "@/lib/utils";
-import { useState } from "react";
 import UpgradeFormstore from "@/components/upgrade-premium";
-import {
-  RiSkipLeftLine,
-  RiSkipRightLine,
-  SidebarTriggerButton,
-} from "../workspace";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { WorkspaceDropdownContentOptions } from "@/components/options/workspace-options";
-import AddFormButton from "@/components/layout/dashboard/AddFormButton";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Label } from "@/components/ui/label";
-import { FormDropdownContentOptions } from "@/components/options/form-options";
+import { SidebarTriggerButton } from "../workspace";
 import PublishFormButton from "@/components/layout/dashboard/PubishFormButton";
+import { AnimatePresence } from "motion/react";
+import * as motion from "motion/react-client";
+import { useState } from "react";
 
 type Form = {
   id: number;
@@ -70,7 +47,6 @@ export type FormElement = {
 
 export default function CreateForm() {
   const { workspaceId, formId } = useParams();
-  const [formElements, setFormElements] = useState<FormElement[]>([]);
 
   const {
     data: formData,
@@ -128,11 +104,7 @@ export default function CreateForm() {
 
   // const updateFormElementValues = debounce(formElementMutation.mutate);
 
-  useEffect(() => {
-    if (formData && formData.form_elements) {
-      setFormElements(formData.form_elements);
-    }
-  }, [formData]);
+  console.log({ formData });
 
   return (
     <>
@@ -187,7 +159,7 @@ export default function CreateForm() {
                 <Skeleton className="w-full h-[55px]" />
               </section>
             ) : !form_hasError ? (
-              <div className="flex flex-col px-2 gap-4">
+              <div className="flex flex-col h-full px-2 gap-4">
                 <section className="flex items-end justify-between w-full">
                   <div className="flex flex-col">
                     <h2 className="font-semibold text-zinc-500 dark:text-zinc-100/75">
@@ -211,11 +183,12 @@ export default function CreateForm() {
                     <PublishFormButton />
                   </div>
                 </section>
-                Add Elements tab1 | Template tab2 | {`preview -> (link)`}
+                {/* Add Elements tab1 | Template tab2 | {`preview -> (link)`}
                 <Separator />
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-3">
                   Form Elements Lisitng
-                </div>
+                </div> */}
+                <SharedLayoutAnimation />
               </div>
             ) : (
               <div>
@@ -232,3 +205,80 @@ export default function CreateForm() {
     </>
   );
 }
+
+function SharedLayoutAnimation() {
+  const [selectedTab, setSelectedTab] = useState(tabs[0]);
+
+  return (
+    <div className="w-full grow h-full flex flex-col m-[1px]">
+      <nav>
+        <ul className="flex gap-0.5 border-b-[1.5px]">
+          {tabs.map((item) => (
+            <motion.li
+              key={item.id}
+              initial={false}
+              onClick={() => setSelectedTab(item)}
+              className={cn(
+                "relative py-3 px-2 w-fit cursor-pointer font-bold",
+
+                item === selectedTab ? "" : "text-muted-foreground"
+              )}
+            >
+              {item.title}
+              {item.id === selectedTab.id ? (
+                <motion.div
+                  className="absolute -bottom-[1px] left-0 right-0 h-1 rounded-t-2xl bg-primary"
+                  layoutId="underline"
+                  id="underline"
+                />
+              ) : null}
+            </motion.li>
+          ))}
+        </ul>
+      </nav>
+      <main className="flex flex-col grow">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={selectedTab ? selectedTab.id : "empty"}
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -10, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="grow"
+          >
+            {selectedTab ? selectedTab.title : "😋"}d asdfasd asdfa sdfa sfasd
+            fasd a sdfa a sdfa sdf asdf asd fasd fasdf asdf asdf asdf asdf asdf
+            a sdfa sdf asdf asd fasd fasdf asdf asdf asdf asdf asdf a sdfa sdf
+            asdf asd fasd fasdf asdf asdf asdf asdf asdf a sdfa sdf asdf asd
+            fasd fasdf asdf asdf asdf asdf asdf a sdfa sdf asdf asd fasd fasdf
+            asdf asdf asdf asdf asdf
+            <br /> a sdfa sdf asdf asd fasd fasdf asdf asdf asdf asdf asdf
+            <br /> a sdfa sdf asdf asd fasd fasdf asdf asdf asdf asdf asdf
+            <br /> a sdfa sdf asdf asd fasd fasdf asdf asdf asdf asdf asdf
+            <br /> a sdfa sdf asdf asd fasd fasdf asdf asdf asdf asdf asdf
+            <br /> a sdfa sdf asdf asd fasd fasdf asdf asdf asdf asdf asdf
+            <br /> a sdfa sdf asdf asd fasd fasdf asdf asdf asdf asdf asdf
+            <br /> a sdfa sdf asdf asd fasd fasdf asdf asdf asdf asdf asdf
+            <br /> a sdfa sdf asdf asd fasd fasdf asdf asdf asdf asdf asdf
+          </motion.div>
+        </AnimatePresence>
+      </main>
+    </div>
+  );
+}
+
+const allIngredients = [
+  { icon: "🍅", label: "Tomato" },
+  { icon: "🥬", label: "Lettuce" },
+  { icon: "🧀", label: "Cheese" },
+  { icon: "🥕", label: "Carrot" },
+  { icon: "🍌", label: "Banana" },
+  { icon: "🫐", label: "Blueberries" },
+  { icon: "🥂", label: "Champers?" },
+];
+
+const tabs = [
+  { id: 1, title: "Add Elements" },
+  { id: 2, title: "Templates" },
+  { id: 3, title: "Preview" },
+];
