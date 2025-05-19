@@ -8,7 +8,6 @@ type Workspace = {
 };
 
 async function getWorkspaces() {
-  console.count("get_workspace");
   const res = await fetch(`/api/workspaces`, {
     method: "GET",
     headers: {

@@ -61,7 +61,6 @@ export default function AddWorkspace() {
       return data;
     },
     onSuccess: (data) => {
-      console.log({ create_workspace_data: data });
       queryClient.invalidateQueries({ queryKey: ["api-workspaces"] });
       setOpenDialog(false);
     },

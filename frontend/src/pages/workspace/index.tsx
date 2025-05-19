@@ -52,7 +52,6 @@ export default function Workspace() {
     refetchOnWindowFocus: false,
   });
 
-  console.log({ formsData });
   return (
     <>
       <main className="flex grow w-full flex-col items-center justify-center p-2 ">

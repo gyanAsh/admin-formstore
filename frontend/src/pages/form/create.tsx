@@ -104,8 +104,6 @@ export default function CreateForm() {
 
   // const updateFormElementValues = debounce(formElementMutation.mutate);
 
-  console.log({ formData });
-
   return (
     <>
       <main className="flex grow w-full flex-col items-center justify-center p-2 ">
