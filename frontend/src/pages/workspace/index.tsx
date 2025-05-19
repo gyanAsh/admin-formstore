@@ -13,14 +13,19 @@ import { useSidebar } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import BreadCrumbs from "@/components/bread-crumbs";
 import React, { SVGProps } from "react";
-import { Link, useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import AddFormButton from "@/components/layout/dashboard/AddFormButton";
 import UpgradeFormstore from "@/components/upgrade-premium";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Circle, Ellipsis } from "lucide-react";
+import { Circle, Ellipsis, MoreHorizontal } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { WorkspaceDropdownContentOptions } from "@/components/options/workspace-options";
 
 export default function Workspace() {
   const { workspaceId } = useParams();
@@ -48,10 +53,10 @@ export default function Workspace() {
           {/* top-navbar */}
           <section
             className={cn(
-              "sticky top-0 z-10 flex items-center justify-between p-2.5 w-full bg-inherit py-3.5"
+              "sticky top-0 z-10 flex max-sm:flex-col max-sm:gap-2.5 sm:items-center sm:justify-between p-2.5 w-full bg-inherit pt-3.5 sm:py-3.5"
             )}
           >
-            <div className="flex items-center justify-between space-x-3">
+            <div className="flex items-center sm:justify-between space-x-3">
               <SidebarTriggerButton className="size-7" />
               <BreadCrumbs
                 currentPage={formsData?.workspace?.name ?? "Current Workspace"}
@@ -64,17 +69,13 @@ export default function Workspace() {
               />
             </div>
 
-            <div className="flex items-center justify-between space-x-3">
+            <div className="flex justify-end items-center sm:justify-between space-x-3">
               <UpgradeFormstore />
-              <Separator
-                orientation="vertical"
-                className="bg-accent-foreground/40"
-                decorative
-              />
+
               <ModeToggle
                 variant="outline"
                 effect={"click"}
-                className="size-7 bg-black text-white dark:bg-white dark:hover:text-white   dark:text-black"
+                className="size-9 bg-black text-white dark:bg-white dark:hover:text-white   dark:text-black"
               />
             </div>
           </section>
@@ -98,11 +99,19 @@ export default function Workspace() {
                     </h2>
                   </div>
                   <div className="flex gap-2">
-                    <Button variant={"outline"} size={"icon"}>
-                      <Ellipsis />
-                      {/* Action btn "edit / duplicate / delete / rename /
-                            pause" */}
-                    </Button>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant={"outline"} size={"icon"}>
+                          <MoreHorizontal />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <WorkspaceDropdownContentOptions
+                        sideOffset={2}
+                        alignOffset={0}
+                        animationDirection="right"
+                      />
+                    </DropdownMenu>
+
                     <AddFormButton />
                   </div>
                 </section>
@@ -144,9 +153,6 @@ export default function Workspace() {
                           "hover:shadow-2xl hover:scale-[1.01] transition-all ease-in-out duration-200",
                           " cursor-default p-3 rounded-xl bg-zinc-50/75 dark:bg-slate-900/35 gap-4"
                         )}
-                        // onClick={() => {
-                        //   navigate(`/workspace/${workspaceId}/${form.id}`);
-                        // }}
                       >
                         <section className="flex flex-col items-start">
                           <div className="flex items-center justify-between w-full">
@@ -203,7 +209,13 @@ export default function Workspace() {
                         </section>
 
                         <section className="flex items-center gap-1.5">
-                          <Button variant={"black"} className="grow">
+                          <Button
+                            variant={"black"}
+                            className="grow font-bold"
+                            onClick={() => {
+                              navigate(`/workspace/${workspaceId}/${form.id}`);
+                            }}
+                          >
                             View Form
                           </Button>
                           <Button variant={"outline"} size={"icon"}>
