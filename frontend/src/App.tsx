@@ -7,6 +7,7 @@ import Workspace from "@/pages/workspace";
 import WorkspaceHome from "@/pages/workspace/home";
 import HeroLayout from "@/components/layout/hero";
 import Form from "@/pages/form";
+import CreateForm from "./pages/form/create";
 
 export default function App() {
   const NotFound = () => (
@@ -32,6 +33,7 @@ export default function App() {
         <Route path=":workspaceId">
           <Route index element={<Workspace />} />
           <Route path=":formId" element={<Form />} />
+          <Route path=":formId/create" element={<CreateForm />} />
         </Route>
       </Route>
       <Route path="*" element={<NotFound />} />

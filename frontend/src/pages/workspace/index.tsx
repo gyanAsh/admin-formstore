@@ -34,7 +34,11 @@ export default function Workspace() {
   const { workspaceId } = useParams();
   const navigate = useNavigate();
 
-  const { data: formsData, isLoading: form_isLoading } = useQuery({
+  const {
+    data: formsData,
+    isLoading: workspace_isLoading,
+    isSuccess: workspace_isSuccess,
+  } = useQuery({
     queryKey: ["api-workspace-forms", workspaceId],
     queryFn: async () => {
       const res = await fetch(`/api/workspace/${workspaceId}/forms`, {
@@ -84,13 +88,13 @@ export default function Workspace() {
           </section>
 
           <section className="grow gap-3">
-            {form_isLoading ? (
+            {workspace_isLoading ? (
               <section className="flex flex-col gap-3 m-4">
                 <Skeleton className="w-[120px] h-[40px]" />
                 <Skeleton className="w-full h-[55px]" />
                 <Skeleton className="w-full h-[55px]" />
               </section>
-            ) : true ? (
+            ) : workspace_isSuccess ? (
               <div className="flex flex-col px-2 gap-4">
                 <section className="flex items-end justify-between w-full">
                   <div className="flex flex-col">
@@ -201,7 +205,10 @@ export default function Workspace() {
                             variant={"black"}
                             className="grow font-bold"
                             onClick={() => {
-                              navigate(`/workspace/${workspaceId}/${form.id}`);
+                              // navigate(`/workspace/${workspaceId}/${form.id}`);
+                              navigate(
+                                `/workspace/${workspaceId}/${form.id}/create`
+                              );
                             }}
                             asChild
                           >
@@ -255,7 +262,7 @@ export default function Workspace() {
   );
 }
 
-function SidebarTriggerButton({
+export function SidebarTriggerButton({
   className,
   onClick,
   ...props
@@ -355,17 +362,17 @@ const AnimatedHamburgerButton = ({ active }: { active: boolean }) => {
       >
         <motion.span
           variants={VARIANTS.top}
-          className="absolute h-[2px] rounded-full w-4 bg-slate-700 dark:bg-white/85"
+          className="absolute h-[2px] rounded-full w-3.5 bg-slate-700 dark:bg-white/85"
           style={{ x: "-50%", y: "-50%", left: "50%", top: "35%" }}
         />
         <motion.span
           variants={VARIANTS.middle}
-          className="absolute h-[2px] rounded-full w-4 bg-slate-700 dark:bg-white/85"
+          className="absolute h-[2px] rounded-full w-3.5 bg-slate-700 dark:bg-white/85"
           style={{ x: "-50%", y: "-50%", left: "50%", top: "50%" }}
         />
         <motion.span
           variants={VARIANTS.bottom}
-          className="absolute h-[2px] rounded-full w-4 bg-slate-700 dark:bg-white/85"
+          className="absolute h-[2px] rounded-full w-3.5 bg-slate-700 dark:bg-white/85"
           style={{
             x: "-50%",
             y: "50%",

@@ -34,6 +34,8 @@ import { WorkspaceDropdownContentOptions } from "@/components/options/workspace-
 import AddFormButton from "@/components/layout/dashboard/AddFormButton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Label } from "@/components/ui/label";
+import { FormDropdownContentOptions } from "@/components/options/form-options";
+import PublishFormButton from "@/components/layout/dashboard/PubishFormButton";
 
 type Form = {
   id: number;
@@ -66,7 +68,7 @@ export type FormElement = {
   value: string;
 };
 
-export default function Form() {
+export default function CreateForm() {
   const { workspaceId, formId } = useParams();
   const [formElements, setFormElements] = useState<FormElement[]>([]);
 
@@ -189,44 +191,30 @@ export default function Form() {
                 <section className="flex items-end justify-between w-full">
                   <div className="flex flex-col">
                     <h2 className="font-semibold text-zinc-500 dark:text-zinc-100/75">
-                      Workspace
+                      Create Form
                     </h2>
-                    <h2 className="text-3xl font-bold">
-                      View Form : Form Name
-                    </h2>
+                    <h2 className="text-3xl font-bold">Form Name</h2>
                   </div>
                   <div className="flex gap-2">
-                    <DropdownMenu>
+                    {/* <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant={"outline"} size={"icon"}>
                           <MoreHorizontal />
                         </Button>
                       </DropdownMenuTrigger>
-                      <WorkspaceDropdownContentOptions
+                      <FormDropdownContentOptions
                         sideOffset={2}
                         alignOffset={0}
                         animationDirection="right"
                       />
-                    </DropdownMenu>
-                    <AddFormButton />
+                    </DropdownMenu> */}
+                    <PublishFormButton />
                   </div>
                 </section>
-
-                <section className="flex items-center gap-2 mt-4">
-                  <Avatar className="size-6">
-                    <AvatarImage></AvatarImage>
-                    <AvatarFallback className="bg-yellow-200 text-sm text-zinc-800">
-                      ek
-                    </AvatarFallback>
-                  </Avatar>
-                  <Label className="font-semibold text-zinc-500 dark:text-zinc-100/75">
-                    1 member
-                  </Label>
-                </section>
-
+                Add Elements tab1 | Template tab2 | {`preview -> (link)`}
                 <Separator />
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-3">
-                  Form Lisitng
+                  Form Elements Lisitng
                 </div>
               </div>
             ) : (

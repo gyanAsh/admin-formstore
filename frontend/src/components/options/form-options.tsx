@@ -4,7 +4,6 @@ import {
   Link2,
   Pause,
   Pencil,
-  Share2,
   Trash2,
 } from "lucide-react";
 import {
