@@ -16,7 +16,7 @@ import { Separator } from "@/components/ui/separator";
 import { RiSkipLeftLine, RiSkipRightLine } from "@/pages/workspace/index";
 import UpgradeFormstore from "@/components/upgrade-premium";
 
-export default memo(function WorkspaceHome() {
+export default function WorkspaceHome() {
   return (
     <main className="flex grow w-full flex-col items-center justify-center p-2">
       <Card className="flex w-full grow p-2 overflow-y-auto border-sidebar-accent relative">
@@ -70,7 +70,7 @@ export default memo(function WorkspaceHome() {
       </Card>
     </main>
   );
-});
+}
 
 function SidebarTriggerButton({
   className,
