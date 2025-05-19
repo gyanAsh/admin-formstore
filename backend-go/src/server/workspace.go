@@ -118,6 +118,7 @@ func (s *Service) workspaceUpdateHandler(w http.ResponseWriter, r *http.Request)
 	if workspace.ID == 0 || workspace.Name == "" {
 		log.Println(fmt.Errorf("empty values in workspace"))
 		log.Println(workspace)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	workspace.UpdatedAt = time.Now()

@@ -32,6 +32,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { useParams } from "react-router";
 
 export const createWorkspaceSchema = z.object({
   name: z.string().min(4, {
@@ -43,9 +44,14 @@ export const createWorkspaceSchema = z.object({
 // AddWorkspaceButton, techinally it's a slimed down version.
 // This current addresses the need for rename compontent. A generic solution
 // would be nice but might take some time.
-function RenameWorkpaceDialogForm() {
+function RenameWorkpaceDialogForm({
+  setOpenDialog,
+}: {
+  setOpenDialog: (bool) => void;
+}) {
   const id = useId();
   const queryClient = useQueryClient();
+  const { workspaceId } = useParams();
 
   const workspaceMutation = useMutation({
     mutationFn: async ({ name }: { name: string }) => {
@@ -53,12 +59,13 @@ function RenameWorkpaceDialogForm() {
         console.error("name is empty");
       }
       const res = await fetch("/api/workspace", {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${getAuthToken()}`,
         },
         body: JSON.stringify({
+          id: parseInt(workspaceId),
           name: name,
         }),
       });
@@ -69,8 +76,7 @@ function RenameWorkpaceDialogForm() {
       return data;
     },
     onSuccess: (data) => {
-      console.log({ create_workspace_data: data });
-      queryClient.invalidateQueries({ queryKey: ["api-workspaces"] });
+      queryClient.invalidateQueries({ queryKey: ["api-workspace-forms"] });
       setOpenDialog(false);
     },
     onError: (err) => {
@@ -178,7 +184,6 @@ export const WorkspaceDropdownContentOptions = ({
 }) => {
   const [openDialog, setOpenDialog] = useState(false);
 
-
   /** If you are looking to this and wondering, hey this doesn't seem like a
    * great design. I know it and you are probably right.
    * This Dialog arragement was made without the consideration of other
@@ -188,7 +193,7 @@ export const WorkspaceDropdownContentOptions = ({
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogContent className="rounded-4xl">
-        <RenameWorkpaceDialogForm />
+        <RenameWorkpaceDialogForm setOpenDialog={setOpenDialog} />
       </DialogContent>
 
       <DropdownMenuContent
