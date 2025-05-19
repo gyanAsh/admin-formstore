@@ -20,10 +20,18 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { getWorkspaces } from "@/lib/workspaces";
 import * as motion from "motion/react-client";
 import { WorkspaceDropdownContentOptions } from "@/components/options/workspace-options";
+import { useState, useEffect } from "react";
 
 const WorkspaceGroup = () => {
+  const [currentWorkspaceId, setCurrentWorkspaceId] = useState(0);
   const { workspaceId } = useParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (parseInt(workspaceId) != currentWorkspaceId) {
+      setCurrentWorkspaceId(parseInt(workspaceId));
+    }
+  }, [workspaceId]);
 
   const {
     isPending: workspacesIsPending,
@@ -68,7 +76,8 @@ const WorkspaceGroup = () => {
               <SidebarMenuItem className="space-y-0.5" key={project.name}>
                 <SidebarMenuButton asChild>
                   <motion.button
-                    onTap={() => {
+                    onMouseDown={() => {
+                      setCurrentWorkspaceId(project.id);
                       navigate(project.id.toString());
                     }}
                     whileHover={{
@@ -81,7 +90,7 @@ const WorkspaceGroup = () => {
                       "flex rounded-lg font-semibold p-4 justify-start cursor-pointer w-full",
                       {
                         "bg-primary/35 text-primary/90 dark:text-primary":
-                          workspaceId === project.id.toString(),
+                          currentWorkspaceId === project.id,
                       }
                     )}
                   >
@@ -94,7 +103,7 @@ const WorkspaceGroup = () => {
                       className={cn(
                         "right-2.5 cursor-pointer hover:bg-background !rounded-lg",
                         {
-                          "text-primary": workspaceId === project.id.toString(),
+                          "text-primary": currentWorkspaceId === project.id,
                         }
                       )}
                     >
