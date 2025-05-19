@@ -76,7 +76,10 @@ function RenameWorkpaceDialogForm({
       return data;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["api-workspace-forms"] });
+      queryClient.invalidateQueries([
+        ["api-workspaces"],
+        ["api-workspace-forms"],
+      ]);
       setOpenDialog(false);
     },
     onError: (err) => {
