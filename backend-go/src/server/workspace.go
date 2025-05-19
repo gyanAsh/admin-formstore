@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"sort"
 	"time"
 
 	"github.com/jackc/pgx/v5"
@@ -52,6 +53,9 @@ func (s *Service) workspacesHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	workspaces := parseRowsToWorkspaces(rows, userID)
+	sort.Slice(workspaces, func(i, j int) bool {
+		return workspaces[i].CreatedAt.Before(workspaces[j].CreatedAt)
+	})
 	if err = json.NewEncoder(w).Encode(workspaces); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
