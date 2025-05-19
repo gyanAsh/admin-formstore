@@ -26,6 +26,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { WorkspaceDropdownContentOptions } from "@/components/options/workspace-options";
+import { MotionConfig } from "motion/react";
+import * as motion from "motion/react-client";
+import { FormDropdownContentOptions } from "@/components/options/form-options";
 
 export default function Workspace() {
   const { workspaceId } = useParams();
@@ -57,7 +60,7 @@ export default function Workspace() {
             )}
           >
             <div className="flex items-center sm:justify-between space-x-3">
-              <SidebarTriggerButton className="size-7" />
+              <SidebarTriggerButton className="size-9" />
               <BreadCrumbs
                 currentPage={formsData?.workspace?.name ?? "Current Workspace"}
                 otherPageLinks={[
@@ -111,7 +114,6 @@ export default function Workspace() {
                         animationDirection="right"
                       />
                     </DropdownMenu>
-
                     <AddFormButton />
                   </div>
                 </section>
@@ -130,20 +132,6 @@ export default function Workspace() {
 
                 <Separator />
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-3">
-                  {/* The scrollable element for your list */}
-                  {/* <div
-                    className={cn(
-                      "grid grid-cols-5 gap-4 text-start font-semibold text-base text-zinc-700/95 dark:text-zinc-100/90 ",
-                      "bg-zinc-200/65 dark:bg-slate-700 px-3 py-3 rounded-t-2xl ml-5 mr-3.5"
-                    )}
-                  >
-                    <div>ID</div>
-                    <div>Title</div>
-                    <div>Status</div>
-                    <div>Response</div>
-                    <div>Updated</div>
-                  </div> */}
-
                   {/* Only the visible items in the virtualizer, manually positioned to be in view */}
                   {formsData?.forms?.map((form: any) => {
                     return (
@@ -215,14 +203,36 @@ export default function Workspace() {
                             onClick={() => {
                               navigate(`/workspace/${workspaceId}/${form.id}`);
                             }}
+                            asChild
                           >
-                            View Form
+                            <motion.div
+                              whileHover={{
+                                scale: 1.03,
+                                transition: {
+                                  duration: 0.09,
+                                  type: "spring",
+                                  ease: "easeInOut",
+                                },
+                                border: "1px",
+                              }}
+                              whileTap={{ scale: 0.89 }}
+                            >
+                              View Form
+                            </motion.div>
                           </Button>
-                          <Button variant={"outline"} size={"icon"}>
-                            <Ellipsis />
-                            {/* Action btn "edit / duplicate / delete / rename /
-                            pause" */}
-                          </Button>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant={"outline"} size={"icon"}>
+                                <Ellipsis />
+                                {/* Action btn "edit / duplicate / delete / rename / pause" */}
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <FormDropdownContentOptions
+                              sideOffset={2}
+                              alignOffset={0}
+                              animationDirection="right"
+                            />
+                          </DropdownMenu>
                         </section>
                       </Card>
                     );
@@ -275,11 +285,12 @@ function SidebarTriggerButton({
             }}
             {...props}
           >
-            {open ? (
+            {/* {open ? (
               <RiSkipLeftLine aria-hidden="true" />
             ) : (
               <RiSkipRightLine aria-hidden="true" />
-            )}
+            )} */}
+            <AnimatedHamburgerButton active={open} />
             <span className="sr-only">Toggle Sidebar</span>
           </Button>
         </TooltipTrigger>
@@ -328,3 +339,76 @@ export function RiSkipRightLine(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+
+const AnimatedHamburgerButton = ({ active }: { active: boolean }) => {
+  return (
+    <MotionConfig
+      transition={{
+        duration: 0.3,
+        ease: "easeInOut",
+      }}
+    >
+      <motion.button
+        initial={false}
+        animate={active ? "open" : "closed"}
+        className="relative size-9"
+      >
+        <motion.span
+          variants={VARIANTS.top}
+          className="absolute h-[2px] rounded-full w-4 bg-slate-700 dark:bg-white/85"
+          style={{ x: "-50%", y: "-50%", left: "50%", top: "35%" }}
+        />
+        <motion.span
+          variants={VARIANTS.middle}
+          className="absolute h-[2px] rounded-full w-4 bg-slate-700 dark:bg-white/85"
+          style={{ x: "-50%", y: "-50%", left: "50%", top: "50%" }}
+        />
+        <motion.span
+          variants={VARIANTS.bottom}
+          className="absolute h-[2px] rounded-full w-4 bg-slate-700 dark:bg-white/85"
+          style={{
+            x: "-50%",
+            y: "50%",
+            left: "50%",
+            bottom: "35%",
+            // left: "calc(50% + 10px)",
+          }}
+        />
+      </motion.button>
+    </MotionConfig>
+  );
+};
+
+const VARIANTS = {
+  top: {
+    open: {
+      rotate: ["0deg", "0deg", "45deg"],
+      top: ["35%", "50%", "50%"],
+    },
+    closed: {
+      rotate: ["45deg", "0deg", "0deg"],
+      top: ["50%", "50%", "35%"],
+    },
+  },
+  middle: {
+    open: {
+      rotate: ["0deg", "0deg", "-45deg"],
+    },
+    closed: {
+      rotate: ["-45deg", "0deg", "0deg"],
+    },
+  },
+  bottom: {
+    open: {
+      rotate: ["0deg", "0deg", "45deg"],
+      bottom: ["35%", "50%", "50%"],
+      left: "50%",
+    },
+    closed: {
+      rotate: ["45deg", "0deg", "0deg"],
+      bottom: ["50%", "50%", "35%"],
+      // left: "calc(50% + 10px)",
+      left: "50%",
+    },
+  },
+};
