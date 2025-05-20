@@ -16,7 +16,7 @@ export const FormPopoverContentOptions = ({
   sideOffset = 10,
   animationDirection = "left",
 }: {
-  closeOptions: Function;
+  closeOptions: () => void;
   alignOffset?: number;
   sideOffset?: number;
   animationDirection?: "left" | "right";
@@ -54,7 +54,7 @@ export const FormPopoverContentOptions = ({
       >
         {OPTIONS.map((option) => (
           <motion.div
-            autoFocus={false}
+            key={option.name}
             whileHover={{
               scale: 1.03,
               transition: { duration: 0.1 },

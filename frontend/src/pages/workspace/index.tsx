@@ -142,7 +142,6 @@ export default function Workspace() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-3">
                   {/* Only the visible items in the virtualizer, manually positioned to be in view */}
                   {formsData?.forms?.map((form: any) => {
-                    const [openOptions, setOpenOptions] = useState(false);
                     return (
                       <Card
                         key={form.id}
@@ -232,24 +231,7 @@ export default function Workspace() {
                               View Form
                             </motion.div>
                           </Button>
-                          <Popover
-                            open={openOptions}
-                            onOpenChange={setOpenOptions}
-                            modal
-                          >
-                            <PopoverTrigger asChild>
-                              <Button variant={"outline"} size={"icon"}>
-                                <Ellipsis />
-                                {/* Action btn "edit / duplicate / delete / rename / pause" */}
-                              </Button>
-                            </PopoverTrigger>
-                            <FormPopoverContentOptions
-                              closeOptions={() => setOpenOptions(false)}
-                              sideOffset={2}
-                              alignOffset={0}
-                              animationDirection="right"
-                            />
-                          </Popover>
+                          <FormOptions />
                         </section>
                       </Card>
                     );
@@ -269,6 +251,26 @@ export default function Workspace() {
         </Card>
       </main>
     </>
+  );
+}
+
+function FormOptions() {
+  const [openOptions, setOpenOptions] = useState(false);
+  return (
+    <Popover open={openOptions} onOpenChange={setOpenOptions} modal>
+      <PopoverTrigger asChild>
+        <Button variant={"outline"} size={"icon"}>
+          <Ellipsis />
+          {/* Action btn "edit / duplicate / delete / rename / pause" */}
+        </Button>
+      </PopoverTrigger>
+      <FormPopoverContentOptions
+        closeOptions={() => setOpenOptions(false)}
+        sideOffset={2}
+        alignOffset={0}
+        animationDirection="right"
+      />
+    </Popover>
   );
 }
 
