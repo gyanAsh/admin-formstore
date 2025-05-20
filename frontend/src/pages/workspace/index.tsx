@@ -184,18 +184,18 @@ export default function Workspace() {
                           className=" object-contain border rounded-xl"
                         />
 
-                        <section className="grid grid-cols-2 gap-1 text-sm">
-                          <div className=" text-nowrap leading-4">
-                            <h2 className="text-muted-foreground">
-                              Submissions :
-                            </h2>{" "}
-                            <p className="text-base font-bold">5240</p>
+                        <section className="grid grid-cols-2 gap-1 text-sm leading-4.5">
+                          <div className=" text-nowrap">
+                            <h2 className="text-muted-foreground">Responses</h2>{" "}
+                            <p className="text-base font-semibold"> 5940</p>
                           </div>
-                          <div className=" text-nowrap leading-4">
+                          <div className=" text-nowrap">
                             <h2 className="text-muted-foreground">
-                              Last Updated :
+                              Last Updated
                             </h2>{" "}
-                            <p className="text-base font-bold">2 days ago</p>
+                            <p className="text-base font-semibold">
+                              2 days ago
+                            </p>
                           </div>
                         </section>
 

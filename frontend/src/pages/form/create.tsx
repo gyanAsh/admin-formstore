@@ -117,11 +117,7 @@ export default function CreateForm() {
             <div className="flex items-center sm:justify-between space-x-3">
               <SidebarTriggerButton className="size-9" />
               <BreadCrumbs
-                currentPage={
-                  !form_isLoading && !form_hasError
-                    ? formData.form.title
-                    : `Form: ID${formId}`
-                }
+                currentPage={formData?.form?.title || `Form: ID${formId}`}
                 otherPageLinks={[
                   {
                     name: "Workspace",
@@ -129,9 +125,8 @@ export default function CreateForm() {
                   },
                   {
                     name:
-                      !form_isLoading && !form_hasError
-                        ? formData.workspace.name
-                        : `Workspace: ID${workspaceId}`,
+                      formData?.workspace?.name ||
+                      `Workspace: ID${workspaceId}`,
                     path: `/workspace/${workspaceId}`,
                   },
                 ]}
@@ -163,7 +158,9 @@ export default function CreateForm() {
                     <h2 className="font-semibold text-zinc-500 dark:text-zinc-100/75">
                       Create Form
                     </h2>
-                    <h2 className="text-3xl font-bold">Form Name</h2>
+                    <h2 className="text-3xl font-bold">
+                      {formData?.workspace?.name || "Current Form"}
+                    </h2>
                   </div>
                   <div className="flex gap-2">
                     {/* <DropdownMenu>
