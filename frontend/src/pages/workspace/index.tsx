@@ -12,7 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useSidebar } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import BreadCrumbs from "@/components/bread-crumbs";
-import React, { SVGProps } from "react";
+import React, { SVGProps, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import AddFormButton from "@/components/layout/dashboard/AddFormButton";
@@ -28,7 +28,12 @@ import {
 import { WorkspaceDropdownContentOptions } from "@/components/options/workspace-options";
 import { MotionConfig } from "motion/react";
 import * as motion from "motion/react-client";
-import { FormDropdownContentOptions } from "@/components/options/form-options";
+import { FormPopoverContentOptions } from "@/components/options/form-options";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export default function Workspace() {
   const { workspaceId } = useParams();
@@ -137,11 +142,12 @@ export default function Workspace() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-3">
                   {/* Only the visible items in the virtualizer, manually positioned to be in view */}
                   {formsData?.forms?.map((form: any) => {
+                    const [openOptions, setOpenOptions] = useState(false);
                     return (
                       <Card
                         key={form.id}
                         className={cn(
-                          "hover:shadow-2xl hover:scale-[1.01] transition-all ease-in-out duration-200",
+                          "hover:shadow-2xl hover:border-primary transition-all ease-in-out duration-200",
                           " cursor-default p-3 rounded-xl bg-zinc-50/75 dark:bg-slate-900/35 gap-4"
                         )}
                       >
@@ -226,19 +232,24 @@ export default function Workspace() {
                               View Form
                             </motion.div>
                           </Button>
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
+                          <Popover
+                            open={openOptions}
+                            onOpenChange={setOpenOptions}
+                            modal
+                          >
+                            <PopoverTrigger asChild>
                               <Button variant={"outline"} size={"icon"}>
                                 <Ellipsis />
                                 {/* Action btn "edit / duplicate / delete / rename / pause" */}
                               </Button>
-                            </DropdownMenuTrigger>
-                            <FormDropdownContentOptions
+                            </PopoverTrigger>
+                            <FormPopoverContentOptions
+                              closeOptions={() => setOpenOptions(false)}
                               sideOffset={2}
                               alignOffset={0}
                               animationDirection="right"
                             />
-                          </DropdownMenu>
+                          </Popover>
                         </section>
                       </Card>
                     );

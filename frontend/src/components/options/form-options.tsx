@@ -6,24 +6,35 @@ import {
   Pencil,
   Trash2,
 } from "lucide-react";
-import {
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "@/components/ui/dropdown-menu";
 import * as motion from "motion/react-client";
+import { PopoverContent } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 
-export const FormDropdownContentOptions = ({
+export const FormPopoverContentOptions = ({
+  closeOptions,
   alignOffset = -5,
   sideOffset = 10,
   animationDirection = "left",
 }: {
+  closeOptions: Function;
   alignOffset?: number;
   sideOffset?: number;
   animationDirection?: "left" | "right";
 }) => {
+  const OPTIONS = [
+    { destructive: false, icon: Link2, name: "Copy Link" },
+    { destructive: false, icon: Pause, name: "Pause" },
+    { destructive: false, icon: Copy, name: "Duplicate" },
+    { destructive: false, icon: ClipboardCopy, name: "Move To" },
+    { destructive: false, icon: Pencil, name: "Rename" },
+    { destructive: true, icon: Trash2, name: "Delete" },
+  ];
   return (
-    <DropdownMenuContent
-      className="space-y-0.5 rounded-lg  font-semibold text-zinc-700 dark:text-zinc-300 p-2"
+    <PopoverContent
+      className={cn(
+        "min-w-[142px] w-fit",
+        "space-y-0.5 rounded-lg font-semibold text-zinc-700 dark:text-zinc-300 p-2"
+      )}
       side="left"
       align="end"
       alignOffset={alignOffset}
@@ -41,11 +52,9 @@ export const FormDropdownContentOptions = ({
           transition: { duration: 0.25, ease: "easeInOut" },
         }}
       >
-        <DropdownMenuItem
-          className="rounded-lg space-x-1 hover:text-zinc-900! hover:dark:text-zinc-100!"
-          asChild
-        >
+        {OPTIONS.map((option) => (
           <motion.div
+            autoFocus={false}
             whileHover={{
               scale: 1.03,
               transition: { duration: 0.1 },
@@ -54,132 +63,28 @@ export const FormDropdownContentOptions = ({
               scale: 0.95,
               transition: { duration: 0.1 },
             }}
+            onClick={() => closeOptions()}
+            data-destructive={option.destructive}
+            className={cn(
+              "hover:bg-accent hover:text-zinc-900! hover:dark:text-zinc-100!",
+              "relative flex cursor-default items-center gap-2",
+              "px-2 py-1.5 text-sm outline-hidden select-none",
+              "rounded-lg space-x-1 min-w-[142px]",
+              "data-[destructive=true]:bg-destructive data-[destructive=true]:focus:bg-destructive/10 ",
+              "dark:data-[destructive=true]:focus:bg-destructive/40",
+              "data-[destructive=true]:focus:text-destructive "
+            )}
           >
-            <Link2
+            <option.icon
               size={16}
               strokeWidth={3}
               className="opacity-100"
               aria-hidden="true"
             />
-            <p>Copy Link</p>
+            <p>{option.name}</p>
           </motion.div>
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className="rounded-lg space-x-1 hover:text-zinc-900! hover:dark:text-zinc-100!"
-          asChild
-        >
-          <motion.div
-            whileHover={{
-              scale: 1.03,
-              transition: { duration: 0.1 },
-            }}
-            whileTap={{
-              scale: 0.95,
-              transition: { duration: 0.1 },
-            }}
-          >
-            <Pause
-              size={16}
-              strokeWidth={3}
-              className="opacity-100"
-              aria-hidden="true"
-            />
-            <p>Pause</p>
-          </motion.div>
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className="rounded-lg space-x-1 hover:text-zinc-900! hover:dark:text-zinc-100!"
-          asChild
-        >
-          <motion.div
-            whileHover={{
-              scale: 1.03,
-              transition: { duration: 0.1 },
-            }}
-            whileTap={{
-              scale: 0.95,
-              transition: { duration: 0.1 },
-            }}
-          >
-            <Copy
-              size={16}
-              strokeWidth={3}
-              className="opacity-100"
-              aria-hidden="true"
-            />
-            <p>Duplicate</p>
-          </motion.div>
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className="rounded-lg space-x-1 hover:text-zinc-900! hover:dark:text-zinc-100!"
-          asChild
-        >
-          <motion.div
-            whileHover={{
-              scale: 1.03,
-              transition: { duration: 0.1 },
-            }}
-            whileTap={{
-              scale: 0.95,
-              transition: { duration: 0.1 },
-            }}
-          >
-            <ClipboardCopy
-              size={16}
-              strokeWidth={3}
-              className="opacity-100"
-              aria-hidden="true"
-            />
-            <p>Move To</p>
-          </motion.div>
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className="rounded-lg space-x-1 hover:text-zinc-900! hover:dark:text-zinc-100!"
-          asChild
-        >
-          <motion.div
-            whileHover={{
-              scale: 1.03,
-              transition: { duration: 0.1 },
-            }}
-            whileTap={{
-              scale: 0.95,
-              transition: { duration: 0.1 },
-            }}
-          >
-            <Pencil
-              size={16}
-              strokeWidth={3}
-              className="opacity-100"
-              aria-hidden="true"
-            />
-            <p>Rename</p>
-          </motion.div>
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className="rounded-lg space-x-1 bg-destructive/75 shadow-xs hover:text-white! hover:bg-destructive!"
-          asChild
-        >
-          <motion.div
-            whileHover={{
-              scale: 1.03,
-              transition: { duration: 0.1 },
-            }}
-            whileTap={{
-              scale: 0.95,
-              transition: { duration: 0.1 },
-            }}
-          >
-            <Trash2
-              size={16}
-              strokeWidth={3}
-              className="opacity-100"
-              aria-hidden="true"
-            />
-            <p>Delete</p>
-          </motion.div>
-        </DropdownMenuItem>
+        ))}
       </motion.section>
-    </DropdownMenuContent>
+    </PopoverContent>
   );
 };

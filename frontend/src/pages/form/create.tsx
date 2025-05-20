@@ -169,7 +169,7 @@ export default function CreateForm() {
                           <MoreHorizontal />
                         </Button>
                       </DropdownMenuTrigger>
-                      <FormDropdownContentOptions
+                      <FormPopoverContentOptions
                         sideOffset={2}
                         alignOffset={0}
                         animationDirection="right"
