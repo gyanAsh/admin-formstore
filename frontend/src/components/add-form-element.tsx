@@ -1,9 +1,11 @@
 import * as motion from "motion/react-client";
 import { Button } from "./ui/button";
 import {
+  AlignLeft,
   ChevronDown,
   CircleCheck,
   CircleUser,
+  FileText,
   Gauge,
   LayoutList,
   Link2,
@@ -11,7 +13,9 @@ import {
   ListOrdered,
   Mail,
   MapPinned,
+  PencilLine,
   Phone,
+  Play,
   Plus,
   Scale,
   SquareCheck,
@@ -62,6 +66,15 @@ export const AddFormElement = () => {
         { title: "Rating", icon: Star },
         { title: "Ranking", icon: ListOrdered },
         { title: "Matrix", icon: Table },
+      ],
+    },
+    {
+      name: "Text & Video",
+      color: "yellow",
+      items: [
+        { title: "Long Text", icon: FileText },
+        { title: "Short Text", icon: AlignLeft },
+        { title: "Video", icon: Play },
       ],
     },
   ];
