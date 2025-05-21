@@ -13,6 +13,7 @@ import PublishFormButton from "@/components/layout/dashboard/PubishFormButton";
 import { AnimatePresence } from "motion/react";
 import * as motion from "motion/react-client";
 import { useState } from "react";
+import { AddFormElement } from "@/components/add-form-element";
 
 type Form = {
   id: number;
@@ -239,22 +240,9 @@ function SharedLayoutAnimation() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -10, opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="grow"
+            className="grow mt-3"
           >
-            {selectedTab ? selectedTab.title : "😋"}d asdfasd asdfa sdfa sfasd
-            fasd a sdfa a sdfa sdf asdf asd fasd fasdf asdf asdf asdf asdf asdf
-            a sdfa sdf asdf asd fasd fasdf asdf asdf asdf asdf asdf a sdfa sdf
-            asdf asd fasd fasdf asdf asdf asdf asdf asdf a sdfa sdf asdf asd
-            fasd fasdf asdf asdf asdf asdf asdf a sdfa sdf asdf asd fasd fasdf
-            asdf asdf asdf asdf asdf
-            <br /> a sdfa sdf asdf asd fasd fasdf asdf asdf asdf asdf asdf
-            <br /> a sdfa sdf asdf asd fasd fasdf asdf asdf asdf asdf asdf
-            <br /> a sdfa sdf asdf asd fasd fasdf asdf asdf asdf asdf asdf
-            <br /> a sdfa sdf asdf asd fasd fasdf asdf asdf asdf asdf asdf
-            <br /> a sdfa sdf asdf asd fasd fasdf asdf asdf asdf asdf asdf
-            <br /> a sdfa sdf asdf asd fasd fasdf asdf asdf asdf asdf asdf
-            <br /> a sdfa sdf asdf asd fasd fasdf asdf asdf asdf asdf asdf
-            <br /> a sdfa sdf asdf asd fasd fasdf asdf asdf asdf asdf asdf
+            <AddFormElement />
           </motion.div>
         </AnimatePresence>
       </main>
