@@ -18,6 +18,7 @@ import {
   Play,
   Plus,
   Scale,
+  Sparkles,
   SquareCheck,
   Star,
   Table,
@@ -33,6 +34,14 @@ import {
 } from "./ui/dialog";
 import { ScrollArea } from "./ui/scroll-area";
 import { cn } from "@/lib/utils";
+import { Separator } from "./ui/separator";
+import { Card } from "./ui/card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
 
 export const AddFormElement = () => {
   const Elements = [
@@ -40,50 +49,50 @@ export const AddFormElement = () => {
       name: "Contact Info",
       color: "pink",
       items: [
-        { title: "Contact Info", icon: CircleUser },
-        { title: "Email", icon: Mail },
-        { title: "Address", icon: MapPinned },
-        { title: "Phone", icon: Phone },
-        { title: "Website", icon: Link2 },
+        { title: "Contact Info", icon: CircleUser, isPremium: false },
+        { title: "Email", icon: Mail, isPremium: false },
+        { title: "Address", icon: MapPinned, isPremium: false },
+        { title: "Phone", icon: Phone, isPremium: false },
+        { title: "Website", icon: Link2, isPremium: false },
       ],
     },
     {
       name: "Choice",
       color: "blue",
       items: [
-        { title: "Multiple Choice", icon: LayoutList },
-        { title: "Dropdown", icon: ChevronDown },
-        { title: "Yes/No", icon: CircleCheck },
-        { title: "Concent", icon: SquareCheck },
-        { title: "Checkbox", icon: Link2 },
+        { title: "Multiple Choice", icon: LayoutList, isPremium: false },
+        { title: "Dropdown", icon: ChevronDown, isPremium: false },
+        { title: "Yes/No", icon: CircleCheck, isPremium: false },
+        { title: "Concent", icon: SquareCheck, isPremium: false },
+        { title: "Checkbox", icon: Link2, isPremium: false },
       ],
     },
     {
       name: "Rating & Ranking",
       color: "green",
       items: [
-        { title: "Net Promoter Score®", icon: Gauge },
-        { title: "Rating", icon: Star },
-        { title: "Ranking", icon: ListOrdered },
-        { title: "Matrix", icon: Table },
+        { title: "Net Promoter Score®", icon: Gauge, isPremium: false },
+        { title: "Rating", icon: Star, isPremium: false },
+        { title: "Ranking", icon: ListOrdered, isPremium: false },
+        { title: "Matrix", icon: Table, isPremium: false },
       ],
     },
     {
       name: "Text & Video",
       color: "yellow",
       items: [
-        { title: "Long Text", icon: FileText },
-        { title: "Short Text", icon: AlignLeft },
-        { title: "Video", icon: Play },
+        { title: "Long Text", icon: FileText, isPremium: false },
+        { title: "Short Text", icon: AlignLeft, isPremium: false },
+        { title: "Video", icon: Play, isPremium: true },
       ],
     },
   ];
 
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="font-bold" effect={"small_scale"}>
+          <Button className="font-bold w-fit" effect={"small_scale"}>
             <Plus strokeWidth={3} /> Add Element
           </Button>
         </DialogTrigger>
@@ -104,7 +113,7 @@ export const AddFormElement = () => {
                       variant={"ghost"}
                       effect={"small_scale"}
                       className={cn(
-                        "flex justify-start items-center p-1 overflow-hidden not-hover:p-[1px] group hover:border !border-inherit/5 transition-all duration-95",
+                        "relative flex justify-start items-center overflow-hidden not-hover:p-[4px] group hover:border !border-inherit/5 transition-all duration-95",
                         {
                           "hover:bg-gray-200/20 hover:dark:bg-gray-500/10":
                             true,
@@ -148,6 +157,13 @@ export const AddFormElement = () => {
                       <h2 className="text-zinc-600 dark:text-zinc-300">
                         {e.title}
                       </h2>
+
+                      <Sparkles
+                        className={cn(
+                          "absolute right-2 text-yellow-400/80 dark:text-yellow-600 fill-yellow-400/25 dark:fill-yellow-400/45",
+                          { hidden: !e?.isPremium }
+                        )}
+                      />
                     </Button>
                   ))}
                 </div>
@@ -156,6 +172,7 @@ export const AddFormElement = () => {
           </ScrollArea>
         </DialogContent>
       </Dialog>
+      <Card>asdfasdfasdfasdfadsf</Card>
     </div>
   );
 };
