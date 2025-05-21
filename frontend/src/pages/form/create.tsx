@@ -242,7 +242,13 @@ function SharedLayoutAnimation() {
             transition={{ duration: 0.2 }}
             className="grow mt-3"
           >
-            <AddFormElement />
+            {selectedTab.code === "add_elements" ? (
+              <AddFormElement />
+            ) : selectedTab.code === "templates" ? (
+              <h1>Templates</h1>
+            ) : selectedTab.code === "preview" ? (
+              <h1>Preview</h1>
+            ) : null}
           </motion.div>
         </AnimatePresence>
       </main>
@@ -261,7 +267,7 @@ const allIngredients = [
 ];
 
 const tabs = [
-  { id: 1, title: "Add Elements" },
-  { id: 2, title: "Templates" },
-  { id: 3, title: "Preview" },
+  { id: 1, title: "Add Elements", code: "add_elements" },
+  { id: 2, title: "Templates", code: "templates" },
+  { id: 3, title: "Preview", code: "preview" },
 ];

@@ -28,11 +28,13 @@ import {
   DialogTrigger,
 } from "./ui/dialog";
 import { ScrollArea } from "./ui/scroll-area";
+import { cn } from "@/lib/utils";
 
 export const AddFormElement = () => {
   const Elements = [
     {
       name: "Contact Info",
+      color: "pink",
       items: [
         { title: "Contact Info", icon: CircleUser },
         { title: "Email", icon: Mail },
@@ -43,6 +45,7 @@ export const AddFormElement = () => {
     },
     {
       name: "Choice",
+      color: "blue",
       items: [
         { title: "Multiple Choice", icon: LayoutList },
         { title: "Dropdown", icon: ChevronDown },
@@ -53,6 +56,7 @@ export const AddFormElement = () => {
     },
     {
       name: "Rating & Ranking",
+      color: "green",
       items: [
         { title: "Net Promoter Score®", icon: Gauge },
         { title: "Rating", icon: Star },
@@ -86,9 +90,46 @@ export const AddFormElement = () => {
                     <Button
                       variant={"ghost"}
                       effect={"small_scale"}
-                      className="flex justify-start items-center p-1 overflow-hidden"
+                      className={cn(
+                        "flex justify-start items-center p-1 overflow-hidden not-hover:p-[1px] group hover:border !border-inherit/5 transition-all duration-95",
+                        {
+                          "hover:bg-gray-200/20 hover:dark:bg-gray-500/10":
+                            true,
+                        },
+                        {
+                          "hover:bg-blue-200/20 hover:dark:bg-blue-500/10":
+                            el.color === "blue",
+                        },
+
+                        {
+                          "hover:bg-green-200/20 hover:dark:bg-green-500/10":
+                            el.color === "green",
+                        },
+                        {
+                          "hover:bg-pink-200/20 hover:dark:bg-pink-500/10":
+                            el.color === "pink",
+                        }
+                      )}
                     >
-                      <div className="bg-blue-200/95 dark:bg-blue-500/45 text-zinc-800d p-1 rounded-[7px]">
+                      <div
+                        className={cn(
+                          "text-zinc-800d p-1 rounded-[7px] group-hover:border",
+                          { "bg-gray-200/95 dark:bg-gray-500/45": true },
+                          {
+                            "bg-blue-200/95 dark:bg-blue-500/45":
+                              el.color === "blue",
+                          },
+
+                          {
+                            "bg-green-200/95 dark:bg-green-500/45":
+                              el.color === "green",
+                          },
+                          {
+                            "bg-pink-200/95 dark:bg-pink-500/45":
+                              el.color === "pink",
+                          }
+                        )}
+                      >
                         <e.icon />
                       </div>
                       <h2 className="text-zinc-600 dark:text-zinc-300">
