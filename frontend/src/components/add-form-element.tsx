@@ -1,5 +1,19 @@
 import * as motion from "motion/react-client";
 import { Button } from "./ui/button";
+import { useState } from "react";
+import { useSortable } from "@dnd-kit/sortable";
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import {
   AlignLeft,
   ChevronDown,
@@ -7,17 +21,15 @@ import {
   CircleUser,
   FileText,
   Gauge,
+  GripVertical,
   LayoutList,
   Link2,
-  List,
   ListOrdered,
   Mail,
   MapPinned,
-  PencilLine,
   Phone,
   Play,
   Plus,
-  Scale,
   Sparkles,
   SquareCheck,
   Star,
@@ -27,21 +39,13 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
 import { ScrollArea } from "./ui/scroll-area";
 import { cn } from "@/lib/utils";
-import { Separator } from "./ui/separator";
 import { Card } from "./ui/card";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "./ui/tooltip";
 
 export const AddFormElement = () => {
   const Elements = [
@@ -172,7 +176,91 @@ export const AddFormElement = () => {
           </ScrollArea>
         </DialogContent>
       </Dialog>
-      <Card>asdfasdfasdfasdfadsf</Card>
+      <DndContainer />
     </div>
+  );
+};
+
+const DndElementItem = ({ id, children }: any) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    setActivatorNodeRef,
+    transform,
+    transition,
+  } = useSortable({ id });
+
+  const style = {
+    transform: `translate3d(${transform?.x || 0}px, ${transform?.y || 0}px, 0)`,
+    transition,
+  };
+
+  return (
+    <Card
+      ref={setNodeRef}
+      className="flex flex-row items-center p-5 border border-gray-300 mb-1 "
+      style={style}
+    >
+      {/* Drag Handle */}
+      <div
+        ref={setActivatorNodeRef}
+        {...attributes}
+        {...listeners}
+        className="cursor-grab active:cursor-grabbing mr-2 p-1 bg-muted-foreground/15 rounded-md text-muted-foreground"
+      >
+        <GripVertical className="size-5" />
+      </div>
+      {/* Content */}
+      <div className="grow">{children}</div>
+    </Card>
+  );
+};
+
+const DndContainer = () => {
+  const [items, setItems] = useState([
+    { id: "item-1", content: "Item 1" },
+    { id: "item-2", content: "Item 2" },
+    { id: "item-3", content: "Item 3" },
+    { id: "item-4", content: "Item 4" },
+    { id: "item-5", content: "Item 5" },
+    { id: "item-6", content: "Item 6" },
+    { id: "item-7", content: "Item 7" },
+  ]);
+
+  const sensors = useSensors(useSensor(PointerSensor));
+
+  const handleDragEnd = (event: { active: any; over: any }) => {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      setItems((prevItems) => {
+        const oldIndex = prevItems.findIndex((item) => item.id === active.id);
+        const newIndex = prevItems.findIndex((item) => item.id === over.id);
+        return arrayMove(prevItems, oldIndex, newIndex);
+      });
+    }
+  };
+
+  return (
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+    >
+      <SortableContext
+        items={items.map((item) => item.id)}
+        strategy={verticalListSortingStrategy}
+      >
+        {items.map((item, idx) => (
+          <DndElementItem key={item.id} id={item.id}>
+            <div>
+              {idx + 1} &nbsp;
+              {item.content}
+            </div>
+          </DndElementItem>
+        ))}
+      </SortableContext>
+    </DndContext>
   );
 };
