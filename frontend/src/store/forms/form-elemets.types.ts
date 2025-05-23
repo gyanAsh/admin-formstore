@@ -23,10 +23,11 @@ export type FormElements = {
 };
 
 export enum FormFields {
-  url = "url",
+  url = "website",
   consent = "consent",
   multiselect = "multiselect",
   dropdown = "dropdown",
+  ranking = "ranking",
   date = "date",
   text = "text",
   phone = "phone",

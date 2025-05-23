@@ -17,6 +17,7 @@ import {
   AlignLeft,
   CatIcon,
   ChevronDown,
+  Circle,
   CircleCheck,
   CircleUser,
   FileText,
@@ -56,6 +57,7 @@ import {
 import { useParams } from "react-router";
 import { FormElements, FormFields } from "@/store/forms/form-elemets.types";
 import { useStore } from "@nanostores/react";
+import { Badge } from "./ui/badge";
 
 export const AddFormElement = () => {
   const { formId } = useParams();
@@ -64,34 +66,20 @@ export const AddFormElement = () => {
       name: "Contact Info",
       color: "pink",
       items: [
-        {
-          title: "Contact Info",
-          icon: CircleUser,
-          isPremium: false,
-        },
+        { title: "Contact Info", icon: CircleUser, isPremium: false },
         {
           title: "Email",
           value: FormFields.email,
           icon: Mail,
-          isPremium: false,
+          isPremium: true,
         },
-        {
-          title: "Address",
-          value: "address",
-          icon: MapPinned,
-          isPremium: false,
-        },
-        {
-          title: "Phone",
-          value: FormFields.phone,
-          icon: Phone,
-          isPremium: false,
-        },
+        { title: "Address", icon: MapPinned, isPremium: false },
+        { title: "Phone", icon: Phone, isPremium: false },
         {
           title: "Website",
           value: FormFields.url,
           icon: Link2,
-          isPremium: false,
+          isPremium: true,
         },
       ],
     },
@@ -102,7 +90,12 @@ export const AddFormElement = () => {
         { title: "Multiple Choice", icon: LayoutList, isPremium: false },
         { title: "Dropdown", icon: ChevronDown, isPremium: false },
         { title: "Yes/No", icon: CircleCheck, isPremium: false },
-        { title: "Concent", icon: SquareCheck, isPremium: false },
+        {
+          title: "Concent",
+          value: FormFields.consent,
+          icon: SquareCheck,
+          isPremium: true,
+        },
         { title: "Checkbox", icon: Link2, isPremium: false },
       ],
     },
@@ -112,7 +105,12 @@ export const AddFormElement = () => {
       items: [
         { title: "Net Promoter Score®", icon: Gauge, isPremium: false },
         { title: "Rating", icon: Star, isPremium: false },
-        { title: "Ranking", icon: ListOrdered, isPremium: false },
+        {
+          title: "Ranking",
+          value: FormFields.ranking,
+          icon: ListOrdered,
+          isPremium: true,
+        },
         { title: "Matrix", icon: Table, isPremium: false },
       ],
     },
@@ -121,7 +119,12 @@ export const AddFormElement = () => {
       color: "yellow",
       items: [
         { title: "Long Text", icon: FileText, isPremium: false },
-        { title: "Short Text", icon: AlignLeft, isPremium: false },
+        {
+          title: "Short Text",
+          value: FormFields.text,
+          icon: AlignLeft,
+          isPremium: true,
+        },
         { title: "Video", icon: Play, isPremium: true },
       ],
     },
@@ -208,6 +211,10 @@ export const AddFormElement = () => {
                             el.color === "pink",
                         },
                         {
+                          "hover:bg-yellow-200/20 hover:dark:bg-yellow-500/10":
+                            el.color === "yellow",
+                        },
+                        {
                           "bg-gray-300/30 dark:bg-gray-500/10": !!e?.isPremium,
                         }
                       )}
@@ -228,6 +235,10 @@ export const AddFormElement = () => {
                           {
                             "bg-pink-200/95 dark:bg-pink-500/45":
                               el.color === "pink",
+                          },
+                          {
+                            "bg-yellow-200/95 dark:bg-yellow-500/45":
+                              el.color === "yellow",
                           },
                           {
                             " opacity-65 ": !!e?.isPremium,
@@ -281,7 +292,7 @@ const DndElementItem = ({ id, order, children, className }: any) => {
   return (
     <Card
       ref={setNodeRef}
-      className="flex flex-row items-center gap-4 p-5 border border-gray-300 mb-1 "
+      className="flex flex-row items-center gap-4 p-4 border border-gray-300 mb-1 "
       style={style}
     >
       {/* Drag Handle */}
@@ -343,10 +354,67 @@ const DndContainer = () => {
           >
             <div className="flex items-center gap-4">{item.labels.title}</div>
             <section className="flex gap-2.5">
-              <Button variant={"outline"} size={"icon"}>
+              <Badge
+                variant={"outline"}
+                className={cn(
+                  "capitalize font-normal cursor-default",
+                  "rounded-xl gap-1 px-1 pr-2 border border-zinc-900/20 dark:border-zinc-100/30 text-zinc-700 dark:text-zinc-100",
+                  {
+                    " bg-pink-100 dark:bg-pink-500/15 ":
+                      item.badge?.color === "pink",
+                  },
+                  {
+                    " bg-blue-100 dark:bg-blue-500/15 ":
+                      item.badge?.color === "blue",
+                  },
+                  {
+                    " bg-green-100 dark:bg-green-500/15 ":
+                      item.badge?.color === "green",
+                  },
+                  {
+                    " bg-yellow-100 dark:bg-yellow-500/15 ":
+                      item.badge?.color === "yellow",
+                  }
+                )}
+              >
+                <Circle
+                  className={cn(
+                    "size-3 z-1",
+                    {
+                      "fill-pink-400 dark:fill-pink-500":
+                        item.badge?.color === "pink",
+                    },
+                    {
+                      "fill-blue-400 dark:fill-blue-500":
+                        item.badge?.color === "blue",
+                    },
+                    {
+                      "fill-green-400 dark:fill-green-500":
+                        item.badge?.color === "green",
+                    },
+                    {
+                      "fill-yellow-400 dark:fill-yellow-500":
+                        item.badge?.color === "yellow",
+                    }
+                  )}
+                  strokeWidth={0}
+                />
+                {item.badge?.value}
+              </Badge>
+              <Button
+                variant={"outline"}
+                size={"icon"}
+                effect={"scale"}
+                className="size-7 hover:bg-muted-foreground/15"
+              >
                 <MoreHorizontal />
               </Button>
-              <Button variant={"destructive"} size={"icon"}>
+              <Button
+                variant={"destructive"}
+                effect={"scale"}
+                size={"icon"}
+                className="size-7"
+              >
                 <Trash />
               </Button>
             </section>

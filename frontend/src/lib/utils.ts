@@ -115,6 +115,10 @@ export function getDefaultLabelTitle(fieldType: string): string {
       return "Your contact phone number";
     case FormFields.text:
       return "Your comment or question";
+    case FormFields.consent:
+      return "I agree to the terms";
+    case FormFields.ranking:
+      return "Rate your experience";
     default:
       return "Unknown Field";
   }
