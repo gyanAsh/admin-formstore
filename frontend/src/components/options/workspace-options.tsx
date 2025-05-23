@@ -44,7 +44,7 @@ export const createWorkspaceSchema = z.object({
 // AddWorkspaceButton, techinally it's a slimed down version.
 // This current addresses the need for rename compontent. A generic solution
 // would be nice but might take some time.
-function RenameWorkpaceDialogForm({
+function RenameWorkspaceDialogForm({
   setOpenDialog,
 }: {
   setOpenDialog: (bool) => void;
@@ -196,7 +196,7 @@ export const WorkspaceDropdownContentOptions = ({
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogContent className="rounded-4xl">
-        <RenameWorkpaceDialogForm setOpenDialog={setOpenDialog} />
+        <RenameWorkspaceDialogForm setOpenDialog={setOpenDialog} />
       </DialogContent>
 
       <DropdownMenuContent
