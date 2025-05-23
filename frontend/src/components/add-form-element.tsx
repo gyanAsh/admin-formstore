@@ -59,6 +59,7 @@ import { FormElements, FormFields } from "@/store/forms/form-elemets.types";
 import { useStore } from "@nanostores/react";
 import { Badge } from "./ui/badge";
 import { AnimatePresence } from "motion/react";
+import { useState } from "react";
 
 export const AddFormElement = () => {
   const { formId } = useParams();
@@ -321,7 +322,7 @@ const DndElementItem = ({ id, order, children, className }: any) => {
 
 const DndKitContainer = () => {
   const { formId } = useParams();
-
+  const [grabbing, setGrabbing] = useState(false);
   const allForms = useStore($all_forms);
   let elements = allForms.find((e) => e.id === formId)?.elements || [];
 
@@ -330,6 +331,7 @@ const DndKitContainer = () => {
 
   const handleDragEnd = (event: { active: any; over: any }) => {
     const { active, over } = event;
+    setGrabbing(false);
 
     if (active.id !== over.id) {
       const oldIndex = elements.findIndex((item) => item.id === active.id);
@@ -343,6 +345,7 @@ const DndKitContainer = () => {
     <DndContext
       sensors={sensors}
       collisionDetection={closestCenter}
+      onDragStart={() => setGrabbing(true)}
       onDragEnd={handleDragEnd}
     >
       <AnimatePresence>
@@ -353,7 +356,7 @@ const DndKitContainer = () => {
           {elements.map((item, idx) => (
             <motion.div
               key={item.id}
-              layout
+              layout={!grabbing}
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
