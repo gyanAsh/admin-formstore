@@ -3,11 +3,14 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
+  SidebarGroup,
   SidebarHeader,
 } from "@/components/ui/sidebar";
 
 import { Footer } from "@/components/layout/dashboard/Footer";
 import WorkspaceGroup from "./Workspace";
+import { Button } from "@/components/ui/button";
+import { ChartLine, Home } from "lucide-react";
 
 export function AppSidebar() {
   return (
@@ -28,17 +31,26 @@ export function AppSidebar() {
         <h2 className="text-3xl font-semibold">formstore</h2>
       </SidebarHeader>
       <SidebarContent>
-        <ScrollArea className="min-h-[150px]">
-          <WorkspaceGroup />
-          {/* <SidebarGroup>
+        <ScrollArea className="min-h-[150px] space-y-1">
+          {/* <SidebarGroup className="py-1">
             <Button
-              variant="default"
+              variant={"outline"}
               effect="click"
-              className="flex justify-start font-medium"
+              className="flex justify-start text-base text-muted-foreground font-bold"
             >
-              Submission Insights
+              <Home /> Home
+            </Button>
+          </SidebarGroup>
+          <SidebarGroup className="py-1">
+            <Button
+              variant={"outline"}
+              effect="click"
+              className="flex justify-start text-base text-muted-foreground font-bold"
+            >
+              <ChartLine /> Analytics
             </Button>
           </SidebarGroup> */}
+          <WorkspaceGroup />
         </ScrollArea>
       </SidebarContent>
       <SidebarFooter>

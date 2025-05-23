@@ -1,3 +1,5 @@
+import { LucideProps } from "lucide-react";
+
 export interface Forms {
   id: string;
   form_name: string;
@@ -7,6 +9,11 @@ export interface Forms {
 export type FormElements = {
   id: string;
   field: string;
+  badge?: {
+    value: string;
+    color: string;
+  };
+
   labels: {
     title: string;
     description: string;

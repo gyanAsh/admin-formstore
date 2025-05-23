@@ -15,6 +15,7 @@ import {
 } from "@dnd-kit/sortable";
 import {
   AlignLeft,
+  CatIcon,
   ChevronDown,
   CircleCheck,
   CircleUser,
@@ -124,8 +125,14 @@ export const AddFormElement = () => {
     },
   ];
 
-  const elementClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    let value = e.currentTarget.value;
+  const elementClick = ({
+    item,
+    iconColor,
+  }: {
+    item: any;
+    iconColor: string;
+  }) => {
+    let value = item?.value || "";
 
     if (value.length < 1) {
       console.warn({
@@ -138,6 +145,8 @@ export const AddFormElement = () => {
     let element: FormElements = {
       id: generateMicroId(6),
       field: value,
+      badge: { value: value, color: iconColor },
+
       labels: {
         title: getDefaultLabelTitle(value),
         description: "",
@@ -174,7 +183,9 @@ export const AddFormElement = () => {
                       variant={"ghost"}
                       effect={"small_scale"}
                       value={e?.value || ""}
-                      onClick={elementClick}
+                      onClick={() =>
+                        elementClick({ item: e, iconColor: el.color })
+                      }
                       className={cn(
                         "relative flex justify-start items-center overflow-hidden not-hover:p-[4px] group hover:border !border-inherit/5 transition-all duration-95",
                         {
@@ -250,7 +261,7 @@ export const AddFormElement = () => {
   );
 };
 
-const DndElementItem = ({ id, children }: any) => {
+const DndElementItem = ({ id, order, children }: any) => {
   const {
     attributes,
     listeners,
@@ -268,7 +279,7 @@ const DndElementItem = ({ id, children }: any) => {
   return (
     <Card
       ref={setNodeRef}
-      className="flex flex-row items-center p-5 border border-gray-300 mb-1 "
+      className="flex flex-row items-center gap-4 p-5 border border-gray-300 mb-1 "
       style={style}
     >
       {/* Drag Handle */}
@@ -276,10 +287,15 @@ const DndElementItem = ({ id, children }: any) => {
         ref={setActivatorNodeRef}
         {...attributes}
         {...listeners}
-        className="cursor-grab active:cursor-grabbing mr-2 p-1 bg-muted-foreground/15 rounded-md text-muted-foreground"
+        className={cn(
+          "cursor-grab active:cursor-grabbing p-1 bg-muted-foreground/15 rounded-md text-muted-foreground",
+          "flex items-center gap-1 text-sm px-2"
+        )}
       >
-        <GripVertical className="size-5" />
+        <p className="text-secondary-foreground">{order}</p>
+        <GripVertical className="size-3" strokeWidth={2} />
       </div>
+
       {/* Content */}
       <div className="grow">{children}</div>
     </Card>
@@ -317,11 +333,8 @@ const DndContainer = () => {
         strategy={verticalListSortingStrategy}
       >
         {elements.map((item, idx) => (
-          <DndElementItem key={item.id} id={item.id}>
-            <div>
-              {idx + 1} &nbsp;
-              {item.labels.title}
-            </div>
+          <DndElementItem key={item.id} order={idx + 1} id={item.id}>
+            <div className="flex items-center gap-4">{item.labels.title}</div>
           </DndElementItem>
         ))}
       </SortableContext>
