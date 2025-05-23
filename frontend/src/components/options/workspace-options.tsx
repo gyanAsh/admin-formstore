@@ -40,16 +40,12 @@ export const createWorkspaceSchema = z.object({
   }),
 });
 
-// This compontent in a copy / rewrite of the compontent also known as
-// AddWorkspaceButton, techinally it's a slimed down version.
-// This current addresses the need for rename compontent. A generic solution
-// would be nice but might take some time.
 function RenameWorkspaceDialogForm({
   workspaceId,
   setOpenDialog,
 }: {
   workspaceId: string;
-  setOpenDialog: (bool) => void;
+  setOpenDialog: (bool: boolean) => void;
 }) {
   const id = useId();
   const queryClient = useQueryClient();
@@ -76,11 +72,9 @@ function RenameWorkspaceDialogForm({
       const data = await res.json();
       return data;
     },
-    onSuccess: (data) => {
-      queryClient.invalidateQueries([
-        ["api-workspaces"],
-        ["api-workspace-forms"],
-      ]);
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ["api-workspaces"]});
+      queryClient.invalidateQueries({queryKey: ["api-workspace-forms"]});
       setOpenDialog(false);
     },
     onError: (err) => {
@@ -190,21 +184,15 @@ export const WorkspaceDropdownContentOptions = ({
 }) => {
   if (!workspaceId || workspaceId == 0) {
     const params = useParams();
-    workspaceId = params.workspaceId;
+    workspaceId = params.workspaceId ?? "";
   }
   const [openDialog, setOpenDialog] = useState(false);
 
-  /** If you are looking to this and wondering, hey this doesn't seem like a
-   * great design. I know it and you are probably right.
-   * This Dialog arragement was made without the consideration of other
-   * elements like Invite or Delete. Just to get the rename thing to work. I
-   * all the work to the future me or the one of finds this message here.
-   * */
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogContent className="rounded-4xl">
         <RenameWorkspaceDialogForm
-          workspaceId={workspaceId}
+          workspaceId={workspaceId as string}
           setOpenDialog={setOpenDialog}
         />
       </DialogContent>
