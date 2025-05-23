@@ -39,6 +39,103 @@ export const createWorkspaceSchema = z.object({
   }),
 });
 
+function DeleteWorkspaceDialogForm({
+  workspaceId,
+  setOpenDialog,
+}: {
+  workspaceId: string;
+  setOpenDialog: (bool: boolean) => void;
+}) {
+  const queryClient = useQueryClient();
+
+  const workspaceDeleteMutation = useMutation({
+    mutationFn: async () => {
+      const res = await fetch("/api/workspace", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getAuthToken()}`,
+        },
+        body: JSON.stringify({
+          id: parseInt(workspaceId),
+        }),
+      });
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+      const data = await res.json();
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["api-workspaces"] });
+      queryClient.invalidateQueries({ queryKey: ["api-workspace-forms"] });
+      setOpenDialog(false);
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
+  });
+
+  const workspaceDeleteForm = useForm<z.infer<typeof createWorkspaceSchema>>({
+    resolver: zodResolver(createWorkspaceSchema),
+    defaultValues: {},
+  });
+
+  return (
+    <>
+      <div className="flex flex-col items-center">
+        <DialogHeader className="gap-0">
+          <DialogTitle className="sm:text-center text-lg text-zinc-800 dark:text-zinc-200">
+            Delete Workspace
+          </DialogTitle>
+          <DialogDescription className="sm:text-center text-base text-zinc-500 dark:text-zinc-400">
+            Are you sure you want to delete this workspace? This action is
+            permanent and cannot be reversed.
+          </DialogDescription>
+        </DialogHeader>
+      </div>
+      <Form {...workspaceDeleteForm}>
+        <form
+          onSubmit={workspaceDeleteForm.handleSubmit(() =>
+            workspaceDeleteMutation.mutate(),
+          )}
+          className="space-y-5"
+        >
+          {workspaceDeleteMutation.isError && (
+            <div className="flex text-sm gap-2 text-destructive border-l-2 border-l-destructive bg-red-400/15  p-1.5">
+              {workspaceDeleteMutation.error.message}
+            </div>
+          )}
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button
+                type="button"
+                effect="small_scale"
+                className={cn(
+                  "flex-1 rounded-lg text-base",
+                  "bg-transparent border border-white-500 text-white-500 hover:text-white-500 ease-in duration-80",
+                )}
+              >
+                Cancel
+              </Button>
+            </DialogClose>
+            <Button
+              type="submit"
+              effect={"small_scale"}
+              className={cn(
+                "flex-1 rounded-lg text-white! text-base  ease-in duration-80",
+                "bg-destructive/85 hover:bg-red-500 hover:border hover:border-red-300",
+              )}
+            >
+              Delete
+            </Button>
+          </DialogFooter>
+        </form>
+      </Form>
+    </>
+  );
+}
+
 function RenameWorkspaceDialogForm({
   workspaceId,
   setOpenDialog,
@@ -72,8 +169,8 @@ function RenameWorkspaceDialogForm({
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["api-workspaces"]});
-      queryClient.invalidateQueries({queryKey: ["api-workspace-forms"]});
+      queryClient.invalidateQueries({ queryKey: ["api-workspaces"] });
+      queryClient.invalidateQueries({ queryKey: ["api-workspace-forms"] });
       setOpenDialog(false);
     },
     onError: (err) => {
@@ -186,14 +283,24 @@ export const WorkspaceDropdownContentOptions = ({
     workspaceId = params.workspaceId ?? "";
   }
   const [openDialog, setOpenDialog] = useState(false);
+  const [currentOption, setCurrentOption] = useState("");
 
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogContent className="rounded-4xl">
-        <RenameWorkspaceDialogForm
-          workspaceId={workspaceId as string}
-          setOpenDialog={setOpenDialog}
-        />
+        {currentOption == "rename" ? (
+          <RenameWorkspaceDialogForm
+            workspaceId={String(workspaceId)}
+            setOpenDialog={setOpenDialog}
+          />
+        ) : currentOption == "delete" ? (
+          <DeleteWorkspaceDialogForm
+            workspaceId={String(workspaceId)}
+            setOpenDialog={setOpenDialog}
+          />
+        ) : (
+          <div>invalid type </div>
+        )}
       </DialogContent>
 
       <DropdownMenuContent
@@ -204,45 +311,48 @@ export const WorkspaceDropdownContentOptions = ({
         sideOffset={sideOffset}
         asChild
       >
-        <motion.section
-          initial={{
-            translateX: animationDirection == "right" ? "-5%" : "5%",
-            opacity: 0,
-          }}
-          animate={{
-            translateX: "0%",
-            opacity: 100,
-            transition: { duration: 0.25, ease: "easeInOut" },
-          }}
-        >
-          <DropdownMenuItem
-            className="rounded-lg space-x-1 hover:text-zinc-900! hover:dark:text-zinc-100!"
-            asChild
+        <DialogTrigger asChild>
+          <motion.section
+            initial={{
+              translateX: animationDirection == "right" ? "-5%" : "5%",
+              opacity: 0,
+            }}
+            animate={{
+              translateX: "0%",
+              opacity: 100,
+              transition: { duration: 0.25, ease: "easeInOut" },
+            }}
           >
-            <motion.div
-              whileHover={{
-                scale: 1.03,
-                transition: { duration: 0.1 },
-              }}
-              whileTap={{
-                scale: 0.95,
-                transition: { duration: 0.1 },
+            <DropdownMenuItem
+              className="rounded-lg space-x-1 hover:text-zinc-900! hover:dark:text-zinc-100!"
+              asChild
+            >
+              <motion.div
+                whileHover={{
+                  scale: 1.03,
+                  transition: { duration: 0.1 },
+                }}
+                whileTap={{
+                  scale: 0.95,
+                  transition: { duration: 0.1 },
+                }}
+              >
+                <Share2
+                  size={16}
+                  strokeWidth={3}
+                  className="opacity-100"
+                  aria-hidden="true"
+                />
+                <p>Invite</p>
+              </motion.div>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="rounded-lg space-x-1 hover:text-zinc-900! hover:dark:text-zinc-100!"
+              asChild
+              onMouseDown={() => {
+                setCurrentOption("rename");
               }}
             >
-              <Share2
-                size={16}
-                strokeWidth={3}
-                className="opacity-100"
-                aria-hidden="true"
-              />
-              <p>Invite</p>
-            </motion.div>
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            className="rounded-lg space-x-1 hover:text-zinc-900! hover:dark:text-zinc-100!"
-            asChild
-          >
-            <DialogTrigger asChild>
               <motion.div
                 whileHover={{
                   scale: 1.03,
@@ -261,32 +371,35 @@ export const WorkspaceDropdownContentOptions = ({
                 />
                 <p>Rename</p>
               </motion.div>
-            </DialogTrigger>
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            className="rounded-lg space-x-1 bg-destructive/75 shadow-xs hover:text-white! hover:bg-destructive!"
-            asChild
-          >
-            <motion.div
-              whileHover={{
-                scale: 1.03,
-                transition: { duration: 0.1 },
-              }}
-              whileTap={{
-                scale: 0.95,
-                transition: { duration: 0.1 },
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="rounded-lg space-x-1 bg-destructive/75 shadow-xs hover:text-white! hover:bg-destructive!"
+              asChild
+              onMouseDown={() => {
+                setCurrentOption("delete");
               }}
             >
-              <Trash2
-                size={16}
-                strokeWidth={3}
-                className="opacity-100"
-                aria-hidden="true"
-              />
-              <p>Delete</p>
-            </motion.div>
-          </DropdownMenuItem>
-        </motion.section>
+              <motion.div
+                whileHover={{
+                  scale: 1.03,
+                  transition: { duration: 0.1 },
+                }}
+                whileTap={{
+                  scale: 0.95,
+                  transition: { duration: 0.1 },
+                }}
+              >
+                <Trash2
+                  size={16}
+                  strokeWidth={3}
+                  className="opacity-100"
+                  aria-hidden="true"
+                />
+                <p>Delete</p>
+              </motion.div>
+            </DropdownMenuItem>
+          </motion.section>
+        </DialogTrigger>
       </DropdownMenuContent>
     </Dialog>
   );
