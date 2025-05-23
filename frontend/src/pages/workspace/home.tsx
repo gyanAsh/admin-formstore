@@ -58,12 +58,9 @@ export default function WorkspaceHome() {
               Workspace Home Content
             </div>
           ) : (
-            <div>
-              <div className="text-red-600">Error</div>
-              <div>
-                Something went wrong while fetching your forms. Please try again
-                later
-              </div>
+            <div className="w-full h-full flex flex-col items-center justify-center">
+              <div className="text-red-600 font-bold text-4xl">Error</div>
+              <div>Something went wrong. Please try again later</div>
             </div>
           )}
         </section>

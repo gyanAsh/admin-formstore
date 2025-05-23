@@ -1,3 +1,4 @@
+import { FormFields } from "@/store/forms/form-elemets.types";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -101,5 +102,20 @@ export function formatDateISO(isoString: string) {
     return `${day} ${month}, ${year} . ${hour}:${minute}${dayPeriod}`;
   } else {
     return isoString;
+  }
+}
+
+export function getDefaultLabelTitle(fieldType: string): string {
+  switch (fieldType) {
+    case FormFields.email:
+      return "Email Address";
+    case FormFields.url:
+      return "Website URL";
+    case FormFields.phone:
+      return "Phone Number";
+    case FormFields.text:
+      return "Text Input";
+    default:
+      return "Unknown Field";
   }
 }

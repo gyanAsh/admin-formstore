@@ -29,11 +29,7 @@ import { WorkspaceDropdownContentOptions } from "@/components/options/workspace-
 import { MotionConfig } from "motion/react";
 import * as motion from "motion/react-client";
 import { FormPopoverContentOptions } from "@/components/options/form-options";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverTrigger } from "@/components/ui/popover";
 
 export default function Workspace() {
   const { workspaceId } = useParams();
@@ -239,10 +235,10 @@ export default function Workspace() {
                 </div>
               </div>
             ) : (
-              <div>
-                <div className="text-red-600">Error</div>
+              <div className="w-full h-full flex flex-col items-center justify-center">
+                <div className="text-red-600 font-bold text-4xl">Error</div>
                 <div>
-                  Something went wrong while fetching your forms. Please try
+                  Something went wrong while fetching your workspace. Please try
                   again later
                 </div>
               </div>

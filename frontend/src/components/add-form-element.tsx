@@ -1,6 +1,5 @@
-import * as motion from "motion/react-client";
 import { Button } from "./ui/button";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import {
   DndContext,
@@ -44,20 +43,53 @@ import {
   DialogTrigger,
 } from "./ui/dialog";
 import { ScrollArea } from "./ui/scroll-area";
-import { cn } from "@/lib/utils";
+import { cn, generateMicroId, getDefaultLabelTitle } from "@/lib/utils";
 import { Card } from "./ui/card";
+import {
+  $all_forms,
+  addFormElement,
+  setFormElements,
+} from "@/store/forms/form-elements";
+import { useParams } from "react-router";
+import { FormElements, FormFields } from "@/store/forms/form-elemets.types";
+import { useStore } from "@nanostores/react";
 
 export const AddFormElement = () => {
+  const { formId } = useParams();
   const Elements = [
     {
       name: "Contact Info",
       color: "pink",
       items: [
-        { title: "Contact Info", icon: CircleUser, isPremium: false },
-        { title: "Email", icon: Mail, isPremium: false },
-        { title: "Address", icon: MapPinned, isPremium: false },
-        { title: "Phone", icon: Phone, isPremium: false },
-        { title: "Website", icon: Link2, isPremium: false },
+        {
+          title: "Contact Info",
+          icon: CircleUser,
+          isPremium: false,
+        },
+        {
+          title: "Email",
+          value: FormFields.email,
+          icon: Mail,
+          isPremium: false,
+        },
+        {
+          title: "Address",
+          value: "address",
+          icon: MapPinned,
+          isPremium: false,
+        },
+        {
+          title: "Phone",
+          value: FormFields.phone,
+          icon: Phone,
+          isPremium: false,
+        },
+        {
+          title: "Website",
+          value: FormFields.url,
+          icon: Link2,
+          isPremium: false,
+        },
       ],
     },
     {
@@ -92,6 +124,30 @@ export const AddFormElement = () => {
     },
   ];
 
+  const elementClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    let value = e.currentTarget.value;
+
+    if (value.length < 1) {
+      console.warn({
+        type_of_element: typeof value,
+        form_id: formId,
+        element: value,
+      });
+      return;
+    }
+    let element: FormElements = {
+      id: generateMicroId(6),
+      field: value,
+      labels: {
+        title: getDefaultLabelTitle(value),
+        description: "",
+      },
+      required: false,
+    };
+
+    if (formId) addFormElement(formId, element);
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <Dialog>
@@ -110,12 +166,15 @@ export const AddFormElement = () => {
           <ScrollArea className="max-h-[70dvh] bg-gray-100  dark:bg-slate-800/65 rounded-xl ">
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 m-6">
               {Elements.map((el) => (
-                <div className="flex flex-col gap-1.5">
+                <div key={el.name} className="flex flex-col gap-1.5">
                   <h2 className="font-bold text-sm mb-2">{el.name}</h2>
                   {el.items.map((e) => (
                     <Button
+                      key={e.title}
                       variant={"ghost"}
                       effect={"small_scale"}
+                      value={e?.value || ""}
+                      onClick={elementClick}
                       className={cn(
                         "relative flex justify-start items-center overflow-hidden not-hover:p-[4px] group hover:border !border-inherit/5 transition-all duration-95",
                         {
@@ -134,6 +193,9 @@ export const AddFormElement = () => {
                         {
                           "hover:bg-pink-200/20 hover:dark:bg-pink-500/10":
                             el.color === "pink",
+                        },
+                        {
+                          "bg-gray-300/30 dark:bg-gray-500/10": !!e?.isPremium,
                         }
                       )}
                     >
@@ -153,12 +215,19 @@ export const AddFormElement = () => {
                           {
                             "bg-pink-200/95 dark:bg-pink-500/45":
                               el.color === "pink",
+                          },
+                          {
+                            " opacity-65 ": !!e?.isPremium,
                           }
                         )}
                       >
                         <e.icon />
                       </div>
-                      <h2 className="text-zinc-600 dark:text-zinc-300">
+                      <h2
+                        className={cn("text-zinc-600 dark:text-zinc-300", {
+                          " opacity-65 ": !!e?.isPremium,
+                        })}
+                      >
                         {e.title}
                       </h2>
 
@@ -218,27 +287,22 @@ const DndElementItem = ({ id, children }: any) => {
 };
 
 const DndContainer = () => {
-  const [items, setItems] = useState([
-    { id: "item-1", content: "Item 1" },
-    { id: "item-2", content: "Item 2" },
-    { id: "item-3", content: "Item 3" },
-    { id: "item-4", content: "Item 4" },
-    { id: "item-5", content: "Item 5" },
-    { id: "item-6", content: "Item 6" },
-    { id: "item-7", content: "Item 7" },
-  ]);
+  const { formId } = useParams();
 
+  const allForms = useStore($all_forms);
+  let elements = allForms.find((e) => e.id === formId)?.elements || [];
+
+  console.log({ allForms, el: elements });
   const sensors = useSensors(useSensor(PointerSensor));
 
   const handleDragEnd = (event: { active: any; over: any }) => {
     const { active, over } = event;
 
     if (active.id !== over.id) {
-      setItems((prevItems) => {
-        const oldIndex = prevItems.findIndex((item) => item.id === active.id);
-        const newIndex = prevItems.findIndex((item) => item.id === over.id);
-        return arrayMove(prevItems, oldIndex, newIndex);
-      });
+      const oldIndex = elements.findIndex((item) => item.id === active.id);
+      const newIndex = elements.findIndex((item) => item.id === over.id);
+      let allElements = arrayMove(elements, oldIndex, newIndex);
+      if (formId) setFormElements(formId, allElements);
     }
   };
 
@@ -249,14 +313,14 @@ const DndContainer = () => {
       onDragEnd={handleDragEnd}
     >
       <SortableContext
-        items={items.map((item) => item.id)}
+        items={elements.map((item) => item.id)}
         strategy={verticalListSortingStrategy}
       >
-        {items.map((item, idx) => (
+        {elements.map((item, idx) => (
           <DndElementItem key={item.id} id={item.id}>
             <div>
               {idx + 1} &nbsp;
-              {item.content}
+              {item.labels.title}
             </div>
           </DndElementItem>
         ))}

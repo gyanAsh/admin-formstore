@@ -4,8 +4,7 @@ import { useParams } from "react-router";
 import BreadCrumbs from "@/components/bread-crumbs";
 import ModeToggle from "@/components/theme-toggle";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Separator } from "@/components/ui/separator";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getAuthToken } from "@/lib/utils";
 import UpgradeFormstore from "@/components/upgrade-premium";
 import { SidebarTriggerButton } from "../workspace";
@@ -14,37 +13,38 @@ import { AnimatePresence } from "motion/react";
 import * as motion from "motion/react-client";
 import { useState } from "react";
 import { AddFormElement } from "@/components/add-form-element";
+import { addForm } from "@/store/forms/form-elements";
 
-type Form = {
-  id: number;
-  title: string;
-  created_at: string;
-  updated_at: string;
-  workspace_id: string;
-};
+// type Form = {
+//   id: number;
+//   title: string;
+//   created_at: string;
+//   updated_at: string;
+//   workspace_id: string;
+// };
 
-type Workspace = {
-  id: number;
-  name: string;
-  user_id: number;
-  created_at: string;
-  updated_at: string;
-};
+// type Workspace = {
+//   id: number;
+//   name: string;
+//   user_id: number;
+//   created_at: string;
+//   updated_at: string;
+// };
 
-export enum FormTypes {
-  multiselect = "multiple_selection",
-  dropdown = "drop_down",
-  date = "date",
-  text = "text",
-  phone = "phone",
-  email = "email",
-}
+// export enum FormTypes {
+//   multiselect = "multiple_selection",
+//   dropdown = "drop_down",
+//   date = "date",
+//   text = "text",
+//   phone = "phone",
+//   email = "email",
+// }
 
-export type FormElement = {
-  id: number;
-  type: FormTypes;
-  value: string;
-};
+// export type FormElement = {
+//   id: number;
+//   type: FormTypes;
+//   value: string;
+// };
 
 export default function CreateForm() {
   const { workspaceId, formId } = useParams();
@@ -62,16 +62,25 @@ export default function CreateForm() {
         },
       });
       const data = await res.json();
-      return data as {
-        form: Form;
-        workspace: Workspace;
-        form_elements: FormElement[];
-      };
+
+      if (data?.form?.id)
+        addForm({
+          id: String(data.form.id),
+          form_name: data.form.title,
+        });
+
+      return data;
+      // return data as {
+      //   form: Form;
+      //   workspace: Workspace;
+      //   form_elements: FormElement[];
+      // };
     },
+    refetchOnWindowFocus: false,
     queryKey: ["api-form-id"],
   });
 
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
   // const formElementMutation = useMutation({
   //   mutationFn: async ({
@@ -121,7 +130,7 @@ export default function CreateForm() {
                 currentPage={formData?.form?.title || `Form: ID${formId}`}
                 otherPageLinks={[
                   {
-                    name: "Workspace",
+                    name: "Dashboard",
                     path: "/workspace",
                   },
                   {
@@ -160,35 +169,18 @@ export default function CreateForm() {
                       Create Form
                     </h2>
                     <h2 className="text-3xl font-bold">
-                      {formData?.workspace?.name || "Current Form"}
+                      {formData?.form?.title || "Current Form"}
                     </h2>
                   </div>
                   <div className="flex gap-2">
-                    {/* <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant={"outline"} size={"icon"}>
-                          <MoreHorizontal />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <FormPopoverContentOptions
-                        sideOffset={2}
-                        alignOffset={0}
-                        animationDirection="right"
-                      />
-                    </DropdownMenu> */}
                     <PublishFormButton />
                   </div>
                 </section>
-                {/* Add Elements tab1 | Template tab2 | {`preview -> (link)`}
-                <Separator />
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-3">
-                  Form Elements Lisitng
-                </div> */}
-                <SharedLayoutAnimation />
+                <FormTabs />
               </div>
             ) : (
-              <div>
-                <div className="text-red-600">Error</div>
+              <div className="w-full h-full flex flex-col items-center justify-center">
+                <div className="text-red-600 font-bold text-4xl">Error</div>
                 <div>
                   Something went wrong while fetching your forms. Please try
                   again later
@@ -202,7 +194,7 @@ export default function CreateForm() {
   );
 }
 
-function SharedLayoutAnimation() {
+function FormTabs() {
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
 
   return (
@@ -244,8 +236,8 @@ function SharedLayoutAnimation() {
           >
             {selectedTab.code === "add_elements" ? (
               <AddFormElement />
-            ) : selectedTab.code === "templates" ? (
-              <h1>Templates</h1>
+            ) : selectedTab.code === "designs" ? (
+              <h1>Designs</h1>
             ) : selectedTab.code === "preview" ? (
               <h1>Preview</h1>
             ) : null}
@@ -256,18 +248,8 @@ function SharedLayoutAnimation() {
   );
 }
 
-const allIngredients = [
-  { icon: "🍅", label: "Tomato" },
-  { icon: "🥬", label: "Lettuce" },
-  { icon: "🧀", label: "Cheese" },
-  { icon: "🥕", label: "Carrot" },
-  { icon: "🍌", label: "Banana" },
-  { icon: "🫐", label: "Blueberries" },
-  { icon: "🥂", label: "Champers?" },
-];
-
 const tabs = [
   { id: 1, title: "Add Elements", code: "add_elements" },
-  { id: 2, title: "Templates", code: "templates" },
+  { id: 2, title: "Designs", code: "designs" },
   { id: 3, title: "Preview", code: "preview" },
 ];

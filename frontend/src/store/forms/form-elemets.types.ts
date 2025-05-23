@@ -1,0 +1,47 @@
+export interface Forms {
+  id: string;
+  form_name: string;
+  elements?: FormElements[];
+}
+
+export type FormElements = {
+  id: string;
+  field: string;
+  labels: {
+    title: string;
+    description: string;
+  };
+  required: boolean;
+  validations?: ValidatonTypes;
+};
+
+export enum FormFields {
+  url = "url",
+  consent = "consent",
+  multiselect = "multiselect",
+  dropdown = "dropdown",
+  date = "date",
+  text = "text",
+  phone = "phone",
+  email = "email",
+}
+export type ValidatonTypes =
+  | EmailValidation
+  | ConsentValidation
+  | UrlValidation;
+
+// Specific validation rules for each field type
+export interface EmailValidation {
+  pattern?: string; // e.g., regex pattern for custom email validation
+  minLength?: number;
+  maxLength?: number;
+}
+
+export interface UrlValidation {
+  pattern?: string; // e.g., regex pattern for custom URL validation
+  protocols?: string[]; // e.g., ['http', 'https']
+}
+
+export interface ConsentValidation {
+  acceptCondition?: boolean; // e.g., whether the checkbox must be checked
+}
