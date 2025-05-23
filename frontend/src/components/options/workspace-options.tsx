@@ -45,13 +45,14 @@ export const createWorkspaceSchema = z.object({
 // This current addresses the need for rename compontent. A generic solution
 // would be nice but might take some time.
 function RenameWorkspaceDialogForm({
+  workspaceId,
   setOpenDialog,
 }: {
+  workspaceId: string;
   setOpenDialog: (bool) => void;
 }) {
   const id = useId();
   const queryClient = useQueryClient();
-  const { workspaceId } = useParams();
 
   const workspaceMutation = useMutation({
     mutationFn: async ({ name }: { name: string }) => {
@@ -153,7 +154,7 @@ function RenameWorkspaceDialogForm({
                 effect="small_scale"
                 className={cn(
                   "flex-1 rounded-lg text-base",
-                  "bg-transparent border border-white-500 text-white-500 hover:text-white-500 ease-in duration-80 hover:bg-destructive/25"
+                  "bg-transparent border border-white-500 text-white-500 hover:text-white-500 ease-in duration-80 hover:bg-destructive/25",
                 )}
               >
                 Cancel
@@ -164,7 +165,7 @@ function RenameWorkspaceDialogForm({
               effect={"small_scale"}
               className={cn(
                 "flex-1 rounded-lg text-white! text-base  ease-in duration-80",
-                "bg-primary/85"
+                "bg-primary/85",
               )}
             >
               Create
@@ -177,14 +178,20 @@ function RenameWorkspaceDialogForm({
 }
 
 export const WorkspaceDropdownContentOptions = ({
+  workspaceId,
   alignOffset = -5,
   sideOffset = 10,
   animationDirection = "left",
 }: {
+  workspaceId: number | string;
   alignOffset?: number;
   sideOffset?: number;
   animationDirection?: "left" | "right";
 }) => {
+  if (!workspaceId || workspaceId == 0) {
+    const params = useParams();
+    workspaceId = params.workspaceId;
+  }
   const [openDialog, setOpenDialog] = useState(false);
 
   /** If you are looking to this and wondering, hey this doesn't seem like a
@@ -196,7 +203,10 @@ export const WorkspaceDropdownContentOptions = ({
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogContent className="rounded-4xl">
-        <RenameWorkspaceDialogForm setOpenDialog={setOpenDialog} />
+        <RenameWorkspaceDialogForm
+          workspaceId={workspaceId}
+          setOpenDialog={setOpenDialog}
+        />
       </DialogContent>
 
       <DropdownMenuContent
