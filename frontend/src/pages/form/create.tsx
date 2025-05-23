@@ -116,8 +116,8 @@ export default function CreateForm() {
 
   return (
     <>
-      <main className="flex grow w-full flex-col items-center justify-center p-2 ">
-        <Card className="flex w-full grow p-[0px_8px_8px_8px] h-[97.5dvh] overflow-y-auto border-sidebar-accent relative">
+      <main className="flex grow w-full flex-col items-center justify-center md:p-2 ">
+        <Card className="flex w-full grow p-[0px_8px_8px_8px] h-[97.5dvh] overflow-y-auto border-sidebar-accent relative max-md:rounded-none">
           {/* top-navbar */}
           <section
             className={cn(
