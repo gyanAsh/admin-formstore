@@ -108,13 +108,13 @@ export function formatDateISO(isoString: string) {
 export function getDefaultLabelTitle(fieldType: string): string {
   switch (fieldType) {
     case FormFields.email:
-      return "Email Address";
+      return "Enter your contact email address";
     case FormFields.url:
-      return "Website URL";
+      return "Enter your website's URL";
     case FormFields.phone:
-      return "Phone Number";
+      return "Your contact phone number";
     case FormFields.text:
-      return "Text Input";
+      return "Your comment or question";
     default:
       return "Unknown Field";
   }

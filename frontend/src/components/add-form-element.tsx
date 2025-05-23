@@ -27,6 +27,7 @@ import {
   ListOrdered,
   Mail,
   MapPinned,
+  MoreHorizontal,
   Phone,
   Play,
   Plus,
@@ -34,6 +35,7 @@ import {
   SquareCheck,
   Star,
   Table,
+  Trash,
 } from "lucide-react";
 import {
   Dialog,
@@ -261,7 +263,7 @@ export const AddFormElement = () => {
   );
 };
 
-const DndElementItem = ({ id, order, children }: any) => {
+const DndElementItem = ({ id, order, children, className }: any) => {
   const {
     attributes,
     listeners,
@@ -297,7 +299,7 @@ const DndElementItem = ({ id, order, children }: any) => {
       </div>
 
       {/* Content */}
-      <div className="grow">{children}</div>
+      <div className={cn("grow", className)}>{children}</div>
     </Card>
   );
 };
@@ -333,8 +335,21 @@ const DndContainer = () => {
         strategy={verticalListSortingStrategy}
       >
         {elements.map((item, idx) => (
-          <DndElementItem key={item.id} order={idx + 1} id={item.id}>
+          <DndElementItem
+            key={item.id}
+            order={idx + 1}
+            id={item.id}
+            className={"flex items-center justify-between"}
+          >
             <div className="flex items-center gap-4">{item.labels.title}</div>
+            <section className="flex gap-2.5">
+              <Button variant={"outline"} size={"icon"}>
+                <MoreHorizontal />
+              </Button>
+              <Button variant={"destructive"} size={"icon"}>
+                <Trash />
+              </Button>
+            </section>
           </DndElementItem>
         ))}
       </SortableContext>
