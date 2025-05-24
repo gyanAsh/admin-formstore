@@ -19,7 +19,6 @@ import {
   Circle,
   CircleCheck,
   CircleUser,
-  Cog,
   FileText,
   Gauge,
   GripVertical,
@@ -28,12 +27,10 @@ import {
   ListOrdered,
   Mail,
   MapPinned,
-  MoreHorizontal,
   Phone,
   Play,
   Plus,
   Settings,
-  Settings2,
   Sparkles,
   SquareCheck,
   Star,
@@ -63,6 +60,7 @@ import { useStore } from "@nanostores/react";
 import { Badge } from "./ui/badge";
 import { AnimatePresence } from "motion/react";
 import { useState } from "react";
+import { FromElementDialogContent } from "./options/form-element-options";
 
 export const AddFormElement = () => {
   const { formId } = useParams();
@@ -421,14 +419,20 @@ const DndKitContainer = () => {
                     />
                     {item.badge?.value}
                   </Badge>
-                  <Button
-                    variant={"outline"}
-                    size={"icon"}
-                    effect={"scale"}
-                    className="size-7 hover:bg-muted-foreground/15"
-                  >
-                    <Settings />
-                  </Button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button
+                        variant={"outline"}
+                        size={"icon"}
+                        effect={"scale"}
+                        className="size-7 not-dark:text-zinc-800 hover:bg-muted-foreground/15"
+                      >
+                        <Settings />
+                      </Button>
+                    </DialogTrigger>
+                    <FromElementDialogContent />
+                  </Dialog>
+
                   <Button
                     variant={"destructive"}
                     effect={"scale"}
