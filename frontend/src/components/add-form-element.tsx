@@ -19,6 +19,7 @@ import {
   Circle,
   CircleCheck,
   CircleUser,
+  Cog,
   FileText,
   Gauge,
   GripVertical,
@@ -31,6 +32,8 @@ import {
   Phone,
   Play,
   Plus,
+  Settings,
+  Settings2,
   Sparkles,
   SquareCheck,
   Star,
@@ -424,7 +427,7 @@ const DndKitContainer = () => {
                     effect={"scale"}
                     className="size-7 hover:bg-muted-foreground/15"
                   >
-                    <MoreHorizontal />
+                    <Settings />
                   </Button>
                   <Button
                     variant={"destructive"}
