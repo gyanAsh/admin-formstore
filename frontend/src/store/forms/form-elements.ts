@@ -53,6 +53,24 @@ export function addFormElement(formId: string, newElement: FormElements) {
     })
   );
 }
+export function updateFormElement(
+  formId: string,
+  updatedElement: FormElements
+) {
+  $all_forms.set(
+    $all_forms.get().map((form) => {
+      if (form.id === formId) {
+        return {
+          ...form,
+          elements: form.elements?.map((e) =>
+            e.id === updatedElement.id ? updatedElement : e
+          ),
+        };
+      }
+      return form;
+    })
+  );
+}
 
 export function removeFormElement(formId: string, elementId: string) {
   $all_forms.set(

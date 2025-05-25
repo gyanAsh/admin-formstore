@@ -21,23 +21,22 @@ import {
   NumberField,
 } from "react-aria-components";
 import { Switch } from "../ui/switch";
+import { updateFormElement } from "@/store/forms/form-elements";
 
 export const FromElementDialogContent = ({
   order,
+  formId,
   element,
 }: {
   order: string | number;
+  formId: string;
   element: FormElements;
 }) => {
   const [stateElement, setStateElement] = useState(element);
-
-  const [stateDescription, setStateDescription] = useState({
-    show: false,
-    text: "",
+  console.log({
+    element,
+    stateElement,
   });
-  const [required, setRequired] = useState<boolean>(false);
-
-  console.log({ element, stateElement });
   return (
     <DialogContent className="md:max-w-[700px] rounded-4xl">
       <DialogHeader>
@@ -77,23 +76,32 @@ export const FromElementDialogContent = ({
       </DialogHeader>
       <div className="flex flex-col space-y-4">
         <div className="grid flex-1 gap-2">
-          <Label htmlFor="element-question">
-            Question <span className="text-red-500">*</span>
-          </Label>
+          <Label htmlFor="element-question">Question</Label>
           <Input
             id="element-question"
+            value={stateElement.labels.title}
+            onChange={(e) =>
+              setStateElement((prev) => ({
+                ...prev,
+                labels: { ...prev.labels, title: e.target.value },
+              }))
+            }
             className="border-accent-foreground/40"
             placeholder="Your Question here."
           />
         </div>
         <div className="grid flex-1 gap-2">
-          <Label htmlFor="element-description">
-            Description{" "}
-            <span className="text-muted-foreground text-xs">{`(Optional)`}</span>
-          </Label>
+          <Label htmlFor="element-description">Description </Label>
           <div className="flex items-center space-x-3">
             <Input
               id="element-description"
+              value={stateElement.labels.description}
+              onChange={(e) =>
+                setStateElement((prev) => ({
+                  ...prev,
+                  labels: { ...prev.labels, description: e.target.value },
+                }))
+              }
               className="border-accent-foreground/40"
               placeholder="Your Description here."
             />
@@ -122,8 +130,10 @@ export const FromElementDialogContent = ({
       )}
       <div className="flex flex-col w-fit space-y-4">
         <RequiredToggle
-          state={required}
-          onClick={() => setRequired((e) => !e)}
+          state={stateElement.required}
+          onClick={() =>
+            setStateElement((e) => ({ ...e, required: !e.required }))
+          }
         />
       </div>
       <DialogFooter className="sm:justify-start mt-3 space-x-2">
@@ -139,16 +149,19 @@ export const FromElementDialogContent = ({
             Cancel
           </Button>
         </DialogClose>
-        <Button
-          type="submit"
-          effect={"small_scale"}
-          className={cn(
-            "flex-1 rounded-lg text-base  ease-in duration-80",
-            "bg-primary/85 text-white! "
-          )}
-        >
-          Update
-        </Button>
+        <DialogClose asChild>
+          <Button
+            type="submit"
+            effect={"small_scale"}
+            onClick={() => updateFormElement(formId, stateElement)}
+            className={cn(
+              "flex-1 rounded-lg text-base  ease-in duration-80",
+              "bg-primary/85 text-white! "
+            )}
+          >
+            Update
+          </Button>
+        </DialogClose>
       </DialogFooter>
     </DialogContent>
   );
@@ -229,10 +242,7 @@ const ConcentValidations = () => {
   return (
     <div className="flex items-center space-x-4">
       <div className="grid flex-1 gap-2">
-        <Label htmlFor="accept-text">
-          Accept Button Text{" "}
-          <span className="text-muted-foreground text-xs">{`(Optional)`}</span>
-        </Label>
+        <Label htmlFor="accept-text">Accept Button Text </Label>
         <Input
           id="accept-text"
           type="text"
@@ -242,10 +252,7 @@ const ConcentValidations = () => {
         />
       </div>
       <div className="grid flex-1 gap-2">
-        <Label htmlFor="reject-text">
-          Reject Button Text{" "}
-          <span className="text-muted-foreground text-xs">{`(Optional)`}</span>
-        </Label>
+        <Label htmlFor="reject-text">Reject Button Text </Label>
         <Input
           id="reject-text"
           type="text"
@@ -261,10 +268,7 @@ const ConcentValidations = () => {
 const URLValidations = () => {
   return (
     <div className="grid flex-1 gap-2">
-      <Label htmlFor="url-placeholder">
-        Placeholder{" "}
-        <span className="text-muted-foreground text-xs">{`(Optional)`}</span>
-      </Label>
+      <Label htmlFor="url-placeholder">Placeholder </Label>
       <Input
         id="url-placeholder"
         type="text"
@@ -278,10 +282,7 @@ const URLValidations = () => {
 const EmailValidations = () => {
   return (
     <div className="grid flex-1 gap-2">
-      <Label htmlFor="email-placeholder">
-        Placeholder{" "}
-        <span className="text-muted-foreground text-xs">{`(Optional)`}</span>
-      </Label>
+      <Label htmlFor="email-placeholder">Placeholder </Label>
       <Input
         id="email-placeholder"
         type="text"

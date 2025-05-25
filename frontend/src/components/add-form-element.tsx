@@ -433,6 +433,7 @@ const DndKitContainer = () => {
                       </DialogTrigger>
                       <FromElementDialogContent
                         order={idx + 1}
+                        formId={formId!}
                         element={item}
                       />
                     </Dialog>
