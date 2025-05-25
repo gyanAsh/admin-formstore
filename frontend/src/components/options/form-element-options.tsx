@@ -1,11 +1,4 @@
-import {
-  BookmarkIcon,
-  Dot,
-  MinusIcon,
-  Plus,
-  PlusIcon,
-  Trash,
-} from "lucide-react";
+import { Dot, MinusIcon, PlusIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import {
   DialogClose,
@@ -18,8 +11,6 @@ import {
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { useState } from "react";
-import * as motion from "motion/react-client";
-import { AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 import { FormElements, FormFields } from "@/store/forms/form-elemets.types";
 import {
@@ -29,14 +20,6 @@ import {
   Label as AriaLabel,
   NumberField,
 } from "react-aria-components";
-import { Separator } from "../ui/separator";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../ui/tooltip";
-import { Toggle } from "../ui/toggle";
 import { Switch } from "../ui/switch";
 
 export const FromElementDialogContent = ({
@@ -178,11 +161,13 @@ function RequiredToggle({
   onClick: () => void;
 }) {
   return (
-    <div className="flex items-center gap-2.5 cursor-pointer">
-      <Label htmlFor="required">Set Field as Required</Label>
+    <div className="flex items-center gap-2.5">
+      <Label htmlFor="required" className="cursor-pointer">
+        Set Field as Required
+      </Label>
       <Switch
         id="required"
-        className="scale-85"
+        className="scale-85 cursor-pointer"
         checked={state}
         onCheckedChange={onClick}
       />
@@ -245,7 +230,7 @@ const ConcentValidations = () => {
     <div className="flex items-center space-x-4">
       <div className="grid flex-1 gap-2">
         <Label htmlFor="accept-text">
-          Accept Text{" "}
+          Accept Button Text{" "}
           <span className="text-muted-foreground text-xs">{`(Optional)`}</span>
         </Label>
         <Input
@@ -258,7 +243,7 @@ const ConcentValidations = () => {
       </div>
       <div className="grid flex-1 gap-2">
         <Label htmlFor="reject-text">
-          Reject Text{" "}
+          Reject Button Text{" "}
           <span className="text-muted-foreground text-xs">{`(Optional)`}</span>
         </Label>
         <Input

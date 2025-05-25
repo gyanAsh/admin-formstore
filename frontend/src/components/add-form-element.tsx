@@ -368,81 +368,86 @@ const DndKitContainer = () => {
                 id={item.id}
                 className={"flex items-center justify-between"}
               >
-                <div className="flex items-center gap-4 font-semibold tracking-[-0.007em] text-base">
-                  {item.labels.title}
-                </div>
-                <section className="flex gap-2.5">
-                  <Badge
-                    variant={"outline"}
-                    className={cn(
-                      "capitalize font-normal cursor-default",
-                      "rounded-xl gap-1 px-1 pr-2 border border-zinc-900/20 dark:border-zinc-100/30 text-zinc-700 dark:text-zinc-100",
-                      {
-                        " bg-pink-100 dark:bg-pink-500/15 ":
-                          item.badge?.color === "pink",
-                      },
-                      {
-                        " bg-blue-100 dark:bg-blue-500/15 ":
-                          item.badge?.color === "blue",
-                      },
-                      {
-                        " bg-green-100 dark:bg-green-500/15 ":
-                          item.badge?.color === "green",
-                      },
-                      {
-                        " bg-yellow-100 dark:bg-yellow-500/15 ":
-                          item.badge?.color === "yellow",
-                      }
-                    )}
-                  >
-                    <Circle
+                <div className="flex min-sm:items-center justify-between max-w-full grow max-sm:gap-2.5 max-sm:flex-col">
+                  <div className="flex items-center gap-4 font-semibold tracking-[-0.007em] text-base grow">
+                    {item.labels.title}
+                  </div>
+                  <section className="flex gap-2.5 max-sm:justify-end">
+                    <Badge
+                      variant={"outline"}
                       className={cn(
-                        "size-3 z-1",
+                        "capitalize font-normal cursor-default",
+                        "rounded-xl gap-1 px-1 pr-2 border border-zinc-900/20 dark:border-zinc-100/30 text-zinc-700 dark:text-zinc-100",
                         {
-                          "fill-pink-400 dark:fill-pink-500":
+                          " bg-pink-100 dark:bg-pink-500/15 ":
                             item.badge?.color === "pink",
                         },
                         {
-                          "fill-blue-400 dark:fill-blue-500":
+                          " bg-blue-100 dark:bg-blue-500/15 ":
                             item.badge?.color === "blue",
                         },
                         {
-                          "fill-green-400 dark:fill-green-500":
+                          " bg-green-100 dark:bg-green-500/15 ":
                             item.badge?.color === "green",
                         },
                         {
-                          "fill-yellow-400 dark:fill-yellow-500":
+                          " bg-yellow-100 dark:bg-yellow-500/15 ":
                             item.badge?.color === "yellow",
                         }
                       )}
-                      strokeWidth={0}
-                    />
-                    {item.badge?.value}
-                  </Badge>
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button
-                        variant={"outline"}
-                        size={"icon"}
-                        effect={"scale"}
-                        className="size-7 not-dark:text-zinc-800 hover:bg-muted-foreground/15"
-                      >
-                        <Settings />
-                      </Button>
-                    </DialogTrigger>
-                    <FromElementDialogContent order={idx + 1} element={item} />
-                  </Dialog>
+                    >
+                      <Circle
+                        className={cn(
+                          "size-3 z-1",
+                          {
+                            "fill-pink-400 dark:fill-pink-500":
+                              item.badge?.color === "pink",
+                          },
+                          {
+                            "fill-blue-400 dark:fill-blue-500":
+                              item.badge?.color === "blue",
+                          },
+                          {
+                            "fill-green-400 dark:fill-green-500":
+                              item.badge?.color === "green",
+                          },
+                          {
+                            "fill-yellow-400 dark:fill-yellow-500":
+                              item.badge?.color === "yellow",
+                          }
+                        )}
+                        strokeWidth={0}
+                      />
+                      {item.badge?.value}
+                    </Badge>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button
+                          variant={"outline"}
+                          size={"icon"}
+                          effect={"scale"}
+                          className="size-7 not-dark:text-zinc-800 hover:bg-muted-foreground/15"
+                        >
+                          <Settings />
+                        </Button>
+                      </DialogTrigger>
+                      <FromElementDialogContent
+                        order={idx + 1}
+                        element={item}
+                      />
+                    </Dialog>
 
-                  <Button
-                    variant={"destructive"}
-                    effect={"scale"}
-                    size={"icon"}
-                    className="size-7"
-                    onClick={() => removeFormElement(formId!, item.id)}
-                  >
-                    <Trash />
-                  </Button>
-                </section>
+                    <Button
+                      variant={"destructive"}
+                      effect={"scale"}
+                      size={"icon"}
+                      className="size-7"
+                      onClick={() => removeFormElement(formId!, item.id)}
+                    >
+                      <Trash />
+                    </Button>
+                  </section>
+                </div>
               </DndElementItem>
             </motion.div>
           ))}
