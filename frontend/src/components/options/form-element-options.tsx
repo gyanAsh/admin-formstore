@@ -23,7 +23,14 @@ import {
 import { Switch } from "../ui/switch";
 import { updateFormElement } from "@/store/forms/form-elements";
 import { Textarea } from "../ui/textarea";
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { RakingValues } from "@/store/forms/values";
 export const FromElementDialogContent = ({
   order,
   formId,
@@ -125,6 +132,11 @@ export const FromElementDialogContent = ({
       {stateElement.badge?.value === FormFields.email && (
         <div className="flex flex-col space-y-4">
           <EmailValidations />
+        </div>
+      )}
+      {stateElement.badge?.value === FormFields.ranking && (
+        <div className="flex flex-col space-y-4">
+          <RankingValidations />
         </div>
       )}
       <div className="flex flex-col w-fit space-y-4">
@@ -288,6 +300,66 @@ const EmailValidations = () => {
         className="border-accent-foreground/40"
         placeholder="example@email.com"
       />
+    </div>
+  );
+};
+
+const RankingValidations = () => {
+  return (
+    <div className="flex items-center space-x-4">
+      <NumberField defaultValue={5} minValue={1} maxValue={10}>
+        <div className="*:not-first:mt-2">
+          <AriaLabel className="text-foreground text-sm font-medium">
+            Min characters
+          </AriaLabel>
+          <Group className="border-input data-focus-within:border-ring data-focus-within:ring-ring/50 data-focus-within:has-aria-invalid:ring-destructive/20 dark:data-focus-within:has-aria-invalid:ring-destructive/40 data-focus-within:has-aria-invalid:border-destructive relative inline-flex h-9 w-full items-center overflow-hidden rounded-md border text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none data-disabled:opacity-50 data-focus-within:ring-[3px]">
+            <AriaButton
+              slot="decrement"
+              className="border-input rounded-none bg-background text-muted-foreground/80 hover:bg-accent hover:text-foreground -ms-px flex aspect-square h-[inherit] items-center justify-center rounded-s-md border text-sm transition-[color,box-shadow] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <MinusIcon size={16} aria-hidden="true" />
+            </AriaButton>
+            <AriaInput className="bg-background rounded-none text-foreground w-full grow px-3 py-2 text-center tabular-nums" />
+            <AriaButton
+              slot="increment"
+              className="border-input rounded-none bg-background text-muted-foreground/80 hover:bg-accent hover:text-foreground -me-px flex aspect-square h-[inherit] items-center justify-center rounded-e-md border text-sm transition-[color,box-shadow] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <PlusIcon size={16} aria-hidden="true" />
+            </AriaButton>
+          </Group>
+        </div>
+      </NumberField>
+      <div className="grid flex-1 gap-2 *:not-first:mt-2">
+        <Label htmlFor={"ranking-icon"}>Icons</Label>
+        <Select defaultValue={RakingValues.star.value}>
+          <SelectTrigger id={"ranking-icon"}>
+            <SelectValue placeholder="Select framework" />
+          </SelectTrigger>
+          <SelectContent className="space-y-3.5">
+            {[
+              RakingValues.star,
+              RakingValues.heart,
+              RakingValues.thumb_up,
+              RakingValues.thumb_down,
+              RakingValues.crown,
+              RakingValues.lighting,
+              RakingValues.skull,
+              RakingValues.check,
+              RakingValues.wrong,
+              RakingValues.pizza,
+            ].map((e) => {
+              return (
+                <SelectItem key={e.value} value={e.value}>
+                  <e.icon
+                    className="text-accent-foreground"
+                    strokeWidth={2.5}
+                  />
+                </SelectItem>
+              );
+            })}
+          </SelectContent>
+        </Select>
+      </div>
     </div>
   );
 };

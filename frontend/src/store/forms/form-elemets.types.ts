@@ -1,4 +1,4 @@
-import { LucideProps } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 export interface Forms {
   id: string;
@@ -33,6 +33,24 @@ export enum FormFields {
   phone = "phone",
   email = "email",
 }
+
+export type RakingKey =
+  | "star"
+  | "heart"
+  | "thumb_up"
+  | "thumb_down"
+  | "crown"
+  | "lighting"
+  | "skull"
+  | "check"
+  | "wrong"
+  | "pizza";
+
+export interface RakingValue {
+  value: string;
+  icon: LucideIcon;
+}
+
 export type ValidatonTypes =
   | EmailValidation
   | ConsentValidation
