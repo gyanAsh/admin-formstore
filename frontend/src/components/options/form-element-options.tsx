@@ -1,4 +1,11 @@
-import { Dot, MinusIcon, Plus, PlusIcon, Trash } from "lucide-react";
+import {
+  BookmarkIcon,
+  Dot,
+  MinusIcon,
+  Plus,
+  PlusIcon,
+  Trash,
+} from "lucide-react";
 import { Button } from "../ui/button";
 import {
   DialogClose,
@@ -14,7 +21,7 @@ import { useState } from "react";
 import * as motion from "motion/react-client";
 import { AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
-import { FormElements } from "@/store/forms/form-elemets.types";
+import { FormElements, FormFields } from "@/store/forms/form-elemets.types";
 import {
   Button as AriaButton,
   Group,
@@ -23,6 +30,14 @@ import {
   NumberField,
 } from "react-aria-components";
 import { Separator } from "../ui/separator";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
+import { Toggle } from "../ui/toggle";
+import { Switch } from "../ui/switch";
 
 export const FromElementDialogContent = ({
   order,
@@ -37,10 +52,11 @@ export const FromElementDialogContent = ({
     show: false,
     text: "",
   });
+  const [required, setRequired] = useState<boolean>(false);
 
   console.log({ element, stateElement });
   return (
-    <DialogContent className="md:max-w-[700px]  rounded-4xl">
+    <DialogContent className="md:max-w-[700px] rounded-4xl">
       <DialogHeader>
         <DialogTitle className="flex items-center gap-2">
           <div
@@ -67,7 +83,7 @@ export const FromElementDialogContent = ({
           >
             <p className="text-secondary-foreground">{order}</p>
             <Dot className="size-2" strokeWidth={10} />
-            <p className=" capitalize">{element.badge?.value}</p>
+            <p className="capitalize relative">{element.badge?.value}</p>
           </div>
           <p className="capitalize">{"Set Field Rules"}</p>
         </DialogTitle>
@@ -78,7 +94,9 @@ export const FromElementDialogContent = ({
       </DialogHeader>
       <div className="flex flex-col space-y-4">
         <div className="grid flex-1 gap-2">
-          <Label htmlFor="element-question">Question *</Label>
+          <Label htmlFor="element-question">
+            Question <span className="text-red-500">*</span>
+          </Label>
           <Input
             id="element-question"
             className="border-accent-foreground/40"
@@ -99,25 +117,78 @@ export const FromElementDialogContent = ({
           </div>
         </div>
       </div>
-      {stateElement.badge?.value === "text" && (
+      {stateElement.badge?.value === FormFields.text && (
         <div className="flex flex-col space-y-4">
           <TextValidations />
         </div>
       )}
-      <DialogFooter className="sm:justify-start">
+      {stateElement.badge?.value === FormFields.consent && (
+        <div className="flex flex-col space-y-4">
+          <ConcentValidations />
+        </div>
+      )}
+      {stateElement.badge?.value === FormFields.url && (
+        <div className="flex flex-col space-y-4">
+          <URLValidations />
+        </div>
+      )}
+      {stateElement.badge?.value === FormFields.email && (
+        <div className="flex flex-col space-y-4">
+          <EmailValidations />
+        </div>
+      )}
+      <div className="flex flex-col w-fit space-y-4">
+        <RequiredToggle
+          state={required}
+          onClick={() => setRequired((e) => !e)}
+        />
+      </div>
+      <DialogFooter className="sm:justify-start mt-3 space-x-2">
         <DialogClose asChild>
-          <Button type="button" variant="destructive">
-            Close
+          <Button
+            type="button"
+            effect="small_scale"
+            className={cn(
+              "flex-1 rounded-lg text-base",
+              "bg-transparent border border-white-500 text-white-500 hover:text-white-500 ease-in duration-80 hover:bg-destructive/25"
+            )}
+          >
+            Cancel
           </Button>
         </DialogClose>
-        <Button type="button" variant="default">
+        <Button
+          type="submit"
+          effect={"small_scale"}
+          className={cn(
+            "flex-1 rounded-lg text-base  ease-in duration-80",
+            "bg-primary/85 text-white! "
+          )}
+        >
           Update
         </Button>
       </DialogFooter>
     </DialogContent>
   );
 };
-
+function RequiredToggle({
+  state,
+  onClick,
+}: {
+  state: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <div className="flex items-center gap-2.5 cursor-pointer">
+      <Label htmlFor="required">Set Field as Required</Label>
+      <Switch
+        id="required"
+        className="scale-85"
+        checked={state}
+        onCheckedChange={onClick}
+      />
+    </div>
+  );
+}
 const TextValidations = () => {
   return (
     <div className="grid grid-cols-2 gap-2.5">
@@ -165,6 +236,73 @@ const TextValidations = () => {
           </Group>
         </div>
       </NumberField>
+    </div>
+  );
+};
+
+const ConcentValidations = () => {
+  return (
+    <div className="flex items-center space-x-4">
+      <div className="grid flex-1 gap-2">
+        <Label htmlFor="accept-text">
+          Accept Text{" "}
+          <span className="text-muted-foreground text-xs">{`(Optional)`}</span>
+        </Label>
+        <Input
+          id="accept-text"
+          type="text"
+          defaultValue={"I accept"}
+          className="border-accent-foreground/40"
+          placeholder="Your Question here."
+        />
+      </div>
+      <div className="grid flex-1 gap-2">
+        <Label htmlFor="reject-text">
+          Reject Text{" "}
+          <span className="text-muted-foreground text-xs">{`(Optional)`}</span>
+        </Label>
+        <Input
+          id="reject-text"
+          type="text"
+          defaultValue={"I don't accept"}
+          className="border-accent-foreground/40"
+          placeholder="Your Description here."
+        />
+      </div>
+    </div>
+  );
+};
+
+const URLValidations = () => {
+  return (
+    <div className="grid flex-1 gap-2">
+      <Label htmlFor="url-placeholder">
+        Placeholder{" "}
+        <span className="text-muted-foreground text-xs">{`(Optional)`}</span>
+      </Label>
+      <Input
+        id="url-placeholder"
+        type="text"
+        className="border-accent-foreground/40"
+        placeholder="https://"
+      />
+    </div>
+  );
+};
+
+const EmailValidations = () => {
+  return (
+    <div className="grid flex-1 gap-2">
+      <Label htmlFor="email-placeholder">
+        Placeholder{" "}
+        <span className="text-muted-foreground text-xs">{`(Optional)`}</span>
+      </Label>
+      <Input
+        id="email-placeholder"
+        type="text"
+        className="border-accent-foreground/40"
+        placeholder="example@email.com"
+      />
     </div>
   );
 };
