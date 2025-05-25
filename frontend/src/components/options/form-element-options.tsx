@@ -22,6 +22,7 @@ import {
 } from "react-aria-components";
 import { Switch } from "../ui/switch";
 import { updateFormElement } from "@/store/forms/form-elements";
+import { Textarea } from "../ui/textarea";
 
 export const FromElementDialogContent = ({
   order,
@@ -77,7 +78,7 @@ export const FromElementDialogContent = ({
       <div className="flex flex-col space-y-4">
         <div className="grid flex-1 gap-2">
           <Label htmlFor="element-question">Question</Label>
-          <Input
+          <Textarea
             id="element-question"
             value={stateElement.labels.title}
             onChange={(e) =>
@@ -86,26 +87,24 @@ export const FromElementDialogContent = ({
                 labels: { ...prev.labels, title: e.target.value },
               }))
             }
-            className="border-accent-foreground/40"
             placeholder="Your Question here."
+            className="field-sizing-content max-h-29.5 min-h-0 resize-none py-1.75"
           />
         </div>
         <div className="grid flex-1 gap-2">
           <Label htmlFor="element-description">Description </Label>
-          <div className="flex items-center space-x-3">
-            <Input
-              id="element-description"
-              value={stateElement.labels.description}
-              onChange={(e) =>
-                setStateElement((prev) => ({
-                  ...prev,
-                  labels: { ...prev.labels, description: e.target.value },
-                }))
-              }
-              className="border-accent-foreground/40"
-              placeholder="Your Description here."
-            />
-          </div>
+          <Textarea
+            id="element-description"
+            value={stateElement.labels.description}
+            onChange={(e) =>
+              setStateElement((prev) => ({
+                ...prev,
+                labels: { ...prev.labels, description: e.target.value },
+              }))
+            }
+            placeholder="Your Description here."
+            className="field-sizing-content max-h-29.5 min-h-0 resize-none py-1.75"
+          />
         </div>
       </div>
       {stateElement.badge?.value === FormFields.text && (

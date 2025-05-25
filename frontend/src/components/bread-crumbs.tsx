@@ -62,7 +62,7 @@ export default function BreadCrumbs({
         })}
 
         <BreadcrumbItem>
-          <BreadcrumbPage>{currentPage}</BreadcrumbPage>
+          <BreadcrumbPage className="px-2 py-1">{currentPage}</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
