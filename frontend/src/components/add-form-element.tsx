@@ -430,7 +430,7 @@ const DndKitContainer = () => {
                         <Settings />
                       </Button>
                     </DialogTrigger>
-                    <FromElementDialogContent />
+                    <FromElementDialogContent order={idx + 1} element={item} />
                   </Dialog>
 
                   <Button
