@@ -40,7 +40,7 @@ export type RakingKey =
   | "thumb_up"
   | "thumb_down"
   | "crown"
-  | "lighting"
+  | "lightning"
   | "skull"
   | "check"
   | "wrong"
@@ -48,6 +48,7 @@ export type RakingKey =
 
 export interface RakingValue {
   value: string;
+  name: string;
   icon: LucideIcon;
 }
 

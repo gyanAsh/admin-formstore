@@ -332,28 +332,39 @@ const RankingValidations = () => {
       <div className="grid flex-1 gap-2 *:not-first:mt-2">
         <Label htmlFor={"ranking-icon"}>Icons</Label>
         <Select defaultValue={RakingValues.star.value}>
-          <SelectTrigger id={"ranking-icon"}>
-            <SelectValue placeholder="Select framework" />
+          <SelectTrigger
+            id={"ranking-icon"}
+            className="**:data-name:hidden **:data-icon:stroke-2"
+          >
+            <SelectValue placeholder="Select Icon" />
           </SelectTrigger>
-          <SelectContent className="space-y-3.5">
+          <SelectContent>
             {[
               RakingValues.star,
               RakingValues.heart,
               RakingValues.thumb_up,
               RakingValues.thumb_down,
               RakingValues.crown,
-              RakingValues.lighting,
+              RakingValues.lightning,
               RakingValues.skull,
               RakingValues.check,
               RakingValues.wrong,
               RakingValues.pizza,
             ].map((e) => {
               return (
-                <SelectItem key={e.value} value={e.value}>
+                <SelectItem
+                  key={e.value}
+                  value={e.value}
+                  className="my-1 font-bold hover:scale-105 hover:text-zinc-950 transition-all duration-100 active:scale-95"
+                >
                   <e.icon
                     className="text-accent-foreground"
-                    strokeWidth={2.5}
+                    strokeWidth={3}
+                    data-icon
                   />
+                  <p className="text-sm" data-name>
+                    {e.name}
+                  </p>
                 </SelectItem>
               );
             })}
