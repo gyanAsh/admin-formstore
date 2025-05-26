@@ -41,10 +41,6 @@ export const FromElementDialogContent = ({
   element: FormElements;
 }) => {
   const [stateElement, setStateElement] = useState(element);
-  console.log({
-    element,
-    stateElement,
-  });
   return (
     <DialogContent className="md:max-w-[700px] rounded-4xl">
       <DialogHeader>

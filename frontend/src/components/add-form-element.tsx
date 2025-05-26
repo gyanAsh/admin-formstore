@@ -19,6 +19,8 @@ import {
   Circle,
   CircleCheck,
   CircleUser,
+  Edit,
+  EllipsisVertical,
   FileText,
   Gauge,
   GripVertical,
@@ -30,12 +32,14 @@ import {
   Phone,
   Play,
   Plus,
+  Repeat,
   Settings,
   Sparkles,
   SquareCheck,
   Star,
   Table,
   Trash,
+  Trash2,
 } from "lucide-react";
 import {
   Dialog,
@@ -61,6 +65,15 @@ import { Badge } from "./ui/badge";
 import { AnimatePresence } from "motion/react";
 import { useState } from "react";
 import { FromElementDialogContent } from "./options/form-element-options";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 export const AddFormElement = () => {
   const { formId } = useParams();
@@ -299,20 +312,25 @@ const DndElementItem = ({ id, order, children, className }: any) => {
     <Card
       ref={setNodeRef}
       style={style}
-      className="flex flex-row items-center gap-4 p-4 border border-gray-300 dark:border-gray-500 mb-1 bg-zinc-50 dark:bg-slate-900/55 "
+      className={cn(
+        "flex flex-row items-center gap-4 p-0 border border-gray-300 dark:border-gray-500 mb-1",
+        " bg-zinc-50 dark:bg-slate-900/55 hover:ring-ring hover:ring"
+      )}
     >
       {/* Drag Handle */}
-      <div
-        ref={setActivatorNodeRef}
-        {...attributes}
-        {...listeners}
-        className={cn(
-          "cursor-grab active:cursor-grabbing p-1 bg-muted-foreground/15 rounded-md text-muted-foreground",
-          "flex items-center gap-1 text-sm px-2"
-        )}
-      >
-        <p className="text-secondary-foreground">{order}</p>
-        <GripVertical className="size-3" strokeWidth={2} />
+      <div className="py-4 pl-4">
+        <div
+          ref={setActivatorNodeRef}
+          {...attributes}
+          {...listeners}
+          className={cn(
+            "cursor-grab active:cursor-grabbing p-1 bg-muted-foreground/15 rounded-md text-muted-foreground",
+            "flex items-center gap-1 text-sm px-2"
+          )}
+        >
+          <p className="text-secondary-foreground">{order}</p>
+          <GripVertical className="size-3" strokeWidth={2} />
+        </div>
       </div>
 
       {/* Content */}
@@ -324,10 +342,18 @@ const DndElementItem = ({ id, order, children, className }: any) => {
 const DndKitContainer = () => {
   const { formId } = useParams();
   const [grabbing, setGrabbing] = useState(false);
+  const [openOptionsDialog, setOpenOptionsDialog] = useState({
+    value: false,
+    item: 0,
+  });
+  const [openOptionsDropdown, setOpenOptionsDropdown] = useState({
+    value: false,
+    item: 0,
+  });
   const allForms = useStore($all_forms);
   let elements = allForms.find((e) => e.id === formId)?.elements || [];
 
-  console.log({ allForms, el: elements });
+  // console.log({ allForms, el: elements });
   const sensors = useSensors(useSensor(PointerSensor));
 
   const handleDragEnd = (event: { active: any; over: any }) => {
@@ -362,17 +388,41 @@ const DndKitContainer = () => {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
+              // onClick={() => console.count(`click done : ${idx + 1}`)}
             >
               <DndElementItem
                 order={idx + 1}
                 id={item.id}
                 className={"flex items-center justify-between"}
               >
-                <div className="flex min-sm:items-center justify-between max-w-full grow max-sm:gap-2.5 max-sm:flex-col">
-                  <div className="flex items-center gap-4 font-semibold tracking-[-0.007em] text-base grow">
-                    {item.labels.title}
-                  </div>
-                  <section className="flex gap-2.5 max-sm:justify-end">
+                <div className="flex min-sm:items-center justify-between max-w-full grow gap-1.5 max-sm:gap-2.5 max-sm:flex-col">
+                  <Dialog
+                    open={
+                      !!(
+                        openOptionsDialog.value &&
+                        openOptionsDialog.item === idx
+                      )
+                    }
+                    onOpenChange={(e) =>
+                      setOpenOptionsDialog((prev) => ({
+                        ...prev,
+                        value: e,
+                      }))
+                    }
+                  >
+                    <DialogTrigger asChild>
+                      <div className="flex items-center gap-4 font-semibold tracking-[-0.007em] grow text-base pr-2 py-4 cursor-pointer">
+                        {item.labels.title}
+                      </div>
+                    </DialogTrigger>
+                    <FromElementDialogContent
+                      order={idx + 1}
+                      formId={formId!}
+                      element={item}
+                    />
+                  </Dialog>
+
+                  <section className="flex gap-2.5 max-sm:justify-end py-4 pr-4">
                     <Badge
                       variant={"outline"}
                       className={cn(
@@ -420,33 +470,138 @@ const DndKitContainer = () => {
                       />
                       {item.badge?.value}
                     </Badge>
-                    <Dialog>
-                      <DialogTrigger asChild>
+
+                    <DropdownMenu
+                      open={
+                        !!(
+                          openOptionsDropdown.value &&
+                          openOptionsDropdown.item === idx
+                        )
+                      }
+                      onOpenChange={(e) =>
+                        setOpenOptionsDropdown((prev) => ({
+                          ...prev,
+                          value: e,
+                        }))
+                      }
+                    >
+                      <DropdownMenuTrigger
+                        onPointerDown={(e) => e.preventDefault()}
+                        onClick={() =>
+                          setOpenOptionsDropdown({ value: true, item: idx })
+                        }
+                        asChild
+                      >
                         <Button
                           variant={"outline"}
                           size={"icon"}
                           effect={"scale"}
                           className="size-7 not-dark:text-zinc-800 hover:bg-muted-foreground/15"
                         >
-                          <Settings />
+                          <EllipsisVertical />
                         </Button>
-                      </DialogTrigger>
-                      <FromElementDialogContent
-                        order={idx + 1}
-                        formId={formId!}
-                        element={item}
-                      />
-                    </Dialog>
-
-                    <Button
-                      variant={"destructive"}
-                      effect={"scale"}
-                      size={"icon"}
-                      className="size-7"
-                      onClick={() => removeFormElement(formId!, item.id)}
-                    >
-                      <Trash />
-                    </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent
+                        className="space-y-0.5 rounded-lg  font-semibold text-zinc-700 dark:text-zinc-300 p-2"
+                        side="bottom"
+                        align="end"
+                        asChild
+                      >
+                        <motion.section
+                          initial={{
+                            translateY: "5%",
+                            opacity: 0,
+                          }}
+                          animate={{
+                            translateY: "0%",
+                            opacity: 100,
+                            transition: { duration: 0.25, ease: "easeInOut" },
+                          }}
+                        >
+                          {/* <DropdownMenuLabel className="py-1 font-bold">
+                            Element Actions
+                          </DropdownMenuLabel>
+                          <DropdownMenuSeparator /> */}
+                          <DropdownMenuItem
+                            className="rounded-lg space-x-1 hover:text-zinc-900! hover:dark:text-zinc-100!"
+                            asChild
+                            onClick={() => {
+                              // setOpenOptionsDialog({ value: true, item: idx })
+                              // open dialog box to show pregress will be removed.
+                            }}
+                          >
+                            <motion.div
+                              whileHover={{
+                                scale: 1.03,
+                                transition: { duration: 0.1 },
+                              }}
+                              whileTap={{
+                                scale: 0.95,
+                                transition: { duration: 0.1 },
+                              }}
+                            >
+                              <Repeat
+                                size={16}
+                                strokeWidth={3}
+                                className="opacity-100"
+                                aria-hidden="true"
+                              />
+                              <p>Change Type</p>
+                            </motion.div>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            className="rounded-lg space-x-1 hover:text-zinc-900! hover:dark:text-zinc-100!"
+                            asChild
+                            onClick={() =>
+                              setOpenOptionsDialog({ value: true, item: idx })
+                            }
+                          >
+                            <motion.div
+                              whileHover={{
+                                scale: 1.03,
+                                transition: { duration: 0.1 },
+                              }}
+                              whileTap={{
+                                scale: 0.95,
+                                transition: { duration: 0.1 },
+                              }}
+                            >
+                              <Edit
+                                size={16}
+                                strokeWidth={3}
+                                className="opacity-100"
+                                aria-hidden="true"
+                              />
+                              <p>Edit</p>
+                            </motion.div>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            className="rounded-lg space-x-1 bg-destructive/75 shadow-xs hover:text-white! hover:bg-destructive!"
+                            asChild
+                            onClick={() => removeFormElement(formId!, item.id)}
+                          >
+                            <motion.div
+                              whileHover={{
+                                scale: 1.03,
+                                transition: { duration: 0.1 },
+                              }}
+                              whileTap={{
+                                scale: 0.95,
+                                transition: { duration: 0.1 },
+                              }}
+                            >
+                              <Trash2
+                                size={16}
+                                strokeWidth={3}
+                                className="opacity-100"
+                                aria-hidden="true"
+                              />
+                              <p>Delete</p>
+                            </motion.div>
+                          </DropdownMenuItem>
+                        </motion.section>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </section>
                 </div>
               </DndElementItem>
