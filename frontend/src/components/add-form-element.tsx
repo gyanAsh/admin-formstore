@@ -14,31 +14,13 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import {
-  AlignLeft,
-  ChevronDown,
   Circle,
-  CircleCheck,
-  CircleUser,
   Edit,
   EllipsisVertical,
-  FileText,
-  Gauge,
   GripVertical,
-  LayoutList,
-  Link2,
-  ListOrdered,
-  Mail,
-  MapPinned,
-  Phone,
-  Play,
   Plus,
   Repeat,
-  Settings,
   Sparkles,
-  SquareCheck,
-  Star,
-  Table,
-  Trash,
   Trash2,
 } from "lucide-react";
 import {
@@ -59,92 +41,22 @@ import {
   setFormElements,
 } from "@/store/forms/form-elements";
 import { useParams } from "react-router";
-import { FormElements, FormFields } from "@/store/forms/form-elemets.types";
+import { FormElements } from "@/store/forms/form-elemets.types";
 import { useStore } from "@nanostores/react";
 import { Badge } from "./ui/badge";
 import { AnimatePresence } from "motion/react";
 import { useState } from "react";
 import { FromElementDialogContent } from "./options/form-element-options";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { FromElements } from "@/store/forms/values";
 
 export const AddFormElement = () => {
   const { formId } = useParams();
-  const Elements = [
-    {
-      name: "Contact Info",
-      color: "pink",
-      items: [
-        { title: "Contact Info", icon: CircleUser, isPremium: false },
-        {
-          title: "Email",
-          value: FormFields.email,
-          icon: Mail,
-          isPremium: true,
-        },
-        { title: "Address", icon: MapPinned, isPremium: false },
-        { title: "Phone", icon: Phone, isPremium: false },
-        {
-          title: "Website",
-          value: FormFields.url,
-          icon: Link2,
-          isPremium: true,
-        },
-      ],
-    },
-    {
-      name: "Choice",
-      color: "blue",
-      items: [
-        { title: "Multiple Choice", icon: LayoutList, isPremium: false },
-        { title: "Dropdown", icon: ChevronDown, isPremium: false },
-        { title: "Yes/No", icon: CircleCheck, isPremium: false },
-        {
-          title: "Concent",
-          value: FormFields.consent,
-          icon: SquareCheck,
-          isPremium: true,
-        },
-        { title: "Checkbox", icon: Link2, isPremium: false },
-      ],
-    },
-    {
-      name: "Rating & Ranking",
-      color: "green",
-      items: [
-        { title: "Net Promoter Score®", icon: Gauge, isPremium: false },
-        { title: "Rating", icon: Star, isPremium: false },
-        {
-          title: "Ranking",
-          value: FormFields.ranking,
-          icon: ListOrdered,
-          isPremium: true,
-        },
-        { title: "Matrix", icon: Table, isPremium: false },
-      ],
-    },
-    {
-      name: "Text & Video",
-      color: "yellow",
-      items: [
-        { title: "Long Text", icon: FileText, isPremium: false },
-        {
-          title: "Short Text",
-          value: FormFields.text,
-          icon: AlignLeft,
-          isPremium: true,
-        },
-        { title: "Video", icon: Play, isPremium: true },
-      ],
-    },
-  ];
 
   const elementClick = ({
     item,
@@ -196,7 +108,7 @@ export const AddFormElement = () => {
             </DialogHeader>
             <ScrollArea className="max-h-[70dvh] bg-gray-100  dark:bg-slate-800/65 rounded-xl ">
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 m-6">
-                {Elements.map((el) => (
+                {FromElements.map((el) => (
                   <div key={el.name} className="flex flex-col gap-1.5">
                     <h2 className="font-bold text-sm mb-2">{el.name}</h2>
                     {el.items.map((e) => (
@@ -388,7 +300,6 @@ const DndKitContainer = () => {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              // onClick={() => console.count(`click done : ${idx + 1}`)}
             >
               <DndElementItem
                 order={idx + 1}
@@ -403,12 +314,12 @@ const DndKitContainer = () => {
                         openOptionsDialog.item === idx
                       )
                     }
-                    onOpenChange={(e) =>
-                      setOpenOptionsDialog((prev) => ({
-                        ...prev,
+                    onOpenChange={(e) => {
+                      setOpenOptionsDialog(() => ({
+                        item: idx,
                         value: e,
-                      }))
-                    }
+                      }));
+                    }}
                   >
                     <DialogTrigger asChild>
                       <div className="flex items-center gap-4 font-semibold tracking-[-0.007em] grow text-base pr-2 py-4 cursor-pointer">
@@ -479,8 +390,8 @@ const DndKitContainer = () => {
                         )
                       }
                       onOpenChange={(e) =>
-                        setOpenOptionsDropdown((prev) => ({
-                          ...prev,
+                        setOpenOptionsDropdown(() => ({
+                          item: idx,
                           value: e,
                         }))
                       }
@@ -518,10 +429,6 @@ const DndKitContainer = () => {
                             transition: { duration: 0.25, ease: "easeInOut" },
                           }}
                         >
-                          {/* <DropdownMenuLabel className="py-1 font-bold">
-                            Element Actions
-                          </DropdownMenuLabel>
-                          <DropdownMenuSeparator /> */}
                           <DropdownMenuItem
                             className="rounded-lg space-x-1 hover:text-zinc-900! hover:dark:text-zinc-100!"
                             asChild
