@@ -50,7 +50,14 @@ import { FromElementDialogContent } from "./options/form-element-options";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { FromElements } from "@/store/forms/values";
@@ -437,24 +444,132 @@ const DndKitContainer = () => {
                               // open dialog box to show pregress will be removed.
                             }}
                           >
-                            <motion.div
-                              whileHover={{
-                                scale: 1.03,
-                                transition: { duration: 0.1 },
-                              }}
-                              whileTap={{
-                                scale: 0.95,
-                                transition: { duration: 0.1 },
-                              }}
-                            >
-                              <Repeat
-                                size={16}
-                                strokeWidth={3}
-                                className="opacity-100"
-                                aria-hidden="true"
-                              />
-                              <p>Change Type</p>
-                            </motion.div>
+                            <DropdownMenuSub>
+                              <DropdownMenuSubTrigger className="rounded-lg space-x-3 hover:text-zinc-900! hover:dark:text-zinc-100!">
+                                <Repeat
+                                  size={16}
+                                  strokeWidth={3}
+                                  className="opacity-100"
+                                  aria-hidden="true"
+                                />
+                                <p>Change Type</p>
+                              </DropdownMenuSubTrigger>
+
+                              <DropdownMenuPortal>
+                                <DropdownMenuSubContent
+                                  sideOffset={-5}
+                                  alignOffset={-55}
+                                  className="rounded-xl py-4 max-sm:translate-x-7"
+                                >
+                                  <h2 className="text-sm px-4 font-bold pb-1">
+                                    Form Elements
+                                  </h2>
+                                  <ScrollArea className="max-sm:h-[350px] h-[400px]">
+                                    {FromElements.map((el, idx) => {
+                                      return (
+                                        <DropdownMenuGroup
+                                          key={idx}
+                                          className="pr-4 pl-2"
+                                        >
+                                          <DropdownMenuLabel className="pb-0 pl-0 pt-3">
+                                            {el.name}
+                                          </DropdownMenuLabel>
+                                          <DropdownMenuSeparator />
+                                          <div className="grid gap-1">
+                                            {el.items.map((e, idx_el) => {
+                                              return (
+                                                <DropdownMenuItem
+                                                  key={idx_el}
+                                                  className={cn(
+                                                    "relative max-sm:w-[155px] flex justify-start items-center overflow-hidden group hover:border hover:scale-[1.045] !border-inherit/5 transition-all duration-100",
+                                                    {
+                                                      "hover:bg-gray-200/20 hover:dark:bg-gray-500/10":
+                                                        true,
+                                                    },
+                                                    {
+                                                      "hover:bg-blue-200/20 hover:dark:bg-blue-500/10":
+                                                        el.color === "blue",
+                                                    },
+
+                                                    {
+                                                      "hover:bg-green-200/20 hover:dark:bg-green-500/10":
+                                                        el.color === "green",
+                                                    },
+                                                    {
+                                                      "hover:bg-pink-200/20 hover:dark:bg-pink-500/10":
+                                                        el.color === "pink",
+                                                    },
+                                                    {
+                                                      "hover:bg-yellow-200/20 hover:dark:bg-yellow-500/10":
+                                                        el.color === "yellow",
+                                                    },
+                                                    {
+                                                      "bg-gray-300/30 dark:bg-gray-500/10":
+                                                        !!e?.isPremium,
+                                                    }
+                                                  )}
+                                                >
+                                                  <div
+                                                    className={cn(
+                                                      "p-0.5 rounded-[7px] group-hover:borderd",
+                                                      {
+                                                        "bg-gray-200/95 dark:bg-gray-500/45":
+                                                          true,
+                                                      },
+                                                      {
+                                                        "bg-blue-200/95 dark:bg-blue-500/45":
+                                                          el.color === "blue",
+                                                      },
+
+                                                      {
+                                                        "bg-green-200/95 dark:bg-green-500/45":
+                                                          el.color === "green",
+                                                      },
+                                                      {
+                                                        "bg-pink-200/95 dark:bg-pink-500/45":
+                                                          el.color === "pink",
+                                                      },
+                                                      {
+                                                        "bg-yellow-200/95 dark:bg-yellow-500/45":
+                                                          el.color === "yellow",
+                                                      },
+                                                      {
+                                                        " opacity-65 ":
+                                                          !!e?.isPremium,
+                                                      }
+                                                    )}
+                                                  >
+                                                    <e.icon className="max-sm:size-4 size-5" />
+                                                  </div>
+                                                  <h2
+                                                    className={cn(
+                                                      "text-zinc-600 mr-2 dark:text-zinc-300",
+                                                      {
+                                                        " opacity-65 ":
+                                                          !!e?.isPremium,
+                                                      }
+                                                    )}
+                                                  >
+                                                    {e.title}
+                                                  </h2>
+
+                                                  <Sparkles
+                                                    className={cn(
+                                                      "size-3 absolute right-2 text-yellow-400/80 dark:text-yellow-600 fill-yellow-400/25 dark:fill-yellow-400/45",
+                                                      { hidden: !e?.isPremium }
+                                                    )}
+                                                  />
+                                                </DropdownMenuItem>
+                                              );
+                                            })}
+                                          </div>
+                                        </DropdownMenuGroup>
+                                      );
+                                    })}
+                                  </ScrollArea>
+                                </DropdownMenuSubContent>
+                              </DropdownMenuPortal>
+                            </DropdownMenuSub>
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             className="rounded-lg space-x-1 hover:text-zinc-900! hover:dark:text-zinc-100!"
