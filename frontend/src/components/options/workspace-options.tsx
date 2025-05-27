@@ -31,7 +31,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 
 export const createWorkspaceSchema = z.object({
   name: z.string().min(4, {
@@ -46,6 +46,7 @@ function DeleteWorkspaceDialogForm({
   workspaceId: string;
   setOpenDialog: (bool: boolean) => void;
 }) {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const workspaceDeleteMutation = useMutation({
@@ -70,14 +71,15 @@ function DeleteWorkspaceDialogForm({
       queryClient.invalidateQueries({ queryKey: ["api-workspaces"] });
       queryClient.invalidateQueries({ queryKey: ["api-workspace-forms"] });
       setOpenDialog(false);
+      // not working
+      navigate("/workspace");
     },
     onError: (err) => {
       toast.error(err.message);
     },
   });
 
-  const workspaceDeleteForm = useForm<z.infer<typeof createWorkspaceSchema>>({
-    resolver: zodResolver(createWorkspaceSchema),
+  const workspaceDeleteForm = useForm({
     defaultValues: {},
   });
 
@@ -96,9 +98,9 @@ function DeleteWorkspaceDialogForm({
       </div>
       <Form {...workspaceDeleteForm}>
         <form
-          onSubmit={workspaceDeleteForm.handleSubmit(() =>
-            workspaceDeleteMutation.mutate(),
-          )}
+          onSubmit={() => {
+            workspaceDeleteMutation.mutate();
+          }}
           className="space-y-5"
         >
           {workspaceDeleteMutation.isError && (
