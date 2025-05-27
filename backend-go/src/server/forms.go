@@ -279,3 +279,41 @@ func (s *Service) formDeleteHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+func (s *Service) formUpdateHandler(w http.ResponseWriter, r *http.Request) {
+	userID, err := s.authenticate(r)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+	var form Form
+	if err = json.NewDecoder(r.Body).Decode(&form); err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	if form.Title == "" {
+		log.Println(fmt.Errorf("form title is empty"))
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("title should not be empty"))
+		return
+	}
+
+	_, err = s.Conn.Exec(r.Context(), `
+		UPDATE forms
+		SET title = $1
+		WHERE
+			ID = $2
+		AND
+		workspace_id IN (
+			SELECT ID FROM workspaces WHERE user_id = $3
+		)
+		`, form.Title, form.ID, userID)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+}
