@@ -11,11 +11,6 @@ import { PopoverContent } from "@/components/ui/popover";
 import { useState } from "react";
 import {
   Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import { toast } from "sonner";
 import {
@@ -26,15 +21,11 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { useForm } from "react-hook-form";
 import { cn, getAuthToken } from "@/lib/utils";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { useParams } from "react-router";
 
 export const FormPopoverContentOptions = ({
   formId,
@@ -165,7 +156,7 @@ function DeleteFormsDialog({
           Authorization: `Bearer ${getAuthToken()}`,
         },
         body: JSON.stringify({
-          id: parseInt(formId),
+          id: parseInt(formId as any),
         }),
       });
       if (!res.ok) {
