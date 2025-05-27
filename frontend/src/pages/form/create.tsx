@@ -15,37 +15,6 @@ import { useState } from "react";
 import { AddFormElement } from "@/components/add-form-element";
 import { addForm } from "@/store/forms/form-elements";
 
-// type Form = {
-//   id: number;
-//   title: string;
-//   created_at: string;
-//   updated_at: string;
-//   workspace_id: string;
-// };
-
-// type Workspace = {
-//   id: number;
-//   name: string;
-//   user_id: number;
-//   created_at: string;
-//   updated_at: string;
-// };
-
-// export enum FormTypes {
-//   multiselect = "multiple_selection",
-//   dropdown = "drop_down",
-//   date = "date",
-//   text = "text",
-//   phone = "phone",
-//   email = "email",
-// }
-
-// export type FormElement = {
-//   id: number;
-//   type: FormTypes;
-//   value: string;
-// };
-
 export default function CreateForm() {
   const { workspaceId, formId } = useParams();
 
@@ -70,49 +39,10 @@ export default function CreateForm() {
         });
 
       return data;
-      // return data as {
-      //   form: Form;
-      //   workspace: Workspace;
-      //   form_elements: FormElement[];
-      // };
     },
     refetchOnWindowFocus: false,
     queryKey: ["api-form-id"],
   });
-
-  // const queryClient = useQueryClient();
-
-  // const formElementMutation = useMutation({
-  //   mutationFn: async ({
-  //     id,
-  //     type,
-  //     label,
-  //   }: {
-  //     id: number;
-  //     type: FormTypes;
-  //     value: string;
-  //   }) => {
-  //     const res = await fetch("/api/form/element", {
-  //       method: "PUT",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${getAuthToken()}`,
-  //       },
-  //       body: JSON.stringify({
-  //         id: id,
-  //         type: type,
-  //         label: label,
-  //       }),
-  //     });
-  //     const data = await res.json();
-  //     return data;
-  //   },
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({ queryKeys: ["api-form-id"] });
-  //   },
-  // });
-
-  // const updateFormElementValues = debounce(formElementMutation.mutate);
 
   return (
     <>
