@@ -6,7 +6,8 @@ import DashboardLayout from "@/components/layout/dashboard";
 import Workspace from "@/pages/workspace";
 import WorkspaceHome from "@/pages/workspace/home";
 import HeroLayout from "@/components/layout/hero";
-import CreateForm from "./pages/form/create";
+import CreateForm from "@/pages/form/create";
+import PreviewFormPage from "@/pages/form/preview";
 
 export default function App() {
   const NotFound = () => (
@@ -34,6 +35,10 @@ export default function App() {
           <Route path=":formId/create" element={<CreateForm />} />
         </Route>
       </Route>
+      <Route
+        path=":workspaceId/:formId/preview"
+        element={<PreviewFormPage />}
+      />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

@@ -27,9 +27,13 @@ import {
 } from "lucide-react";
 
 import {
+  ConsentValidation,
+  EmailValidation,
   FormFields,
   RatingKey,
+  RatingValidation,
   RatingValue,
+  TextValidation,
   UrlValidation,
   ValidatonTypes,
 } from "./form-elemets.types";
@@ -139,23 +143,34 @@ export function getDefaultLabelTitle(fieldType: string): string {
   }
 }
 
-// export function getDefaultValidations(fieldType: string): ValidatonTypes {
-//   switch (fieldType) {
-//     case FormFields.email:
-//       return{
-//         placeholder:"example@gmail.com"
-//       } as UrlValidation;
-//     case FormFields.url:
-//       return "Website's Link...";
-//     case FormFields.phone:
-//       return "Phone Number...";
-//     case FormFields.text:
-//       return "Write...";
-//     case FormFields.consent:
-//       return "I accept...";
-//     case FormFields.rating:
-//       return "Rate...";
-//     default:
-//       new Error("Element Validation not found.");
-//   }
-// }
+export function getDefaultValidations(
+  fieldType: string
+): ValidatonTypes | undefined {
+  switch (fieldType) {
+    case FormFields.email:
+      return {
+        placeholder: "example@gmail.com",
+      } as EmailValidation;
+    case FormFields.url:
+      return {
+        placeholder: "https://",
+      } as UrlValidation;
+    case FormFields.text:
+      return {
+        minLength: 1,
+        maxLength: 150,
+      } as TextValidation;
+    case FormFields.consent:
+      return {
+        acceptBtnText: "I accept",
+        rejectBtnText: "I don't accept",
+      } as ConsentValidation;
+    case FormFields.rating:
+      return {
+        iconLength: 5,
+        ratingIcon: "star",
+      } as RatingValidation;
+    default:
+      undefined;
+  }
+}

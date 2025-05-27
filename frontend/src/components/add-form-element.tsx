@@ -64,7 +64,11 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { FromElements, getDefaultLabelTitle } from "@/store/forms/values";
+import {
+  FromElements,
+  getDefaultLabelTitle,
+  getDefaultValidations,
+} from "@/store/forms/values";
 
 export const AddFormElement = () => {
   const { formId } = useParams();
@@ -96,6 +100,7 @@ export const AddFormElement = () => {
         description: "",
       },
       required: false,
+      validations: getDefaultValidations(value),
     };
 
     if (formId) addFormElement(formId, element);

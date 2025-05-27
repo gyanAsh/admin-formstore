@@ -2,6 +2,7 @@ import type { LucideIcon } from "lucide-react";
 
 export interface Forms {
   id: string;
+  workspaceId: string;
   form_name: string;
   elements?: FormElements[];
 }
@@ -49,7 +50,7 @@ export type RatingKey =
   | "pizza";
 
 export interface RatingValue {
-  value: string;
+  value: RatingKey;
   name: string;
   icon: LucideIcon;
 }
@@ -76,8 +77,8 @@ export interface ConsentValidation {
 }
 
 export interface RatingValidation {
-  iconLength: number; //5
-  rejectBtnText: RatingKey; //star
+  iconLength: 5; //5
+  ratingIcon: RatingKey; //star
 }
 
 export interface TextValidation {

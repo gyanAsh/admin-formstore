@@ -12,7 +12,15 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { memo, useState } from "react";
 import { cn } from "@/lib/utils";
-import { FormElements, FormFields } from "@/store/forms/form-elemets.types";
+import {
+  ConsentValidation,
+  EmailValidation,
+  FormElements,
+  FormFields,
+  RatingValidation,
+  TextValidation,
+  UrlValidation,
+} from "@/store/forms/form-elemets.types";
 import {
   Button as AriaButton,
   Group,
@@ -115,27 +123,37 @@ export const FromElementDialogContent = memo(
         </div>
         {stateElement.badge?.value === FormFields.text && (
           <div className="flex flex-col space-y-4">
-            <TextValidations />
+            <TextValidations
+              validations={stateElement.validations as TextValidation}
+            />
           </div>
         )}
         {stateElement.badge?.value === FormFields.consent && (
           <div className="flex flex-col space-y-4">
-            <ConcentValidations />
+            <ConsentValidations
+              validations={stateElement.validations as ConsentValidation}
+            />
           </div>
         )}
         {stateElement.badge?.value === FormFields.url && (
           <div className="flex flex-col space-y-4">
-            <URLValidations />
+            <URLValidations
+              validations={stateElement.validations as UrlValidation}
+            />
           </div>
         )}
         {stateElement.badge?.value === FormFields.email && (
           <div className="flex flex-col space-y-4">
-            <EmailValidations />
+            <EmailValidations
+              validations={stateElement.validations as EmailValidation}
+            />
           </div>
         )}
         {stateElement.badge?.value === FormFields.rating && (
           <div className="flex flex-col space-y-4">
-            <RankingValidations />
+            <RatingValidations
+              validations={stateElement.validations as RatingValidation}
+            />
           </div>
         )}
         <div className="flex flex-col w-fit space-y-4">
@@ -198,10 +216,16 @@ function RequiredToggle({
     </div>
   );
 }
-const TextValidations = () => {
+const TextValidations = ({ validations }: { validations?: TextValidation }) => {
+  let hardMinValue = 1,
+    hardMaxValue = 160;
   return (
     <div className="grid grid-cols-2 gap-2.5">
-      <NumberField defaultValue={0} minValue={0}>
+      <NumberField
+        defaultValue={validations?.minLength}
+        minValue={hardMinValue}
+        maxValue={validations?.maxLength}
+      >
         <div className="*:not-first:mt-2">
           <AriaLabel className="text-foreground text-sm font-medium">
             Min characters
@@ -223,7 +247,11 @@ const TextValidations = () => {
           </Group>
         </div>
       </NumberField>
-      <NumberField defaultValue={0} minValue={0} maxValue={500}>
+      <NumberField
+        defaultValue={validations?.maxLength}
+        minValue={validations?.minLength}
+        maxValue={hardMaxValue}
+      >
         <div className="*:not-first:mt-2">
           <AriaLabel className="text-foreground text-sm font-medium">
             Max characters
@@ -249,7 +277,11 @@ const TextValidations = () => {
   );
 };
 
-const ConcentValidations = () => {
+const ConsentValidations = ({
+  validations,
+}: {
+  validations?: ConsentValidation;
+}) => {
   return (
     <div className="flex items-center space-x-4">
       <div className="grid flex-1 gap-2">
@@ -257,7 +289,7 @@ const ConcentValidations = () => {
         <Input
           id="accept-text"
           type="text"
-          defaultValue={"I accept"}
+          defaultValue={validations?.acceptBtnText}
           className="border-accent-foreground/40"
           placeholder="Your Question here."
         />
@@ -267,7 +299,7 @@ const ConcentValidations = () => {
         <Input
           id="reject-text"
           type="text"
-          defaultValue={"I don't accept"}
+          defaultValue={validations?.rejectBtnText}
           className="border-accent-foreground/40"
           placeholder="Your Description here."
         />
@@ -276,7 +308,7 @@ const ConcentValidations = () => {
   );
 };
 
-const URLValidations = () => {
+const URLValidations = ({ validations }: { validations?: UrlValidation }) => {
   return (
     <div className="grid flex-1 gap-2">
       <Label htmlFor="url-placeholder">Placeholder </Label>
@@ -284,13 +316,17 @@ const URLValidations = () => {
         id="url-placeholder"
         type="text"
         className="border-accent-foreground/40"
-        placeholder="https://"
+        placeholder={validations?.placeholder}
       />
     </div>
   );
 };
 
-const EmailValidations = () => {
+const EmailValidations = ({
+  validations,
+}: {
+  validations?: EmailValidation;
+}) => {
   return (
     <div className="grid flex-1 gap-2">
       <Label htmlFor="email-placeholder">Placeholder </Label>
@@ -298,16 +334,25 @@ const EmailValidations = () => {
         id="email-placeholder"
         type="text"
         className="border-accent-foreground/40"
-        placeholder="example@email.com"
+        placeholder={validations?.placeholder}
       />
     </div>
   );
 };
 
-const RankingValidations = () => {
+const RatingValidations = ({
+  validations,
+}: {
+  validations?: RatingValidation;
+}) => {
+  console.log({ d: validations });
   return (
     <div className="flex items-center space-x-4">
-      <NumberField defaultValue={5} minValue={1} maxValue={10}>
+      <NumberField
+        defaultValue={validations?.iconLength}
+        minValue={1}
+        maxValue={10}
+      >
         <div className="*:not-first:mt-2">
           <AriaLabel className="text-foreground text-sm font-medium">
             Min characters
@@ -331,7 +376,7 @@ const RankingValidations = () => {
       </NumberField>
       <div className="grid flex-1 gap-2 *:not-first:mt-2">
         <Label htmlFor={"rating-icon"}>Icons</Label>
-        <Select defaultValue={RatingValues.star.value}>
+        <Select defaultValue={validations?.ratingIcon}>
           <SelectTrigger
             id={"rating-icon"}
             className="**:data-name:hidden **:data-icon:stroke-2"

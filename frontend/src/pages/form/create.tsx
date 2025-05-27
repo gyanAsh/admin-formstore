@@ -14,6 +14,7 @@ import * as motion from "motion/react-client";
 import { useState } from "react";
 import { AddFormElement } from "@/components/add-form-element";
 import { addForm } from "@/store/forms/form-elements";
+import { FormElementPreview } from "@/components/preview-form-elements";
 
 export default function CreateForm() {
   const { workspaceId, formId } = useParams();
@@ -35,6 +36,7 @@ export default function CreateForm() {
       if (data?.form?.id)
         addForm({
           id: String(data.form.id),
+          workspaceId: String(data.workspace.id),
           form_name: data.form.title,
         });
 
@@ -167,7 +169,7 @@ function FormTabs() {
             {selectedTab.code === "add_elements" ? (
               <AddFormElement />
             ) : selectedTab.code === "designs" ? (
-              <h1>Designs</h1>
+              <FormElementPreview />
             ) : selectedTab.code === "preview" ? (
               <h1>Preview</h1>
             ) : null}
