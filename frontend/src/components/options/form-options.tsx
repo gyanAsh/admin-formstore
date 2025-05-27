@@ -171,11 +171,10 @@ function DeleteFormsDialog({
       if (!res.ok) {
         throw new Error(res.statusText);
       }
-      const data = await res.json();
-      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["api-workspace-forms"] });
+      setOpenDialog(false);
     },
     onError: (err) => {
       toast.error(err.message);
@@ -201,7 +200,8 @@ function DeleteFormsDialog({
       </div>
       <Form {...formDeleteParams}>
         <form
-          onSubmit={() => {
+          onSubmit={(e) => {
+            e.preventDefault();
             formDeleteMutation.mutate();
           }}
           className="space-y-5"
