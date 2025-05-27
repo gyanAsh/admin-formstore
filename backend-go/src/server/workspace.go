@@ -183,30 +183,10 @@ func (s *Service) workspaceDeleteHandler(w http.ResponseWriter, r *http.Request)
 	}
 	workspace.UserID = userID
 
-	row := s.Conn.QueryRow(r.Context(), `SELECT user_id FROM workspaces
-		WHERE ID = $1 AND user_id = $2`, workspace.ID,
-		workspace.UserID)
-	var dbUserID int64
-	if err = row.Scan(&dbUserID); err != nil {
+	if _, err = s.Conn.Exec(r.Context(), `DELETE FROM workspaces WHERE
+		workspaces.ID = $1 AND user_id = $2`, workspace.ID, userID); err != nil {
 		log.Println(err)
-		if err == pgx.ErrNoRows {
-			w.WriteHeader(http.StatusForbidden)
-			return
-		}
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-	if dbUserID != workspace.UserID {
-		log.Println(fmt.Errorf("queried user id did not match"))
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	// soft delete user id
-
-	if err = json.NewEncoder(w).Encode(workspace); err != nil {
-		log.Println(err)
-		w.WriteHeader(http.StatusInternalServerError)
+		w.WriteHeader(http.StatusForbidden)
 		return
 	}
 }

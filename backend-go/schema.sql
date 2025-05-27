@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS forms (
 	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
 	updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
 	workspace_id INTEGER NOT NULL,
-	FOREIGN KEY (workspace_id) REFERENCES workspaces(ID)
+	FOREIGN KEY (workspace_id) REFERENCES workspaces(ID) ON DELETE CASCADE
 );
 
 CREATE TYPE form_element_types AS ENUM ('email', 'phone', 'text', 'date', 'drop_down', 'multiple_selection');
