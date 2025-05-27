@@ -17,7 +17,7 @@ type Form struct {
 	Title       string    `json:"title"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
-	WorkspaceID string    `json:"workspace_id"`
+	WorkspaceID string    `json:"workspace_id,omitempty"`
 }
 
 type FormElement struct {
