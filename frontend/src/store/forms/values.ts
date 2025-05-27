@@ -84,12 +84,16 @@ export const FromElements = [
     color: "green",
     items: [
       { title: "Net Promoter Score®", icon: Gauge, isPremium: false },
-      { title: "Rating", icon: Star, isPremium: false },
+      {
+        title: "Rating",
+        value: FormFields.rating,
+        icon: Star,
+        isPremium: true,
+      },
       {
         title: "Ranking",
-        value: FormFields.ranking,
         icon: ListOrdered,
-        isPremium: true,
+        isPremium: false,
       },
       { title: "Matrix", icon: Table, isPremium: false },
     ],
@@ -109,3 +113,22 @@ export const FromElements = [
     ],
   },
 ];
+
+export function getDefaultLabelTitle(fieldType: string): string {
+  switch (fieldType) {
+    case FormFields.email:
+      return "Email Address...";
+    case FormFields.url:
+      return "Website's Link...";
+    case FormFields.phone:
+      return "Phone Number...";
+    case FormFields.text:
+      return "Write...";
+    case FormFields.consent:
+      return "I accept...";
+    case FormFields.rating:
+      return "Rate...";
+    default:
+      return "Unknown Field";
+  }
+}

@@ -10,7 +10,7 @@ import {
 } from "../ui/dialog";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { memo, useEffect, useState } from "react";
+import { memo, useState } from "react";
 import { cn } from "@/lib/utils";
 import { FormElements, FormFields } from "@/store/forms/form-elemets.types";
 import {
@@ -43,7 +43,6 @@ export const FromElementDialogContent = memo(
   }) => {
     const [stateElement, setStateElement] = useState<FormElements>(element);
 
-    console.log({ stateElement, element, order });
     return (
       <DialogContent className="md:max-w-[700px] rounded-4xl">
         <DialogHeader>
@@ -133,7 +132,7 @@ export const FromElementDialogContent = memo(
             <EmailValidations />
           </div>
         )}
-        {stateElement.badge?.value === FormFields.ranking && (
+        {stateElement.badge?.value === FormFields.rating && (
           <div className="flex flex-col space-y-4">
             <RankingValidations />
           </div>

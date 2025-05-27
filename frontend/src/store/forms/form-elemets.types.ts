@@ -28,6 +28,7 @@ export enum FormFields {
   multiselect = "multiselect",
   dropdown = "dropdown",
   ranking = "ranking",
+  rating = "rating",
   date = "date",
   text = "text",
   phone = "phone",

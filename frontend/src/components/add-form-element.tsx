@@ -14,7 +14,11 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import {
+  ArrowDownFromLine,
+  ArrowDownUp,
+  ArrowUpFromLine,
   Circle,
+  Copy,
   Edit,
   EllipsisVertical,
   GripVertical,
@@ -32,7 +36,7 @@ import {
   DialogTrigger,
 } from "./ui/dialog";
 import { ScrollArea } from "./ui/scroll-area";
-import { cn, generateMicroId, getDefaultLabelTitle } from "@/lib/utils";
+import { cn, generateMicroId } from "@/lib/utils";
 import { Card } from "./ui/card";
 import {
   $all_forms,
@@ -60,7 +64,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { FromElements } from "@/store/forms/values";
+import { FromElements, getDefaultLabelTitle } from "@/store/forms/values";
 
 export const AddFormElement = () => {
   const { formId } = useParams();
@@ -445,6 +449,144 @@ const DndKitContainer = () => {
                             transition: { duration: 0.25, ease: "easeInOut" },
                           }}
                         >
+                          {/* Edit */}
+                          <DropdownMenuItem
+                            className="rounded-lg space-x-1 hover:text-zinc-900! hover:dark:text-zinc-100!"
+                            asChild
+                            onClick={() =>
+                              setOpenOptionsDialog({ value: true, item: idx })
+                            }
+                          >
+                            <motion.div
+                              whileHover={{
+                                scale: 1.03,
+                                transition: { duration: 0.1 },
+                              }}
+                              whileTap={{
+                                scale: 0.95,
+                                transition: { duration: 0.1 },
+                              }}
+                            >
+                              <Edit
+                                size={16}
+                                strokeWidth={3}
+                                className="opacity-100"
+                                aria-hidden="true"
+                              />
+                              <p>Edit</p>
+                            </motion.div>
+                          </DropdownMenuItem>
+                          {/* Duplicate */}
+                          <DropdownMenuItem
+                            className="rounded-lg space-x-1 hover:text-zinc-900! hover:dark:text-zinc-100!"
+                            asChild
+                            onClick={() => {
+                              // setOpenOptionsDialog({ value: true, item: idx })
+                            }}
+                          >
+                            <motion.div
+                              whileHover={{
+                                scale: 1.03,
+                                transition: { duration: 0.1 },
+                              }}
+                              whileTap={{
+                                scale: 0.95,
+                                transition: { duration: 0.1 },
+                              }}
+                            >
+                              <Copy
+                                size={16}
+                                strokeWidth={3}
+                                className="opacity-100"
+                                aria-hidden="true"
+                              />
+                              <p>Duplicate</p>
+                            </motion.div>
+                          </DropdownMenuItem>
+
+                          <DropdownMenuSeparator />
+
+                          {/* Move */}
+                          <DropdownMenuItem
+                            className="rounded-lg space-x-1 hover:text-zinc-900! hover:dark:text-zinc-100!"
+                            asChild
+                          >
+                            <DropdownMenuSub>
+                              <DropdownMenuSubTrigger className="rounded-lg space-x-3 hover:text-zinc-900! hover:dark:text-zinc-100!">
+                                <ArrowDownUp
+                                  size={16}
+                                  strokeWidth={3}
+                                  className="opacity-100"
+                                  aria-hidden="true"
+                                />
+                                <p>Move</p>
+                              </DropdownMenuSubTrigger>
+
+                              <DropdownMenuPortal>
+                                <DropdownMenuSubContent
+                                  sideOffset={0}
+                                  alignOffset={-10}
+                                  className="rounded-xl p-2 max-sm:translate-x-7"
+                                >
+                                  <DropdownMenuGroup key={idx} className="">
+                                    <DropdownMenuItem
+                                      className="rounded-lg space-x-1 hover:text-zinc-900! hover:dark:text-zinc-100!"
+                                      asChild
+                                      onClick={() => {
+                                        // setOpenOptionsDialog({ value: true, item: idx })
+                                      }}
+                                    >
+                                      <motion.div
+                                        whileHover={{
+                                          scale: 1.03,
+                                          transition: { duration: 0.1 },
+                                        }}
+                                        whileTap={{
+                                          scale: 0.95,
+                                          transition: { duration: 0.1 },
+                                        }}
+                                      >
+                                        <ArrowUpFromLine
+                                          size={16}
+                                          strokeWidth={3}
+                                          className="opacity-100"
+                                          aria-hidden="true"
+                                        />
+                                        <p>Up</p>
+                                      </motion.div>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem
+                                      className="rounded-lg space-x-1 hover:text-zinc-900! hover:dark:text-zinc-100!"
+                                      asChild
+                                      onClick={() => {
+                                        // setOpenOptionsDialog({ value: true, item: idx })
+                                      }}
+                                    >
+                                      <motion.div
+                                        whileHover={{
+                                          scale: 1.03,
+                                          transition: { duration: 0.1 },
+                                        }}
+                                        whileTap={{
+                                          scale: 0.95,
+                                          transition: { duration: 0.1 },
+                                        }}
+                                      >
+                                        <ArrowDownFromLine
+                                          size={16}
+                                          strokeWidth={3}
+                                          className="opacity-100"
+                                          aria-hidden="true"
+                                        />
+                                        <p>Down</p>
+                                      </motion.div>
+                                    </DropdownMenuItem>
+                                  </DropdownMenuGroup>
+                                </DropdownMenuSubContent>
+                              </DropdownMenuPortal>
+                            </DropdownMenuSub>
+                          </DropdownMenuItem>
+                          {/* Change Type */}
                           <DropdownMenuItem
                             className="rounded-lg space-x-1 hover:text-zinc-900! hover:dark:text-zinc-100!"
                             asChild
@@ -486,7 +628,7 @@ const DndKitContainer = () => {
                                                 <DropdownMenuItem
                                                   key={idx_el}
                                                   className={cn(
-                                                    "relative max-sm:w-[155px] flex justify-start items-center overflow-hidden group hover:border hover:scale-[1.045] !border-inherit/5 transition-all duration-100",
+                                                    "relative max-sm:w-[155px] flex justify-start items-center overflow-hidden p-1 not-hover:pr-2 hover:pl-2 group hover:border hover:scale-[1.03] !border-inherit/5 transition-all duration-95",
                                                     {
                                                       "hover:bg-gray-200/20 hover:dark:bg-gray-500/10":
                                                         true,
@@ -576,32 +718,10 @@ const DndKitContainer = () => {
                               </DropdownMenuPortal>
                             </DropdownMenuSub>
                           </DropdownMenuItem>
-                          <DropdownMenuItem
-                            className="rounded-lg space-x-1 hover:text-zinc-900! hover:dark:text-zinc-100!"
-                            asChild
-                            onClick={() =>
-                              setOpenOptionsDialog({ value: true, item: idx })
-                            }
-                          >
-                            <motion.div
-                              whileHover={{
-                                scale: 1.03,
-                                transition: { duration: 0.1 },
-                              }}
-                              whileTap={{
-                                scale: 0.95,
-                                transition: { duration: 0.1 },
-                              }}
-                            >
-                              <Edit
-                                size={16}
-                                strokeWidth={3}
-                                className="opacity-100"
-                                aria-hidden="true"
-                              />
-                              <p>Edit</p>
-                            </motion.div>
-                          </DropdownMenuItem>
+
+                          <DropdownMenuSeparator />
+
+                          {/* Delete */}
                           <DropdownMenuItem
                             className="rounded-lg space-x-1 bg-destructive/75 shadow-xs hover:text-white! hover:bg-destructive!"
                             asChild
