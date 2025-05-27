@@ -70,6 +70,7 @@ func HttpServiceStart() error {
 	mux.HandleFunc("PUT /api/form/element", s.formElementUpdateHandler)
 
 	mux.HandleFunc("DELETE /api/workspace", s.workspaceDeleteHandler)
+	mux.HandleFunc("DELETE /api/form", s.formDeleteHandler)
 
 	log.Println("running on: http://localhost:4000")
 	return http.ListenAndServe(":4000", LoggingMiddleware(mux))

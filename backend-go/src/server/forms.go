@@ -240,3 +240,42 @@ func (s *Service) formDataHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+func (s *Service) formDeleteHandler(w http.ResponseWriter, r *http.Request) {
+	userID, err := s.authenticate(r)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+	type FormData struct {
+		ID int64 `json:"id"`
+	}
+	var formData FormData
+	if err := json.NewDecoder(r.Body).Decode(&formData); err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("required field `id` is missing"))
+		return
+	}
+	res, err := s.Conn.Exec(r.Context(), `
+		DELETE FROM forms
+		WHERE forms.ID = $1
+		AND forms.workspace_id IN (
+			SELECT workspaces.ID
+			FROM workspaces
+			WHERE user_id = $2
+		)`, formData.ID, userID)
+
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusForbidden)
+		w.Write([]byte("user doesn't have permission to delete this form"))
+		return
+	}
+	if count := res.RowsAffected(); count == 0 {
+		log.Println(fmt.Errorf("delete no rows id doesn't exist"))
+		w.WriteHeader(http.StatusNotModified)
+		return
+	}
+}
