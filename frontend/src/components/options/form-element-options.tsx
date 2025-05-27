@@ -10,7 +10,7 @@ import {
 } from "../ui/dialog";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { FormElements, FormFields } from "@/store/forms/form-elemets.types";
 import {
@@ -31,148 +31,152 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { RakingValues } from "@/store/forms/values";
-export const FromElementDialogContent = ({
-  order,
-  formId,
-  element,
-}: {
-  order: string | number;
-  formId: string;
-  element: FormElements;
-}) => {
-  const [stateElement, setStateElement] = useState(element);
-  return (
-    <DialogContent className="md:max-w-[700px] rounded-4xl">
-      <DialogHeader>
-        <DialogTitle className="flex items-center gap-2">
-          <div
-            className={cn(
-              "p-1 border rounded-full text-secondary-foreground",
-              "flex items-center gap-1 text-sm px-3 font-normal",
-              {
-                " bg-pink-100 dark:bg-pink-500/15 ":
-                  stateElement.badge?.color === "pink",
-              },
-              {
-                " bg-blue-100 dark:bg-blue-500/15 ":
-                  stateElement.badge?.color === "blue",
-              },
-              {
-                " bg-green-100 dark:bg-green-500/15 ":
-                  stateElement.badge?.color === "green",
-              },
-              {
-                " bg-yellow-100 dark:bg-yellow-500/15 ":
-                  stateElement.badge?.color === "yellow",
+export const FromElementDialogContent = memo(
+  ({
+    order,
+    formId,
+    element,
+  }: {
+    order: string | number;
+    formId: string;
+    element: FormElements;
+  }) => {
+    const [stateElement, setStateElement] = useState<FormElements>(element);
+
+    console.log({ stateElement, element, order });
+    return (
+      <DialogContent className="md:max-w-[700px] rounded-4xl">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2">
+            <div
+              className={cn(
+                "p-1 border rounded-full text-secondary-foreground",
+                "flex items-center gap-1 text-sm px-3 font-normal",
+                {
+                  " bg-pink-100 dark:bg-pink-500/15 ":
+                    stateElement.badge?.color === "pink",
+                },
+                {
+                  " bg-blue-100 dark:bg-blue-500/15 ":
+                    stateElement.badge?.color === "blue",
+                },
+                {
+                  " bg-green-100 dark:bg-green-500/15 ":
+                    stateElement.badge?.color === "green",
+                },
+                {
+                  " bg-yellow-100 dark:bg-yellow-500/15 ":
+                    stateElement.badge?.color === "yellow",
+                }
+              )}
+            >
+              <p className="text-secondary-foreground">{order}</p>
+              <Dot className="size-2" strokeWidth={10} />
+              <p className="capitalize relative">{element.badge?.value}</p>
+            </div>
+            <p className="capitalize">{"Set Field Rules"}</p>
+          </DialogTitle>
+          <DialogDescription>
+            Define what users are allowed to enter in this field based on
+            conditions.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="flex flex-col space-y-4">
+          <div className="grid flex-1 gap-2">
+            <Label htmlFor="element-question">Question</Label>
+            <Textarea
+              id="element-question"
+              value={stateElement.labels.title}
+              onChange={(e) =>
+                setStateElement((prev) => ({
+                  ...prev,
+                  labels: { ...prev.labels, title: e.target.value },
+                }))
               }
-            )}
-          >
-            <p className="text-secondary-foreground">{order}</p>
-            <Dot className="size-2" strokeWidth={10} />
-            <p className="capitalize relative">{element.badge?.value}</p>
+              placeholder="Your Question here."
+              className="field-sizing-content max-h-29.5 min-h-0 resize-none py-1.75"
+            />
           </div>
-          <p className="capitalize">{"Set Field Rules"}</p>
-        </DialogTitle>
-        <DialogDescription>
-          Define what users are allowed to enter in this field based on
-          conditions.
-        </DialogDescription>
-      </DialogHeader>
-      <div className="flex flex-col space-y-4">
-        <div className="grid flex-1 gap-2">
-          <Label htmlFor="element-question">Question</Label>
-          <Textarea
-            id="element-question"
-            value={stateElement.labels.title}
-            onChange={(e) =>
-              setStateElement((prev) => ({
-                ...prev,
-                labels: { ...prev.labels, title: e.target.value },
-              }))
+          <div className="grid flex-1 gap-2">
+            <Label htmlFor="element-description">Description </Label>
+            <Textarea
+              id="element-description"
+              value={stateElement.labels.description}
+              onChange={(e) =>
+                setStateElement((prev) => ({
+                  ...prev,
+                  labels: { ...prev.labels, description: e.target.value },
+                }))
+              }
+              placeholder="Your Description here."
+              className="field-sizing-content max-h-29.5 min-h-0 resize-none py-1.75"
+            />
+          </div>
+        </div>
+        {stateElement.badge?.value === FormFields.text && (
+          <div className="flex flex-col space-y-4">
+            <TextValidations />
+          </div>
+        )}
+        {stateElement.badge?.value === FormFields.consent && (
+          <div className="flex flex-col space-y-4">
+            <ConcentValidations />
+          </div>
+        )}
+        {stateElement.badge?.value === FormFields.url && (
+          <div className="flex flex-col space-y-4">
+            <URLValidations />
+          </div>
+        )}
+        {stateElement.badge?.value === FormFields.email && (
+          <div className="flex flex-col space-y-4">
+            <EmailValidations />
+          </div>
+        )}
+        {stateElement.badge?.value === FormFields.ranking && (
+          <div className="flex flex-col space-y-4">
+            <RankingValidations />
+          </div>
+        )}
+        <div className="flex flex-col w-fit space-y-4">
+          <RequiredToggle
+            state={stateElement.required}
+            onClick={() =>
+              setStateElement((e) => ({ ...e, required: !e.required }))
             }
-            placeholder="Your Question here."
-            className="field-sizing-content max-h-29.5 min-h-0 resize-none py-1.75"
           />
         </div>
-        <div className="grid flex-1 gap-2">
-          <Label htmlFor="element-description">Description </Label>
-          <Textarea
-            id="element-description"
-            value={stateElement.labels.description}
-            onChange={(e) =>
-              setStateElement((prev) => ({
-                ...prev,
-                labels: { ...prev.labels, description: e.target.value },
-              }))
-            }
-            placeholder="Your Description here."
-            className="field-sizing-content max-h-29.5 min-h-0 resize-none py-1.75"
-          />
-        </div>
-      </div>
-      {stateElement.badge?.value === FormFields.text && (
-        <div className="flex flex-col space-y-4">
-          <TextValidations />
-        </div>
-      )}
-      {stateElement.badge?.value === FormFields.consent && (
-        <div className="flex flex-col space-y-4">
-          <ConcentValidations />
-        </div>
-      )}
-      {stateElement.badge?.value === FormFields.url && (
-        <div className="flex flex-col space-y-4">
-          <URLValidations />
-        </div>
-      )}
-      {stateElement.badge?.value === FormFields.email && (
-        <div className="flex flex-col space-y-4">
-          <EmailValidations />
-        </div>
-      )}
-      {stateElement.badge?.value === FormFields.ranking && (
-        <div className="flex flex-col space-y-4">
-          <RankingValidations />
-        </div>
-      )}
-      <div className="flex flex-col w-fit space-y-4">
-        <RequiredToggle
-          state={stateElement.required}
-          onClick={() =>
-            setStateElement((e) => ({ ...e, required: !e.required }))
-          }
-        />
-      </div>
-      <DialogFooter className="sm:justify-start mt-3 space-x-2">
-        <DialogClose asChild>
-          <Button
-            type="button"
-            effect="small_scale"
-            className={cn(
-              "flex-1 rounded-lg text-base",
-              "bg-transparent border border-white-500 text-white-500 hover:text-white-500 ease-in duration-80 hover:bg-destructive/25"
-            )}
-          >
-            Cancel
-          </Button>
-        </DialogClose>
-        <DialogClose asChild>
-          <Button
-            type="submit"
-            effect={"small_scale"}
-            onClick={() => updateFormElement(formId, stateElement)}
-            className={cn(
-              "flex-1 rounded-lg text-base  ease-in duration-80",
-              "bg-primary/85 text-white! "
-            )}
-          >
-            Update
-          </Button>
-        </DialogClose>
-      </DialogFooter>
-    </DialogContent>
-  );
-};
+        <DialogFooter className="sm:justify-start mt-3 space-x-2">
+          <DialogClose asChild>
+            <Button
+              type="button"
+              effect="small_scale"
+              className={cn(
+                "flex-1 rounded-lg text-base",
+                "bg-transparent border border-white-500 text-white-500 hover:text-white-500 ease-in duration-80 hover:bg-destructive/25"
+              )}
+            >
+              Cancel
+            </Button>
+          </DialogClose>
+          <DialogClose asChild>
+            <Button
+              type="submit"
+              effect={"small_scale"}
+              onClick={() => updateFormElement(formId, stateElement)}
+              className={cn(
+                "flex-1 rounded-lg text-base  ease-in duration-80",
+                "bg-primary/85 text-white! "
+              )}
+            >
+              Update
+            </Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    );
+  }
+);
 function RequiredToggle({
   state,
   onClick,

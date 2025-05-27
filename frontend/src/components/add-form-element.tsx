@@ -333,11 +333,20 @@ const DndKitContainer = () => {
                         {item.labels.title}
                       </div>
                     </DialogTrigger>
-                    <FromElementDialogContent
-                      order={idx + 1}
-                      formId={formId!}
-                      element={item}
-                    />
+                    {!!(
+                      (
+                        openOptionsDialog.value &&
+                        openOptionsDialog.item === idx
+                      )
+                      // the useState in the component below does not rest when user close the dialog box ,
+                      //  thus removing it from the DOM is one way to reset the state.
+                    ) && (
+                      <FromElementDialogContent
+                        order={idx + 1}
+                        formId={formId!}
+                        element={item}
+                      />
+                    )}
                   </Dialog>
 
                   <section className="flex gap-2.5 max-sm:justify-end py-4 pr-4">
@@ -439,10 +448,6 @@ const DndKitContainer = () => {
                           <DropdownMenuItem
                             className="rounded-lg space-x-1 hover:text-zinc-900! hover:dark:text-zinc-100!"
                             asChild
-                            onClick={() => {
-                              // setOpenOptionsDialog({ value: true, item: idx })
-                              // open dialog box to show pregress will be removed.
-                            }}
                           >
                             <DropdownMenuSub>
                               <DropdownMenuSubTrigger className="rounded-lg space-x-3 hover:text-zinc-900! hover:dark:text-zinc-100!">
@@ -511,7 +516,7 @@ const DndKitContainer = () => {
                                                 >
                                                   <div
                                                     className={cn(
-                                                      "p-0.5 rounded-[7px] group-hover:borderd",
+                                                      "p-0.5 rounded-[7px]",
                                                       {
                                                         "bg-gray-200/95 dark:bg-gray-500/45":
                                                           true,
