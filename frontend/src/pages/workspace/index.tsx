@@ -60,7 +60,7 @@ export default function Workspace() {
           {/* top-navbar */}
           <section
             className={cn(
-              "sticky top-0 z-10 flex max-sm:flex-col max-sm:gap-2.5 sm:items-center sm:justify-between p-2.5 w-full bg-inherit pt-3.5 sm:py-3.5"
+              "sticky top-0 z-10 flex max-sm:flex-col max-sm:gap-2.5 sm:items-center sm:justify-between p-2.5 w-full bg-inherit pt-3.5 sm:py-3.5",
             )}
           >
             <div className="flex items-center sm:justify-between space-x-3">
@@ -144,7 +144,7 @@ export default function Workspace() {
                         key={form.id}
                         className={cn(
                           "hover:shadow-2xl hover:border-primary transition-all ease-in-out duration-200",
-                          " cursor-default p-3 rounded-xl bg-zinc-50/75 dark:bg-slate-900/35 gap-4"
+                          " cursor-default p-3 rounded-xl bg-zinc-50/75 dark:bg-slate-900/35 gap-4",
                         )}
                       >
                         <section className="flex flex-col items-start">
@@ -208,7 +208,7 @@ export default function Workspace() {
                             onClick={() => {
                               // navigate(`/workspace/${workspaceId}/${form.id}`);
                               navigate(
-                                `/workspace/${workspaceId}/${form.id}/create`
+                                `/workspace/${workspaceId}/${form.id}/create`,
                               );
                             }}
                             asChild
@@ -228,7 +228,10 @@ export default function Workspace() {
                               View Form
                             </motion.div>
                           </Button>
-                          <FormOptions />
+                          <FormOptions
+                            formId={form.id}
+                            formTitle={form.title}
+                          />
                         </section>
                       </Card>
                     );
@@ -251,7 +254,13 @@ export default function Workspace() {
   );
 }
 
-function FormOptions() {
+function FormOptions({
+  formId,
+  formTitle,
+}: {
+  formId: number;
+  formTitle: string;
+}) {
   const [openOptions, setOpenOptions] = useState(false);
   return (
     <Popover open={openOptions} onOpenChange={setOpenOptions} modal>
@@ -262,6 +271,8 @@ function FormOptions() {
         </Button>
       </PopoverTrigger>
       <FormPopoverContentOptions
+        formId={formId}
+        formTitle={formTitle}
         closeOptions={() => setOpenOptions(false)}
         sideOffset={2}
         alignOffset={0}
