@@ -26,9 +26,15 @@ import {
   Table,
 } from "lucide-react";
 
-import { FormFields, RakingKey, RakingValue } from "./form-elemets.types";
+import {
+  FormFields,
+  RatingKey,
+  RatingValue,
+  UrlValidation,
+  ValidatonTypes,
+} from "./form-elemets.types";
 
-export const RakingValues: Record<RakingKey, RakingValue> = {
+export const RatingValues: Record<RatingKey, RatingValue> = {
   star: { value: "star", name: "Start", icon: Star },
   heart: { value: "heart", name: "Heart", icon: Heart },
   thumb_up: { value: "thumb_up", name: "Thumb Up", icon: ThumbsUp },
@@ -132,3 +138,24 @@ export function getDefaultLabelTitle(fieldType: string): string {
       return "Unknown Field";
   }
 }
+
+// export function getDefaultValidations(fieldType: string): ValidatonTypes {
+//   switch (fieldType) {
+//     case FormFields.email:
+//       return{
+//         placeholder:"example@gmail.com"
+//       } as UrlValidation;
+//     case FormFields.url:
+//       return "Website's Link...";
+//     case FormFields.phone:
+//       return "Phone Number...";
+//     case FormFields.text:
+//       return "Write...";
+//     case FormFields.consent:
+//       return "I accept...";
+//     case FormFields.rating:
+//       return "Rate...";
+//     default:
+//       new Error("Element Validation not found.");
+//   }
+// }

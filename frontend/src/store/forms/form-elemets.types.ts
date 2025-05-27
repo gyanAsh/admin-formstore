@@ -8,6 +8,7 @@ export interface Forms {
 
 export type FormElements = {
   id: string;
+  sequence_number?: number;
   field: string;
   badge?: {
     value: string;
@@ -35,7 +36,7 @@ export enum FormFields {
   email = "email",
 }
 
-export type RakingKey =
+export type RatingKey =
   | "star"
   | "heart"
   | "thumb_up"
@@ -47,7 +48,7 @@ export type RakingKey =
   | "wrong"
   | "pizza";
 
-export interface RakingValue {
+export interface RatingValue {
   value: string;
   name: string;
   icon: LucideIcon;
@@ -56,20 +57,30 @@ export interface RakingValue {
 export type ValidatonTypes =
   | EmailValidation
   | ConsentValidation
-  | UrlValidation;
+  | UrlValidation
+  | TextValidation
+  | RatingValidation;
 
 // Specific validation rules for each field type
 export interface EmailValidation {
-  pattern?: string; // e.g., regex pattern for custom email validation
-  minLength?: number;
-  maxLength?: number;
+  placeholder: string; //example@email.com
 }
 
 export interface UrlValidation {
-  pattern?: string; // e.g., regex pattern for custom URL validation
-  protocols?: string[]; // e.g., ['http', 'https']
+  placeholder: string; //https://
 }
 
 export interface ConsentValidation {
-  acceptCondition?: boolean; // e.g., whether the checkbox must be checked
+  acceptBtnText: string; //I accept
+  rejectBtnText: string; //I don't accept
+}
+
+export interface RatingValidation {
+  iconLength: number; //5
+  rejectBtnText: RatingKey; //star
+}
+
+export interface TextValidation {
+  minLength: number; //1
+  maxLength: number; //150
 }

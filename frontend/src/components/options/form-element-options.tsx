@@ -30,7 +30,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { RakingValues } from "@/store/forms/values";
+import { RatingValues } from "@/store/forms/values";
+
 export const FromElementDialogContent = memo(
   ({
     order,
@@ -329,26 +330,26 @@ const RankingValidations = () => {
         </div>
       </NumberField>
       <div className="grid flex-1 gap-2 *:not-first:mt-2">
-        <Label htmlFor={"ranking-icon"}>Icons</Label>
-        <Select defaultValue={RakingValues.star.value}>
+        <Label htmlFor={"rating-icon"}>Icons</Label>
+        <Select defaultValue={RatingValues.star.value}>
           <SelectTrigger
-            id={"ranking-icon"}
+            id={"rating-icon"}
             className="**:data-name:hidden **:data-icon:stroke-2"
           >
             <SelectValue placeholder="Select Icon" />
           </SelectTrigger>
           <SelectContent>
             {[
-              RakingValues.star,
-              RakingValues.heart,
-              RakingValues.thumb_up,
-              RakingValues.thumb_down,
-              RakingValues.crown,
-              RakingValues.lightning,
-              RakingValues.skull,
-              RakingValues.check,
-              RakingValues.wrong,
-              RakingValues.pizza,
+              RatingValues.star,
+              RatingValues.heart,
+              RatingValues.thumb_up,
+              RatingValues.thumb_down,
+              RatingValues.crown,
+              RatingValues.lightning,
+              RatingValues.skull,
+              RatingValues.check,
+              RatingValues.wrong,
+              RatingValues.pizza,
             ].map((e) => {
               return (
                 <SelectItem
