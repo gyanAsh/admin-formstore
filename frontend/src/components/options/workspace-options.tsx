@@ -34,8 +34,8 @@ import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useParams, useNavigate } from "react-router";
 
 export const createWorkspaceSchema = z.object({
-  name: z.string().min(4, {
-    message: "Workspace name must be at least 4 characters.",
+  name: z.string().min(2, {
+    message: "Workspace name must be at least 2 characters.",
   }),
 });
 
