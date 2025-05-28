@@ -60,7 +60,7 @@ export default function AddWorkspace() {
       const data = await res.json();
       return data;
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["api-workspaces"] });
       setOpenDialog(false);
     },

@@ -58,7 +58,7 @@ export default function AddFormButton() {
       const data = await res.json();
       return data;
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["api-workspace-forms"] });
       setOpenDialog(false);
     },
