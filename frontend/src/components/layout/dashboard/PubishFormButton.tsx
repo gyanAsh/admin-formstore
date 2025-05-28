@@ -11,8 +11,8 @@ import {
 import { Button } from "@/components/ui/button";
 import * as motion from "motion/react-client";
 export const createFormSchema = z.object({
-  name: z.string().min(4, {
-    message: "Workspace name must be at least 4 characters.",
+  name: z.string().min(2, {
+    message: "Form name must be at least 2 characters.",
   }),
 });
 
