@@ -209,7 +209,7 @@ function DeleteFormsDialog({
           Authorization: `Bearer ${getAuthToken()}`,
         },
         body: JSON.stringify({
-          id: parseInt(formId as any),
+          id: parseInt(String(formId)),
         }),
       });
       if (!res.ok) {
@@ -308,7 +308,7 @@ function RenameFormDialog({
           Authorization: `Bearer ${getAuthToken()}`,
         },
         body: JSON.stringify({
-          id: parseInt(formId as any),
+          id: parseInt(String(formId)),
           title: name,
         }),
       });

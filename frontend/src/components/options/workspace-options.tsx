@@ -61,7 +61,7 @@ function DeleteWorkspaceDialogForm({
           Authorization: `Bearer ${getAuthToken()}`,
         },
         body: JSON.stringify({
-          id: parseInt(workspaceId as any),
+          id: parseInt(String(workspaceId)),
         }),
       });
       if (!res.ok) {
@@ -72,7 +72,7 @@ function DeleteWorkspaceDialogForm({
       queryClient.invalidateQueries({ queryKey: ["api-workspaces"] });
       queryClient.invalidateQueries({ queryKey: ["api-workspace-forms"] });
       setOpenDialog(false);
-      if (parseInt(params.workspaceId as any) == parseInt(workspaceId as any)) {
+      if (parseInt(String(params.workspaceId)) == parseInt(String(workspaceId))) {
         navigate("/workspace");
       }
     },
@@ -165,7 +165,7 @@ function RenameWorkspaceDialogForm({
           Authorization: `Bearer ${getAuthToken()}`,
         },
         body: JSON.stringify({
-          id: parseInt(workspaceId as any),
+          id: parseInt(String(workspaceId)),
           name: name,
         }),
       });
