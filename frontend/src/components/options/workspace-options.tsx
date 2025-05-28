@@ -143,9 +143,11 @@ function DeleteWorkspaceDialogForm({
 
 function RenameWorkspaceDialogForm({
   workspaceId,
+  workspaceName,
   setOpenDialog,
 }: {
   workspaceId: number;
+  workspaceName: string;
   setOpenDialog: (bool: boolean) => void;
 }) {
   const id = useId();
@@ -203,7 +205,7 @@ function RenameWorkspaceDialogForm({
             Rename Workspace
           </DialogTitle>
           <DialogDescription className="sm:text-center text-base text-zinc-500 dark:text-zinc-400">
-            To rename a wordspace, please enter a name below.
+            Please enter a name for workspace `{workspaceName}` below.
           </DialogDescription>
         </DialogHeader>
       </div>
@@ -298,6 +300,7 @@ export const WorkspaceDropdownContentOptions = ({
         {currentOption == "rename" ? (
           <RenameWorkspaceDialogForm
             workspaceId={workspaceId}
+            workspaceName={workspaceName}
             setOpenDialog={setOpenDialog}
           />
         ) : currentOption == "delete" ? (
