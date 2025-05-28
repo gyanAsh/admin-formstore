@@ -115,14 +115,14 @@ export const AddFormElement = () => {
               <Plus strokeWidth={3} /> Add Element
             </Button>
           </DialogTrigger>
-          <DialogContent className="md:max-w-[700px] lg:max-w-[950px] rounded-3xl bg-gray-200 dark:bg-inherit">
+          <DialogContent className="md:max-w-[700px] lg:max-w-[950px] rounded-4xl bg-gray-200 dark:bg-inherit">
             <DialogHeader>
               <DialogTitle>Add Form Elements</DialogTitle>
               <DialogDescription className="leading-2">
                 Select elements you wish to add in your form.
               </DialogDescription>
             </DialogHeader>
-            <ScrollArea className="max-h-[70dvh] bg-gray-100  dark:bg-slate-800/65 rounded-xl ">
+            <ScrollArea className="max-h-[70dvh] bg-gray-100  dark:bg-slate-800/65 rounded-3xl ">
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 m-6">
                 {FromElements.map((el) => (
                   <div key={el.name} className="flex flex-col gap-1.5">

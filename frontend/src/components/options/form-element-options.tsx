@@ -51,9 +51,9 @@ export const FromElementDialogContent = memo(
     element: FormElements;
   }) => {
     const [stateElement, setStateElement] = useState<FormElements>(element);
-
+    console.log({ stateElement });
     return (
-      <DialogContent className="md:max-w-[700px] rounded-4xl">
+      <DialogContent className="md:max-w-[700px] max-h-[calc(100%-2rem)] rounded-4xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <div
@@ -91,7 +91,7 @@ export const FromElementDialogContent = memo(
         </DialogHeader>
         <div className="flex flex-col space-y-4">
           <div className="grid flex-1 gap-2">
-            <Label htmlFor="element-question">Question</Label>
+            <Label htmlFor="element-question">Label</Label>
             <Textarea
               id="element-question"
               value={stateElement.labels.title}
@@ -101,7 +101,7 @@ export const FromElementDialogContent = memo(
                   labels: { ...prev.labels, title: e.target.value },
                 }))
               }
-              placeholder="Your Question here."
+              placeholder="Your label here."
               className="field-sizing-content max-h-29.5 min-h-0 resize-none py-1.75"
             />
           </div>
@@ -125,6 +125,7 @@ export const FromElementDialogContent = memo(
           <div className="flex flex-col space-y-4">
             <TextValidations
               validations={stateElement.validations as TextValidation}
+              setState={setStateElement}
             />
           </div>
         )}
@@ -132,6 +133,7 @@ export const FromElementDialogContent = memo(
           <div className="flex flex-col space-y-4">
             <ConsentValidations
               validations={stateElement.validations as ConsentValidation}
+              setState={setStateElement}
             />
           </div>
         )}
@@ -216,15 +218,27 @@ function RequiredToggle({
     </div>
   );
 }
-const TextValidations = ({ validations }: { validations?: TextValidation }) => {
+const TextValidations = ({
+  validations,
+  setState,
+}: {
+  validations?: TextValidation;
+  setState: React.Dispatch<React.SetStateAction<FormElements>>;
+}) => {
   let hardMinValue = 1,
     hardMaxValue = 160;
   return (
     <div className="grid grid-cols-2 gap-2.5">
       <NumberField
-        defaultValue={validations?.minLength}
+        value={validations?.minLength}
         minValue={hardMinValue}
         maxValue={validations?.maxLength}
+        onChange={(val) => {
+          setState((e) => ({
+            ...e,
+            validations: { ...e.validations, minLength: val } as TextValidation,
+          }));
+        }}
       >
         <div className="*:not-first:mt-2">
           <AriaLabel className="text-foreground text-sm font-medium">
@@ -248,9 +262,15 @@ const TextValidations = ({ validations }: { validations?: TextValidation }) => {
         </div>
       </NumberField>
       <NumberField
-        defaultValue={validations?.maxLength}
+        value={validations?.maxLength}
         minValue={validations?.minLength}
         maxValue={hardMaxValue}
+        onChange={(val) => {
+          setState((e) => ({
+            ...e,
+            validations: { ...e.validations, maxLength: val } as TextValidation,
+          }));
+        }}
       >
         <div className="*:not-first:mt-2">
           <AriaLabel className="text-foreground text-sm font-medium">
@@ -282,6 +302,7 @@ const ConsentValidations = ({
 }: {
   validations?: ConsentValidation;
 }) => {
+  console.log({ validations });
   return (
     <div className="flex items-center space-x-4">
       <div className="grid flex-1 gap-2">
@@ -291,7 +312,7 @@ const ConsentValidations = ({
           type="text"
           defaultValue={validations?.acceptBtnText}
           className="border-accent-foreground/40"
-          placeholder="Your Question here."
+          placeholder="Your accept text here."
         />
       </div>
       <div className="grid flex-1 gap-2">
@@ -301,7 +322,7 @@ const ConsentValidations = ({
           type="text"
           defaultValue={validations?.rejectBtnText}
           className="border-accent-foreground/40"
-          placeholder="Your Description here."
+          placeholder="Your reject text here."
         />
       </div>
     </div>
@@ -317,6 +338,7 @@ const URLValidations = ({ validations }: { validations?: UrlValidation }) => {
         type="text"
         className="border-accent-foreground/40"
         placeholder={validations?.placeholder}
+        defaultValue={validations?.placeholder}
       />
     </div>
   );
@@ -335,6 +357,7 @@ const EmailValidations = ({
         type="text"
         className="border-accent-foreground/40"
         placeholder={validations?.placeholder}
+        defaultValue={validations?.placeholder}
       />
     </div>
   );
@@ -345,7 +368,6 @@ const RatingValidations = ({
 }: {
   validations?: RatingValidation;
 }) => {
-  console.log({ d: validations });
   return (
     <div className="flex items-center space-x-4">
       <NumberField
