@@ -51,7 +51,6 @@ export const FromElementDialogContent = memo(
     element: FormElements;
   }) => {
     const [stateElement, setStateElement] = useState<FormElements>(element);
-    console.log({ stateElement });
     return (
       <DialogContent className="md:max-w-[700px] max-h-[calc(100%-2rem)] rounded-4xl overflow-y-auto">
         <DialogHeader>
@@ -157,6 +156,7 @@ export const FromElementDialogContent = memo(
           <div className="flex flex-col space-y-4">
             <RatingValidations
               validations={stateElement.validations as RatingValidation}
+              setState={setStateElement}
             />
           </div>
         )}
@@ -357,7 +357,6 @@ const URLValidations = ({
   validations?: UrlValidation;
   setState: React.Dispatch<React.SetStateAction<FormElements>>;
 }) => {
-  console.log({ validations });
   return (
     <div className="grid flex-1 gap-2">
       <Label htmlFor="url-placeholder">Placeholder </Label>
@@ -413,19 +412,30 @@ const EmailValidations = ({
 
 const RatingValidations = ({
   validations,
+  setState,
 }: {
   validations?: RatingValidation;
+  setState: React.Dispatch<React.SetStateAction<FormElements>>;
 }) => {
   return (
     <div className="flex items-center space-x-4">
       <NumberField
-        defaultValue={validations?.iconLength}
+        value={validations?.iconLength}
         minValue={1}
         maxValue={10}
+        onChange={(val) => {
+          setState((e) => ({
+            ...e,
+            validations: {
+              ...e.validations,
+              iconLength: val,
+            } as RatingValidation,
+          }));
+        }}
       >
         <div className="*:not-first:mt-2">
           <AriaLabel className="text-foreground text-sm font-medium">
-            Min characters
+            Total Icons
           </AriaLabel>
           <Group className="border-input data-focus-within:border-ring data-focus-within:ring-ring/50 data-focus-within:has-aria-invalid:ring-destructive/20 dark:data-focus-within:has-aria-invalid:ring-destructive/40 data-focus-within:has-aria-invalid:border-destructive relative inline-flex h-9 w-full items-center overflow-hidden rounded-md border text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none data-disabled:opacity-50 data-focus-within:ring-[3px]">
             <AriaButton
@@ -446,7 +456,18 @@ const RatingValidations = ({
       </NumberField>
       <div className="grid flex-1 gap-2 *:not-first:mt-2">
         <Label htmlFor={"rating-icon"}>Icons</Label>
-        <Select defaultValue={validations?.ratingIcon}>
+        <Select
+          defaultValue={validations?.ratingIcon}
+          onValueChange={(val) => {
+            setState((e) => ({
+              ...e,
+              validations: {
+                ...e.validations,
+                ratingIcon: val,
+              } as RatingValidation,
+            }));
+          }}
+        >
           <SelectTrigger
             id={"rating-icon"}
             className="**:data-name:hidden **:data-icon:stroke-2"
