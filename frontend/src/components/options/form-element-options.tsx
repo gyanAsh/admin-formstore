@@ -149,6 +149,7 @@ export const FromElementDialogContent = memo(
           <div className="flex flex-col space-y-4">
             <EmailValidations
               validations={stateElement.validations as EmailValidation}
+              setState={setStateElement}
             />
           </div>
         )}
@@ -382,18 +383,29 @@ const URLValidations = ({
 
 const EmailValidations = ({
   validations,
+  setState,
 }: {
   validations?: EmailValidation;
+  setState: React.Dispatch<React.SetStateAction<FormElements>>;
 }) => {
   return (
     <div className="grid flex-1 gap-2">
-      <Label htmlFor="email-placeholder">Placeholder </Label>
+      <Label htmlFor="email-placeholder">Placeholder</Label>
       <Input
         id="email-placeholder"
         type="text"
         className="border-accent-foreground/40"
         placeholder={validations?.placeholder}
-        defaultValue={validations?.placeholder}
+        value={validations?.placeholder}
+        onChange={(val) =>
+          setState((e) => ({
+            ...e,
+            validations: {
+              ...e.validations,
+              placeholder: val.target.value,
+            } as EmailValidation,
+          }))
+        }
       />
     </div>
   );
