@@ -113,7 +113,7 @@ export default function Workspace() {
                         </Button>
                       </DropdownMenuTrigger>
                       <WorkspaceDropdownContentOptions
-                        workspaceId={workspaceId!}
+                        workspaceId={parseInt(workspaceId!)}
                         workspaceName={formsData?.workspace?.name}
                         sideOffset={2}
                         alignOffset={0}

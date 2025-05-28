@@ -44,7 +44,7 @@ function DeleteWorkspaceDialogForm({
   workspaceName,
   setOpenDialog,
 }: {
-  workspaceId: string;
+  workspaceId: number;
   workspaceName: string;
   setOpenDialog: (bool: boolean) => void;
 }) {
@@ -61,7 +61,7 @@ function DeleteWorkspaceDialogForm({
           Authorization: `Bearer ${getAuthToken()}`,
         },
         body: JSON.stringify({
-          id: parseInt(workspaceId),
+          id: parseInt(workspaceId as any),
         }),
       });
       if (!res.ok) {
@@ -72,7 +72,7 @@ function DeleteWorkspaceDialogForm({
       queryClient.invalidateQueries({ queryKey: ["api-workspaces"] });
       queryClient.invalidateQueries({ queryKey: ["api-workspace-forms"] });
       setOpenDialog(false);
-      if (parseInt(params.workspaceId as any) == parseInt(workspaceId)) {
+      if (parseInt(params.workspaceId as any) == parseInt(workspaceId as any)) {
         navigate("/workspace");
       }
     },
@@ -145,7 +145,7 @@ function RenameWorkspaceDialogForm({
   workspaceId,
   setOpenDialog,
 }: {
-  workspaceId: string;
+  workspaceId: number;
   setOpenDialog: (bool: boolean) => void;
 }) {
   const id = useId();
@@ -163,7 +163,7 @@ function RenameWorkspaceDialogForm({
           Authorization: `Bearer ${getAuthToken()}`,
         },
         body: JSON.stringify({
-          id: parseInt(workspaceId),
+          id: parseInt(workspaceId as any),
           name: name,
         }),
       });
@@ -279,7 +279,7 @@ export const WorkspaceDropdownContentOptions = ({
   sideOffset = 10,
   animationDirection = "left",
 }: {
-  workspaceId: number | string;
+  workspaceId: number;
   workspaceName: string;
   alignOffset?: number;
   sideOffset?: number;
@@ -287,7 +287,7 @@ export const WorkspaceDropdownContentOptions = ({
 }) => {
   if (!workspaceId || workspaceId == 0) {
     const params = useParams();
-    workspaceId = params.workspaceId ?? "";
+    workspaceId = parseInt(params.workspaceId!);
   }
   const [openDialog, setOpenDialog] = useState(false);
   const [currentOption, setCurrentOption] = useState("");
@@ -297,12 +297,12 @@ export const WorkspaceDropdownContentOptions = ({
       <DialogContent className="rounded-4xl">
         {currentOption == "rename" ? (
           <RenameWorkspaceDialogForm
-            workspaceId={String(workspaceId)}
+            workspaceId={workspaceId}
             setOpenDialog={setOpenDialog}
           />
         ) : currentOption == "delete" ? (
           <DeleteWorkspaceDialogForm
-            workspaceId={String(workspaceId)}
+            workspaceId={workspaceId}
             workspaceName={workspaceName}
             setOpenDialog={setOpenDialog}
           />
