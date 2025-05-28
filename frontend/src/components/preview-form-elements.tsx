@@ -7,7 +7,11 @@ export const FormElementPreview = () => {
   return (
     <div>
       <Button asChild>
-        <Link to={`/${workspaceId}/${formId}/preview`}>
+        <Link
+          to={`/${workspaceId}/${formId}/preview`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Preview Form <ArrowUpRight />
         </Link>
       </Button>
