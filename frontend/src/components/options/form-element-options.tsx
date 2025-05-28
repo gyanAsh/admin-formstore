@@ -299,8 +299,10 @@ const TextValidations = ({
 
 const ConsentValidations = ({
   validations,
+  setState,
 }: {
   validations?: ConsentValidation;
+  setState: React.Dispatch<React.SetStateAction<FormElements>>;
 }) => {
   console.log({ validations });
   return (
@@ -310,9 +312,18 @@ const ConsentValidations = ({
         <Input
           id="accept-text"
           type="text"
-          defaultValue={validations?.acceptBtnText}
           className="border-accent-foreground/40"
           placeholder="Your accept text here."
+          value={validations?.acceptBtnText}
+          onChange={(val) =>
+            setState((e) => ({
+              ...e,
+              validations: {
+                ...e.validations,
+                acceptBtnText: val.target.value,
+              } as ConsentValidation,
+            }))
+          }
         />
       </div>
       <div className="grid flex-1 gap-2">
@@ -320,9 +331,18 @@ const ConsentValidations = ({
         <Input
           id="reject-text"
           type="text"
-          defaultValue={validations?.rejectBtnText}
           className="border-accent-foreground/40"
           placeholder="Your reject text here."
+          value={validations?.rejectBtnText}
+          onChange={(val) =>
+            setState((e) => ({
+              ...e,
+              validations: {
+                ...e.validations,
+                rejectBtnText: val.target.value,
+              } as ConsentValidation,
+            }))
+          }
         />
       </div>
     </div>
