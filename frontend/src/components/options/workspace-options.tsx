@@ -46,6 +46,7 @@ function DeleteWorkspaceDialogForm({
   workspaceId: string;
   setOpenDialog: (bool: boolean) => void;
 }) {
+  const params = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -69,7 +70,9 @@ function DeleteWorkspaceDialogForm({
       queryClient.invalidateQueries({ queryKey: ["api-workspaces"] });
       queryClient.invalidateQueries({ queryKey: ["api-workspace-forms"] });
       setOpenDialog(false);
-      navigate("/workspace");
+      if (parseInt(params.workspaceId) == parseInt(workspaceId)) {
+        navigate("/workspace");
+      }
     },
     onError: (err) => {
       toast.error(err.message);
