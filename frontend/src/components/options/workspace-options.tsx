@@ -64,14 +64,11 @@ function DeleteWorkspaceDialogForm({
       if (!res.ok) {
         throw new Error(res.statusText);
       }
-      const data = await res.json();
-      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["api-workspaces"] });
       queryClient.invalidateQueries({ queryKey: ["api-workspace-forms"] });
       setOpenDialog(false);
-      // not working
       navigate("/workspace");
     },
     onError: (err) => {
@@ -98,7 +95,8 @@ function DeleteWorkspaceDialogForm({
       </div>
       <Form {...workspaceDeleteForm}>
         <form
-          onSubmit={() => {
+          onSubmit={(e) => {
+            e.preventDefault();
             workspaceDeleteMutation.mutate();
           }}
           className="space-y-5"
