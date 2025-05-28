@@ -41,6 +41,7 @@ export const createWorkspaceSchema = z.object({
 
 function DeleteWorkspaceDialogForm({
   workspaceId,
+  workspaceName,
   setOpenDialog,
 }: {
   workspaceId: string;
@@ -91,7 +92,7 @@ function DeleteWorkspaceDialogForm({
             Delete Workspace
           </DialogTitle>
           <DialogDescription className="sm:text-center text-base text-zinc-500 dark:text-zinc-400">
-            Are you sure you want to delete this workspace? This action is
+            Are you sure you want to delete workspace `{workspaceName}` with `ID:{workspaceId}` This action is
             permanent and cannot be reversed.
           </DialogDescription>
         </DialogHeader>
@@ -272,11 +273,13 @@ function RenameWorkspaceDialogForm({
 
 export const WorkspaceDropdownContentOptions = ({
   workspaceId,
+  workspaceName,
   alignOffset = -5,
   sideOffset = 10,
   animationDirection = "left",
 }: {
   workspaceId: number | string;
+  workspaceName: string;
   alignOffset?: number;
   sideOffset?: number;
   animationDirection?: "left" | "right";
@@ -299,6 +302,7 @@ export const WorkspaceDropdownContentOptions = ({
         ) : currentOption == "delete" ? (
           <DeleteWorkspaceDialogForm
             workspaceId={String(workspaceId)}
+            workspaceName={workspaceName}
             setOpenDialog={setOpenDialog}
           />
         ) : (

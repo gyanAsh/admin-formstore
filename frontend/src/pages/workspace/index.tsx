@@ -114,6 +114,7 @@ export default function Workspace() {
                       </DropdownMenuTrigger>
                       <WorkspaceDropdownContentOptions
                         workspaceId={workspaceId!}
+                        workspaceName={formsData?.workspace?.name}
                         sideOffset={2}
                         alignOffset={0}
                         animationDirection="right"

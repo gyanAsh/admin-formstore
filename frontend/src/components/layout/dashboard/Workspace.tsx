@@ -110,7 +110,7 @@ const WorkspaceGroup = () => {
                       <MoreHorizontal />
                     </SidebarMenuAction>
                   </DropdownMenuTrigger>
-                  <WorkspaceDropdownContentOptions workspaceId={project.id} />
+                  <WorkspaceDropdownContentOptions workspaceId={project.id} workspaceName={project.name} />
                 </DropdownMenu>
               </SidebarMenuItem>
             ))
