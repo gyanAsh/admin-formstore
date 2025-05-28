@@ -11,6 +11,11 @@ import { PopoverContent } from "@/components/ui/popover";
 import { useState } from "react";
 import {
   Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { toast } from "sonner";
 import {
@@ -24,8 +29,11 @@ import {
 } from "@/components/ui/dialog";
 import { useForm } from "react-hook-form";
 import { cn, getAuthToken } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export const FormPopoverContentOptions = ({
   formId,
@@ -43,29 +51,42 @@ export const FormPopoverContentOptions = ({
   animationDirection?: "left" | "right";
 }) => {
   const [openDialog, setOpenDialog] = useState(false);
-
-  function handleDelete() {
-    setOpenDialog(true);
-  };
+  const [currentFormOption, setCurrentFormOption] = useState("");
 
   const OPTIONS = [
     { destructive: false, icon: Link2, name: "Copy Link" },
     { destructive: false, icon: Pause, name: "Pause" },
     { destructive: false, icon: Copy, name: "Duplicate" },
     { destructive: false, icon: ClipboardCopy, name: "Move To" },
-    { destructive: false, icon: Pencil, name: "Rename" },
+    {
+      destructive: false,
+      icon: Pencil,
+      name: "Rename",
+      onClick: () => {
+        setOpenDialog(true);
+        setCurrentFormOption("Rename");
+      },
+    },
     {
       destructive: true,
       icon: Trash2,
       name: "Delete",
-      onClick: handleDelete,
+      onClick: () => {
+        setOpenDialog(true);
+        setCurrentFormOption("Delete");
+      },
     },
   ];
 
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogContent className="rounded-4xl">
-        <DeleteFormsDialog formId={formId} formTitle={formTitle} setOpenDialog={setOpenDialog} />
+        <FormDialog
+          formId={formId}
+          formTitle={formTitle}
+          setOpenDialog={setOpenDialog}
+          currentFormOption={currentFormOption}
+        />
       </DialogContent>
       <PopoverContent
         className={cn(
@@ -132,6 +153,38 @@ export const FormPopoverContentOptions = ({
   );
 };
 
+function FormDialog({
+  formId,
+  formTitle,
+  setOpenDialog,
+  currentFormOption,
+}: {
+  formId: number;
+  formTitle: string;
+  setOpenDialog: (bool: boolean) => void;
+  currentFormOption: string;
+}) {
+  if (currentFormOption == "Delete") {
+    return (
+      <DeleteFormsDialog
+        formId={formId}
+        formTitle={formTitle}
+        setOpenDialog={setOpenDialog}
+      />
+    );
+  } else if (currentFormOption == "Rename") {
+    return (
+      <RenameFormDialog
+        formId={formId}
+        formTitle={formTitle}
+        setOpenDialog={setOpenDialog}
+      />
+    );
+  } else {
+    return <div>Invalid Dialog Option `{currentFormOption}`</div>;
+  }
+}
+
 function DeleteFormsDialog({
   formId,
   formTitle,
@@ -184,8 +237,8 @@ function DeleteFormsDialog({
             Delete Form: `{formTitle}`
           </DialogTitle>
           <DialogDescription className="sm:text-center text-base text-zinc-500 dark:text-zinc-400">
-            Are you sure you want to delete this form: `{formTitle}` id: `{formId}`.
-            This action is permanent and cannot be reversed.
+            Are you sure you want to delete this form: `{formTitle}` id: `
+            {formId}`. This action is permanent and cannot be reversed.
           </DialogDescription>
         </DialogHeader>
       </div>
@@ -224,6 +277,140 @@ function DeleteFormsDialog({
               )}
             >
               Delete
+            </Button>
+          </DialogFooter>
+        </form>
+      </Form>
+    </>
+  );
+}
+
+function RenameFormDialog({
+  formId,
+  formTitle,
+  setOpenDialog,
+}: {
+  formId: number;
+  formTitle: string;
+  setOpenDialog: (bool: boolean) => void;
+}) {
+  const queryClient = useQueryClient();
+
+  const formRenameMutation = useMutation({
+    mutationFn: async ({ name }: { name: string }) => {
+      if (name == "") {
+        console.error("name is empty");
+      }
+      const res = await fetch("/api/form", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getAuthToken()}`,
+        },
+        body: JSON.stringify({
+          id: parseInt(formId as any),
+          title: name,
+        }),
+      });
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["api-workspaces"] });
+      queryClient.invalidateQueries({ queryKey: ["api-workspace-forms"] });
+      setOpenDialog(false);
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
+  });
+
+  const renameFormSchema = z.object({
+    name: z.string().min(2, {
+      message: "Form name must be at least 2 characters.",
+    }),
+  });
+  const renameFormParams = useForm<z.infer<typeof renameFormSchema>>({
+    resolver: zodResolver(renameFormSchema),
+    defaultValues: {
+      name: "",
+    },
+  });
+
+  function renameForm(values: z.infer<typeof renameFormSchema>) {
+    formRenameMutation.mutate(values);
+  }
+
+  return (
+    <>
+      <div className="flex flex-col items-center">
+        <DialogHeader className="gap-0">
+          <DialogTitle className="sm:text-center text-lg text-zinc-800 dark:text-zinc-200">
+            Rename Form
+          </DialogTitle>
+          <DialogDescription className="sm:text-center text-base text-zinc-500 dark:text-zinc-400">
+            Please enter a name for form `{formTitle}` below.
+          </DialogDescription>
+        </DialogHeader>
+      </div>
+      <Form {...renameFormParams}>
+        <form
+          onSubmit={renameFormParams.handleSubmit(renameForm)}
+          className="space-y-5"
+        >
+          {formRenameMutation.isError && (
+            <div className="flex text-sm gap-2 text-destructive border-l-2 border-l-destructive bg-red-400/15  p-1.5">
+              {formRenameMutation.error.message}
+            </div>
+          )}
+          <FormField
+            control={renameFormParams.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem className="">
+                <FormLabel
+                  className="text-base cursor-pointer w-fit"
+                  htmlFor={`${formId}-form`}
+                >
+                  New Name for Form
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    className="rounded-lg hover:ring-1 hover:ring-ring text-base"
+                    id={`${formId}-form`}
+                    type="text"
+                    placeholder="Enter name here..."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button
+                type="button"
+                effect="small_scale"
+                className={cn(
+                  "flex-1 rounded-lg text-base",
+                  "bg-transparent border border-white-500 text-white-500 hover:text-white-500 ease-in duration-80 hover:bg-destructive/25",
+                )}
+              >
+                Cancel
+              </Button>
+            </DialogClose>
+            <Button
+              type="submit"
+              effect={"small_scale"}
+              className={cn(
+                "flex-1 rounded-lg text-white! text-base  ease-in duration-80",
+                "bg-primary/85",
+              )}
+            >
+              Rename
             </Button>
           </DialogFooter>
         </form>
