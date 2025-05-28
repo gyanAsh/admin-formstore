@@ -8,7 +8,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Fragment, ReactElement } from "react";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import * as motion from "motion/react-client";
 
 export default function BreadCrumbs({

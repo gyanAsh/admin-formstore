@@ -3,14 +3,11 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
   SidebarHeader,
 } from "@/components/ui/sidebar";
 
 import { Footer } from "@/components/layout/dashboard/Footer";
 import WorkspaceGroup from "./Workspace";
-import { Button } from "@/components/ui/button";
-import { ChartLine, Home } from "lucide-react";
 
 export function AppSidebar() {
   return (

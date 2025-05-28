@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
-import React, { memo } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import ModeToggle from "@/components/theme-toggle";
 import { Skeleton } from "@/components/ui/skeleton";
