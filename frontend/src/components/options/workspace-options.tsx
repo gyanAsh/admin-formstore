@@ -5,11 +5,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import * as motion from "motion/react-client";
 import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useParams } from "react-router";
 import { DeleteWorkspaceDialog } from "./workspace-dialogs/workspace-delete-dialog";
 import { RenameWorkspaceDialog } from "./workspace-dialogs/workspace-rename-dialog";
@@ -37,21 +33,12 @@ export const WorkspaceDropdownContentOptions = ({
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogContent className="rounded-4xl">
-        {currentOption == "rename" ? (
-          <RenameWorkspaceDialog
-            workspaceId={workspaceId}
-            workspaceName={workspaceName}
-            setOpenDialog={setOpenDialog}
-          />
-        ) : currentOption == "delete" ? (
-          <DeleteWorkspaceDialog
-            workspaceId={workspaceId}
-            workspaceName={workspaceName}
-            setOpenDialog={setOpenDialog}
-          />
-        ) : (
-          <div>invalid type </div>
-        )}
+        <WorkspaceDialog
+          workspaceId={workspaceId}
+          workspaceName={workspaceName}
+          setOpenDialog={setOpenDialog}
+          currentOption={currentOption}
+        />
       </DialogContent>
 
       <DropdownMenuContent
@@ -155,3 +142,35 @@ export const WorkspaceDropdownContentOptions = ({
     </Dialog>
   );
 };
+
+function WorkspaceDialog({
+  workspaceId,
+  workspaceName,
+  setOpenDialog,
+  currentOption,
+}: {
+  workspaceId: number;
+  workspaceName: string;
+  setOpenDialog: (bool: boolean) => void;
+  currentOption: string;
+}) {
+  if (currentOption == "rename") {
+    return (
+      <RenameWorkspaceDialog
+        workspaceId={workspaceId}
+        workspaceName={workspaceName}
+        setOpenDialog={setOpenDialog}
+      />
+    );
+  } else if (currentOption == "delete") {
+    return (
+      <DeleteWorkspaceDialog
+        workspaceId={workspaceId}
+        workspaceName={workspaceName}
+        setOpenDialog={setOpenDialog}
+      />
+    );
+  } else {
+    return <div>invalid type </div>;
+  }
+}
