@@ -141,6 +141,7 @@ export const FromElementDialogContent = memo(
           <div className="flex flex-col space-y-4">
             <URLValidations
               validations={stateElement.validations as UrlValidation}
+              setState={setStateElement}
             />
           </div>
         )}
@@ -304,7 +305,6 @@ const ConsentValidations = ({
   validations?: ConsentValidation;
   setState: React.Dispatch<React.SetStateAction<FormElements>>;
 }) => {
-  console.log({ validations });
   return (
     <div className="flex items-center space-x-4">
       <div className="grid flex-1 gap-2">
@@ -349,7 +349,14 @@ const ConsentValidations = ({
   );
 };
 
-const URLValidations = ({ validations }: { validations?: UrlValidation }) => {
+const URLValidations = ({
+  validations,
+  setState,
+}: {
+  validations?: UrlValidation;
+  setState: React.Dispatch<React.SetStateAction<FormElements>>;
+}) => {
+  console.log({ validations });
   return (
     <div className="grid flex-1 gap-2">
       <Label htmlFor="url-placeholder">Placeholder </Label>
@@ -358,7 +365,16 @@ const URLValidations = ({ validations }: { validations?: UrlValidation }) => {
         type="text"
         className="border-accent-foreground/40"
         placeholder={validations?.placeholder}
-        defaultValue={validations?.placeholder}
+        value={validations?.placeholder}
+        onChange={(val) =>
+          setState((e) => ({
+            ...e,
+            validations: {
+              ...e.validations,
+              placeholder: val.target.value,
+            } as UrlValidation,
+          }))
+        }
       />
     </div>
   );
