@@ -251,7 +251,7 @@ function RenameWorkspaceDialogForm({
                 effect="small_scale"
                 className={cn(
                   "flex-1 rounded-lg text-base",
-                  "bg-transparent border border-white-500 text-white-500 hover:text-white-500 ease-in duration-80 hover:bg-destructive/25",
+                  "bg-transparent border border-white-500 text-white-500 hover:text-white-500 ease-in duration-80 hover:bg-white/25",
                 )}
               >
                 Cancel
@@ -265,7 +265,7 @@ function RenameWorkspaceDialogForm({
                 "bg-primary/85",
               )}
             >
-              Create
+              Rename
             </Button>
           </DialogFooter>
         </form>
