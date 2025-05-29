@@ -19,7 +19,7 @@ export const FormLabel = ({
   return (
     <div
       className={cn(
-        "font-bold text-center whitespace-pre-line",
+        "text-center whitespace-pre-line",
         { "text-zinc-200": theme == "noir" },
         { "text-zinc-900": theme == "sky" },
 
