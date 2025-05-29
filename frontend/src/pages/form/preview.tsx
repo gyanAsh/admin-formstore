@@ -6,6 +6,17 @@ import { Link, useParams } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+import { FormElements } from "@/store/forms/form-elemets.types";
+import { $form_design_atts } from "@/store/designs/design-elements";
+import { FormBackground } from "@/components/ui/dynamic-form/background";
+import { FormCard } from "@/components/ui/dynamic-form/card";
+import {
+  FormDescription,
+  FormLabel,
+} from "@/components/ui/dynamic-form/details";
+import { cn } from "@/lib/utils";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { FormDesignAttributes } from "@/store/designs/design-elements.types";
 const variants = {
   enter: (direction: "up" | "down") => ({
     y: direction === "up" ? -100 : 100,
@@ -26,6 +37,7 @@ const variants = {
 const FullPageScroll = () => {
   const { workspaceId, formId } = useParams();
   const allForms = useStore($all_forms);
+  const designAtts = useStore($form_design_atts);
 
   const [currentSection, setCurrentSection] = useState(0);
   const [direction, setDirection] = useState<"up" | "down">("down");
@@ -58,9 +70,10 @@ const FullPageScroll = () => {
   }, [currentSection, elements.length]);
 
   const currentElement = elements[currentSection];
+
   if (elements.length > 0)
     return (
-      <div className="relative bg-red-800 overflow-hidden h-[100dvh]">
+      <div className="relative bg-black overflow-hidden h-[100dvh]">
         {/* Progress Bar */}
         <div
           id="scroll-progress"
@@ -83,9 +96,7 @@ const FullPageScroll = () => {
                 exit="exit"
                 className="absolute w-full h-full"
               >
-                <div className="h-full rounded-none bg-amber-500 flex items-center justify-center">
-                  {currentElement.field}
-                </div>
+                <FormPage element={currentElement} designAtts={designAtts} />
               </motion.div>
             )}
           </AnimatePresence>
@@ -133,3 +144,40 @@ const FullPageScroll = () => {
 };
 
 export default FullPageScroll;
+
+const FormPage = ({
+  element,
+  designAtts,
+}: {
+  element: FormElements;
+  designAtts: FormDesignAttributes;
+}) => {
+  return (
+    <FormBackground theme={designAtts.color}>
+      <FormCard
+        theme={designAtts.color}
+        layout={designAtts.layout}
+        className="overflow-y-scroll "
+      >
+        <section className={cn("flex flex-col gap-2.5 md:gap-5.5  ")}>
+          <FormLabel
+            theme={designAtts.color}
+            family={designAtts.label.font}
+            size={designAtts.label.size}
+          >
+            {element.labels.title}
+          </FormLabel>
+          <FormDescription
+            theme={designAtts.color}
+            className="leading-8.5"
+            family={designAtts.description.font}
+            size={designAtts.description.size}
+          >
+            {element.labels.description}
+          </FormDescription>
+        </section>
+        <section className=" min-h-[130px]">{element.field}</section>
+      </FormCard>
+    </FormBackground>
+  );
+};

@@ -139,7 +139,7 @@ function FormTabs() {
               initial={false}
               onClick={() => setSelectedTab(item)}
               className={cn(
-                "relative py-3 px-2 w-fit cursor-pointer font-bold",
+                "relative py-3 px-3.5 w-fit cursor-pointer font-bold",
 
                 item === selectedTab ? "" : "text-muted-foreground"
               )}
@@ -170,8 +170,6 @@ function FormTabs() {
               <AddFormElement />
             ) : selectedTab.code === "designs" ? (
               <FormElementPreview />
-            ) : selectedTab.code === "preview" ? (
-              <h1>Preview</h1>
             ) : null}
           </motion.div>
         </AnimatePresence>
@@ -182,6 +180,5 @@ function FormTabs() {
 
 const tabs = [
   { id: 1, title: "Add Elements", code: "add_elements" },
-  { id: 2, title: "Designs", code: "designs" },
-  { id: 3, title: "Preview", code: "preview" },
+  { id: 2, title: "Design Form", code: "designs" },
 ];
