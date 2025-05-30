@@ -5,6 +5,8 @@ import {
 } from "@/store/designs/design-elements.types";
 import { EmailValidation } from "@/store/forms/form-elemets.types";
 import { Input } from "react-aria-components";
+import { FormButton } from "../button";
+import { FormErrorMsgPopUp } from "../error-card";
 
 export const FormEmail = ({
   family,
@@ -18,7 +20,7 @@ export const FormEmail = ({
   return (
     <section
       className={cn(
-        " max-w-150 grow",
+        " max-w-150 flex flex-col gap-2.5 grow",
         { "font-['Cal_Sans','sans-serif']": family == "Cal_San" },
         { "font-['Playfair_Display','serif']": family == "Playfair_Display" },
         { "font-['IBM_Plex_Serif','serif']": family == "IBM_Plex_Serif" },
@@ -28,11 +30,11 @@ export const FormEmail = ({
       <Input
         type="email"
         className={cn(
-          "w-full border py-2 md:py-3 px-3 md:px-4.5 ",
+          "w-full border-2 py-2 md:py-3 px-3 md:px-4.5 ",
           { "text-lg md:text-xl": "size" === "size" },
 
           {
-            "bg-green-100/75 border-green-500 data-focused:outline-green-500":
+            "bg-green-100 text-zinc-900 border-emerald-500 data-focused:outline-emerald-500 placeholder:text-zinc-500/75":
               theme === "forest",
           },
 
@@ -42,6 +44,12 @@ export const FormEmail = ({
         )}
         placeholder={email.placeholder}
       />
+      <div className="flex items-start justify-end gap-2.5">
+        <FormErrorMsgPopUp type="warn" msg="Oops! Invalid Email ID" />
+        <FormButton theme={theme} className="">
+          OK
+        </FormButton>
+      </div>
     </section>
   );
 };

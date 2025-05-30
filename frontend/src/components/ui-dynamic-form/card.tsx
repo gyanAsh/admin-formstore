@@ -16,9 +16,9 @@ export const FormCard = ({
         { "grid-cols-2 text-left": layout == "left" || layout == "right" },
 
         { "bg-zinc-950": theme == "noir" },
-        { "bg-blue-200": theme == "sky" },
-        { "bg-violet-200/80": theme == "violet" },
-        // { "bg-green-200": theme == "forest" },
+        // { "bg-blue-200/75": theme == "sky" },
+        // { "bg-violet-200 contrast-125": theme == "violet" },
+        // { "bg-green-200 contrast-125": theme == "forest" },
         className
       )}
       {...props}
