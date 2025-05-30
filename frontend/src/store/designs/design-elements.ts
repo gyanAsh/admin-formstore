@@ -1,5 +1,9 @@
 import { persistentAtom } from "@nanostores/persistent";
-import { FormColor, FormDesignAttributes } from "./design-elements.types";
+import {
+  FormColor,
+  FormDesignAttributes,
+  FormFontFamily,
+} from "./design-elements.types";
 
 export const $form_design_atts = persistentAtom<FormDesignAttributes>(
   "form_design_atts", // Key to store in localStorage
@@ -27,5 +31,20 @@ export function setFormColor(color: FormColor) {
   $form_design_atts.set({
     ...current,
     color: color,
+  });
+}
+
+export function setFormLabelFamily(font_family: FormFontFamily) {
+  const current = $form_design_atts.get();
+  $form_design_atts.set({
+    ...current,
+    label: { ...current.label, font: font_family },
+  });
+}
+export function setFormDescriptionFamily(font_family: FormFontFamily) {
+  const current = $form_design_atts.get();
+  $form_design_atts.set({
+    ...current,
+    description: { ...current.description, font: font_family },
   });
 }

@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import {
   FontSizeNumber,
   FormColor,
-  FormFont,
+  FormFontFamily,
 } from "@/store/designs/design-elements.types";
 
 export const FormLabel = ({
@@ -12,7 +12,7 @@ export const FormLabel = ({
   className,
   ...props
 }: React.ComponentProps<"div"> & {
-  family: FormFont;
+  family: FormFontFamily;
   size: FontSizeNumber;
   theme: FormColor;
 }) => {
@@ -22,8 +22,16 @@ export const FormLabel = ({
         "text-center whitespace-pre-line",
         { "text-zinc-200": theme == "noir" },
         { "text-zinc-900": theme == "sky" },
+        { "text-zinc-800": theme == "violet" },
+        { "text-zinc-900": theme == "forest" },
 
         { "font-['Cal_Sans','sans-serif']": family == "Cal_San" },
+        {
+          "font-['Playfair_Display','serif'] font-semibold":
+            family == "Playfair_Display",
+        },
+        { "font-['IBM_Plex_Serif','serif']": family == "IBM_Plex_Serif" },
+        { "font-['Roboto','sans-serif']": family == "Roboto" },
 
         { "text-5xl md:text-7xl": size === 7 },
         { "text-lg md:text-2xl": size === 3 },
@@ -41,7 +49,7 @@ export const FormDescription = ({
   className,
   ...props
 }: React.ComponentProps<"div"> & {
-  family: FormFont;
+  family: FormFontFamily;
   size: FontSizeNumber;
   theme: FormColor;
 }) => {
@@ -51,8 +59,12 @@ export const FormDescription = ({
         " text-center whitespace-pre-line",
         { "text-zinc-300": theme == "noir" },
         { "text-zinc-900": theme == "sky" },
+        { "text-zinc-800": theme == "violet" },
 
         { "font-['Cal_Sans','sans-serif']": family == "Cal_San" },
+        { "font-['Playfair_Display','serif']": family == "Playfair_Display" },
+        { "font-['IBM_Plex_Serif','serif']": family == "IBM_Plex_Serif" },
+        { "font-['Roboto','sans-serif']": family == "Roboto" },
 
         { "text-5xl md:text-7xl": size === 7 },
         { "text-lg md:text-2xl": size === 3 },

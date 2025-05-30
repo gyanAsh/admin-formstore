@@ -8,15 +8,15 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { FormElements } from "@/store/forms/form-elemets.types";
 import { $form_design_atts } from "@/store/designs/design-elements";
-import { FormBackground } from "@/components/ui/dynamic-form/background";
-import { FormCard } from "@/components/ui/dynamic-form/card";
+import { FormBackground } from "@/components/ui-dynamic-form/background";
+import { FormCard } from "@/components/ui-dynamic-form/card";
 import {
   FormDescription,
   FormLabel,
-} from "@/components/ui/dynamic-form/details";
+} from "@/components/ui-dynamic-form/details";
 import { cn } from "@/lib/utils";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { FormDesignAttributes } from "@/store/designs/design-elements.types";
+import { FormProgressBar } from "@/components/ui-dynamic-form/progress-bar";
 const variants = {
   enter: (direction: "up" | "down") => ({
     y: direction === "up" ? -100 : 100,
@@ -73,14 +73,11 @@ const FullPageScroll = () => {
 
   if (elements.length > 0)
     return (
-      <div className="relative bg-black overflow-hidden h-[100dvh]">
+      <FormBackground theme={designAtts.color}>
         {/* Progress Bar */}
-        <div
-          id="scroll-progress"
-          className="fixed rounded-r-[4px] top-0 left-0 z-50 h-2.5 bg-blue-500 transition-all ease-linear duration-600"
-          style={{
-            width: `${progressPercentage}%`,
-          }}
+        <FormProgressBar
+          progressPercentage={progressPercentage}
+          theme={designAtts.color}
         />
 
         {/* Sections */}
@@ -119,7 +116,7 @@ const FullPageScroll = () => {
             Next
           </button>
         </div>
-      </div>
+      </FormBackground>
     );
   else
     return (
@@ -153,31 +150,33 @@ const FormPage = ({
   designAtts: FormDesignAttributes;
 }) => {
   return (
-    <FormBackground theme={designAtts.color}>
-      <FormCard
-        theme={designAtts.color}
-        layout={designAtts.layout}
-        className="overflow-y-scroll "
+    <FormCard
+      theme={designAtts.color}
+      layout={designAtts.layout}
+      className="overflow-y-scroll"
+    >
+      <section
+        className={cn(
+          "flex flex-col justify-center  px-2 md:px-8 lg:px-16 gap-2.5 md:gap-5.5 "
+        )}
       >
-        <section className={cn("flex flex-col gap-2.5 md:gap-5.5  ")}>
-          <FormLabel
-            theme={designAtts.color}
-            family={designAtts.label.font}
-            size={designAtts.label.size}
-          >
-            {element.labels.title}
-          </FormLabel>
-          <FormDescription
-            theme={designAtts.color}
-            className="leading-8.5"
-            family={designAtts.description.font}
-            size={designAtts.description.size}
-          >
-            {element.labels.description}
-          </FormDescription>
-        </section>
-        <section className=" min-h-[130px]">{element.field}</section>
-      </FormCard>
-    </FormBackground>
+        <FormLabel
+          theme={designAtts.color}
+          family={designAtts.label.font}
+          size={designAtts.label.size}
+        >
+          {element.labels.title}
+        </FormLabel>
+        <FormDescription
+          theme={designAtts.color}
+          className=""
+          family={designAtts.description.font}
+          size={designAtts.description.size}
+        >
+          {element.labels.description}
+        </FormDescription>
+      </section>
+      <section className=" min-h-[130px] ">{element.field}</section>
+    </FormCard>
   );
 };
