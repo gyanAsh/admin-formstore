@@ -60,6 +60,7 @@ export const FormDescription = ({
         { "text-zinc-300": theme == "noir" },
         { "text-zinc-900": theme == "sky" },
         { "text-zinc-800": theme == "violet" },
+        { "text-zinc-900": theme == "forest" },
 
         { "font-['Cal_Sans','sans-serif']": family == "Cal_San" },
         { "font-['Playfair_Display','serif']": family == "Playfair_Display" },

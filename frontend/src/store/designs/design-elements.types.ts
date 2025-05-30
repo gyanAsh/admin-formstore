@@ -42,4 +42,3 @@ export type FormFontFamily =
   | "Playfair_Display"
   | "IBM_Plex_Serif"
   | "Roboto";
-export type FormFontFamilyDescription = "Cal_San";

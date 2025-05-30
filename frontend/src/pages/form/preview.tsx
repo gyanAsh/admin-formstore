@@ -6,7 +6,10 @@ import { Link, useParams } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
-import { FormElements } from "@/store/forms/form-elemets.types";
+import {
+  EmailValidation,
+  FormElements,
+} from "@/store/forms/form-elemets.types";
 import { $form_design_atts } from "@/store/designs/design-elements";
 import { FormBackground } from "@/components/ui-dynamic-form/background";
 import { FormCard } from "@/components/ui-dynamic-form/card";
@@ -17,6 +20,7 @@ import {
 import { cn } from "@/lib/utils";
 import { FormDesignAttributes } from "@/store/designs/design-elements.types";
 import { FormProgressBar } from "@/components/ui-dynamic-form/progress-bar";
+import { FormEmail } from "@/components/ui-dynamic-form/elements/email";
 const variants = {
   enter: (direction: "up" | "down") => ({
     y: direction === "up" ? -100 : 100,
@@ -176,7 +180,17 @@ const FormPage = ({
           {element.labels.description}
         </FormDescription>
       </section>
-      <section className=" min-h-[130px] ">{element.field}</section>
+      <section className=" min-h-[130px] flex justify-center ">
+        {element.field === "email" ? (
+          <FormEmail
+            family={designAtts.description.font}
+            email={element.validations as EmailValidation}
+            theme={designAtts.color}
+          />
+        ) : (
+          <p>{element.field}</p>
+        )}
+      </section>
     </FormCard>
   );
 };
