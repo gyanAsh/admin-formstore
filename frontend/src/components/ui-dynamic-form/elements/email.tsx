@@ -63,12 +63,15 @@ export const FormEmail = ({
               theme === "forest",
           },
           {
-            "bg-green-50 text-zinc-800 border-zinc-700 data-focused:outline-zinc-700 placeholder:text-zinc-500/75":
+            "bg-white/50 text-zinc-800 border-zinc-700 data-focused:outline-zinc-700 placeholder:text-zinc-500/85":
               theme === "trance_sky",
           },
 
           { "text-zinc-300": theme == "noir" },
-          { "text-zinc-900": theme == "sky" },
+          {
+            "bg-blue-50 text-zinc-900 border-inherit data-focused:outline-inherborder-inherit placeholder:text-zinc-500/95":
+              theme == "sky",
+          },
           { "text-zinc-800": theme == "violet" }
         )}
         autoFocus
