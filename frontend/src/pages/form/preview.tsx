@@ -97,7 +97,11 @@ const FullPageScroll = () => {
                 exit="exit"
                 className="absolute w-full h-full"
               >
-                <FormPage element={currentElement} designAtts={designAtts} />
+                <FormPage
+                  goNextFunction={() => paginate("down")}
+                  element={currentElement}
+                  designAtts={designAtts}
+                />
               </motion.div>
             )}
           </AnimatePresence>
@@ -147,9 +151,11 @@ const FullPageScroll = () => {
 export default FullPageScroll;
 
 const FormPage = ({
+  goNextFunction,
   element,
   designAtts,
 }: {
+  goNextFunction: Function;
   element: FormElements;
   designAtts: FormDesignAttributes;
 }) => {
@@ -186,6 +192,7 @@ const FormPage = ({
             family={designAtts.description.font}
             email={element.validations as EmailValidation}
             theme={designAtts.color}
+            goNextFunction={goNextFunction}
           />
         ) : (
           <p>{element.field}</p>

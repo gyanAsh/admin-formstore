@@ -7,16 +7,41 @@ import { EmailValidation } from "@/store/forms/form-elemets.types";
 import { Input } from "react-aria-components";
 import { FormButton } from "../button";
 import { FormErrorMsgPopUp } from "../error-card";
+import { useState } from "react";
+import { z } from "zod";
+
+const emailSchema = z.string().email({ message: "Invalid email address" });
 
 export const FormEmail = ({
   family,
   email,
   theme,
+  goNextFunction,
 }: {
   email: EmailValidation;
   family: FormFontFamily;
   theme: FormColor;
+  goNextFunction: Function;
 }) => {
+  const [inputState, setInputState] = useState("");
+  const [showError, setShowError] = useState<{
+    show: boolean;
+    msg: string;
+    type: "warn" | "error";
+  }>({ show: false, msg: "", type: "error" });
+  const validate = () => {
+    const result = emailSchema.safeParse(inputState);
+    if (!result.success) {
+      setShowError({
+        show: true,
+        msg: result.error.errors.at(0)?.message!,
+        type: "error",
+      });
+      return;
+    }
+    goNextFunction();
+  };
+
   return (
     <section
       className={cn(
@@ -42,11 +67,28 @@ export const FormEmail = ({
           { "text-zinc-900": theme == "sky" },
           { "text-zinc-800": theme == "violet" }
         )}
+        autoFocus
         placeholder={email.placeholder}
+        formNoValidate
+        value={inputState}
+        onChange={(e) => {
+          setShowError((prev) => ({ ...prev, show: false }));
+          setInputState(e.target.value);
+        }}
+        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          if (e.key === "Enter") {
+            validate();
+          }
+        }}
       />
       <div className="flex items-start justify-end gap-2.5">
-        <FormErrorMsgPopUp type="warn" msg="Oops! Invalid Email ID" />
-        <FormButton theme={theme} className="">
+        <FormErrorMsgPopUp
+          show={showError.show}
+          type="warn"
+          msg="Oops! Invalid Email ID"
+        />
+
+        <FormButton theme={theme} className="" onClick={validate}>
           OK
         </FormButton>
       </div>
