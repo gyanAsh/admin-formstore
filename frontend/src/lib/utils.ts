@@ -103,3 +103,11 @@ export function formatDateISO(isoString: string) {
     return isoString;
   }
 }
+
+export function wait<T>(fn: () => T, delay = 500 as number): Promise<T> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(fn());
+    }, delay);
+  });
+}

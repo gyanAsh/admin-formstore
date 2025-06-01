@@ -10,6 +10,7 @@ import {
   ConsentValidation,
   EmailValidation,
   FormElements,
+  RatingValidation,
 } from "@/store/forms/form-elemets.types";
 import { $form_design_atts } from "@/store/designs/design-elements";
 import { FormBackground } from "@/components/ui-dynamic-form/background";
@@ -23,6 +24,7 @@ import { FormDesignAttributes } from "@/store/designs/design-elements.types";
 import { FormProgressBar } from "@/components/ui-dynamic-form/progress-bar";
 import { FormEmail } from "@/components/ui-dynamic-form/elements/email";
 import { FormConsent } from "@/components/ui-dynamic-form/elements/consent";
+import { FormRating } from "@/components/ui-dynamic-form/elements/rating";
 const variants = {
   enter: (direction: "up" | "down") => ({
     y: direction === "up" ? -100 : 100,
@@ -200,6 +202,13 @@ const FormPage = ({
           <FormConsent
             family={designAtts.description.font}
             consent={element.validations as ConsentValidation}
+            theme={designAtts.color}
+            goNextFunction={goNextFunction}
+          />
+        ) : element.field === "rating" ? (
+          <FormRating
+            family={designAtts.description.font}
+            rating={element.validations as RatingValidation}
             theme={designAtts.color}
             goNextFunction={goNextFunction}
           />
