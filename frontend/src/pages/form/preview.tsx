@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import {
+  ConsentValidation,
   EmailValidation,
   FormElements,
 } from "@/store/forms/form-elemets.types";
@@ -21,6 +22,7 @@ import { cn } from "@/lib/utils";
 import { FormDesignAttributes } from "@/store/designs/design-elements.types";
 import { FormProgressBar } from "@/components/ui-dynamic-form/progress-bar";
 import { FormEmail } from "@/components/ui-dynamic-form/elements/email";
+import { FormConsent } from "@/components/ui-dynamic-form/elements/consent";
 const variants = {
   enter: (direction: "up" | "down") => ({
     y: direction === "up" ? -100 : 100,
@@ -191,6 +193,13 @@ const FormPage = ({
           <FormEmail
             family={designAtts.description.font}
             email={element.validations as EmailValidation}
+            theme={designAtts.color}
+            goNextFunction={goNextFunction}
+          />
+        ) : element.field === "consent" ? (
+          <FormConsent
+            family={designAtts.description.font}
+            consent={element.validations as ConsentValidation}
             theme={designAtts.color}
             goNextFunction={goNextFunction}
           />

@@ -19,7 +19,7 @@ export const FormButton = ({
         { "bg-white text-zinc-900": variant == "default" },
 
         {
-          "bg-green-300 border-2 border-emerald-500 hover:bg-green-300":
+          "bg-green-300 border-2 border-emerald-500 hover:bg-green-400 hover:text-zinc-100":
             theme == "forest",
         },
         {

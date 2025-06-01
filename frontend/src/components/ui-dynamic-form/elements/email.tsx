@@ -59,7 +59,7 @@ export const FormEmail = ({
           { "text-lg md:text-xl": "size" === "size" },
 
           {
-            "bg-green-100 text-zinc-900 border-emerald-500 data-focused:outline-emerald-500 placeholder:text-zinc-500/75":
+            "bg-green-50 text-zinc-900 border-emerald-500 data-focused:outline-emerald-500 placeholder:text-zinc-500/75":
               theme === "forest",
           },
 
