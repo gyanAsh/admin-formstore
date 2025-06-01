@@ -3,36 +3,42 @@ import {
   FormColor,
   FormFontFamily,
 } from "@/store/designs/design-elements.types";
-import { TextValidation } from "@/store/forms/form-elemets.types";
-import { TextArea } from "react-aria-components";
+import { UrlValidation } from "@/store/forms/form-elemets.types";
+import { Input } from "react-aria-components";
 import { FormButton } from "../button";
-import { useState } from "react";
 import { FormErrorMsgPopUp } from "../error-card";
+import { useState } from "react";
+import { z } from "zod";
 
-export const FormText = ({
+const urlSchema = z
+  .string()
+  .url({ message: "Please enter a valid URL, eg: https:// or http://" });
+
+export const FormWebsite = ({
   family,
-  text,
+  url,
   theme,
   goNextFunction,
 }: {
-  text: TextValidation;
+  url: UrlValidation;
   family: FormFontFamily;
   theme: FormColor;
   goNextFunction: Function;
 }) => {
-  const [textState, setTextState] = useState("");
+  const [inputState, setInputState] = useState("");
   const [showError, setShowError] = useState<{
     show: boolean;
     msg: string;
     type: "warn" | "error";
   }>({ show: false, msg: "", type: "error" });
-
   const validate = () => {
-    if (textState.length < text.minLength) {
-      setShowError({ show: true, msg: "Text too short.", type: "warn" });
-      return;
-    } else if (textState.length > text.maxLength) {
-      setShowError({ show: true, msg: "Text too long.", type: "warn" });
+    const result = urlSchema.safeParse(inputState);
+    if (!result.success) {
+      setShowError({
+        show: true,
+        msg: result.error.errors.at(0)?.message!,
+        type: "error",
+      });
       return;
     }
     goNextFunction();
@@ -48,29 +54,12 @@ export const FormText = ({
         { "font-['Roboto','sans-serif']": family == "Roboto" }
       )}
     >
-      <TextArea
-        id="element-description"
-        autoFocus
-        value={textState}
-        onChange={(e) => {
-          let val = e.target.value;
-          setTextState(e.target.value);
-          if (val.length > text.maxLength) {
-            setShowError({ show: true, msg: "Text too long.", type: "warn" });
-          } else {
-            setShowError((prev) => ({ ...prev, show: false }));
-          }
-        }}
-        // onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-        //   if (e.key === "Enter") {
-        //     validate();
-        //   }
-        // }}
-        placeholder="Your text here..."
-        //   className="field-sizing-content max-h-29.5 min-h-0 resize-none py-1.75"
+      <Input
+        type="url"
         className={cn(
-          "field-sizing-content min-h-14 resize-none w-full border-2 py-2 md:py-3 px-3 md:px-4.5 ",
+          "w-full border-2 py-2 md:py-3 px-3 md:px-4.5 ",
           { "text-lg md:text-xl": "size" === "size" },
+
           {
             "bg-green-50 text-zinc-900 border-emerald-500 data-focused:outline-emerald-500 placeholder:text-zinc-500/75":
               theme === "forest",
@@ -83,6 +72,19 @@ export const FormText = ({
           { "text-zinc-900": theme == "sky" },
           { "text-zinc-800": theme == "violet" }
         )}
+        autoFocus
+        placeholder={url.placeholder}
+        formNoValidate
+        value={inputState}
+        onChange={(e) => {
+          setShowError((prev) => ({ ...prev, show: false }));
+          setInputState(e.target.value);
+        }}
+        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          if (e.key === "Enter") {
+            validate();
+          }
+        }}
       />
       <div className="flex items-start justify-end gap-2.5">
         <FormErrorMsgPopUp

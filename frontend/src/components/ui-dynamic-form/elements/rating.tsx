@@ -3,7 +3,7 @@ import {
   FormColor,
   FormFontFamily,
 } from "@/store/designs/design-elements.types";
-import { RatingValidation } from "@/store/forms/form-elemets.types";
+import { RatingKey, RatingValidation } from "@/store/forms/form-elemets.types";
 import { FormButton } from "../button";
 import { useState } from "react";
 import { RatingValues } from "@/store/forms/values";
@@ -38,7 +38,7 @@ export const FormRating = ({
     >
       <div className="flex flex-col items-start justify-center md:justify-between gap-5">
         <section className=" w-full flex justify-center items-center flex-wrap">
-          {Array.from({ length: rating.iconLength + 5 }, (_, i) => {
+          {Array.from({ length: rating.iconLength }, (_, i) => {
             const index = i + 1;
             const isActive = hovered
               ? index <= hovered
@@ -57,17 +57,21 @@ export const FormRating = ({
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <icon.icon
+                  strokeWidth={1.5}
                   className={cn(
                     `px-2 size-15 md:size-20 cursor-pointer transition-colors`,
-                    { "text-yellow-500 fill-yellow-500": isActive },
+                    { "text-yellow-900 fill-yellow-500": isActive },
                     {
-                      "text-red-500 fill-red-500":
+                      "text-red-900 fill-red-500":
                         isActive &&
-                        ["wrong", "thumb_down", "heart"].some(
-                          (e) => icon.value === e
+                        ["wrong", "thumb_down", "heart", "skull"].some(
+                          (e) => icon.value === (e as RatingKey)
                         ),
                     },
-                    { "text-green-500": !isActive && theme === "forest" }
+                    { "text-green-600": !isActive && theme === "forest" },
+                    {
+                      "text-zinc-800  ": theme === "trance_sky",
+                    }
                   )}
                 />
               </motion.div>
@@ -75,12 +79,8 @@ export const FormRating = ({
           })}
         </section>
         <section className="flex justify-end w-full">
-          <FormButton
-            theme={theme}
-            className=" w-[135px] md:w-[160px]  capitalize"
-            onClick={validate}
-          >
-            OK{" "}
+          <FormButton theme={theme} onClick={validate}>
+            OK
           </FormButton>
         </section>
       </div>

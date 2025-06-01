@@ -32,18 +32,10 @@ export const FormConsent = ({
       )}
     >
       <div className="flex items-start justify-center md:justify-between gap-5">
-        <FormButton
-          theme={theme}
-          className=" w-[135px] md:w-[160px]  bg-red-300 hover:bg-red-400 border-red-600 hover:text-zinc-100 capitalize"
-          onClick={validate}
-        >
+        <FormButton theme={theme} variant="destructive" onClick={validate}>
           {consent.rejectBtnText}
         </FormButton>
-        <FormButton
-          theme={theme}
-          className=" w-[135px] md:w-[160px]  capitalize"
-          onClick={validate}
-        >
+        <FormButton theme={theme} onClick={validate}>
           {consent.acceptBtnText}
         </FormButton>
       </div>

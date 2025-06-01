@@ -37,11 +37,16 @@ export const FormErrorMsgPopUp = ({
           initial="enter"
           animate="center"
           exit="exit"
-          className={cn("flex items-center gap-1.5 px-2 md:px-3 py-2", {
-            "border-2 border-red-500 text-red-500 ": type === "error",
-            "bg-yellow-100 border-2 border-yellow-500 text-yellow-700":
-              type === "warn",
-          })}
+          className={cn(
+            "flex items-center gap-1.5 px-2 md:px-3 py-2",
+            "bg-clip-padding backdrop-filter backdrop-blur backdrop-saturate-100 backdrop-contrast-100",
+            {
+              "bg-red-500 border-2 border-red-300 text-red-50 ":
+                type === "error",
+              " bg-yellow-500 border-2 border-yellow-300 text-yellow-50":
+                type === "warn",
+            }
+          )}
         >
           {type === "error" && <TriangleAlert />}
           {type === "warn" && <CircleAlert />}

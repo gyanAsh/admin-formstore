@@ -35,7 +35,7 @@ export const FormEmail = ({
       setShowError({
         show: true,
         msg: result.error.errors.at(0)?.message!,
-        type: "error",
+        type: "warn",
       });
       return;
     }
@@ -62,6 +62,10 @@ export const FormEmail = ({
             "bg-green-50 text-zinc-900 border-emerald-500 data-focused:outline-emerald-500 placeholder:text-zinc-500/75":
               theme === "forest",
           },
+          {
+            "bg-green-50 text-zinc-800 border-zinc-700 data-focused:outline-zinc-700 placeholder:text-zinc-500/75":
+              theme === "trance_sky",
+          },
 
           { "text-zinc-300": theme == "noir" },
           { "text-zinc-900": theme == "sky" },
@@ -84,11 +88,11 @@ export const FormEmail = ({
       <div className="flex items-start justify-end gap-2.5">
         <FormErrorMsgPopUp
           show={showError.show}
-          type="warn"
-          msg="Oops! Invalid Email ID"
+          type={showError.type}
+          msg={showError.msg}
         />
 
-        <FormButton theme={theme} className="" onClick={validate}>
+        <FormButton theme={theme} onClick={validate}>
           OK
         </FormButton>
       </div>

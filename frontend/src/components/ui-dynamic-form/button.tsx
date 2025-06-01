@@ -13,18 +13,18 @@ export const FormButton = ({
   return (
     <button
       className={cn(
-        " min-w-25 px-2 md:px-3 py-2 md:py-3 cursor-pointer",
-        "active:scale-95 duration-75",
+        " min-w-25 w-[135px] md:w-[160px] capitalize",
+        " px-2 md:px-3 py-2 md:py-3 cursor-pointer",
+        "active:scale-95 duration-200 transition-colors",
         { "text-base md:text-lg": "size" === "size" },
-        { "bg-white text-zinc-900": variant == "default" },
+        {
+          "bg-white text-zinc-900 hover:text-white hover:bg-zinc-800":
+            variant == "default",
+        },
 
         {
-          "bg-green-300 border-2 border-emerald-500 hover:bg-green-400 hover:text-zinc-100":
-            theme == "forest",
-        },
-        {
-          "bg-inherit border-2 border-gray-800 hover:bg-zinc-800 hover:text-zinc-50":
-            false,
+          "  hover:bg-red-300 bg-red-400 border-red-600 hover:text-inherit text-zinc-100 ":
+            variant == "destructive",
         },
         className
       )}
@@ -33,4 +33,4 @@ export const FormButton = ({
   );
 };
 
-type FormBtnVariants = "default";
+type FormBtnVariants = "default" | "destructive";

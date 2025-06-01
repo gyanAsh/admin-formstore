@@ -12,6 +12,7 @@ import {
   FormElements,
   RatingValidation,
   TextValidation,
+  UrlValidation,
 } from "@/store/forms/form-elemets.types";
 import { $form_design_atts } from "@/store/designs/design-elements";
 import { FormBackground } from "@/components/ui-dynamic-form/background";
@@ -27,6 +28,7 @@ import { FormEmail } from "@/components/ui-dynamic-form/elements/email";
 import { FormConsent } from "@/components/ui-dynamic-form/elements/consent";
 import { FormRating } from "@/components/ui-dynamic-form/elements/rating";
 import { FormText } from "@/components/ui-dynamic-form/elements/text";
+import { FormWebsite } from "@/components/ui-dynamic-form/elements/website";
 const variants = {
   enter: (direction: "up" | "down") => ({
     y: direction === "up" ? -100 : 100,
@@ -218,6 +220,13 @@ const FormPage = ({
           <FormText
             family={designAtts.description.font}
             text={element.validations as TextValidation}
+            theme={designAtts.color}
+            goNextFunction={goNextFunction}
+          />
+        ) : element.field === "website" ? (
+          <FormWebsite
+            family={designAtts.description.font}
+            url={element.validations as UrlValidation}
             theme={designAtts.color}
             goNextFunction={goNextFunction}
           />
