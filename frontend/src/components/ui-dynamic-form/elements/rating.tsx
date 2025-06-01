@@ -8,7 +8,6 @@ import { FormButton } from "../button";
 import { useState } from "react";
 import { RatingValues } from "@/store/forms/values";
 import * as motion from "motion/react-client";
-import { StarIcon } from "lucide-react";
 
 export const FormRating = ({
   family,
