@@ -1,22 +1,18 @@
 import { cn } from "@/lib/utils";
-import { FormColor, FormLayout } from "@/store/designs/design-elements.types";
+import { FormTheme } from "@/store/designs/design-elements.types";
 
 export const FormCard = ({
-  theme = "noir",
-  layout = "center",
+  theme = "luxe_minimal_noir",
   className,
   ...props
-}: React.ComponentProps<"div"> & { theme: FormColor; layout: FormLayout }) => {
+}: React.ComponentProps<"div"> & { theme: FormTheme }) => {
   return (
     <div
       className={cn(
-        "p-6 h-full grid",
+        "p-6 h-full grid grid-cols-1 text-center",
 
-        { "grid-cols-1 text-center": layout == "center" },
-        { "grid-cols-2 text-left": layout == "left" || layout == "right" },
-
-        { "bg-zinc-950": theme == "noir" },
-        // { "bg-blue-200/75": theme == "sky" },
+        { "bg-zinc-950": theme == "luxe_minimal_noir" },
+        // { "bg-blue-200/75": theme == "luxe_minimal_sky" },
         // { "bg-violet-200 contrast-125": theme == "violet" },
         // { "bg-green-200 contrast-125": theme == "forest" },
         className

@@ -1,40 +1,39 @@
 import { cn } from "@/lib/utils";
-import {
-  FontSizeNumber,
-  FormColor,
-  FormFontFamily,
-} from "@/store/designs/design-elements.types";
+import { FormTheme } from "@/store/designs/design-elements.types";
 
 export const FormLabel = ({
   theme,
-  family,
-  size = 1,
   className,
   ...props
 }: React.ComponentProps<"div"> & {
-  family: FormFontFamily;
-  size: FontSizeNumber;
-  theme: FormColor;
+  theme: FormTheme;
 }) => {
   return (
     <div
       className={cn(
-        "text-center whitespace-pre-line",
-        { "text-zinc-200": theme == "noir" },
-        { "text-zinc-900": theme == "sky" },
-        { "text-zinc-800": theme == "violet" },
-        { "text-zinc-900": theme == "forest" },
-
-        { "font-['Cal_Sans','sans-serif']": family == "Cal_San" },
+        "text-center whitespace-pre-line text-5xl md:text-7xl",
         {
-          "font-['Playfair_Display','serif'] font-semibold":
-            family == "Playfair_Display",
+          "text-zinc-200 font-['Playfair_Display','serif'] font-semibold":
+            theme == "luxe_minimal_noir",
         },
-        { "font-['IBM_Plex_Serif','serif']": family == "IBM_Plex_Serif" },
-        { "font-['Roboto','sans-serif']": family == "Roboto" },
+        {
+          "text-zinc-900 font-['Playfair_Display','serif'] font-semibold":
+            theme == "luxe_minimal_sky",
+        },
+        {
+          "text-zinc-800 font-['Playfair_Display','serif'] font-semibold":
+            theme == "violet",
+        },
+        {
+          "text-zinc-900 font-['Playfair_Display','serif'] font-semibold":
+            theme == "forest",
+        },
 
-        { "text-5xl md:text-7xl": size === 7 },
-        { "text-lg md:text-2xl": size === 3 },
+        // { "font-['Cal_Sans','sans-serif']": family == "Cal_San" },
+
+        // { "font-['IBM_Plex_Serif','serif']": family == "IBM_Plex_Serif" },
+        // { "font-['Roboto','sans-serif']": family == "Roboto" },
+
         className
       )}
       {...props}
@@ -44,31 +43,26 @@ export const FormLabel = ({
 
 export const FormDescription = ({
   theme,
-  family,
-  size = 1,
   className,
   ...props
 }: React.ComponentProps<"div"> & {
-  family: FormFontFamily;
-  size: FontSizeNumber;
-  theme: FormColor;
+  theme: FormTheme;
 }) => {
   return (
     <div
       className={cn(
-        " text-center whitespace-pre-line",
-        { "text-zinc-300": theme == "noir" },
-        { "text-zinc-900": theme == "sky" },
-        { "text-zinc-800": theme == "violet" },
-        { "text-zinc-900": theme == "forest" },
+        " text-center whitespace-pre-line text-lg md:text-2xl",
+        {
+          "text-zinc-300 font-['Roboto','sans-serif']":
+            theme == "luxe_minimal_noir",
+        },
+        {
+          "text-zinc-900 font-['Roboto','sans-serif']":
+            theme == "luxe_minimal_sky",
+        },
+        { "text-zinc-800 font-['Roboto','sans-serif']": theme == "violet" },
+        { "text-zinc-900 font-['Roboto','sans-serif']": theme == "forest" },
 
-        { "font-['Cal_Sans','sans-serif']": family == "Cal_San" },
-        { "font-['Playfair_Display','serif']": family == "Playfair_Display" },
-        { "font-['IBM_Plex_Serif','serif']": family == "IBM_Plex_Serif" },
-        { "font-['Roboto','sans-serif']": family == "Roboto" },
-
-        { "text-5xl md:text-7xl": size === 7 },
-        { "text-lg md:text-2xl": size === 3 },
         className
       )}
       {...props}

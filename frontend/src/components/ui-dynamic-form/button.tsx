@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { FormColor } from "@/store/designs/design-elements.types";
+import { FormTheme } from "@/store/designs/design-elements.types";
 
 export const FormButton = ({
   theme,
@@ -8,7 +8,7 @@ export const FormButton = ({
   ...props
 }: React.ComponentProps<"button"> & {
   variant?: FormBtnVariants;
-  theme: FormColor;
+  theme: FormTheme;
 }) => {
   return (
     <button

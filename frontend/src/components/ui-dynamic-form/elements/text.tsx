@@ -1,8 +1,5 @@
 import { cn } from "@/lib/utils";
-import {
-  FormColor,
-  FormFontFamily,
-} from "@/store/designs/design-elements.types";
+import { FormTheme } from "@/store/designs/design-elements.types";
 import { TextValidation } from "@/store/forms/form-elemets.types";
 import { TextArea } from "react-aria-components";
 import { FormButton } from "../button";
@@ -10,14 +7,12 @@ import { useState } from "react";
 import { FormErrorMsgPopUp } from "../error-card";
 
 export const FormText = ({
-  family,
   text,
   theme,
   goNextFunction,
 }: {
   text: TextValidation;
-  family: FormFontFamily;
-  theme: FormColor;
+  theme: FormTheme;
   goNextFunction: Function;
 }) => {
   const [textState, setTextState] = useState("");
@@ -39,15 +34,7 @@ export const FormText = ({
   };
 
   return (
-    <section
-      className={cn(
-        " max-w-150 flex flex-col gap-2.5 grow",
-        { "font-['Cal_Sans','sans-serif']": family == "Cal_San" },
-        { "font-['Playfair_Display','serif']": family == "Playfair_Display" },
-        { "font-['IBM_Plex_Serif','serif']": family == "IBM_Plex_Serif" },
-        { "font-['Roboto','sans-serif']": family == "Roboto" }
-      )}
-    >
+    <section className={cn(" max-w-150 flex flex-col gap-2.5 grow")}>
       <TextArea
         id="element-description"
         autoFocus
@@ -79,10 +66,10 @@ export const FormText = ({
             "bg-white/50 text-zinc-800 border-zinc-700 data-focused:outline-zinc-700 placeholder:text-zinc-500/85":
               theme === "trance_sky",
           },
-          { "text-zinc-300": theme == "noir" },
+          { "text-zinc-300": theme == "luxe_minimal_noir" },
           {
             "bg-blue-50 text-zinc-900 border-inherit data-focused:outline-inherit placeholder:text-zinc-500/95":
-              theme == "sky",
+              theme == "luxe_minimal_sky",
           },
           {
             "bg-violet-50 text-zinc-800 border-purple-700 data-focused:outline-purple-700 placeholder:text-zinc-500/95":

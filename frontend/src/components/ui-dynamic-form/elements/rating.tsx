@@ -1,8 +1,5 @@
 import { cn, wait } from "@/lib/utils";
-import {
-  FormColor,
-  FormFontFamily,
-} from "@/store/designs/design-elements.types";
+import { FormTheme } from "@/store/designs/design-elements.types";
 import { RatingKey, RatingValidation } from "@/store/forms/form-elemets.types";
 import { FormButton } from "../button";
 import { useState } from "react";
@@ -10,14 +7,12 @@ import { RatingValues } from "@/store/forms/values";
 import * as motion from "motion/react-client";
 
 export const FormRating = ({
-  family,
   rating,
   theme,
   goNextFunction,
 }: {
   rating: RatingValidation;
-  family: FormFontFamily;
-  theme: FormColor;
+  theme: FormTheme;
   goNextFunction: Function;
 }) => {
   const [hovered, setHovered] = useState<number | null>(null);
@@ -27,15 +22,7 @@ export const FormRating = ({
     goNextFunction();
   };
   return (
-    <section
-      className={cn(
-        " max-w-150 flex flex-col gap-2.5 grow",
-        { "font-['Cal_Sans','sans-serif']": family == "Cal_San" },
-        { "font-['Playfair_Display','serif']": family == "Playfair_Display" },
-        { "font-['IBM_Plex_Serif','serif']": family == "IBM_Plex_Serif" },
-        { "font-['Roboto','sans-serif']": family == "Roboto" }
-      )}
-    >
+    <section className={cn(" max-w-150 flex flex-col gap-2.5 grow")}>
       <div className="flex flex-col items-start justify-center md:justify-between gap-5">
         <section className=" w-full flex justify-center items-center flex-wrap">
           {Array.from({ length: rating.iconLength }, (_, i) => {

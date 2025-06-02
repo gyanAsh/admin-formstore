@@ -85,11 +85,11 @@ const FullPageScroll = () => {
 
   if (elements.length > 0)
     return (
-      <FormBackground theme={designAtts.color}>
+      <FormBackground theme={designAtts.theme}>
         {/* Progress Bar */}
         <FormProgressBar
           progressPercentage={progressPercentage}
-          theme={designAtts.color}
+          theme={designAtts.theme}
         />
 
         {/* Sections */}
@@ -168,66 +168,46 @@ const FormPage = ({
   designAtts: FormDesignAttributes;
 }) => {
   return (
-    <FormCard
-      theme={designAtts.color}
-      layout={designAtts.layout}
-      className="overflow-y-scroll"
-    >
+    <FormCard theme={designAtts.theme} className="overflow-y-scroll">
       <section
         className={cn(
           "flex flex-col justify-center  px-2 md:px-8 lg:px-16 gap-2.5 md:gap-5.5 "
         )}
       >
-        <FormLabel
-          theme={designAtts.color}
-          family={designAtts.label.font}
-          size={designAtts.label.size}
-        >
-          {element.labels.title}
-        </FormLabel>
-        <FormDescription
-          theme={designAtts.color}
-          className=""
-          family={designAtts.description.font}
-          size={designAtts.description.size}
-        >
+        <FormLabel theme={designAtts.theme}>{element.labels.title}</FormLabel>
+        <FormDescription theme={designAtts.theme}>
           {element.labels.description}
         </FormDescription>
       </section>
-      <section className=" min-h-[130px] flex justify-center ">
+      <section className=" min-h-[130px] flex justify-center font-['Roboto','sans-serif']">
         {element.field === "email" ? (
           <FormEmail
-            family={designAtts.description.font}
             email={element.validations as EmailValidation}
-            theme={designAtts.color}
+            theme={designAtts.theme}
             goNextFunction={goNextFunction}
           />
         ) : element.field === "consent" ? (
           <FormConsent
-            family={designAtts.description.font}
             consent={element.validations as ConsentValidation}
-            theme={designAtts.color}
+            theme={designAtts.theme}
             goNextFunction={goNextFunction}
           />
         ) : element.field === "rating" ? (
           <FormRating
-            family={designAtts.description.font}
             rating={element.validations as RatingValidation}
-            theme={designAtts.color}
+            theme={designAtts.theme}
             goNextFunction={goNextFunction}
           />
         ) : element.field === "text" ? (
           <FormText
-            family={designAtts.description.font}
             text={element.validations as TextValidation}
-            theme={designAtts.color}
+            theme={designAtts.theme}
             goNextFunction={goNextFunction}
           />
         ) : element.field === "website" ? (
           <FormWebsite
-            family={designAtts.description.font}
             url={element.validations as UrlValidation}
-            theme={designAtts.color}
+            theme={designAtts.theme}
             goNextFunction={goNextFunction}
           />
         ) : (
