@@ -70,7 +70,10 @@ export const FormRating = ({
                     },
                     { "text-green-600": !isActive && theme === "forest" },
                     {
-                      "text-zinc-800  ": theme === "trance_sky",
+                      "text-zinc-800  ": !isActive && theme === "trance_sky",
+                    },
+                    {
+                      "text-violet-600  ": !isActive && theme === "violet",
                     }
                   )}
                 />

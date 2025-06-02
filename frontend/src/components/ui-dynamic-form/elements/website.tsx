@@ -65,15 +65,18 @@ export const FormWebsite = ({
               theme === "forest",
           },
           {
-            "bg-blue-50 text-zinc-900 border-inherit data-focused:outline-inherborder-inherit placeholder:text-zinc-500/95":
+            "bg-blue-50 text-zinc-900 border-inherit data-focused:outline-inherit placeholder:text-zinc-500/95":
               theme === "trance_sky",
           },
           { "text-zinc-300": theme == "noir" },
           {
-            "bg-blue-50 text-zinc-900 border-inherit data-focused:outline-inherborder-inherit placeholder:text-zinc-500/95":
+            "bg-blue-50 text-zinc-900 border-inherit data-focused:outline-inherit placeholder:text-zinc-500/95":
               theme == "sky",
           },
-          { "text-zinc-800": theme == "violet" }
+          {
+            "bg-violet-50 text-zinc-800 border-purple-700 data-focused:outline-purple-700 placeholder:text-zinc-500/95":
+              theme == "violet",
+          }
         )}
         autoFocus
         placeholder={url.placeholder}
