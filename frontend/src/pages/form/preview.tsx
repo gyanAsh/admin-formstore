@@ -5,7 +5,7 @@ import { Link, useParams } from "react-router";
 
 import { AnimatePresence, motion } from "motion/react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import {
   ConsentValidation,
   EmailValidation,
@@ -22,7 +22,10 @@ import {
   FormLabel,
 } from "@/components/ui-dynamic-form/details";
 import { cn } from "@/lib/utils";
-import { FormDesignAttributes } from "@/store/designs/design-elements.types";
+import {
+  FormDesignAttributes,
+  FormTheme,
+} from "@/store/designs/design-elements.types";
 import { FormProgressBar } from "@/components/ui-dynamic-form/progress-bar";
 import { FormEmail } from "@/components/ui-dynamic-form/elements/email";
 import { FormConsent } from "@/components/ui-dynamic-form/elements/consent";
@@ -30,17 +33,17 @@ import { FormRating } from "@/components/ui-dynamic-form/elements/rating";
 import { FormText } from "@/components/ui-dynamic-form/elements/text";
 import { FormWebsite } from "@/components/ui-dynamic-form/elements/website";
 const variants = {
-  enter: (direction: "up" | "down") => ({
-    y: direction === "up" ? -100 : 100,
+  enter: (direction: "prev" | "next") => ({
+    x: direction === "prev" ? -100 : 100,
     opacity: 0,
   }),
   center: {
-    y: 0,
+    x: 0,
     opacity: 1,
     transition: { duration: 0.3 },
   },
-  exit: (direction: "up" | "down") => ({
-    y: direction === "up" ? 100 : -100,
+  exit: (direction: "prev" | "next") => ({
+    x: direction === "prev" ? 100 : -100,
     opacity: 0,
     transition: { duration: 0.3 },
   }),
@@ -52,7 +55,7 @@ const FullPageScroll = () => {
   const designAtts = useStore($form_design_atts);
 
   const [currentSection, setCurrentSection] = useState(0);
-  const [direction, setDirection] = useState<"up" | "down">("down");
+  const [direction, setDirection] = useState<"prev" | "next">("next");
 
   // Memoize the derived 'elements' array to prevent recalculation on every render
   const elements = useMemo(() => {
@@ -65,10 +68,10 @@ const FullPageScroll = () => {
 
   // Memoize the paginate function to prevent it from being recreated on every render
   const paginate = useCallback(
-    (newDirection: "up" | "down") => {
+    (newDirection: "prev" | "next") => {
       setDirection(newDirection);
       setCurrentSection((prev) =>
-        newDirection === "down"
+        newDirection === "next"
           ? Math.min(prev + 1, elements.length - 1)
           : Math.max(prev - 1, 0)
       );
@@ -106,7 +109,7 @@ const FullPageScroll = () => {
                 className="absolute w-full h-full"
               >
                 <FormPage
-                  goNextFunction={() => paginate("down")}
+                  goNextFunction={() => paginate("next")}
                   element={currentElement}
                   designAtts={designAtts}
                 />
@@ -116,21 +119,24 @@ const FullPageScroll = () => {
         </div>
 
         {/* Navigation Buttons */}
-        <div className="fixed bottom-4 left-4 space-x-2">
-          <button
-            onClick={() => paginate("up")}
+        <div className="fixed flex items-center border p-2 rounded-xl bottom-4 right-4 space-x-2">
+          <FormNavBtn
+            theme={designAtts.theme}
+            onClick={() => paginate("prev")}
             disabled={currentSection === 0}
-            className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+            className=" rounded-l-lg"
           >
-            Previous
-          </button>
-          <button
-            onClick={() => paginate("down")}
+            <ChevronLeft className="text-zinc-900" />
+          </FormNavBtn>
+          <FormNavBtn
+            onClick={() => paginate("next")}
+            theme={designAtts.theme}
             disabled={currentSection === elements.length - 1}
-            className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+            className="rounded-r-lg"
           >
-            Next
-          </button>
+            <ChevronRight className="text-zinc-900" />
+          </FormNavBtn>
+          <h2 className="ml-1"> Powered by Formstore</h2>
         </div>
       </FormBackground>
     );
@@ -157,6 +163,24 @@ const FullPageScroll = () => {
 };
 
 export default FullPageScroll;
+
+const FormNavBtn = ({
+  theme,
+  className,
+  ...props
+}: React.ComponentProps<"button"> & {
+  theme: FormTheme;
+}) => {
+  return (
+    <button
+      className={cn(
+        "p-1 rounded not-disabled:hover:scale-105 not-disabled:active:scale-95 duration-100 not-disabled:cursor-pointer bg-gray-300 disabled:opacity-50",
+        className
+      )}
+      {...props}
+    />
+  );
+};
 
 const FormPage = ({
   goNextFunction,

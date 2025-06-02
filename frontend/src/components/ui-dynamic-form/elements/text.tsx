@@ -5,6 +5,7 @@ import { TextArea } from "react-aria-components";
 import { FormButton } from "../button";
 import { useState } from "react";
 import { FormErrorMsgPopUp } from "../error-card";
+import { ThemeValues } from "@/store/designs/values";
 
 export const FormText = ({
   text,
@@ -66,7 +67,10 @@ export const FormText = ({
             "bg-white/50 text-zinc-800 border-zinc-700 data-focused:outline-zinc-700 placeholder:text-zinc-500/85":
               theme === "trance_sky",
           },
-          { "text-zinc-300": theme == "luxe_minimal_noir" },
+          {
+            "bg-zinc-950 text-zinc-300 rounded-4xl border-zinc-700 data-focused:outline-zinc-700 placeholder:text-zinc-600":
+              theme == ThemeValues.luxe_minimal_noir.value,
+          },
           {
             "bg-blue-50 text-zinc-900 border-inherit data-focused:outline-inherit placeholder:text-zinc-500/95":
               theme == "luxe_minimal_sky",

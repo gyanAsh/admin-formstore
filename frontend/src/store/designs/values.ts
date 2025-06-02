@@ -5,5 +5,8 @@ export const ThemeValues: Record<ThemeKey, ThemeValue> = {
   violet: { value: "violet", name: "grade-purple" },
   trance_sky: { value: "trance_sky", name: "Trance Sky" },
   forest: { value: "forest", name: "Forest" },
-  luxe_minimal_noir: { value: "luxe_minimal_noir", name: "Luxe Minimal- Noir" },
+  luxe_minimal_noir: {
+    value: "luxe_minimal_noir",
+    name: "Luxe Minimal - Noir",
+  },
 };

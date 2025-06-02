@@ -9,8 +9,10 @@ export const FormBackground = ({
   return (
     <div
       className={cn(
-        "relative overflow-hidden h-[100dvh]",
-        { "bg-black text-white": theme == "luxe_minimal_noir" },
+        "relative overflow-hidden h-[100dvh] cursor-default",
+        {
+          "bg-zinc-950 text-white": theme == "luxe_minimal_noir",
+        },
         { "bg-blue-200 text-black": theme == "luxe_minimal_sky" },
         { "bg-violet-200 text-black": theme == "violet" },
         { "bg-green-200 text-black": theme == "forest" },

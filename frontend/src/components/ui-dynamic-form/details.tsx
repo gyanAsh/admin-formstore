@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { FormTheme } from "@/store/designs/design-elements.types";
+import { ThemeValues } from "@/store/designs/values";
 
 export const FormLabel = ({
   theme,
@@ -14,7 +15,7 @@ export const FormLabel = ({
         "text-center whitespace-pre-line text-5xl md:text-7xl",
         {
           "text-zinc-200 font-['Playfair_Display','serif'] font-semibold":
-            theme == "luxe_minimal_noir",
+            theme == ThemeValues.luxe_minimal_noir.value,
         },
         {
           "text-zinc-900 font-['Playfair_Display','serif'] font-semibold":
@@ -53,7 +54,7 @@ export const FormDescription = ({
       className={cn(
         " text-center whitespace-pre-line text-lg md:text-2xl",
         {
-          "text-zinc-300 font-['Roboto','sans-serif']":
+          "text-zinc-300 font-['Roboto','sans-serif'] text-lg md:text-xl":
             theme == "luxe_minimal_noir",
         },
         {
