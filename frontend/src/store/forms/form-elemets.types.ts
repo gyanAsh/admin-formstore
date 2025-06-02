@@ -82,6 +82,7 @@ export interface RatingValidation {
 }
 
 export interface TextValidation {
+  placeholder: string; //Add text here
   minLength: number; //1
   maxLength: number; //150
 }

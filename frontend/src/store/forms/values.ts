@@ -159,6 +159,7 @@ export function getDefaultValidations(
       return {
         minLength: 1,
         maxLength: 150,
+        placeholder: "Add your text here...",
       } as TextValidation;
     case FormFields.consent:
       return {

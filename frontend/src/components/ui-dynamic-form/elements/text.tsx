@@ -66,7 +66,7 @@ export const FormText = ({
         //     validate();
         //   }
         // }}
-        placeholder="Your text here..."
+        placeholder={text.placeholder}
         //   className="field-sizing-content max-h-29.5 min-h-0 resize-none py-1.75"
         className={cn(
           "field-sizing-content min-h-14 resize-none w-full border-2 py-2 md:py-3 px-3 md:px-4.5 ",
