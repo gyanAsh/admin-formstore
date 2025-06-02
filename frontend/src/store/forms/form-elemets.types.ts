@@ -15,11 +15,11 @@ export type FormElements = {
     value: string;
     color: string;
   };
-
   labels: {
     title: string;
     description: string;
   };
+  ref_img_file?: string;
   required: boolean;
   validations?: ValidatonTypes;
 };

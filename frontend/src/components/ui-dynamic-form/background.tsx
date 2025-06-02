@@ -1,8 +1,9 @@
 import { cn } from "@/lib/utils";
 import { FormTheme } from "@/store/designs/design-elements.types";
+import { ThemeValues } from "@/store/designs/values";
 
 export const FormBackground = ({
-  theme = "luxe_minimal_noir",
+  theme = ThemeValues.luxe_minimal_noir.value,
   className,
   ...props
 }: React.ComponentProps<"div"> & { theme: FormTheme }) => {
@@ -11,7 +12,8 @@ export const FormBackground = ({
       className={cn(
         "relative overflow-hidden h-[100dvh] cursor-default",
         {
-          "bg-zinc-950 text-white": theme == "luxe_minimal_noir",
+          "bg-zinc-950 text-white":
+            theme == ThemeValues.luxe_minimal_noir.value,
         },
         { "bg-blue-200 text-black": theme == "luxe_minimal_sky" },
         { "bg-violet-200 text-black": theme == "violet" },

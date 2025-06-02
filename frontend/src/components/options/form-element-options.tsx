@@ -39,6 +39,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { RatingValues } from "@/store/forms/values";
+import ImageUploaderComponent from "../image-upload";
+import { FileWithPreview } from "@/hooks/use-file-upload";
 
 export const FromElementDialogContent = memo(
   ({
@@ -90,7 +92,7 @@ export const FromElementDialogContent = memo(
         </DialogHeader>
         <div className="flex flex-col space-y-4">
           <div className="grid flex-1 gap-2">
-            <Label htmlFor="element-question">Label</Label>
+            <Label htmlFor="element-question">Label :</Label>
             <Textarea
               id="element-question"
               value={stateElement.labels.title}
@@ -101,11 +103,15 @@ export const FromElementDialogContent = memo(
                 }))
               }
               placeholder="Your label here."
-              className="field-sizing-content max-h-29.5 min-h-0 resize-none py-1.75"
+              className={cn(
+                "hover:border-ring hover:ring-ring/50 hover:ring-1 duration-200 ",
+                " focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+                "field-sizing-content max-h-29.5 min-h-0 resize-none py-1.75 shadow-sm"
+              )}
             />
           </div>
           <div className="grid flex-1 gap-2">
-            <Label htmlFor="element-description">Description </Label>
+            <Label htmlFor="element-description">Description :</Label>
             <Textarea
               id="element-description"
               value={stateElement.labels.description}
@@ -116,7 +122,21 @@ export const FromElementDialogContent = memo(
                 }))
               }
               placeholder="Your Description here."
-              className="field-sizing-content max-h-29.5 min-h-0 resize-none py-1.75"
+              className={cn(
+                "hover:border-ring hover:ring-ring/50 hover:ring-1 duration-200 ",
+                "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+                "field-sizing-content max-h-29.5 min-h-0 resize-none py-1.75 shadow-sm"
+              )}
+            />
+          </div>
+          <div className="grid flex-1 gap-2">
+            <Label htmlFor="ref-element-img">Ref. Image :</Label>
+            <ImageUploaderComponent
+            // onFileUpdate={(files: FileWithPreview[]) => {
+            //   console.count("upload runnnnn");
+            //   let file = files[0] || undefined;
+            //   console.log({ file });
+            // }}
             />
           </div>
         </div>
@@ -209,7 +229,7 @@ function RequiredToggle({
   return (
     <div className="flex items-center gap-2.5">
       <Label htmlFor="required" className="cursor-pointer">
-        Set Field as Required
+        Set Field as Required :
       </Label>
       <Switch
         id="required"
@@ -228,15 +248,15 @@ const TextValidations = ({
   setState: React.Dispatch<React.SetStateAction<FormElements>>;
 }) => {
   let hardMinValue = 1,
-    hardMaxValue = 160;
+    hardMaxValue = 255;
   return (
     <>
       <div className="grid flex-1 gap-2">
-        <Label htmlFor="url-placeholder">Placeholder </Label>
+        <Label htmlFor="url-placeholder">Placeholder :</Label>
         <Input
           id="url-placeholder"
           type="text"
-          className="border-accent-foreground/40"
+          className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
           placeholder={validations?.placeholder}
           value={validations?.placeholder}
           onChange={(val) =>
@@ -336,11 +356,11 @@ const ConsentValidations = ({
   return (
     <div className="flex items-center space-x-4">
       <div className="grid flex-1 gap-2">
-        <Label htmlFor="accept-text">Accept Button Text </Label>
+        <Label htmlFor="accept-text">Accept Button Text :</Label>
         <Input
           id="accept-text"
           type="text"
-          className="border-accent-foreground/40"
+          className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
           placeholder="Your accept text here."
           value={validations?.acceptBtnText}
           onChange={(val) =>
@@ -355,11 +375,11 @@ const ConsentValidations = ({
         />
       </div>
       <div className="grid flex-1 gap-2">
-        <Label htmlFor="reject-text">Reject Button Text </Label>
+        <Label htmlFor="reject-text">Reject Button Text :</Label>
         <Input
           id="reject-text"
           type="text"
-          className="border-accent-foreground/40"
+          className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
           placeholder="Your reject text here."
           value={validations?.rejectBtnText}
           onChange={(val) =>
@@ -386,11 +406,11 @@ const URLValidations = ({
 }) => {
   return (
     <div className="grid flex-1 gap-2">
-      <Label htmlFor="url-placeholder">Placeholder </Label>
+      <Label htmlFor="url-placeholder">Placeholder :</Label>
       <Input
         id="url-placeholder"
         type="text"
-        className="border-accent-foreground/40"
+        className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
         placeholder={validations?.placeholder}
         value={validations?.placeholder}
         onChange={(val) =>
@@ -416,11 +436,11 @@ const EmailValidations = ({
 }) => {
   return (
     <div className="grid flex-1 gap-2">
-      <Label htmlFor="email-placeholder">Placeholder</Label>
+      <Label htmlFor="email-placeholder">Placeholder :</Label>
       <Input
         id="email-placeholder"
         type="text"
-        className="border-accent-foreground/40"
+        className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
         placeholder={validations?.placeholder}
         value={validations?.placeholder}
         onChange={(val) =>
@@ -482,7 +502,7 @@ const RatingValidations = ({
         </div>
       </NumberField>
       <div className="grid flex-1 gap-2 *:not-first:mt-2">
-        <Label htmlFor={"rating-icon"}>Icons</Label>
+        <Label htmlFor={"rating-icon"}>Icons :</Label>
         <Select
           defaultValue={validations?.ratingIcon}
           onValueChange={(val) => {

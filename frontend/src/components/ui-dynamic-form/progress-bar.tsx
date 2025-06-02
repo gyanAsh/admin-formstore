@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { FormTheme } from "@/store/designs/design-elements.types";
+import { ThemeValues } from "@/store/designs/values";
 
 export const FormProgressBar = ({
   progressPercentage,
@@ -13,7 +14,7 @@ export const FormProgressBar = ({
       id="scroll-progress"
       className={cn(
         "fixed top-0 left-0 z-50 h-2.5 transition-all ease-linear duration-600",
-        { "bg-zinc-50": theme == "luxe_minimal_noir" },
+        { "bg-zinc-50": theme == ThemeValues.luxe_minimal_noir.value },
         { "bg-black": theme == "luxe_minimal_sky" },
         { "bg-violet-300": theme == "violet" },
         { "bg-green-400/85": theme == "forest" },

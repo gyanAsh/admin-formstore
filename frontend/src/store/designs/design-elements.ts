@@ -1,10 +1,11 @@
 import { persistentAtom } from "@nanostores/persistent";
 import { FormTheme, FormDesignAttributes } from "./design-elements.types";
+import { ThemeValues } from "./values";
 
 export const $form_design_atts = persistentAtom<FormDesignAttributes>(
   "form_design_atts", // Key to store in localStorage
   {
-    theme: "luxe_minimal_noir",
+    theme: ThemeValues.luxe_minimal_noir.value,
   }, // Default value
   {
     encode: JSON.stringify,

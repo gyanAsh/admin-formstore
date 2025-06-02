@@ -55,7 +55,7 @@ export const FormDescription = ({
         " text-center whitespace-pre-line text-lg md:text-2xl",
         {
           "text-zinc-300 font-['Roboto','sans-serif'] text-lg md:text-xl":
-            theme == "luxe_minimal_noir",
+            theme == ThemeValues.luxe_minimal_noir.value,
         },
         {
           "text-zinc-900 font-['Roboto','sans-serif']":
