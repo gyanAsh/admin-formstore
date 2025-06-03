@@ -43,12 +43,24 @@ paths:
       responses:
         200:
           description: created a new workspace
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Workspace"
         400:
           description: missing fields
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
         401:
           description: user is not logged in
         500:
           description: unexpected error (check log)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
     put:
       requestBody:
         content:
@@ -58,6 +70,10 @@ paths:
       responses:
         200:
           description: rename workspace
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Workspace"
     delete:
       responses:
         200:
@@ -77,9 +93,14 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Form"
+                type: object
+                properties:
+                  forms:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Form"
+                  workspace:
+                    $ref: "#/components/schemas/Workspace"
         401:
           description: user is not logged in
         500:
@@ -93,11 +114,29 @@ paths:
           type: integer
           description: workspace id (this route is subject to change)
     post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: the title of the form
       responses:
         200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Form"
           description: create a new form
-  /api/form/:
+  /api/form:
     put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Form"
       responses:
         200:
           description: rename the form
@@ -171,8 +210,6 @@ paths:
           description: login the user
         400:
           description: in case where either email or password is empty
-        401:
-          description: user is not logged in
         500:
           description: unexpected error (check log)
   /api/signup:
@@ -195,8 +232,8 @@ paths:
       responses:
         200:
           description: login the user
-        401:
-          description: user is not logged in
+        400:
+          description: missing fields
         500:
           description: unexpected error (check log)
 
