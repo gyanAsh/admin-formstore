@@ -68,7 +68,7 @@ export const FormEmail = ({
               theme == "violet",
           }
         )}
-        autoFocus
+        autoFocus={false}
         placeholder={email.placeholder}
         formNoValidate
         value={inputState}

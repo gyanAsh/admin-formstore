@@ -49,7 +49,13 @@ const variants = {
   }),
 };
 
-const FullPageScroll = () => {
+const PreviewFormPage = ({
+  formCardClassName,
+  className,
+  ...props
+}: React.ComponentProps<"section"> & {
+  formCardClassName?: React.ComponentProps<"div">["className"];
+}) => {
   const { workspaceId, formId } = useParams();
   const allForms = useStore($all_forms);
   const designAtts = useStore($form_design_atts);
@@ -88,57 +94,63 @@ const FullPageScroll = () => {
 
   if (elements.length > 0)
     return (
-      <FormBackground theme={designAtts.theme}>
-        {/* Progress Bar */}
-        <FormProgressBar
-          progressPercentage={progressPercentage}
-          theme={designAtts.theme}
-        />
-
-        {/* Sections */}
-        <div className="h-full overflow-hidden">
-          <AnimatePresence custom={direction} mode="wait">
-            {currentElement && (
-              <motion.div
-                key={currentElement.id}
-                custom={direction}
-                variants={variants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                className="absolute w-full h-full"
-              >
-                <FormPage
-                  goNextFunction={() => paginate("next")}
-                  element={currentElement}
-                  designAtts={designAtts}
-                />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
-        {/* Navigation Buttons */}
-        <div className="fixed flex items-center border p-2 rounded-xl bottom-4 right-4 space-x-2">
-          <FormNavBtn
+      <section className={cn("h-[100dvh]", className)} {...props}>
+        <FormBackground theme={designAtts.theme}>
+          {/* Progress Bar */}
+          <FormProgressBar
+            progressPercentage={progressPercentage}
             theme={designAtts.theme}
-            onClick={() => paginate("prev")}
-            disabled={currentSection === 0}
-            className=" rounded-l-lg"
-          >
-            <ChevronLeft className="text-zinc-900" />
-          </FormNavBtn>
-          <FormNavBtn
-            onClick={() => paginate("next")}
-            theme={designAtts.theme}
-            disabled={currentSection === elements.length - 1}
-            className="rounded-r-lg"
-          >
-            <ChevronRight className="text-zinc-900" />
-          </FormNavBtn>
-          <h2 className="ml-1"> Powered by Formstore</h2>
-        </div>
-      </FormBackground>
+          />
+
+          {/* Sections */}
+          <div className="h-full overflow-hidden">
+            <AnimatePresence custom={direction} mode="wait">
+              {currentElement && (
+                <motion.div
+                  key={currentElement.id}
+                  custom={direction}
+                  variants={variants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  className="absolute w-full h-full"
+                >
+                  <FormPage
+                    formCardClassName={formCardClassName}
+                    goNextFunction={() => paginate("next")}
+                    element={currentElement}
+                    designAtts={designAtts}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Navigation Buttons */}
+          <div className="text-sm absolute flex items-center border bg-inherit p-1.5 rounded-xl bottom-4 right-4 space-x-2">
+            <FormNavBtn
+              theme={designAtts.theme}
+              onClick={() => paginate("prev")}
+              disabled={currentSection === 0}
+              className="p-0.5 rounded-l-lg"
+            >
+              <ChevronLeft className="text-zinc-900" />
+            </FormNavBtn>
+            <FormNavBtn
+              onClick={() => paginate("next")}
+              theme={designAtts.theme}
+              disabled={currentSection === elements.length - 1}
+              className="p-0.5 rounded-r-lg"
+            >
+              <ChevronRight className="text-zinc-900" />
+            </FormNavBtn>
+            <h2 className="ml-1">
+              {" "}
+              Powered by <b>Formstore</b>
+            </h2>
+          </div>
+        </FormBackground>
+      </section>
     );
   else
     return (
@@ -162,7 +174,7 @@ const FullPageScroll = () => {
     );
 };
 
-export default FullPageScroll;
+export default PreviewFormPage;
 
 const FormNavBtn = ({
   theme,
@@ -183,16 +195,21 @@ const FormNavBtn = ({
 };
 
 const FormPage = ({
+  formCardClassName,
   goNextFunction,
   element,
   designAtts,
 }: {
+  formCardClassName?: React.ComponentProps<"div">["className"];
   goNextFunction: Function;
   element: FormElements;
   designAtts: FormDesignAttributes;
 }) => {
   return (
-    <FormCard theme={designAtts.theme} className="overflow-y-scroll">
+    <FormCard
+      theme={designAtts.theme}
+      className={cn("overflow-y-scroll gap-3 md:gap-6 ", formCardClassName)}
+    >
       <section
         className={cn(
           "flex flex-col justify-center  px-2 md:px-8 lg:px-16 gap-2.5 md:gap-5.5 "

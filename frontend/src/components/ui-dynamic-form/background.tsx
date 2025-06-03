@@ -10,7 +10,7 @@ export const FormBackground = ({
   return (
     <div
       className={cn(
-        "relative overflow-hidden h-[100dvh] cursor-default",
+        "relative overflow-hidden h-full cursor-default",
         {
           "bg-zinc-950 text-white":
             theme == ThemeValues.luxe_minimal_noir.value,

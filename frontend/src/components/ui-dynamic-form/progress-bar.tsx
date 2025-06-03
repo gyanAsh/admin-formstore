@@ -13,7 +13,7 @@ export const FormProgressBar = ({
     <div
       id="scroll-progress"
       className={cn(
-        "fixed top-0 left-0 z-50 h-2.5 transition-all ease-linear duration-600",
+        "absolute top-0 left-0 h-2.5 transition-all ease-linear duration-600",
         { "bg-zinc-50": theme == ThemeValues.luxe_minimal_noir.value },
         { "bg-black": theme == "luxe_minimal_sky" },
         { "bg-violet-300": theme == "violet" },

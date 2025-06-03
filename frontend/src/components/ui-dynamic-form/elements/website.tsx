@@ -68,7 +68,7 @@ export const FormWebsite = ({
               theme == "violet",
           }
         )}
-        autoFocus
+        autoFocus={false}
         placeholder={url.placeholder}
         formNoValidate
         value={inputState}

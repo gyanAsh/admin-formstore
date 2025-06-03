@@ -38,7 +38,7 @@ export const FormText = ({
     <section className={cn(" max-w-150 flex flex-col gap-2.5 grow")}>
       <TextArea
         id="element-description"
-        autoFocus
+        autoFocus={false}
         value={textState}
         onChange={(e) => {
           let val = e.target.value;

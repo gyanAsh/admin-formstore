@@ -3,22 +3,30 @@ import { Button } from "./ui/button";
 import { useParams } from "react-router";
 import { ThemeValues } from "@/store/designs/values";
 import { setFormTheme } from "@/store/designs/design-elements";
+import PreviewFormPage from "@/pages/form/preview";
 
 export const FormElementPreview = () => {
   const { workspaceId, formId } = useParams();
   return (
     <div>
-      <Button variant={"black"} asChild>
-        <a
-          href={`/${workspaceId}/${formId}/preview`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group"
-        >
-          Preview Form In New Tab{" "}
-          <ArrowUpRight className="group-hover:translate-x-0.5 group-hover:scale-105 transition-all duration-300" />
-        </a>
-      </Button>
+      <section className="flex items-center justify-end">
+        <Button variant={"black"} className="mb-4" asChild>
+          <a
+            href={`/${workspaceId}/${formId}/preview`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group"
+          >
+            Preview Form In New Tab{" "}
+            <ArrowUpRight className="group-hover:translate-x-0.5 group-hover:scale-105 transition-all duration-300" />
+          </a>
+        </Button>
+      </section>
+
+      <PreviewFormPage
+        className="h-[80dvh] rounded-4xl overflow-hidden"
+        formCardClassName="sm:scale-90 md:scale-75  lg:scale-80 xl:scale-85"
+      />
       <section className="my-6">
         landing page field design;
         <br />
