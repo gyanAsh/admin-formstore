@@ -1,6 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "./ui/button";
-import { Link, useParams } from "react-router";
+import { useParams } from "react-router";
 import { ThemeValues } from "@/store/designs/values";
 import { setFormTheme } from "@/store/designs/design-elements";
 
@@ -8,14 +8,16 @@ export const FormElementPreview = () => {
   const { workspaceId, formId } = useParams();
   return (
     <div>
-      <Button asChild>
-        <Link
-          to={`/${workspaceId}/${formId}/preview`}
+      <Button variant={"black"} asChild>
+        <a
+          href={`/${workspaceId}/${formId}/preview`}
           target="_blank"
           rel="noopener noreferrer"
+          className="group"
         >
-          Preview Form <ArrowUpRight />
-        </Link>
+          Preview Form In New Tab{" "}
+          <ArrowUpRight className="group-hover:translate-x-0.5 group-hover:scale-105 transition-all duration-300" />
+        </a>
       </Button>
       <section className="my-6">
         landing page field design;
