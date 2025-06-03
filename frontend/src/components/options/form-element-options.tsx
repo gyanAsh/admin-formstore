@@ -39,8 +39,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { RatingValues } from "@/store/forms/values";
-import ImageUploaderComponent from "../image-upload";
-import { FileWithPreview } from "@/hooks/use-file-upload";
 
 export const FromElementDialogContent = memo(
   ({
@@ -129,16 +127,16 @@ export const FromElementDialogContent = memo(
               )}
             />
           </div>
-          <div className="grid flex-1 gap-2">
+          {/* <div className="grid flex-1 gap-2">
             <Label htmlFor="ref-element-img">Ref. Image :</Label>
             <ImageUploaderComponent
-            // onFileUpdate={(files: FileWithPreview[]) => {
-            //   console.count("upload runnnnn");
-            //   let file = files[0] || undefined;
-            //   console.log({ file });
-            // }}
+              onFileUpdate={(files: FileWithPreview[]) => {
+                console.count("upload runnnnn");
+                let file = files[0] || undefined;
+                console.log({ file });
+              }}
             />
-          </div>
+          </div> */}
         </div>
         {stateElement.badge?.value === FormFields.text && (
           <div className="flex flex-col space-y-4">
