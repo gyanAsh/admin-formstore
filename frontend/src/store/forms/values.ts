@@ -56,20 +56,20 @@ export const FromElements = [
     name: "Contact Info",
     color: "pink",
     items: [
-      { title: "Contact Info", icon: CircleUser, isPremium: false },
+      { title: "Contact Info", icon: CircleUser, isPremium: true },
       {
         title: "Email",
         value: FormFields.email,
         icon: Mail,
-        isPremium: true,
+        isPremium: false,
       },
-      { title: "Address", icon: MapPinned, isPremium: false },
-      { title: "Phone", icon: Phone, isPremium: false },
+      { title: "Address", icon: MapPinned, isPremium: true },
+      { title: "Phone", icon: Phone, isPremium: true },
       {
         title: "Website",
         value: FormFields.url,
         icon: Link2,
-        isPremium: true,
+        isPremium: false,
       },
     ],
   },
@@ -77,47 +77,47 @@ export const FromElements = [
     name: "Choice",
     color: "blue",
     items: [
-      { title: "Multiple Choice", icon: LayoutList, isPremium: false },
-      { title: "Dropdown", icon: ChevronDown, isPremium: false },
-      { title: "Yes/No", icon: CircleCheck, isPremium: false },
+      { title: "Multiple Choice", icon: LayoutList, isPremium: true },
+      { title: "Dropdown", icon: ChevronDown, isPremium: true },
+      { title: "Yes/No", icon: CircleCheck, isPremium: true },
       {
         title: "Concent",
         value: FormFields.consent,
         icon: SquareCheck,
-        isPremium: true,
+        isPremium: false,
       },
-      { title: "Checkbox", icon: Link2, isPremium: false },
+      { title: "Checkbox", icon: Link2, isPremium: true },
     ],
   },
   {
     name: "Rating & Ranking",
     color: "green",
     items: [
-      { title: "Net Promoter Score®", icon: Gauge, isPremium: false },
+      { title: "Net Promoter Score®", icon: Gauge, isPremium: true },
       {
         title: "Rating",
         value: FormFields.rating,
         icon: Star,
-        isPremium: true,
+        isPremium: false,
       },
       {
         title: "Ranking",
         icon: ListOrdered,
-        isPremium: false,
+        isPremium: true,
       },
-      { title: "Matrix", icon: Table, isPremium: false },
+      { title: "Matrix", icon: Table, isPremium: true },
     ],
   },
   {
     name: "Text & Video",
     color: "yellow",
     items: [
-      { title: "Long Text", icon: FileText, isPremium: false },
+      { title: "Long Text", icon: FileText, isPremium: true },
       {
         title: "Short Text",
         value: FormFields.text,
         icon: AlignLeft,
-        isPremium: true,
+        isPremium: false,
       },
       { title: "Video", icon: Play, isPremium: true },
     ],
@@ -175,3 +175,8 @@ export function getDefaultValidations(
       undefined;
   }
 }
+
+export const smallTextLimits = {
+  hardMinValue: 1,
+  hardMaxValue: 255,
+};

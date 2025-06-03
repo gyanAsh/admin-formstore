@@ -38,7 +38,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { RatingValues } from "@/store/forms/values";
+import { RatingValues, smallTextLimits } from "@/store/forms/values";
 
 export const FromElementDialogContent = memo(
   ({
@@ -245,8 +245,6 @@ const TextValidations = ({
   validations?: TextValidation;
   setState: React.Dispatch<React.SetStateAction<FormElements>>;
 }) => {
-  let hardMinValue = 1,
-    hardMaxValue = 255;
   return (
     <>
       <div className="grid flex-1 gap-2">
@@ -271,7 +269,7 @@ const TextValidations = ({
       <div className="grid grid-cols-2 gap-2.5">
         <NumberField
           value={validations?.minLength}
-          minValue={hardMinValue}
+          minValue={smallTextLimits.hardMinValue}
           maxValue={validations?.maxLength}
           onChange={(val) => {
             setState((e) => ({
@@ -307,7 +305,7 @@ const TextValidations = ({
         <NumberField
           value={validations?.maxLength}
           minValue={validations?.minLength}
-          maxValue={hardMaxValue}
+          maxValue={smallTextLimits.hardMaxValue}
           onChange={(val) => {
             setState((e) => ({
               ...e,
