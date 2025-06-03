@@ -1,0 +1,81 @@
+openapi: 3.0.0
+info:
+  title: Form API
+  version: "0.1.0"
+servers:
+  - url: "http://localhost:4000"
+paths:
+  /form/publish:
+    post:
+      summary: Publishes a form
+      description: This should be idempotent ie it should over ride the previous record and have the form published with the lastest data only.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PublishFormRequest"
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Any form of error from the client side
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Do not display this message in the frontend, I repeat do not display this message on the frontend
+
+components:
+  schemas:
+    PublishFormRequest:
+      type: object
+      required:
+        - form_id
+        - elements
+      properties:
+        form_id:
+          type: integer
+          description: The unique identifier for the form being published.
+          example: 16
+        elements:
+          type: array
+          items:
+            $ref: "#/components/schemas/FormElement"
+          description: A list of form elements to be included in this form.
+
+    FormElement:
+      type: object
+      required:
+        - type
+        - seq_num
+      properties:
+        type:
+          type: string
+          enum:
+            - email
+            - text
+            - textarea
+            - etc. (I will update this later)
+          description: The input type of the form element (e.g., 'email', 'text').
+        seq_num:
+          type: integer
+          format: int32
+          description: Sequential number indicating the order of this element in the form.
+          example: 1
+        label:
+          $ref: "#/components/schemas/FormElementLabel"
+
+    FormElementLabel:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "primary email"
+          description: The title or name of the form element.
+        description:
+          type: string
+          description: Additional descriptive text for the form element.
+          example: "please enter your email"
