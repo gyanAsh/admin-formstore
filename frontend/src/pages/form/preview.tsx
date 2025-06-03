@@ -32,6 +32,7 @@ import { FormConsent } from "@/components/ui-dynamic-form/elements/consent";
 import { FormRating } from "@/components/ui-dynamic-form/elements/rating";
 import { FormText } from "@/components/ui-dynamic-form/elements/text";
 import { FormWebsite } from "@/components/ui-dynamic-form/elements/website";
+import { ThemeValues } from "@/store/designs/values";
 const variants = {
   enter: (direction: "prev" | "next") => ({
     x: direction === "prev" ? -100 : 100,
@@ -96,6 +97,7 @@ const PreviewFormPage = ({
     return (
       <section className={cn("h-[100dvh]", className)} {...props}>
         <FormBackground theme={designAtts.theme}>
+          {designAtts.addGrainyBG === true && <div className="grain-overlay" />}
           {/* Progress Bar */}
           <FormProgressBar
             progressPercentage={progressPercentage}
@@ -127,25 +129,35 @@ const PreviewFormPage = ({
           </div>
 
           {/* Navigation Buttons */}
-          <div className="text-sm absolute flex items-center border bg-inherit p-1.5 rounded-xl bottom-4 right-4 space-x-2">
-            <FormNavBtn
-              theme={designAtts.theme}
-              onClick={() => paginate("prev")}
-              disabled={currentSection === 0}
-              className="p-0.5 rounded-l-lg"
+          <div className="text-sm absolute flex items-center border-zinc-200 bg-inherit p-1.5 rounded-xl bottom-4 right-4 space-x-2">
+            <div
+              className={cn(
+                "flex items-center p-1 rounded-xl space-x-1.5 border",
+                {
+                  " border-zinc-200":
+                    designAtts.theme === ThemeValues.gradient_forest.value,
+                }
+              )}
             >
-              <ChevronLeft className="text-zinc-900" />
-            </FormNavBtn>
-            <FormNavBtn
-              onClick={() => paginate("next")}
-              theme={designAtts.theme}
-              disabled={currentSection === elements.length - 1}
-              className="p-0.5 rounded-r-lg"
-            >
-              <ChevronRight className="text-zinc-900" />
-            </FormNavBtn>
+              <FormNavBtn
+                theme={designAtts.theme}
+                onClick={() => paginate("prev")}
+                disabled={currentSection === 0}
+                className="p-0.5 rounded-l-lg"
+              >
+                <ChevronLeft className="size-5.5 text-zinc-900" />
+              </FormNavBtn>
+              <FormNavBtn
+                onClick={() => paginate("next")}
+                theme={designAtts.theme}
+                disabled={currentSection === elements.length - 1}
+                className="p-0.5 rounded-r-lg"
+              >
+                <ChevronRight className="size-5.5 text-zinc-900" />
+              </FormNavBtn>
+            </div>
+
             <h2 className="ml-1">
-              {" "}
               Powered by <b>Formstore</b>
             </h2>
           </div>

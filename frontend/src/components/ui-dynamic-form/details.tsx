@@ -22,12 +22,11 @@ export const FormLabel = ({
             theme == "luxe_minimal_sky",
         },
         {
-          "text-zinc-800 font-['Playfair_Display','serif'] font-semibold":
-            theme == "violet",
+          " text-zinc-200 font-['Lora','serif'] ": theme == "violet",
         },
         {
-          "text-zinc-900 font-['Playfair_Display','serif'] font-semibold":
-            theme == "forest",
+          "text-emerald-50 font-['Roboto','serif'] font-light":
+            theme == ThemeValues.gradient_forest.value,
         },
 
         // { "font-['Cal_Sans','sans-serif']": family == "Cal_San" },
@@ -62,7 +61,10 @@ export const FormDescription = ({
             theme == "luxe_minimal_sky",
         },
         { "text-zinc-800 font-['Roboto','sans-serif']": theme == "violet" },
-        { "text-zinc-900 font-['Roboto','sans-serif']": theme == "forest" },
+        {
+          "text-emerald-50 font-['Roboto','sans-serif'] font-light":
+            theme == ThemeValues.gradient_forest.value,
+        },
 
         className
       )}

@@ -2,11 +2,20 @@ import { ArrowUpRight } from "lucide-react";
 import { Button } from "./ui/button";
 import { useParams } from "react-router";
 import { ThemeValues } from "@/store/designs/values";
-import { setFormTheme } from "@/store/designs/design-elements";
+import {
+  $form_design_atts,
+  setBGNoise,
+  setFormTheme,
+} from "@/store/designs/design-elements";
 import PreviewFormPage from "@/pages/form/preview";
+import { Switch } from "./ui/switch";
+import { Label } from "./ui/label";
+import { useStore } from "@nanostores/react";
 
 export const FormElementPreview = () => {
   const { workspaceId, formId } = useParams();
+  const designAtts = useStore($form_design_atts);
+
   return (
     <div>
       <section className="flex items-center justify-end">
@@ -27,8 +36,16 @@ export const FormElementPreview = () => {
         className="h-[80dvh] rounded-4xl overflow-hidden"
         formCardClassName="sm:scale-90 md:scale-75  lg:scale-80 xl:scale-85"
       />
+
       <section className="my-6">
-        landing page field design;
+        <div className="flex items-center space-x-2">
+          <Switch
+            id="noise-mode"
+            checked={designAtts.addGrainyBG}
+            onCheckedChange={setBGNoise}
+          />
+          <Label htmlFor="noise-mode">Add Noise</Label>
+        </div>
         <br />
         <br />
         divide design based on :
@@ -42,7 +59,7 @@ export const FormElementPreview = () => {
           {[
             ThemeValues.luxe_minimal_sky,
             ThemeValues.violet,
-            ThemeValues.forest,
+            ThemeValues.gradient_forest,
             ThemeValues.trance_sky,
             ThemeValues.luxe_minimal_noir,
           ].map((e) => (

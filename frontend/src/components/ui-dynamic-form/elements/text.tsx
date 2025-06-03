@@ -60,15 +60,15 @@ export const FormText = ({
           "field-sizing-content min-h-14 resize-none w-full border-2 py-2 md:py-3 px-3 md:px-4.5 ",
           { "text-lg md:text-xl": "size" === "size" },
           {
-            "bg-green-50 text-zinc-900 border-emerald-500 data-focused:outline-emerald-500 placeholder:text-zinc-500/75":
-              theme === "forest",
+            " autofill:!bg-transparent !bg-inherit text-white rounded-4xl border-zinc-50 data-focused:outline-zinc-50 placeholder:text-zinc-200/80":
+              theme === ThemeValues.gradient_forest.value,
           },
           {
             "bg-white/50 text-zinc-800 border-zinc-700 data-focused:outline-zinc-700 placeholder:text-zinc-500/85":
               theme === "trance_sky",
           },
           {
-            "bg-zinc-950 text-zinc-300 rounded-4xl border-zinc-700 data-focused:outline-zinc-700 placeholder:text-zinc-600":
+            "bg-zinc-950/35 text-zinc-300 rounded-4xl border-zinc-400 data-focused:outline-zinc-300 placeholder:text-zinc-600":
               theme == ThemeValues.luxe_minimal_noir.value,
           },
           {

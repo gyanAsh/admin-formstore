@@ -55,7 +55,6 @@ export const FormRating = ({
                           (e) => icon.value === (e as RatingKey)
                         ),
                     },
-                    { "text-green-600": !isActive && theme === "forest" },
                     {
                       "text-zinc-800  ": !isActive && theme === "trance_sky",
                     },

@@ -6,6 +6,7 @@ export const $form_design_atts = persistentAtom<FormDesignAttributes>(
   "form_design_atts", // Key to store in localStorage
   {
     theme: ThemeValues.luxe_minimal_noir.value,
+    addGrainyBG: false,
   }, // Default value
   {
     encode: JSON.stringify,
@@ -18,5 +19,13 @@ export function setFormTheme(theme: FormTheme) {
   $form_design_atts.set({
     ...current,
     theme: theme,
+  });
+}
+
+export function setBGNoise(noice: boolean) {
+  const current = $form_design_atts.get();
+  $form_design_atts.set({
+    ...current,
+    addGrainyBG: noice,
   });
 }

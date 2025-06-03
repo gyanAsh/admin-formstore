@@ -1,5 +1,6 @@
 export interface FormDesignAttributes {
   theme: FormTheme;
+  addGrainyBG?: boolean;
 }
 
 export type ThemeKey = FormTheme;
@@ -13,5 +14,5 @@ export type FormTheme =
   | "luxe_minimal_noir"
   | "luxe_minimal_sky"
   | "violet"
-  | "forest"
+  | "gradient_forest"
   | "trance_sky";

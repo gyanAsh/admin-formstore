@@ -17,7 +17,7 @@ export const FormProgressBar = ({
         { "bg-zinc-50": theme == ThemeValues.luxe_minimal_noir.value },
         { "bg-black": theme == "luxe_minimal_sky" },
         { "bg-violet-300": theme == "violet" },
-        { "bg-green-400/85": theme == "forest" },
+        { "bg-emerald-200": theme == ThemeValues.gradient_forest.value },
 
         {
           "bg-gradient-to-r from-purple-400 to-blue-400":
