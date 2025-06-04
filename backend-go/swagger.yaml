@@ -1,0 +1,336 @@
+openapi: 3.0.0
+info:
+  title: Form API
+  version: "0.1.0"
+servers:
+  - url: "http://localhost:4000"
+paths:
+  /:
+    get:
+      responses:
+        200:
+          description: Just to check if the server in running
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: the server is running
+  /api/workspaces:
+    get:
+      responses:
+        200:
+          description: get a list of workspaces
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Workspace"
+        401:
+          description: user is not logged in
+        500:
+          description: unexpected error (check log)
+  /api/workspace:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        200:
+          description: created a new workspace
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Workspace"
+        400:
+          description: missing fields
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+        401:
+          description: user is not logged in
+        500:
+          description: unexpected error (check log)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Workspace"
+      responses:
+        200:
+          description: rename workspace
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Workspace"
+    delete:
+      responses:
+        200:
+          description: remove workspace
+  /api/workpace/{workspaceId}/forms:
+    get:
+      parameters:
+        - in: path
+          name: workspaceId
+          required: true
+          schema:
+            type: integer
+            description: workspace id
+      responses:
+        200:
+          description: get the list of forms in the give workspace
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  forms:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Form"
+                  workspace:
+                    $ref: "#/components/schemas/Workspace"
+        401:
+          description: user is not logged in
+        500:
+          description: unexpected error (check log)
+  /api/workspace/{workspaceId}/form:
+    parameters:
+      - in: path
+        name: workspaceId
+        required: true
+        schema:
+          type: integer
+          description: workspace id (this route is subject to change)
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: the title of the form
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Form"
+          description: create a new form
+  /api/form:
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Form"
+      responses:
+        200:
+          description: rename the form
+    delete:
+      responses:
+        200:
+          description: rename the form
+  /api/form/{formId}:
+    get:
+      parameters:
+        - in: path
+          name: formId
+          required: true
+          schema:
+            type: integer
+            description: the form id
+      responses:
+        200:
+          description: get the requested form
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Form"
+        401:
+          description: user is not logged in
+        500:
+          description: unexpected error (check log)
+  /api/form/publish:
+    post:
+      summary: Publishes a form
+      description: This should be idempotent ie it should over ride the previous record and have the form published with the lastest data only.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PublishFormRequest"
+      responses:
+        200:
+          description: Successful operation
+        400:
+          description: Any form of error from the client side
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+  /api/verify:
+    post:
+      responses:
+        200:
+          description: check if the user is aunthenticated
+        401:
+          description: user is not logged in
+        500:
+          description: unexpected error (check log)
+  /api/login:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "foo@mail.com"
+                password:
+                  type: string
+                  example: "password"
+      responses:
+        200:
+          description: login the user
+        400:
+          description: in case where either email or password is empty
+        500:
+          description: unexpected error (check log)
+  /api/signup:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "bar"
+                email:
+                  type: string
+                  example: "bar@mail.com"
+                password:
+                  type: string
+                  example: "password"
+      responses:
+        200:
+          description: login the user
+        400:
+          description: missing fields
+        500:
+          description: unexpected error (check log)
+
+components:
+  schemas:
+    PublishFormRequest:
+      type: object
+      required:
+        - form_id
+        - elements
+      properties:
+        form_id:
+          type: integer
+          description: The unique identifier for the form being published.
+          example: 16
+        elements:
+          type: array
+          items:
+            $ref: "#/components/schemas/FormElement"
+          description: A list of form elements to be included in this form.
+
+    FormElement:
+      type: object
+      required:
+        - type
+        - seq_num
+      properties:
+        type:
+          type: string
+          enum:
+            - email
+            - text
+            - textarea
+            - etc. (I will update this later)
+          description: The input type of the form element (e.g., 'email', 'text').
+        seq_num:
+          type: integer
+          format: int32
+          description: Sequential number indicating the order of this element in the form.
+          example: 1
+        label:
+          $ref: "#/components/schemas/FormElementLabel"
+
+    FormElementLabel:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "primary email"
+          description: The title or name of the form element.
+        description:
+          type: string
+          description: Additional descriptive text for the form element.
+          example: "please enter your email"
+
+    BasicError:
+      type: object
+      properties:
+        message:
+          type: string
+          description: error message, do not display it on the client
+
+    Workspace:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: integer
+          description: the id for workspace not required and not used
+        name:
+          type: string
+          description: name for workspace
+        user_id:
+          type: integer
+          description: user related to the workspace, not required
+        created_at:
+          type: string
+          description: time the workspace was created
+        updated_at:
+          type: string
+          description: the last time the workspace was updated
+
+    Form:
+      type: object
+      required:
+        - title
+        - workspace_id
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        workspace_id:
+          type: integer
+
