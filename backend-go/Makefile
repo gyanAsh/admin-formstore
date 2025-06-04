@@ -3,3 +3,7 @@ run:
 
 test:
 	go test -v ./src/server
+
+swagger:
+	@echo url: http://localhost:4200/swagger.html
+	python -m http.server -b 127.0.0.1 4200
