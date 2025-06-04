@@ -52,23 +52,15 @@ export const FormWebsite = ({
               theme === ThemeValues.gradient_forest.value,
           },
           {
-            "bg-blue-50 text-zinc-900 border-inherit data-focused:outline-inherit placeholder:text-zinc-500/95":
-              theme === "trance_sky",
-          },
-          {
             "bg-zinc-950/35 text-zinc-300 rounded-4xl border-zinc-400 data-focused:outline-zinc-300 placeholder:text-zinc-600":
               theme == ThemeValues.luxe_minimal_noir.value,
           },
           {
-            "bg-blue-50 text-zinc-900 border-inherit data-focused:outline-inherit placeholder:text-zinc-500/95":
-              theme == "luxe_minimal_sky",
-          },
-          {
-            "bg-violet-50 text-zinc-800 border-purple-700 data-focused:outline-purple-700 placeholder:text-zinc-500/95":
-              theme == "violet",
+            " autofill:!bg-transparent !bg-inherit text-inherit rounded-4xl border-green-500 data-focused:outline-green-600 placeholder:text-green-800/45":
+              theme === ThemeValues.luxe_minimal_forest.value,
           }
         )}
-        autoFocus={false}
+        autoFocus={true}
         placeholder={url.placeholder}
         formNoValidate
         value={inputState}

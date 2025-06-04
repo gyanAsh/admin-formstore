@@ -38,7 +38,7 @@ export const FormText = ({
     <section className={cn(" max-w-150 flex flex-col gap-2.5 grow")}>
       <TextArea
         id="element-description"
-        autoFocus={false}
+        autoFocus={true}
         value={textState}
         onChange={(e) => {
           let val = e.target.value;
@@ -57,27 +57,18 @@ export const FormText = ({
         placeholder={text.placeholder}
         //   className="field-sizing-content max-h-29.5 min-h-0 resize-none py-1.75"
         className={cn(
-          "field-sizing-content min-h-14 resize-none w-full border-2 py-2 md:py-3 px-3 md:px-4.5 ",
-          { "text-lg md:text-xl": "size" === "size" },
+          "field-sizing-content min-h-14 resize-none w-full border-2 py-2 md:py-3 px-3 md:px-4.5 text-lg md:text-xl",
           {
             " autofill:!bg-transparent !bg-inherit text-white rounded-4xl border-zinc-50 data-focused:outline-zinc-50 placeholder:text-zinc-200/80":
               theme === ThemeValues.gradient_forest.value,
-          },
-          {
-            "bg-white/50 text-zinc-800 border-zinc-700 data-focused:outline-zinc-700 placeholder:text-zinc-500/85":
-              theme === "trance_sky",
           },
           {
             "bg-zinc-950/35 text-zinc-300 rounded-4xl border-zinc-400 data-focused:outline-zinc-300 placeholder:text-zinc-600":
               theme == ThemeValues.luxe_minimal_noir.value,
           },
           {
-            "bg-blue-50 text-zinc-900 border-inherit data-focused:outline-inherit placeholder:text-zinc-500/95":
-              theme == "luxe_minimal_sky",
-          },
-          {
-            "bg-violet-50 text-zinc-800 border-purple-700 data-focused:outline-purple-700 placeholder:text-zinc-500/95":
-              theme == "violet",
+            " autofill:!bg-transparent !bg-inherit text-inherit rounded-4xl border-green-500 data-focused:outline-green-600 placeholder:text-green-800/45":
+              theme === ThemeValues.luxe_minimal_forest.value,
           }
         )}
       />

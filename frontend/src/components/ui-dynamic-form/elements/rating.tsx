@@ -54,13 +54,10 @@ export const FormRating = ({
                         ["wrong", "thumb_down", "heart", "skull"].some(
                           (e) => icon.value === (e as RatingKey)
                         ),
-                    },
-                    {
-                      "text-zinc-800  ": !isActive && theme === "trance_sky",
-                    },
-                    {
-                      "text-violet-600  ": !isActive && theme === "violet",
                     }
+                    // {
+                    //   "text-zinc-800  ": !isActive && theme === "trance_sky",
+                    // },
                   )}
                 />
               </motion.div>

@@ -18,15 +18,12 @@ export const FormLabel = ({
             theme == ThemeValues.luxe_minimal_noir.value,
         },
         {
-          "text-zinc-900 font-['Playfair_Display','serif'] font-semibold":
-            theme == "luxe_minimal_sky",
-        },
-        {
-          " text-zinc-200 font-['Lora','serif'] ": theme == "violet",
-        },
-        {
           "text-emerald-50 font-['Roboto','serif'] font-light":
             theme == ThemeValues.gradient_forest.value,
+        },
+        {
+          "font-['Playfair_Display','serif'] font-light italic":
+            theme == ThemeValues.luxe_minimal_forest.value,
         },
 
         // { "font-['Cal_Sans','sans-serif']": family == "Cal_San" },
@@ -57,13 +54,12 @@ export const FormDescription = ({
             theme == ThemeValues.luxe_minimal_noir.value,
         },
         {
-          "text-zinc-900 font-['Roboto','sans-serif']":
-            theme == "luxe_minimal_sky",
-        },
-        { "text-zinc-800 font-['Roboto','sans-serif']": theme == "violet" },
-        {
           "text-emerald-50 font-['Roboto','sans-serif'] font-light":
             theme == ThemeValues.gradient_forest.value,
+        },
+        {
+          "font-['Playfair_Display','serif'] font-light italic":
+            theme == ThemeValues.luxe_minimal_forest.value,
         },
 
         className

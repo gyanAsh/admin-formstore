@@ -129,13 +129,17 @@ const PreviewFormPage = ({
           </div>
 
           {/* Navigation Buttons */}
-          <div className="text-sm absolute flex items-center border-zinc-200 bg-inherit p-1.5 rounded-xl bottom-4 right-4 space-x-2">
+          <div className="text-sm absolute flex items-center border-zinc-200 bg-inherit pr-1.5 rounded-xl bottom-4 right-4 space-x-2">
             <div
               className={cn(
                 "flex items-center p-1 rounded-xl space-x-1.5 border",
                 {
-                  " border-zinc-200":
+                  " border-zinc-50/60":
                     designAtts.theme === ThemeValues.gradient_forest.value,
+                },
+                {
+                  " border-green-600/40":
+                    designAtts.theme === ThemeValues.luxe_minimal_forest.value,
                 }
               )}
             >
@@ -232,7 +236,15 @@ const FormPage = ({
           {element.labels.description}
         </FormDescription>
       </section>
-      <section className=" min-h-[130px] flex justify-center font-['Roboto','sans-serif']">
+      <section
+        className={cn(
+          " min-h-[130px] flex justify-center font-['Roboto','sans-serif']",
+          {
+            "font-['Playfair_Display','serif'] font-light":
+              designAtts.theme === ThemeValues.luxe_minimal_forest.value,
+          }
+        )}
+      >
         {element.field === "email" ? (
           <FormEmail
             email={element.validations as EmailValidation}

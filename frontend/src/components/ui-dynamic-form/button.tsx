@@ -14,7 +14,7 @@ export const FormButton = ({
   return (
     <button
       className={cn(
-        " min-w-25 w-[135px] md:w-[160px] capitalize",
+        " min-w-25 w-[135px] md:w-[160px]",
         " px-2 md:px-3 py-2 md:py-3 cursor-pointer",
         "active:scale-95 duration-200 transition-colors",
 
@@ -31,6 +31,7 @@ export const FormButton = ({
           "text-base md:text-lg rounded-4xl":
             theme === ThemeValues.luxe_minimal_noir.value,
         },
+        //gradient-forest
         {
           "text-base md:text-lg rounded-4xl ":
             theme === ThemeValues.gradient_forest.value,
@@ -40,8 +41,23 @@ export const FormButton = ({
             theme === ThemeValues.gradient_forest.value && variant == "default",
         },
         {
-          "  hover:bg-red-200/85 border-2 border-zinc-50 hover:border-emerald-600 hover:text-emerald-600 text-zinc-50 ":
+          "hover:bg-red-200/85 border-2 border-zinc-50 hover:border-emerald-600 hover:text-emerald-600 text-zinc-50 ":
             theme === ThemeValues.gradient_forest.value &&
+            variant == "destructive",
+        },
+        //luxe-minimal-forest
+        {
+          "text-base md:text-lg rounded-4xl":
+            theme === ThemeValues.luxe_minimal_forest.value,
+        },
+        {
+          "text-green-50 bg-green-600 hover:bg-green-200 hover:text-green-700 ":
+            theme === ThemeValues.luxe_minimal_forest.value &&
+            variant == "default",
+        },
+        {
+          "hover:bg-red-200/85 border-2 hover:border-green-200 border-emerald-600 hover:text-emerald-600 text-green-600 ":
+            theme === ThemeValues.luxe_minimal_forest.value &&
             variant == "destructive",
         },
         className

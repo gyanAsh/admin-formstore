@@ -1,4 +1,4 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Bold, Italic, Underline } from "lucide-react";
 import { Button } from "./ui/button";
 import { useParams } from "react-router";
 import { ThemeValues } from "@/store/designs/values";
@@ -11,6 +11,7 @@ import PreviewFormPage from "@/pages/form/preview";
 import { Switch } from "./ui/switch";
 import { Label } from "./ui/label";
 import { useStore } from "@nanostores/react";
+import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
 
 export const FormElementPreview = () => {
   const { workspaceId, formId } = useParams();
@@ -18,8 +19,17 @@ export const FormElementPreview = () => {
 
   return (
     <div>
-      <section className="flex items-center justify-end">
-        <Button variant={"black"} className="mb-4" asChild>
+      <section className="flex items-center justify-end"></section>
+      <section className="relative">
+        <PreviewFormPage
+          className="h-[80dvh] rounded-4xl overflow-hidden"
+          formCardClassName="sm:scale-90 md:scale-75  lg:scale-80 xl:scale-85"
+        />
+        <Button
+          variant={"black"}
+          className="mb-4 absolute right-4 top-4 "
+          asChild
+        >
           <a
             href={`/${workspaceId}/${formId}/preview`}
             target="_blank"
@@ -30,15 +40,7 @@ export const FormElementPreview = () => {
             <ArrowUpRight className="group-hover:translate-x-0.5 group-hover:scale-105 transition-all duration-300" />
           </a>
         </Button>
-      </section>
-
-      <PreviewFormPage
-        className="h-[80dvh] rounded-4xl overflow-hidden"
-        formCardClassName="sm:scale-90 md:scale-75  lg:scale-80 xl:scale-85"
-      />
-
-      <section className="my-6">
-        <div className="flex items-center space-x-2">
+        <div className=" absolute top-4 left-4 flex items-center space-x-2">
           <Switch
             id="noise-mode"
             checked={designAtts.addGrainyBG}
@@ -46,22 +48,12 @@ export const FormElementPreview = () => {
           />
           <Label htmlFor="noise-mode">Add Noise</Label>
         </div>
-        <br />
-        <br />
-        divide design based on :
-        <br />
-        <br /> rounded : how round form and its elements can be
-        <br />
-        <br /> color : will have color options and will include both elements
-        +text
-        <div className="flex flex-col gap-2">
+        <div className="absolute bottom-4 left-4 flex flex-col gap-2">
           <h2>Colors</h2>
           {[
-            ThemeValues.luxe_minimal_sky,
-            ThemeValues.violet,
             ThemeValues.gradient_forest,
-            ThemeValues.trance_sky,
             ThemeValues.luxe_minimal_noir,
+            ThemeValues.luxe_minimal_forest,
           ].map((e) => (
             <Button
               variant={"black"}
@@ -73,18 +65,26 @@ export const FormElementPreview = () => {
             </Button>
           ))}
         </div>
+      </section>
+
+      <section className="my-6">
         <br />
-        <div className="flex flex-col gap-2">
-          <h2>Description</h2>
-        </div>
-        <br /> background : if not background selected, will go with color else.
-        bg patters.
+        <ToggleGroup variant="outline" type="multiple">
+          <ToggleGroupItem value="bold" aria-label="Toggle bold">
+            <Bold className="h-4 w-4" />
+          </ToggleGroupItem>
+          <ToggleGroupItem value="italic" aria-label="Toggle italic">
+            <Italic className="h-4 w-4" />
+          </ToggleGroupItem>
+          <ToggleGroupItem
+            value="strikethrough"
+            aria-label="Toggle strikethrough"
+          >
+            <Underline className="h-4 w-4" />
+          </ToggleGroupItem>
+        </ToggleGroup>
         <br />
-        <br /> label font : select from different fonts
         <br />
-        <br /> description font : select from different forms
-        <br />
-        <br /> text size : different size
       </section>
     </div>
   );

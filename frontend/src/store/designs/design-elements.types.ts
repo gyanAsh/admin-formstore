@@ -12,7 +12,5 @@ export interface ThemeValue {
 
 export type FormTheme =
   | "luxe_minimal_noir"
-  | "luxe_minimal_sky"
-  | "violet"
-  | "gradient_forest"
-  | "trance_sky";
+  | "luxe_minimal_forest"
+  | "gradient_forest";
