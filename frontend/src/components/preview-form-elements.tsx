@@ -1,4 +1,4 @@
-import { ArrowUpRight, Bold, Italic, Underline } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { Button } from "./ui/button";
 import { useParams } from "react-router";
 import { ThemeValues } from "@/store/designs/values";
@@ -8,10 +8,10 @@ import {
   setFormTheme,
 } from "@/store/designs/design-elements";
 import PreviewFormPage from "@/pages/form/preview";
-import { Switch } from "./ui/switch";
-import { Label } from "./ui/label";
 import { useStore } from "@nanostores/react";
-import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
+import { Toggle } from "./ui/toggle";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { cn } from "@/lib/utils";
 
 export const FormElementPreview = () => {
   const { workspaceId, formId } = useParams();
@@ -25,66 +25,69 @@ export const FormElementPreview = () => {
           className="h-[80dvh] rounded-4xl overflow-hidden"
           formCardClassName="sm:scale-90 md:scale-75  lg:scale-80 xl:scale-85"
         />
-        <Button
-          variant={"black"}
-          className="mb-4 absolute right-4 top-4 "
-          asChild
-        >
+        <div className="mb-4 absolute right-4 top-4 ">
           <a
             href={`/${workspaceId}/${formId}/preview`}
             target="_blank"
             rel="noopener noreferrer"
-            className="group"
+            className="group relative inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-slate-800/85  font-medium text-neutral-200 border-2 border-black hover:border-zinc-50 transition-all duration-300 hover:w-34"
           >
-            Preview Form In New Tab{" "}
-            <ArrowUpRight className="group-hover:translate-x-0.5 group-hover:scale-105 transition-all duration-300" />
+            <div className="inline-flex text-sm whitespace-nowrap opacity-0 transition-all duration-200 group-hover:-translate-x-3 group-hover:opacity-100">
+              Preview Form
+            </div>
+            <div className="absolute right-1.5">
+              <ArrowUpRight />
+            </div>
           </a>
-        </Button>
-        <div className=" absolute top-4 left-4 flex items-center space-x-2">
-          <Switch
-            id="noise-mode"
-            checked={designAtts.addGrainyBG}
-            onCheckedChange={setBGNoise}
-          />
-          <Label htmlFor="noise-mode">Add Noise</Label>
         </div>
-        <div className="absolute bottom-4 left-4 flex flex-col gap-2">
-          <h2>Colors</h2>
-          {[
-            ThemeValues.gradient_forest,
-            ThemeValues.luxe_minimal_noir,
-            ThemeValues.luxe_minimal_forest,
-          ].map((e) => (
-            <Button
-              variant={"black"}
-              className="w-fit"
-              key={e.value}
-              onClick={() => setFormTheme(e.value)}
-            >
-              {e.name}
-            </Button>
-          ))}
-        </div>
-      </section>
 
-      <section className="my-6">
-        <br />
-        <ToggleGroup variant="outline" type="multiple">
-          <ToggleGroupItem value="bold" aria-label="Toggle bold">
-            <Bold className="h-4 w-4" />
-          </ToggleGroupItem>
-          <ToggleGroupItem value="italic" aria-label="Toggle italic">
-            <Italic className="h-4 w-4" />
-          </ToggleGroupItem>
-          <ToggleGroupItem
-            value="strikethrough"
-            aria-label="Toggle strikethrough"
+        <div className="absolute bottom-4 left-4 flex items-end gap-2">
+          <Popover modal>
+            <PopoverTrigger asChild>
+              <Button variant={"outline"}>
+                {ThemeValues[designAtts.theme].name}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80">
+              <div className="grid gap-4">
+                <div className="space-y-2">
+                  <h4 className="leading-none font-medium">Select Theme</h4>
+                  <p className="text-muted-foreground text-sm">
+                    Set the theme for the form.
+                  </p>
+                </div>
+                <div className="grid gap-2">
+                  {[
+                    ThemeValues.gradient_forest,
+                    ThemeValues.luxe_minimal_noir,
+                    ThemeValues.luxe_minimal_forest,
+                  ].map((e) => (
+                    <Button
+                      variant={"black"}
+                      className="w-full"
+                      key={e.value}
+                      onClick={() => setFormTheme(e.value)}
+                    >
+                      {e.name}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            </PopoverContent>
+          </Popover>
+          <Toggle
+            pressed={designAtts.addGrainyBG}
+            onPressedChange={setBGNoise}
+            aria-label="Toggle Noise"
+            className={cn(
+              "cursor-pointer border-2 border-transparent",
+              " data-[state=on]:border-white data-[state=on]:bg-black data-[state=on]:text-white data-[state=on]:scale-95",
+              " bg-slate-900 text-zinc-50 hover:bg-slate-950 hover:text-white active:scale-95 active:border-white"
+            )}
           >
-            <Underline className="h-4 w-4" />
-          </ToggleGroupItem>
-        </ToggleGroup>
-        <br />
-        <br />
+            Noise
+          </Toggle>
+        </div>
       </section>
     </div>
   );
