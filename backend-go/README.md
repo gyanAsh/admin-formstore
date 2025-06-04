@@ -5,6 +5,7 @@
 - make (optional but recommended)
 - sqlc (optional)
 - golang-migrate (optional)
+- python (optional for swagger ui)
 
 
 ## Dev
@@ -31,3 +32,11 @@ or
 
 ## SQLC
 `sqlc generate`
+
+
+# SwaggerUI (OpenAPI 3)
+`make swagger`
+to use it with python.
+Otherwise use any static server to view `swagger.html`.
+
+After that go to [swagger-ui](http://localhost:4200/swagger.html).
