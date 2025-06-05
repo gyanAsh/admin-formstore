@@ -45,7 +45,7 @@ import {
   setFormElements,
 } from "@/store/forms/form-elements";
 import { useParams } from "react-router";
-import { FormElements } from "@/store/forms/form-elemets.types";
+import { FormElements as FormElementsType } from "@/store/forms/form-elemets.types";
 import { useStore } from "@nanostores/react";
 import { Badge } from "./ui/badge";
 import { AnimatePresence } from "motion/react";
@@ -90,7 +90,7 @@ export const AddFormElement = () => {
       });
       return;
     }
-    let element: FormElements = {
+    let element: FormElementsType = {
       id: generateMicroId(6),
       field: value,
       badge: { value: value, color: iconColor },
