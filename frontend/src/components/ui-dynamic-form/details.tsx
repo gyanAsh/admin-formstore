@@ -18,7 +18,7 @@ export const FormLabel = ({
             theme == ThemeValues.luxe_minimal_noir.value,
         },
         {
-          "text-emerald-50 font-['Roboto','serif'] font-light":
+          "text-emerald-50 font-['Roboto','serif'] font-medium":
             theme == ThemeValues.gradient_forest.value,
         },
         {
