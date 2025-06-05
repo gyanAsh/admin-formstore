@@ -44,11 +44,12 @@ export const FormWebsite = ({
     <section className={cn(" max-w-150 flex flex-col gap-2.5 grow")}>
       <Input
         type="url"
+        id="url-element"
         className={cn(
           "w-full border-2 py-2 md:py-3 px-3 md:px-4.5 text-lg md:text-xl",
 
           {
-            " autofill:!bg-transparent !bg-inherit text-white rounded-4xl border-zinc-50 data-focused:outline-zinc-50 placeholder:text-zinc-200/80":
+            " autofill:!bg-transparent !bg-green-900/20 text-white rounded-4xl border-zinc-50 data-focused:outline-zinc-50 placeholder:text-zinc-200/80":
               theme === ThemeValues.gradient_forest.value,
           },
           {
@@ -56,11 +57,11 @@ export const FormWebsite = ({
               theme == ThemeValues.luxe_minimal_noir.value,
           },
           {
-            " autofill:!bg-transparent !bg-inherit text-inherit rounded-4xl border-green-500 data-focused:outline-green-600 placeholder:text-green-800/45":
+            " autofill:!bg-transparent !bg-green-900/10 text-inherit rounded-4xl border-green-500 data-focused:outline-green-600 placeholder:text-green-900/55":
               theme === ThemeValues.luxe_minimal_forest.value,
           }
         )}
-        autoFocus={true}
+        autoFocus={false}
         placeholder={url.placeholder}
         formNoValidate
         value={inputState}

@@ -115,7 +115,7 @@ const PreviewFormPage = ({
                   initial="enter"
                   animate="center"
                   exit="exit"
-                  className="absolute w-full h-full"
+                  className="w-full h-full"
                 >
                   <FormPage
                     formCardClassName={formCardClassName}
