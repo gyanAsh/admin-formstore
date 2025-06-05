@@ -51,7 +51,7 @@ export const RatingValues: Record<RatingKey, RatingValue> = {
   pizza: { value: "pizza", name: "Food", icon: Pizza },
 };
 
-export const FromElements = [
+export const FormElements = [
   {
     name: "Contact Info",
     color: "pink",

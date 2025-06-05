@@ -65,7 +65,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import {
-  FromElements,
+  FormElements,
   getDefaultLabelTitle,
   getDefaultValidations,
 } from "@/store/forms/values";
@@ -124,7 +124,7 @@ export const AddFormElement = () => {
             </DialogHeader>
             <ScrollArea className="max-h-[70dvh] bg-gray-100  dark:bg-slate-800/65 rounded-3xl ">
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 m-6">
-                {FromElements.map((el) => (
+                {FormElements.map((el) => (
                   <div key={el.name} className="flex flex-col gap-1.5">
                     <h2 className="font-bold text-sm mb-2">{el.name}</h2>
                     {el.items.map((e) => (
@@ -617,7 +617,7 @@ const DndKitContainer = () => {
                                     Form Elements
                                   </h2>
                                   <ScrollArea className="max-sm:h-[350px] h-[400px]">
-                                    {FromElements.map((el, idx) => {
+                                    {FormElements.map((el, idx) => {
                                       return (
                                         <DropdownMenuGroup
                                           key={idx}
