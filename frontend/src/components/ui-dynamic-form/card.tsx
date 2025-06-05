@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { FormTheme } from "@/store/designs/design-elements.types";
+import { FormTheme } from "@/store/forms/designs/design-elements.types";
 
 export const FormCard = ({
   showTwoCol,

@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
-import { FormTheme } from "@/store/designs/design-elements.types";
-import { ThemeValues } from "@/store/designs/values";
+import { FormTheme } from "@/store/forms/designs/design-elements.types";
+import { ThemeValues } from "@/store/forms/designs/values";
 
 export const FormProgressBar = ({
   progressPercentage,

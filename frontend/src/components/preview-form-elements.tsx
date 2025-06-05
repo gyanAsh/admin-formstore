@@ -1,31 +1,54 @@
 import { ArrowUpRight, Columns2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useParams } from "react-router";
-import { ThemeValues } from "@/store/designs/values";
+import { ThemeValues } from "@/store/forms/designs/values";
 import {
-  $form_design_atts,
   setBGNoise,
   setFormTheme,
   setTwoColumns,
-} from "@/store/designs/design-elements";
+} from "@/store/forms/designs/design-elements";
 import PreviewFormPage from "@/pages/form/preview";
 import { useStore } from "@nanostores/react";
 import { Toggle } from "./ui/toggle";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { cn } from "@/lib/utils";
+import { useMemo } from "react";
+import { $all_forms } from "@/store/forms/form-elements";
 
 export const FormElementPreview = () => {
   const { workspaceId, formId } = useParams();
-  const designAtts = useStore($form_design_atts);
+  const allForms = useStore($all_forms);
+
+  // Memoize the derived 'elements' array && 'designAttr' (design-attributes) to prevent recalculation on every render
+  const { elements, designAtts } = useMemo(() => {
+    const form = allForms.find(
+      (form) => form.id === formId && form.workspaceId === workspaceId
+    );
+    if (!form?.id)
+      return {
+        elements: [],
+        designAtts: { theme: ThemeValues.luxe_minimal_noir.value },
+      };
+    return { elements: form.elements || [], designAtts: form.design };
+  }, [allForms, formId, workspaceId]);
 
   return (
     <div>
       <section className="flex items-center justify-end"></section>
       <section className="relative">
-        <PreviewFormPage
-          className="h-[80dvh] rounded-4xl overflow-hidden"
-          formCardClassName="sm:scale-90 md:scale-75  lg:scale-80 xl:scale-85"
-        />
+        {elements.length > 0 ? (
+          <PreviewFormPage
+            className="h-[80dvh] rounded-4xl overflow-hidden"
+            formCardClassName="sm:scale-90 md:scale-75  lg:scale-80 xl:scale-85"
+          />
+        ) : (
+          <div className="h-[80dvh]  rounded-4xl overflow-hidden  w-full flex flex-col gap-4 @[64rem]:gap-10 items-center justify-center @container bg-black">
+            <h2 className="text-4xl text-center text-zinc-200 font-bold @[64rem]:text-6xl">
+              Add Elements To Preview Your Form{" "}
+            </h2>
+          </div>
+        )}
+
         <div className="mb-4 absolute right-4 top-4 ">
           <a
             href={`/${workspaceId}/${formId}/preview`}
@@ -67,7 +90,7 @@ export const FormElementPreview = () => {
                       variant={"black"}
                       className="w-full"
                       key={e.value}
-                      onClick={() => setFormTheme(e.value)}
+                      onClick={() => setFormTheme(formId!, e.value)}
                     >
                       {e.name}
                     </Button>
@@ -78,7 +101,7 @@ export const FormElementPreview = () => {
           </Popover>
           <Toggle
             pressed={designAtts.addGrainyBG}
-            onPressedChange={setBGNoise}
+            onPressedChange={(e) => setBGNoise(formId!, e)}
             aria-label="Toggle Noise"
             className={cn(
               "rounded-full cursor-pointer border-2 border-transparent",
@@ -90,7 +113,7 @@ export const FormElementPreview = () => {
           </Toggle>
           <Toggle
             pressed={designAtts.displayTwoColumns}
-            onPressedChange={setTwoColumns}
+            onPressedChange={(e) => setTwoColumns(formId!, e)}
             aria-label="Toggle Noise"
             className={cn(
               "rounded-full cursor-pointer border-2 border-transparent",

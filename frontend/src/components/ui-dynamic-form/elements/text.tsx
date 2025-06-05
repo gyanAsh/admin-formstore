@@ -1,11 +1,11 @@
 import { cn } from "@/lib/utils";
-import { FormTheme } from "@/store/designs/design-elements.types";
+import { FormTheme } from "@/store/forms/designs/design-elements.types";
 import { TextValidation } from "@/store/forms/form-elemets.types";
 import { TextArea } from "react-aria-components";
 import { FormButton } from "../button";
 import { useState } from "react";
 import { FormErrorMsgPopUp } from "../error-card";
-import { ThemeValues } from "@/store/designs/values";
+import { ThemeValues } from "@/store/forms/designs/values";
 import useAutoFocusOnVisible from "@/hooks/use-autofocus-on-visible";
 
 export const FormText = ({

@@ -5,7 +5,7 @@ import { Link, useParams } from "react-router";
 
 import { AnimatePresence, motion } from "motion/react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   ConsentValidation,
   EmailValidation,
@@ -14,7 +14,6 @@ import {
   TextValidation,
   UrlValidation,
 } from "@/store/forms/form-elemets.types";
-import { $form_design_atts } from "@/store/designs/design-elements";
 import { FormBackground } from "@/components/ui-dynamic-form/background";
 import { FormCard } from "@/components/ui-dynamic-form/card";
 import {
@@ -25,14 +24,14 @@ import { cn } from "@/lib/utils";
 import {
   FormDesignAttributes,
   FormTheme,
-} from "@/store/designs/design-elements.types";
+} from "@/store/forms/designs/design-elements.types";
 import { FormProgressBar } from "@/components/ui-dynamic-form/progress-bar";
 import { FormEmail } from "@/components/ui-dynamic-form/elements/email";
 import { FormConsent } from "@/components/ui-dynamic-form/elements/consent";
 import { FormRating } from "@/components/ui-dynamic-form/elements/rating";
 import { FormText } from "@/components/ui-dynamic-form/elements/text";
 import { FormWebsite } from "@/components/ui-dynamic-form/elements/website";
-import { ThemeValues } from "@/store/designs/values";
+import { ThemeValues } from "@/store/forms/designs/values";
 const variants = {
   enter: (direction: "prev" | "next") => ({
     x: direction === "prev" ? -100 : 100,
@@ -59,18 +58,21 @@ const PreviewFormPage = ({
 }) => {
   const { workspaceId, formId } = useParams();
   const allForms = useStore($all_forms);
-  const designAtts = useStore($form_design_atts);
 
   const [currentSection, setCurrentSection] = useState(0);
   const [direction, setDirection] = useState<"prev" | "next">("next");
 
-  // Memoize the derived 'elements' array to prevent recalculation on every render
-  const elements = useMemo(() => {
-    return (
-      allForms.find(
-        (form) => form.id === formId && form.workspaceId === workspaceId
-      )?.elements || []
+  // Memoize the derived 'elements' array && 'designAttr' (design-attributes) to prevent recalculation on every render
+  const { elements, designAtts } = useMemo(() => {
+    const form = allForms.find(
+      (form) => form.id === formId && form.workspaceId === workspaceId
     );
+    if (!form?.id)
+      return {
+        elements: [],
+        designAtts: { theme: ThemeValues.luxe_minimal_noir.value },
+      };
+    return { elements: form.elements || [], designAtts: form.design };
   }, [allForms, formId, workspaceId]);
 
   // Memoize the paginate function to prevent it from being recreated on every render
@@ -170,20 +172,20 @@ const PreviewFormPage = ({
     );
   else
     return (
-      <div className="h-[100dvh] w-[100dvw] flex flex-col gap-10 items-center justify-center">
-        <h2 className="text-7xl text-red-500 font-bold">
-          Elements Not Found - 404{" "}
+      <div className="h-[100dvh]  w-full flex flex-col gap-4 @[64rem]:gap-10 items-center justify-center @container bg-black">
+        <h2 className="text-4xl text-center text-red-500 font-bold @[64rem]:text-6xl">
+          No Elements Found
         </h2>
 
         <Button
           variant={"black"}
-          className="w-50 h-15 text-2xl group"
-          effect={"scale"}
+          className=" @max-[64rem]:scale-75 @max-[64rem]:hover:scale-80 hover:scale-105 w-40 h-12 text-2xl group duration-250"
+          effect={"small_scale"}
           asChild
         >
           <Link to={`/workspace/${workspaceId}/${formId}/create`}>
-            <ArrowLeft className="size-7 group-hover:-translate-x-5 duration-250 ease-linear" />
-            Go back{" "}
+            <ChevronLeft className="size-7 group-hover:-translate-x-2 duration-250 ease-linear" />
+            Go Back{" "}
           </Link>
         </Button>
       </div>

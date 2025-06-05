@@ -1,12 +1,12 @@
 import { cn } from "@/lib/utils";
-import { FormTheme } from "@/store/designs/design-elements.types";
+import { FormTheme } from "@/store/forms/designs/design-elements.types";
 import { UrlValidation } from "@/store/forms/form-elemets.types";
 import { Input } from "react-aria-components";
 import { FormButton } from "../button";
 import { FormErrorMsgPopUp } from "../error-card";
 import { useState } from "react";
 import { z } from "zod";
-import { ThemeValues } from "@/store/designs/values";
+import { ThemeValues } from "@/store/forms/designs/values";
 import useAutoFocusOnVisible from "@/hooks/use-autofocus-on-visible";
 
 const urlSchema = z

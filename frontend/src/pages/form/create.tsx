@@ -15,6 +15,7 @@ import { useState } from "react";
 import { AddFormElement } from "@/components/add-form-element";
 import { addForm } from "@/store/forms/form-elements";
 import { FormElementPreview } from "@/components/preview-form-elements";
+import { ThemeValues } from "@/store/forms/designs/values";
 
 export default function CreateForm() {
   const { workspaceId, formId } = useParams();
@@ -38,6 +39,11 @@ export default function CreateForm() {
           id: String(data.form.id),
           workspaceId: String(data.workspace.id),
           form_name: data.form.title,
+          design: {
+            theme: ThemeValues.luxe_minimal_noir.value,
+            displayTwoColumns: false,
+            addGrainyBG: false,
+          },
         });
 
       return data;
