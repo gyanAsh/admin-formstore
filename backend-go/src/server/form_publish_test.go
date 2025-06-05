@@ -10,8 +10,8 @@ import (
 func TestPublishFormJson(t *testing.T) {
 	req_data := map[string]any{
 		"form_id": 1,
-		"elements": []any{
-			map[string]any{
+		"elements": []map[string]any{
+			{
 				"seq_num": 1,
 				"label": map[string]any{
 					"title":       "Email",
@@ -19,7 +19,7 @@ func TestPublishFormJson(t *testing.T) {
 				},
 				"type": "email",
 			},
-			map[string]any{
+			{
 				"seq_num": 2,
 				"label": map[string]any{
 					"title":       "Phone",
@@ -27,7 +27,7 @@ func TestPublishFormJson(t *testing.T) {
 				},
 				"type": "phone",
 			},
-			map[string]any{
+			{
 				"seq_num": 3,
 				"label": map[string]any{
 					"title":       "Address",
