@@ -223,8 +223,12 @@ const FormPage = ({
 }) => {
   return (
     <FormCard
+      showTwoCol={Boolean(designAtts.displayTwoColumns)}
       theme={designAtts.theme}
-      className={cn("overflow-y-scroll gap-3 md:gap-6 ", formCardClassName)}
+      className={cn(
+        "overflow-y-scroll gap-3 zmd:gap-6 @container",
+        formCardClassName
+      )}
     >
       <section
         className={cn(
@@ -238,7 +242,7 @@ const FormPage = ({
       </section>
       <section
         className={cn(
-          " min-h-[130px] flex justify-center font-['Roboto','sans-serif']",
+          "scale-90 @[64rem]:scale-100 flex justify-center font-['Roboto','sans-serif']",
           {
             "font-['Playfair_Display','serif'] font-light":
               designAtts.theme === ThemeValues.luxe_minimal_forest.value,

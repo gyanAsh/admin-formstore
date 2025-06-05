@@ -12,7 +12,7 @@ export const FormLabel = ({
   return (
     <div
       className={cn(
-        "text-center whitespace-pre-line text-5xl md:text-7xl",
+        "text-center whitespace-pre-line text-5xl @[64rem]:text-7xl",
         {
           "text-zinc-200 font-['Playfair_Display','serif'] font-semibold":
             theme == ThemeValues.luxe_minimal_noir.value,
@@ -48,9 +48,9 @@ export const FormDescription = ({
   return (
     <div
       className={cn(
-        " text-center whitespace-pre-line text-lg md:text-2xl",
+        " text-center whitespace-pre-line text-lg @[64rem]:text-2xl",
         {
-          "text-zinc-300 font-['Roboto','sans-serif'] text-lg md:text-xl":
+          "text-zinc-300 font-['Roboto','sans-serif'] text-lg @[64rem]:text-xl":
             theme == ThemeValues.luxe_minimal_noir.value,
         },
         {

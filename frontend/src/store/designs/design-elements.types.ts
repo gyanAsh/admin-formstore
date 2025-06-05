@@ -1,6 +1,7 @@
 export interface FormDesignAttributes {
   theme: FormTheme;
   addGrainyBG?: boolean;
+  displayTwoColumns?: boolean;
 }
 
 export type ThemeKey = FormTheme;

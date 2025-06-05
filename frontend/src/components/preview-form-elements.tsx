@@ -1,4 +1,4 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Columns2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useParams } from "react-router";
 import { ThemeValues } from "@/store/designs/values";
@@ -6,6 +6,7 @@ import {
   $form_design_atts,
   setBGNoise,
   setFormTheme,
+  setTwoColumns,
 } from "@/store/designs/design-elements";
 import PreviewFormPage from "@/pages/form/preview";
 import { useStore } from "@nanostores/react";
@@ -80,12 +81,24 @@ export const FormElementPreview = () => {
             onPressedChange={setBGNoise}
             aria-label="Toggle Noise"
             className={cn(
-              "cursor-pointer border-2 border-transparent",
+              "rounded-full cursor-pointer border-2 border-transparent",
               " data-[state=on]:border-white data-[state=on]:bg-black data-[state=on]:text-white data-[state=on]:scale-95",
               " bg-slate-900 text-zinc-50 hover:bg-slate-950 hover:text-white active:scale-95 active:border-white"
             )}
           >
             Noise
+          </Toggle>
+          <Toggle
+            pressed={designAtts.displayTwoColumns}
+            onPressedChange={setTwoColumns}
+            aria-label="Toggle Noise"
+            className={cn(
+              "rounded-full cursor-pointer border-2 border-transparent",
+              " data-[state=on]:border-white data-[state=on]:bg-black data-[state=on]:text-white data-[state=on]:scale-95",
+              " bg-slate-900 text-zinc-50 hover:bg-slate-950 hover:text-white active:scale-95 active:border-white"
+            )}
+          >
+            <Columns2 />
           </Toggle>
         </div>
       </section>

@@ -19,7 +19,7 @@ export const FormConsent = ({
   return (
     <section className={cn(" max-w-150 flex flex-col gap-2.5 grow")}>
       <div className="flex items-start justify-center md:justify-between gap-5">
-        <FormButton theme={theme} variant="destructive" onClick={validate}>
+        <FormButton theme={theme} variant="secondary" onClick={validate}>
           {consent.rejectBtnText}
         </FormButton>
         <FormButton theme={theme} onClick={validate}>

@@ -19,13 +19,13 @@ export const FormButton = ({
         "active:scale-95 duration-200 transition-colors",
 
         {
-          "bg-white text-zinc-900 hover:text-white hover:bg-zinc-800":
+          "bg-white text-zinc-900 hover:text-white hover:border-zinc-100 border-2 border-transparent hover:bg-zinc-800":
             variant == "default",
         },
 
         {
-          "  hover:bg-red-400 border-2 border-zinc-400 hover:border-zinc-900 hover:text-inherit text-zinc-100 ":
-            variant == "destructive",
+          "  hover:bg-gray-400 border-2 border-zinc-400 hover:border-zinc-900 hover:text-inherit text-zinc-100 ":
+            variant == "secondary",
         },
         {
           "text-base md:text-lg rounded-4xl":
@@ -41,9 +41,9 @@ export const FormButton = ({
             theme === ThemeValues.gradient_forest.value && variant == "default",
         },
         {
-          "hover:bg-red-200/85 border-2 border-zinc-50 hover:border-emerald-600 hover:text-emerald-600 text-zinc-50 ":
+          "hover:bg-gray-200/85 border-2 border-zinc-50 hover:border-emerald-600 hover:text-emerald-600 text-zinc-50 ":
             theme === ThemeValues.gradient_forest.value &&
-            variant == "destructive",
+            variant == "secondary",
         },
         //luxe-minimal-forest
         {
@@ -51,14 +51,14 @@ export const FormButton = ({
             theme === ThemeValues.luxe_minimal_forest.value,
         },
         {
-          "text-green-50 bg-green-600 hover:bg-green-200 hover:text-green-700 ":
+          "text-green-50 bg-green-600 hover:bg-green-200 hover:border-green-700 border-2 border-transparent hover:text-green-700 ":
             theme === ThemeValues.luxe_minimal_forest.value &&
             variant == "default",
         },
         {
-          "hover:bg-red-200/85 border-2 hover:border-green-200 border-emerald-600 hover:text-emerald-600 text-green-600 ":
+          "hover:bg-gray-100 border-2 hover:border-green-50 border-emerald-600 hover:text-emerald-600 text-green-600 ":
             theme === ThemeValues.luxe_minimal_forest.value &&
-            variant == "destructive",
+            variant == "secondary",
         },
         className
       )}
@@ -67,4 +67,4 @@ export const FormButton = ({
   );
 };
 
-type FormBtnVariants = "default" | "destructive";
+type FormBtnVariants = "default" | "secondary";

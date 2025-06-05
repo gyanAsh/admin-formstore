@@ -7,6 +7,7 @@ export const $form_design_atts = persistentAtom<FormDesignAttributes>(
   {
     theme: ThemeValues.luxe_minimal_noir.value,
     addGrainyBG: false,
+    displayTwoColumns: false,
   }, // Default value
   {
     encode: JSON.stringify,
@@ -27,5 +28,13 @@ export function setBGNoise(noice: boolean) {
   $form_design_atts.set({
     ...current,
     addGrainyBG: noice,
+  });
+}
+
+export function setTwoColumns(twoColumns: boolean) {
+  const current = $form_design_atts.get();
+  $form_design_atts.set({
+    ...current,
+    displayTwoColumns: twoColumns,
   });
 }

@@ -57,7 +57,7 @@ export const FormText = ({
         placeholder={text.placeholder}
         //   className="field-sizing-content max-h-29.5 min-h-0 resize-none py-1.75"
         className={cn(
-          "field-sizing-content min-h-14 resize-none w-full border-2 py-2 md:py-3 px-3 md:px-4.5 text-lg md:text-xl",
+          "field-sizing-content min-h-14 resize-none w-full border-2 py-2.5 md:py-3 px-3 md:px-4.5 text-lg md:text-xl",
           {
             " autofill:!bg-transparent !bg-inherit text-white rounded-4xl border-zinc-50 data-focused:outline-zinc-50 placeholder:text-zinc-200/80":
               theme === ThemeValues.gradient_forest.value,
