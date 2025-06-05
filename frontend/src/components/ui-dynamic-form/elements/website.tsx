@@ -7,6 +7,7 @@ import { FormErrorMsgPopUp } from "../error-card";
 import { useState } from "react";
 import { z } from "zod";
 import { ThemeValues } from "@/store/designs/values";
+import useAutoFocusOnVisible from "@/hooks/use-autofocus-on-visible";
 
 const urlSchema = z
   .string()
@@ -27,6 +28,9 @@ export const FormWebsite = ({
     msg: string;
     type: "warn" | "error";
   }>({ show: false, msg: "", type: "error" });
+
+  const { ref } = useAutoFocusOnVisible<HTMLInputElement>(0.5);
+
   const validate = () => {
     const result = urlSchema.safeParse(inputState);
     if (!result.success) {
@@ -61,7 +65,8 @@ export const FormWebsite = ({
               theme === ThemeValues.luxe_minimal_forest.value,
           }
         )}
-        autoFocus={false}
+        ref={ref}
+        // autoFocus={true}
         placeholder={url.placeholder}
         formNoValidate
         value={inputState}

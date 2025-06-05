@@ -6,6 +6,7 @@ import { FormButton } from "../button";
 import { useState } from "react";
 import { FormErrorMsgPopUp } from "../error-card";
 import { ThemeValues } from "@/store/designs/values";
+import useAutoFocusOnVisible from "@/hooks/use-autofocus-on-visible";
 
 export const FormText = ({
   text,
@@ -23,6 +24,8 @@ export const FormText = ({
     type: "warn" | "error";
   }>({ show: false, msg: "", type: "error" });
 
+  const { ref } = useAutoFocusOnVisible<HTMLTextAreaElement>(0.2);
+
   const validate = () => {
     if (textState.length < text.minLength) {
       setShowError({ show: true, msg: "Text too short.", type: "warn" });
@@ -38,7 +41,7 @@ export const FormText = ({
     <section className={cn(" max-w-150 flex flex-col gap-2.5 grow")}>
       <TextArea
         id="element-description"
-        autoFocus={false}
+        ref={ref}
         value={textState}
         onChange={(e) => {
           let val = e.target.value;

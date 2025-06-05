@@ -7,6 +7,7 @@ import { FormErrorMsgPopUp } from "../error-card";
 import { useState } from "react";
 import { z } from "zod";
 import { ThemeValues } from "@/store/designs/values";
+import useAutoFocusOnVisible from "@/hooks/use-autofocus-on-visible";
 
 const emailSchema = z.string().email({ message: "Invalid email address" });
 
@@ -25,6 +26,8 @@ export const FormEmail = ({
     msg: string;
     type: "warn" | "error";
   }>({ show: false, msg: "", type: "error" });
+  const { ref } = useAutoFocusOnVisible<HTMLInputElement>(0.5);
+
   const validate = () => {
     const result = emailSchema.safeParse(inputState);
     if (!result.success) {
@@ -58,7 +61,7 @@ export const FormEmail = ({
               theme == ThemeValues.luxe_minimal_noir.value,
           }
         )}
-        autoFocus={false}
+        ref={ref}
         placeholder={email.placeholder}
         formNoValidate
         value={inputState}
