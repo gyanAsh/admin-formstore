@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getAuthToken } from "@/lib/utils";
 import UpgradeFormstore from "@/components/upgrade-premium";
 import { SidebarTriggerButton } from "../workspace";
-import PublishFormButton from "@/components/layout/dashboard/PubishFormButton";
+import PublishFormButton from "@/components/layout/dashboard/PublishFormButton";
 import { AnimatePresence } from "motion/react";
 import * as motion from "motion/react-client";
 import { useState } from "react";
