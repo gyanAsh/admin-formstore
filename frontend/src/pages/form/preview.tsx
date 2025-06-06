@@ -13,7 +13,7 @@ import {
   RatingValidation,
   TextValidation,
   UrlValidation,
-} from "@/store/forms/form-elemets.types";
+} from "@/store/forms/form-elements.types";
 import { FormBackground } from "@/components/forms/v1/background";
 import { FormCard } from "@/components/forms/v1/card";
 import { FormDescription, FormLabel } from "@/components/forms/v1/details";

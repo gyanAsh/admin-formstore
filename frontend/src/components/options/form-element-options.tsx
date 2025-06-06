@@ -20,7 +20,7 @@ import {
   RatingValidation,
   TextValidation,
   UrlValidation,
-} from "@/store/forms/form-elemets.types";
+} from "@/store/forms/form-elements.types";
 import {
   Button as AriaButton,
   Group,

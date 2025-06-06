@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { FormTheme } from "@/store/forms/designs/design-elements.types";
-import { EmailValidation } from "@/store/forms/form-elemets.types";
+import { EmailValidation } from "@/store/forms/form-elements.types";
 import { Input } from "react-aria-components";
 import { FormButton } from "../button";
 import { FormErrorMsgPopUp } from "../error-card";

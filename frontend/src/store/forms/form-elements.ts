@@ -1,5 +1,5 @@
 import { persistentAtom } from "@nanostores/persistent";
-import { FormElements, Forms } from "./form-elemets.types";
+import { FormElements, Forms } from "./form-elements.types";
 
 export const $all_forms = persistentAtom<Forms[]>(
   "all_forms", // Key to store in localStorage

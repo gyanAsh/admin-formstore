@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { FormTheme } from "@/store/forms/designs/design-elements.types";
-import { TextValidation } from "@/store/forms/form-elemets.types";
+import { TextValidation } from "@/store/forms/form-elements.types";
 import { TextArea } from "react-aria-components";
 import { FormButton } from "../button";
 import { useState } from "react";
