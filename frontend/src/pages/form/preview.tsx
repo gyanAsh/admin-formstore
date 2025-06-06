@@ -14,23 +14,20 @@ import {
   TextValidation,
   UrlValidation,
 } from "@/store/forms/form-elemets.types";
-import { FormBackground } from "@/components/ui-dynamic-form/background";
-import { FormCard } from "@/components/ui-dynamic-form/card";
-import {
-  FormDescription,
-  FormLabel,
-} from "@/components/ui-dynamic-form/details";
+import { FormBackground } from "@/components/forms/v1/background";
+import { FormCard } from "@/components/forms/v1/card";
+import { FormDescription, FormLabel } from "@/components/forms/v1/details";
 import { cn } from "@/lib/utils";
 import {
   FormDesignAttributes,
   FormTheme,
 } from "@/store/forms/designs/design-elements.types";
-import { FormProgressBar } from "@/components/ui-dynamic-form/progress-bar";
-import { FormEmail } from "@/components/ui-dynamic-form/elements/email";
-import { FormConsent } from "@/components/ui-dynamic-form/elements/consent";
-import { FormRating } from "@/components/ui-dynamic-form/elements/rating";
-import { FormText } from "@/components/ui-dynamic-form/elements/text";
-import { FormWebsite } from "@/components/ui-dynamic-form/elements/website";
+import { FormProgressBar } from "@/components/forms/v1/progress-bar";
+import { FormEmail } from "@/components/forms/v1/elements/email";
+import { FormConsent } from "@/components/forms/v1/elements/consent";
+import { FormRating } from "@/components/forms/v1/elements/rating";
+import { FormText } from "@/components/forms/v1/elements/text";
+import { FormWebsite } from "@/components/forms/v1/elements/website";
 import { ThemeValues } from "@/store/forms/designs/values";
 const variants = {
   enter: (direction: "prev" | "next") => ({
