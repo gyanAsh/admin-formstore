@@ -36,7 +36,7 @@ import {
   TextValidation,
   UrlValidation,
   ValidatonTypes,
-} from "./form-elemets.types";
+} from "./form-elements.types";
 
 export const RatingValues: Record<RatingKey, RatingValue> = {
   star: { value: "star", name: "Start", icon: Star },

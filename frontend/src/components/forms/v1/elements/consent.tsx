@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { FormTheme } from "@/store/forms/designs/design-elements.types";
-import { ConsentValidation } from "@/store/forms/form-elemets.types";
+import { ConsentValidation } from "@/store/forms/form-elements.types";
 import { FormButton } from "../button";
 
 export const FormConsent = ({

@@ -45,7 +45,7 @@ import {
   setFormElements,
 } from "@/store/forms/form-elements";
 import { useParams } from "react-router";
-import { FormElements as FormElementsType } from "@/store/forms/form-elemets.types";
+import { FormElements as FormElementsType } from "@/store/forms/form-elements.types";
 import { useStore } from "@nanostores/react";
 import { Badge } from "./ui/badge";
 import { AnimatePresence } from "motion/react";

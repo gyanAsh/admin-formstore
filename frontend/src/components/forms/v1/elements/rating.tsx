@@ -1,6 +1,6 @@
 import { cn, wait } from "@/lib/utils";
 import { FormTheme } from "@/store/forms/designs/design-elements.types";
-import { RatingKey, RatingValidation } from "@/store/forms/form-elemets.types";
+import { RatingKey, RatingValidation } from "@/store/forms/form-elements.types";
 import { FormButton } from "../button";
 import { useState } from "react";
 import { RatingValues } from "@/store/forms/values";
