@@ -85,3 +85,7 @@ export function removeFormElement(formId: string, elementId: string) {
     })
   );
 }
+
+export function getFormElementsById(formId: string) {
+  return $all_forms.get().filter((x) => x.id == formId)[0];
+}
