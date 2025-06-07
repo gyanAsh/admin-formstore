@@ -27,7 +27,7 @@ SELECT
 	workspaces.user_id,
 	-- form elements (null values, due to left outer join)
 	form_elements.ID,
-	form_elements.element_type,
+	form_elements.type,
 	form_elements.label,
 	form_elements.description
 FROM
@@ -64,7 +64,7 @@ type GetFormDataAndElementsRow struct {
 	UpdatedAt_2 pgtype.Timestamp
 	UserID      int32
 	ID_3        pgtype.Int4
-	ElementType NullFormElementTypes
+	Type        NullFormElementTypes
 	Label       pgtype.Text
 	Description pgtype.Text
 }
@@ -89,7 +89,7 @@ func (q *Queries) GetFormDataAndElements(ctx context.Context, arg GetFormDataAnd
 			&i.UpdatedAt_2,
 			&i.UserID,
 			&i.ID_3,
-			&i.ElementType,
+			&i.Type,
 			&i.Label,
 			&i.Description,
 		); err != nil {
@@ -134,7 +134,7 @@ func (q *Queries) GetFormsInWorkspace(ctx context.Context, workspaceID int32) ([
 }
 
 const getWorkspaceByID = `-- name: GetWorkspaceByID :one
-SELECT id, name, created_at, updated_at, user_id FROM workspaces WHERE ID = $1 AND workspaces.user_id = $2
+SELECT id, name, created_at, updated_at, deleted_at, user_id FROM workspaces WHERE ID = $1 AND workspaces.user_id = $2
 `
 
 type GetWorkspaceByIDParams struct {
@@ -150,6 +150,7 @@ func (q *Queries) GetWorkspaceByID(ctx context.Context, arg GetWorkspaceByIDPara
 		&i.Name,
 		&i.CreatedAt,
 		&i.UpdatedAt,
+		&i.DeletedAt,
 		&i.UserID,
 	)
 	return i, err
