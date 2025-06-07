@@ -2,9 +2,34 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/formstore-logo-light.svg"
+      media="(prefers-color-scheme: light)"
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/formstore-logo-dark.svg"
+      media="(prefers-color-scheme: dark)"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
+
+    <title>Formstore | Easy Online Form Builder</title>
+
+    <script>
+      let originalTitle = "Formstore | Easy Online Form Builder"; // Update this
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          document.title = "Formstore — 👋 come back!";
+        } else {
+          document.title = originalTitle;
+        }
+      });
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
