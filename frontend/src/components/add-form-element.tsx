@@ -69,7 +69,6 @@ import {
   getDefaultLabelTitle,
   getDefaultValidations,
 } from "@/store/forms/values";
-import { Toggle } from "./ui/toggle";
 
 export const AddFormElement = () => {
   const { formId } = useParams();
@@ -799,7 +798,7 @@ const DndKitContainer = ({
           "transition-all ease-in-out duration-500"
         )}
       >
-        <div className="flex items-center gap-2 rounded-md lg:rounded-sm bg-gray-300 px-1 dark:bg-gray-500 group-hover:!bg-transparent text-transparent group-hover:text-inherit transition-all ease-in-out duration-500">
+        <div className="flex items-center gap-2 rounded-md lg:rounded-sm bg-pink-200/85 px-1 group-hover:!bg-transparent text-transparent not-dark:group-hover:text-pink-300 group-hover:text-pink-200/85 transition-all ease-in-out duration-500">
           <GripVertical /> <h2 className="font-semibold text-xl">Email</h2>
         </div>
       </div>
@@ -814,7 +813,7 @@ const DndKitContainer = ({
           "transition-all ease-in-out duration-500"
         )}
       >
-        <div className="flex items-center gap-2 rounded-md lg:rounded-sm bg-gray-300 px-1 dark:bg-gray-500 group-hover:!bg-transparent text-transparent group-hover:text-inherit transition-all ease-in-out duration-500">
+        <div className="flex items-center gap-2 rounded-md lg:rounded-sm bg-blue-200/85 px-1 group-hover:!bg-transparent text-transparent not-dark:group-hover:text-blue-300 group-hover:text-blue-200/85 transition-all ease-in-out duration-500">
           <GripVertical /> <h2 className="font-semibold text-xl">Feedback</h2>
         </div>
       </div>
@@ -829,7 +828,7 @@ const DndKitContainer = ({
           "transition-all ease-in-out duration-500"
         )}
       >
-        <div className="flex items-center gap-2 rounded-md lg:rounded-sm bg-gray-300 px-1 dark:bg-gray-500 group-hover:!bg-transparent text-transparent group-hover:text-inherit transition-all ease-in-out duration-500">
+        <div className="flex items-center gap-2 rounded-md lg:rounded-sm bg-yellow-200/85 px-1 group-hover:!bg-transparent text-transparent not-dark:group-hover:text-yellow-300 group-hover:text-yellow-200/85 transition-all ease-in-out duration-500">
           <GripVertical /> <h2 className="font-semibold text-xl">Rating</h2>{" "}
         </div>
       </div>
