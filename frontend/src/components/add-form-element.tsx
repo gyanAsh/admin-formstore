@@ -784,7 +784,7 @@ const DndKitContainer = ({
       className={cn(
         "border-[1.5px] border-dashed min-h-[48dvh] rounded-4xl cursor-pointer ",
         " flex flex-col gap-2 items-center justify-center p-6 ",
-        "group scale-97 active:scale-95 hover:scale-100 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-200 ease-in-out "
+        "group scale-97 active:scale-95 hover:scale-100 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 ease-in-out "
       )}
       onClick={() => emptyElementListFunction()}
     >
