@@ -52,7 +52,6 @@ CREATE TABLE IF NOT EXISTS form_elements (
 	element_type form_element_types NOT NULL,
 	label VARCHAR,
 	description VARCHAR,
-	date_value DATE,
 	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
 	updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
 	form_id INTEGER NOT NULL,
