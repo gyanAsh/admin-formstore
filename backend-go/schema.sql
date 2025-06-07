@@ -29,7 +29,19 @@ CREATE TABLE IF NOT EXISTS forms (
 	FOREIGN KEY (workspace_id) REFERENCES workspaces(ID) ON DELETE CASCADE
 );
 
-CREATE TYPE form_element_types AS ENUM ('email', 'phone', 'text', 'date', 'drop_down', 'multiple_selection');
+CREATE TYPE form_element_types AS ENUM (
+	'website',
+	'consent',
+	'multiselect',
+	'dropdown',
+	'ranking',
+	'rating',
+	'date',
+	'text',
+	'phone',
+	'email'
+);
+
 
 -- This table is used to store form_elements in cases of single element type.
 -- In case of multi values a different table (form_el ement_multi_values)
