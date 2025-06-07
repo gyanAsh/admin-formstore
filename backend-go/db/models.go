@@ -14,12 +14,16 @@ import (
 type FormElementTypes string
 
 const (
-	FormElementTypesEmail             FormElementTypes = "email"
-	FormElementTypesPhone             FormElementTypes = "phone"
-	FormElementTypesText              FormElementTypes = "text"
-	FormElementTypesDate              FormElementTypes = "date"
-	FormElementTypesDropDown          FormElementTypes = "drop_down"
-	FormElementTypesMultipleSelection FormElementTypes = "multiple_selection"
+	FormElementTypesWebsite     FormElementTypes = "website"
+	FormElementTypesConsent     FormElementTypes = "consent"
+	FormElementTypesMultiselect FormElementTypes = "multiselect"
+	FormElementTypesDropdown    FormElementTypes = "dropdown"
+	FormElementTypesRanking     FormElementTypes = "ranking"
+	FormElementTypesRating      FormElementTypes = "rating"
+	FormElementTypesDate        FormElementTypes = "date"
+	FormElementTypesText        FormElementTypes = "text"
+	FormElementTypesPhone       FormElementTypes = "phone"
+	FormElementTypesEmail       FormElementTypes = "email"
 )
 
 func (e *FormElementTypes) Scan(src interface{}) error {
@@ -67,22 +71,13 @@ type Form struct {
 
 type FormElement struct {
 	ID          int32
-	ElementType FormElementTypes
+	Type        FormElementTypes
+	SeqNumber   int32
 	Label       pgtype.Text
 	Description pgtype.Text
-	DateValue   pgtype.Date
 	CreatedAt   pgtype.Timestamp
 	UpdatedAt   pgtype.Timestamp
 	FormID      int32
-}
-
-type FormElementMultiValue struct {
-	ID            int32
-	Value         pgtype.Text
-	DateValue     pgtype.Date
-	CreatedAt     pgtype.Timestamp
-	UpdatedAt     pgtype.Timestamp
-	FormElementID int32
 }
 
 type User struct {
@@ -97,5 +92,6 @@ type Workspace struct {
 	Name      string
 	CreatedAt pgtype.Timestamp
 	UpdatedAt pgtype.Timestamp
+	DeletedAt pgtype.Timestamp
 	UserID    int32
 }

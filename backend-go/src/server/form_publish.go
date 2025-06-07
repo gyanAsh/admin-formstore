@@ -55,7 +55,7 @@ func (s *Service) formPushishHandler(w http.ResponseWriter, r *http.Request) {
 	batch := &pgx.Batch{}
 	batch.Queue(`DELETE FROM form_elements WHERE form_id = $1`, form.FormID)
 	for _, element := range form.Elements {
-		batch.Queue(`INSERT INTO form_elements (element_type, label,
+		batch.Queue(`INSERT INTO form_elements (type, label,
 			description, form_id) VALUES ($1, $2, $3, $4)`,
 			element.Type, element.Label.Title,
 			element.Label.Description, form.FormID)

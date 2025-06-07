@@ -29,7 +29,7 @@ func (s *Service) formElementCreationHandler(w http.ResponseWriter, r *http.Requ
 		return
 	}
 	log.Println(formData)
-	elementType := formData["element_type"]
+	elementType := formData["type"]
 	formID, err := strconv.ParseInt(formData["form_id"], 10, 64)
 	if err != nil {
 		log.Println(err)
@@ -50,7 +50,7 @@ func (s *Service) formElementCreationHandler(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	row = s.Conn.QueryRow(r.Context(), `INSERT INTO form_elements (element_type,
+	row = s.Conn.QueryRow(r.Context(), `INSERT INTO form_elements (type,
 		form_id) VALUES ($1, $2) RETURNING ID`,
 		elementType, formID)
 	var formElementID int64
@@ -109,7 +109,7 @@ func (s *Service) formElementUpdateHandler(w http.ResponseWriter, r *http.Reques
 	}
 
 	_, err = s.Conn.Exec(r.Context(), `
-		UPDATE form_elements SET label = $1 WHERE ID = $2 AND element_type = $3
+		UPDATE form_elements SET label = $1 WHERE ID = $2 AND type = $3
 		`, element.Label, element.ID, element.Type)
 
 	if err != nil {

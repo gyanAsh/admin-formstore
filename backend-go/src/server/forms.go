@@ -56,7 +56,7 @@ func parseFormDataAndElements(rows []db.GetFormDataAndElementsRow) FormData {
 		var element FormElement
 		if row.ID_3.Valid {
 			element.ID = int64(row.ID_3.Int32)
-			val, err := row.ElementType.Value()
+			val, err := row.Type.Value()
 			var ok bool
 			element.Type, ok = val.(string)
 			if !ok {

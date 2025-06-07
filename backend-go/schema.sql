@@ -44,7 +44,8 @@ CREATE TYPE form_element_types AS ENUM (
 
 CREATE TABLE IF NOT EXISTS form_elements (
 	ID SERIAL PRIMARY KEY,
-	element_type form_element_types NOT NULL,
+	type form_element_types NOT NULL,
+	seq_number INTEGER NOT NULL,
 	label VARCHAR,
 	description VARCHAR,
 	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
