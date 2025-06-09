@@ -829,7 +829,7 @@ const DndKitContainer = ({
         )}
       >
         <div className="flex items-center gap-2 rounded-md lg:rounded-sm bg-yellow-200/85 px-1 group-hover:!bg-transparent text-transparent not-dark:group-hover:text-yellow-300 group-hover:text-yellow-200/85 transition-all ease-in-out duration-100">
-          <GripVertical /> <h2 className="font-semibold text-xl">Don't wait now.</h2>{" "}
+          <GripVertical /> <h2 className="font-semibold text-xl">Why wait?</h2>{" "}
         </div>
       </div>
       <div className="grid gap-1 place-items-center">
