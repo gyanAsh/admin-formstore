@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import "../styles/global.css";
 // Component Imports
 import MainLayout from "@/layouts/main.astro";
+import { cn } from "@/lib/utils";
+import CharactersRemaining from "@/components/homepage/input-text";
 
 const pageTitle = "Formstore | Easy Form Builder";
 // Full Astro Component Syntax:
@@ -10,7 +12,9 @@ const pageTitle = "Formstore | Easy Form Builder";
 ---
 
 <MainLayout title={pageTitle}>
-  <nav class="flex items-center justify-between py-2 px-3">
+  <nav
+    class="flex items-center justify-between py-2 px-3 fixed top-0 w-full bg-inherit"
+  >
     <div class="flex items-center gap-2.5">
       <img src="/formstore-logo-light.svg" class="size-9" />
       <div class="text-lg leading-4 font-semibold">
@@ -25,8 +29,8 @@ const pageTitle = "Formstore | Easy Form Builder";
       <Button className="rounded-4xl"> Login </Button>
     </div>
   </nav>
-  <div
-    class="flex flex-col items-center justify-center gap-4 border min-h-[60dvh]"
+  <section
+    class="flex flex-col items-center justify-center gap-4 min-h-[600px] md:min-h-[450px] xl:min-h-[65dvh] 2xl:min-h-[60dvh] mt-4 px-4"
   >
     <div class="flex flex-col items-center gap-1">
       <div
@@ -42,7 +46,7 @@ const pageTitle = "Formstore | Easy Form Builder";
         <span class="text-zinc-950 font-bold">Formstore</span>
       </h1>
     </div>
-    <h2 class="text-4xl px-4 max-w-3xl text-center leading-14 text-clip">
+    <h2 class="text-4xl md:px-4 max-w-3xl text-center leading-14 text-clip">
       A new way to <span
         class="text-pink-500 bg-pink-200 rounded-4xl px-3 py-0.5">create</span
       >, <span class="text-purple-500 bg-purple-200 rounded-4xl px-3 py-0.5"
@@ -77,11 +81,78 @@ const pageTitle = "Formstore | Easy Form Builder";
         Watch Demo</Button
       >
     </div>
+  </section>
+  <div class="flex items-center justify-center px-4">
+    <section
+      class={cn(
+        "flex flex-col items-center w-full md:max-w-[80dvw] rounded-4xl min-h-[85dvh]",
+        " bg-[#E2E2E2] [background:radial-gradient(at_95%_48%,_#ecf4f3_0px,_transparent_50%),_radial-gradient(at_94.61206896551724%_29.513888359069824%,_#bbd4eb_0px,_transparent_50%),_radial-gradient(at_65%_99%,_#c1d8f3_0px,_transparent_50%),_radial-gradient(at_14.439655172413794%_94.09722169240315%,_#b1c4d6_0px,_transparent_50%),_radial-gradient(at_9.913793103448276%_10.347221692403158%,_#b4cce3_0px,_transparent_50%),_radial-gradient(at_93.42672413793103%_77.63888835906982%,_#9fb4cb_0px,_transparent_50%)]",
+        "px-4 text-blue-700/75s text-slate-950 container border border-zinc-300"
+      )}
+    >
+      <div class="grid grid-rows-2 gap-4 grow font-['IBM_Plex_Serif','serif']">
+        <div
+          class="flex flex-col items-center place-content-center w-full max-w-[750px]"
+        >
+          <h2
+            class="text-center whitespace-pre-line text-5xl @[64rem]:text-7xl font-medium italic"
+          >
+            What should we call you?
+          </h2>
+          <p
+            class="text-center whitespace-pre-line zfont-['Playfair_Display','serif'] zfont-['Cal_Sans','sans-serif'] text-xl @[64rem]:text-2xl font-medium text-inherit opacity-85 italic"
+          >
+            Enter your full name as you'd like it to appear in communication.
+          </p>
+        </div>
+        <div class="w-full max-w-[750px] flex flex-col items-end gap-2.5">
+          <input
+            type="text"
+            class="border-2 border-zinc-500 outline-0 focus:border-zinc-900 w-full h-fit py-2 px-4 text-lg rounded-full font-medium placeholder:italic"
+            placeholder="John Doe"
+          />
+          <Button className="rounded-full text-lg px-7 py-5"> OK </Button>
+        </div>
+      </div>
+    </section>
   </div>
+
   <div class="grid place-items-center h-full content-center">
     <Button>Tailwind Button in Astro!</Button>
     <a href="/markdown-page" class="p-4 underline"
       >Markdown is also supported...</a
     >
+    <div class="">
+      “Collect your respondent's name — a must-have for personalized
+      follow-ups.”
+    </div>
+    <br />
+    <div class="">
+      “Capture verified email addresses for communication, newsletters, or
+      onboarding.”
+    </div>
+    <br />
+    <div class="">
+      "Let users share their contact number for faster support or coordination.”
+    </div>
+    <br />
+    <div class="">
+      “Discover where your traffic is coming from — helps refine your
+      marketing.”
+    </div>
+    <br />
+    <div class="">
+      “Let users speak freely — perfect for contact forms or collecting
+      feedback.”
+    </div>
+    <br />
+    <div class="">
+      “Give users the option to receive product news, offers, or tips.”
+    </div>
+    <br />
+    <div class="">
+      "Let users quickly rate their experience — ideal for quick feedback.”
+    </div>
+    <br />
   </div>
 </MainLayout>
