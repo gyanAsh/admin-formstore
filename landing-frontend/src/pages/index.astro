@@ -1,25 +1,87 @@
 ---
-import '../styles/global.css';
+import { Button } from "@/components/ui/button";
+import "../styles/global.css";
 // Component Imports
-import Button from '../components/Button.astro';
+import MainLayout from "@/layouts/main.astro";
 
+const pageTitle = "Formstore | Easy Form Builder";
 // Full Astro Component Syntax:
 // https://docs.astro.build/basics/astro-components/
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro + TailwindCSS</title>
-	</head>
+<MainLayout title={pageTitle}>
+  <nav class="flex items-center justify-between py-2 px-3">
+    <div class="flex items-center gap-2.5">
+      <img src="/formstore-logo-light.svg" class="size-9" />
+      <div class="text-lg leading-4 font-semibold">
+        <h1 class="font-['Playfair_Display','serif'] italic">The</h1>
+        <h1 class="">Formstore</h1>
+      </div>
+    </div>
+    <!-- options -->
+    <div>nav tabs</div>
+    <!-- login -->
+    <div>
+      <Button className="rounded-4xl"> Login </Button>
+    </div>
+  </nav>
+  <div
+    class="flex flex-col items-center justify-center gap-4 border min-h-[60dvh]"
+  >
+    <div class="flex flex-col items-center gap-1">
+      <div
+        class="border rounded-4xl py-0.5 px-2.5 text-sm w-fit bg-gradient-to-tr from-zinc-700 via-zinc-500 to-zinc-700 text-zinc-50 cursor-default"
+      >
+        Beta Version is Live!
+      </div>
+      <h1 class="text-xl font-semibold text-zinc-600">
+        Welcome to <span
+          class="font-['Playfair_Display','serif'] italic text-zinc-950 font-bold"
+          >The</span
+        >
+        <span class="text-zinc-950 font-bold">Formstore</span>
+      </h1>
+    </div>
+    <h2 class="text-4xl px-4 max-w-3xl text-center leading-14 text-clip">
+      A new way to <span
+        class="text-pink-500 bg-pink-200 rounded-4xl px-3 py-0.5">create</span
+      >, <span class="text-purple-500 bg-purple-200 rounded-4xl px-3 py-0.5"
+        >customize</span
+      >, and <span class="text-blue-500 bg-blue-200 rounded-4xl px-3 py-0.5"
+        >collect-responses</span
+      > — in seconds
+      <!-- /effortlessly. -->
+    </h2>
+    <p class="text-lg text-center">
+      Whether you're collecting
+      <span class="">feedback</span>,
+      <span class="">leads</span>, or
+      <span class="">signups</span>
+      — do it fast with Formstore.
+    </p>
+    <div class="flex items-center gap-4">
+      <Button className="rounded-4xl">Get Started — For Free</Button>
+      <Button variant={"outline"} className="rounded-4xl border-zinc-600"
+        ><svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="size-4"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
+            clip-rule="evenodd"></path>
+        </svg>
 
-	<body>
-		<div class="grid place-items-center h-screen content-center">
-			<Button>Tailwind Button in Astro!</Button>
-			<a href="/markdown-page" class="p-4 underline">Markdown is also supported...</a>
-		</div>
-	</body>
-</html>
+        Watch Demo</Button
+      >
+    </div>
+  </div>
+  <div class="grid place-items-center h-full content-center">
+    <Button>Tailwind Button in Astro!</Button>
+    <a href="/markdown-page" class="p-4 underline"
+      >Markdown is also supported...</a
+    >
+  </div>
+</MainLayout>
