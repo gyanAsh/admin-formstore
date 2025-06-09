@@ -783,7 +783,7 @@ const DndKitContainer = ({
       className={cn(
         "border-[1.5px] border-dashed min-h-[48dvh] rounded-4xl cursor-pointer ",
         " flex flex-col gap-2 items-center justify-center p-6 ",
-        "group scale-97 active:scale-95 hover:scale-100 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 ease-in-out "
+        "group scale-97 active:scale-95 dark:hover:bg-gray-800 transition-all duration-200 ease-in-out "
       )}
       onClick={() => emptyElementListFunction()}
     >
@@ -795,11 +795,11 @@ const DndKitContainer = ({
           "h-12 lg:h-15 w-full max-md:max-w-80 md:w-100 lg:w-150",
           "translate-y-8 lg:translate-y-10 scale-85",
           "group-hover:translate-y-0 group-hover:scale-100",
-          "transition-all ease-in-out duration-500"
+          "transition-all ease-in-out duration-100"
         )}
       >
-        <div className="flex items-center gap-2 rounded-md lg:rounded-sm bg-pink-200/85 px-1 group-hover:!bg-transparent text-transparent not-dark:group-hover:text-pink-300 group-hover:text-pink-200/85 transition-all ease-in-out duration-500">
-          <GripVertical /> <h2 className="font-semibold text-xl">Email</h2>
+        <div className="flex items-center gap-2 rounded-md lg:rounded-sm bg-pink-200/85 px-1 group-hover:!bg-transparent text-transparent not-dark:group-hover:text-pink-300 group-hover:text-pink-200/85 transition-all ease-in-out duration-100">
+          <GripVertical /> <h2 className="font-semibold text-xl">Ready?</h2>
         </div>
       </div>
       <div
@@ -810,11 +810,11 @@ const DndKitContainer = ({
           "h-12 lg:h-15 w-full max-md:max-w-80 md:w-100 lg:w-150",
           "lg:translate-y-0 scale-95",
           "group-hover:translate-y-0 group-hover:scale-100",
-          "transition-all ease-in-out duration-500"
+          "transition-all ease-in-out duration-100"
         )}
       >
-        <div className="flex items-center gap-2 rounded-md lg:rounded-sm bg-blue-200/85 px-1 group-hover:!bg-transparent text-transparent not-dark:group-hover:text-blue-300 group-hover:text-blue-200/85 transition-all ease-in-out duration-500">
-          <GripVertical /> <h2 className="font-semibold text-xl">Feedback</h2>
+        <div className="flex items-center gap-2 rounded-md lg:rounded-sm bg-blue-200/85 px-1 group-hover:!bg-transparent text-transparent not-dark:group-hover:text-blue-300 group-hover:text-blue-200/85 transition-all ease-in-out duration-100">
+          <GripVertical /> <h2 className="font-semibold text-xl">Click and Get Started!</h2>
         </div>
       </div>
       <div
@@ -825,11 +825,11 @@ const DndKitContainer = ({
           "h-12 lg:h-15 w-full max-md:max-w-80 md:w-100 lg:w-150",
           "-translate-y-8 lg:-translate-y-10",
           "group-hover:translate-y-0 group-hover:scale-100",
-          "transition-all ease-in-out duration-500"
+          "transition-all ease-in-out duration-100"
         )}
       >
-        <div className="flex items-center gap-2 rounded-md lg:rounded-sm bg-yellow-200/85 px-1 group-hover:!bg-transparent text-transparent not-dark:group-hover:text-yellow-300 group-hover:text-yellow-200/85 transition-all ease-in-out duration-500">
-          <GripVertical /> <h2 className="font-semibold text-xl">Rating</h2>{" "}
+        <div className="flex items-center gap-2 rounded-md lg:rounded-sm bg-yellow-200/85 px-1 group-hover:!bg-transparent text-transparent not-dark:group-hover:text-yellow-300 group-hover:text-yellow-200/85 transition-all ease-in-out duration-100">
+          <GripVertical /> <h2 className="font-semibold text-xl">Why wait?</h2>{" "}
         </div>
       </div>
       <div className="grid gap-1 place-items-center">
