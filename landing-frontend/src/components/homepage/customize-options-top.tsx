@@ -6,7 +6,17 @@ import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 import * as React from "react";
-import { Bold, Check, ChevronsUpDown, Italic } from "lucide-react";
+import {
+  Bold,
+  CaseLower,
+  CaseSensitive,
+  Check,
+  ChevronsUpDown,
+  Component,
+  Italic,
+  Shapes,
+  SquareDashedMousePointer,
+} from "lucide-react";
 import {
   Command,
   CommandEmpty,
@@ -37,7 +47,7 @@ const CustomizeOptionTop = () => {
   // });
   return (
     <>
-      <section className="border border-zinc-300 bg-zinc-100 w-full max-w-[80dvw] lg:max-w-[750px] rounded-4xl overflow-hidden">
+      <section className="border border-zinc-300 bg-zinc-100 w-full max-w-[80dvw] lg:max-w-[750px] rounded-3xl md:rounded-4xl overflow-hidden">
         {/* <nav>
           <ul className="flex gap-1 border-b border-zinc-950">
             {tabs.map((item, idx) => (
@@ -103,9 +113,9 @@ const CustomizeOptionTop = () => {
             <Button
               effect={"none"}
               variant="ghost"
-              className="rounded-none rounded-l-xl bg-yellow-200 hover:bg-zinc-950 hover:text-white h-15 w-1/4 data-[state=open]:bg-zinc-950 data-[state=open]:text-white text-lg font-semibold"
+              className="rounded-none bg-yellow-200 hover:bg-zinc-950 hover:text-white h-10 md:h-12 w-1/2 md:w-1/4 data-[state=open]:bg-zinc-950 data-[state=open]:text-white text-base md:text-lg font-semibold"
             >
-              Label
+              Label - <CaseSensitive className="size-7" />
             </Button>
           </PopoverTrigger>
           <PopoverContent align="start" className="w-85 rounded-4xl p-6">
@@ -117,9 +127,9 @@ const CustomizeOptionTop = () => {
             <Button
               effect={"none"}
               variant="ghost"
-              className="rounded-none bg-pink-200 hover:bg-zinc-950 hover:text-white h-15 w-1/4 data-[state=open]:bg-zinc-950 data-[state=open]:text-white text-lg font-semibold"
+              className="rounded-none bg-pink-200 hover:bg-zinc-950 hover:text-white h-10 md:h-12 w-1/2 md:w-1/4 data-[state=open]:bg-zinc-950 data-[state=open]:text-white text-base md:text-lg font-semibold"
             >
-              Description
+              Description - <CaseLower className="size-7" />
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-85 rounded-4xl p-6">
@@ -131,9 +141,9 @@ const CustomizeOptionTop = () => {
             <Button
               effect={"none"}
               variant="ghost"
-              className="rounded-none bg-blue-200 hover:bg-zinc-950 hover:text-white h-15 w-1/4 data-[state=open]:bg-zinc-950 data-[state=open]:text-white text-lg font-semibold"
+              className="rounded-none bg-blue-200 hover:bg-zinc-950 hover:text-white h-10 md:h-12 w-1/2 md:w-1/4 data-[state=open]:bg-zinc-950 data-[state=open]:text-white text-base md:text-lg font-semibold"
             >
-              Buttons
+              Elements - <Shapes className="size-6" />
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-85 rounded-4xl p-6">
@@ -186,9 +196,9 @@ const CustomizeOptionTop = () => {
             <Button
               effect={"none"}
               variant="ghost"
-              className="rounded-none rounded-r-xl bg-violet-200 hover:bg-zinc-950 hover:text-white h-15 w-1/4 data-[state=open]:bg-zinc-950 data-[state=open]:text-white text-lg font-semibold"
+              className="rounded-none bg-violet-200 hover:bg-zinc-950 hover:text-white h-10 md:h-12 w-1/2 md:w-1/4 data-[state=open]:bg-zinc-950 data-[state=open]:text-white text-base md:text-lg font-semibold"
             >
-              Background
+              Background - <SquareDashedMousePointer className="size-6" />
             </Button>
           </PopoverTrigger>
           <PopoverContent align="end" className="w-85 rounded-4xl p-6">
