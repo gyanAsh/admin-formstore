@@ -17,7 +17,7 @@ func (s *Service) formElementCreationHandler(w http.ResponseWriter, r *http.Requ
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
-	if userID == 0 {
+	if userID == "" {
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}

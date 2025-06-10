@@ -6,7 +6,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func generateAuthToken(userID int64, signedSecret []byte) (string, error) {
+func generateAuthToken(userID string, signedSecret []byte) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"user_id": userID,
 	})
@@ -17,19 +17,19 @@ func generateAuthToken(userID int64, signedSecret []byte) (string, error) {
 	return tokenString, nil
 }
 
-func parseAuthToken(tokenString string, signedSecret []byte) (int64, error) {
+func parseAuthToken(tokenString string, signedSecret []byte) (string, error) {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		return signedSecret, nil
 	}, jwt.WithValidMethods([]string{jwt.SigningMethodHS256.Alg()}))
 	if err != nil {
-		return 0, err
+		return "", err
 	}
 	if claims, ok := token.Claims.(jwt.MapClaims); ok {
-		userID_f, ok := claims["user_id"].(float64)
+		userID, ok := claims["user_id"].(string)
 		if !ok {
-			return 0, fmt.Errorf("failed to parse claims with Error: failed to parse user_id to float64")
+			return "", fmt.Errorf("failed to parse claims with Error: failed to parse user_id to string")
 		}
-		return int64(userID_f), nil
+		return userID, nil
 	}
-	return 0, fmt.Errorf("failed to parse claims")
+	return "", fmt.Errorf("failed to parse claims")
 }

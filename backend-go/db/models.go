@@ -81,7 +81,7 @@ type FormElement struct {
 }
 
 type User struct {
-	ID       int32
+	ID       pgtype.UUID
 	Username string
 	Email    string
 	Password string
@@ -93,5 +93,5 @@ type Workspace struct {
 	CreatedAt pgtype.Timestamp
 	UpdatedAt pgtype.Timestamp
 	DeletedAt pgtype.Timestamp
-	UserID    int32
+	UserID    pgtype.UUID
 }

@@ -56,7 +56,7 @@ func (s *Service) loginHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-	if user.ID == 0 {
+	if user.ID == "" {
 		log.Println("invalid value in user id")
 		w.WriteHeader(http.StatusInternalServerError)
 		return
