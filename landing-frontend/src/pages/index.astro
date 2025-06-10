@@ -3,8 +3,7 @@ import { Button } from "@/components/ui/button";
 import "../styles/global.css";
 // Component Imports
 import MainLayout from "@/layouts/main.astro";
-import { cn } from "@/lib/utils";
-import CharactersRemaining from "@/components/homepage/input-text";
+import LandingForms from "@/components/homepage/landing-forms";
 
 const pageTitle = "Formstore | Easy Form Builder";
 // Full Astro Component Syntax:
@@ -13,7 +12,7 @@ const pageTitle = "Formstore | Easy Form Builder";
 
 <MainLayout title={pageTitle}>
   <nav
-    class="flex items-center justify-between py-2 px-3 fixed top-0 w-full bg-inherit"
+    class="flex items-center justify-between py-2 px-3 fixed top-0 z-1 w-full bg-inherit"
   >
     <div class="flex items-center gap-2.5">
       <img src="/formstore-logo-light.svg" class="size-9" />
@@ -82,39 +81,8 @@ const pageTitle = "Formstore | Easy Form Builder";
       >
     </div>
   </section>
-  <div class="flex items-center justify-center px-4">
-    <section
-      class={cn(
-        "flex flex-col items-center w-full md:max-w-[80dvw] rounded-4xl min-h-[85dvh]",
-        " bg-[#E2E2E2] [background:radial-gradient(at_95%_48%,_#ecf4f3_0px,_transparent_50%),_radial-gradient(at_94.61206896551724%_29.513888359069824%,_#bbd4eb_0px,_transparent_50%),_radial-gradient(at_65%_99%,_#c1d8f3_0px,_transparent_50%),_radial-gradient(at_14.439655172413794%_94.09722169240315%,_#b1c4d6_0px,_transparent_50%),_radial-gradient(at_9.913793103448276%_10.347221692403158%,_#b4cce3_0px,_transparent_50%),_radial-gradient(at_93.42672413793103%_77.63888835906982%,_#9fb4cb_0px,_transparent_50%)]",
-        "px-4 text-blue-700/75s text-slate-950 container border border-zinc-300"
-      )}
-    >
-      <div class="grid grid-rows-2 gap-4 grow font-['IBM_Plex_Serif','serif']">
-        <div
-          class="flex flex-col items-center place-content-center w-full max-w-[750px]"
-        >
-          <h2
-            class="text-center whitespace-pre-line text-5xl @[64rem]:text-7xl font-medium italic"
-          >
-            What should we call you?
-          </h2>
-          <p
-            class="text-center whitespace-pre-line zfont-['Playfair_Display','serif'] zfont-['Cal_Sans','sans-serif'] text-xl @[64rem]:text-2xl font-medium text-inherit opacity-85 italic"
-          >
-            Enter your full name as you'd like it to appear in communication.
-          </p>
-        </div>
-        <div class="w-full max-w-[750px] flex flex-col items-end gap-2.5">
-          <input
-            type="text"
-            class="border-2 border-zinc-500 outline-0 focus:border-zinc-900 w-full h-fit py-2 px-4 text-lg rounded-full font-medium placeholder:italic"
-            placeholder="John Doe"
-          />
-          <Button className="rounded-full text-lg px-7 py-5"> OK </Button>
-        </div>
-      </div>
-    </section>
+  <div class="flex items-center justify-center px-2 sm:px-4">
+    <LandingForms />
   </div>
 
   <div class="grid place-items-center h-full content-center">
