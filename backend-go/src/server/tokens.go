@@ -1,10 +1,29 @@
 package server
 
 import (
+	"encoding/hex"
 	"fmt"
+	"regexp"
+	"strings"
 
 	"github.com/golang-jwt/jwt/v5"
 )
+
+func checkValidUUID(uuid_str string) error {
+	var err error
+	_, err = hex.DecodeString(strings.ReplaceAll(uuid_str, "-", ""))
+	if err != nil {
+		return fmt.Errorf("Failed to decode uuid string with error: %q", err)
+	}
+	re, err := regexp.Compile("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+	if err != nil {
+		return err
+	}
+	if !re.MatchString(uuid_str) {
+		return fmt.Errorf("Validation failed: user id - uuid match failed")
+	}
+	return nil
+}
 
 func generateAuthToken(userID string, signedSecret []byte) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
