@@ -43,12 +43,13 @@ func parseAuthToken(tokenString string, signedSecret []byte) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	if claims, ok := token.Claims.(jwt.MapClaims); ok {
-		userID, ok := claims["user_id"].(string)
-		if !ok {
-			return "", fmt.Errorf("failed to parse claims with Error: failed to parse user_id to string")
-		}
-		return userID, nil
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok {
+		return "", fmt.Errorf("failed to parse claims with Error: failed to parse user_id to string")
 	}
-	return "", fmt.Errorf("failed to parse claims")
+	userID, ok := claims["user_id"].(string)
+	if err = checkValidUUID(userID); err != nil {
+		return "", err
+	}
+	return userID, nil
 }
