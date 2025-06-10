@@ -47,7 +47,7 @@ const CustomizeOptionTop = () => {
   // });
   return (
     <>
-      <section className="border border-zinc-300 bg-zinc-100 w-full max-w-[80dvw] lg:max-w-[750px] rounded-3xl md:rounded-4xl overflow-hidden">
+      <section className="border border-zinc-400 divide-x  divide-zinc-400 bg-zinc-100 w-full max-w-[80dvw] lg:max-w-[750px] rounded-3xl md:rounded-4xl overflow-hidden">
         {/* <nav>
           <ul className="flex gap-1 border-b border-zinc-950">
             {tabs.map((item, idx) => (
