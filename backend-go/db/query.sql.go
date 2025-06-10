@@ -50,7 +50,7 @@ ORDER BY
 
 type GetFormDataAndElementsParams struct {
 	ID     int32
-	UserID int32
+	UserID pgtype.UUID
 }
 
 type GetFormDataAndElementsRow struct {
@@ -62,7 +62,7 @@ type GetFormDataAndElementsRow struct {
 	Name        string
 	CreatedAt_2 pgtype.Timestamp
 	UpdatedAt_2 pgtype.Timestamp
-	UserID      int32
+	UserID      pgtype.UUID
 	ID_3        pgtype.Int4
 	Type        NullFormElementTypes
 	Label       pgtype.Text
@@ -139,7 +139,7 @@ SELECT id, name, created_at, updated_at, deleted_at, user_id FROM workspaces WHE
 
 type GetWorkspaceByIDParams struct {
 	ID     int32
-	UserID int32
+	UserID pgtype.UUID
 }
 
 func (q *Queries) GetWorkspaceByID(ctx context.Context, arg GetWorkspaceByIDParams) (Workspace, error) {
@@ -167,7 +167,7 @@ type GetWorkspacesForUserRow struct {
 	UpdatedAt pgtype.Timestamp
 }
 
-func (q *Queries) GetWorkspacesForUser(ctx context.Context, userID int32) ([]GetWorkspacesForUserRow, error) {
+func (q *Queries) GetWorkspacesForUser(ctx context.Context, userID pgtype.UUID) ([]GetWorkspacesForUserRow, error) {
 	rows, err := q.db.Query(ctx, getWorkspacesForUser, userID)
 	if err != nil {
 		return nil, err

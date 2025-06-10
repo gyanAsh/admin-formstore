@@ -2,13 +2,16 @@ package server
 
 import (
 	"context"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
+	"github.com/jackc/pgx/v5/pgtype"
 	"local.formstore.admin/db"
 )
 
@@ -48,7 +51,7 @@ func parseFormDataAndElements(rows []db.GetFormDataAndElementsRow) FormData {
 			workspace.Name = row.Name
 			workspace.CreatedAt = row.CreatedAt_2.Time
 			workspace.UpdatedAt = row.UpdatedAt_2.Time
-			workspace.UserID = int64(row.UserID)
+			workspace.UserID = row.UserID.String()
 			formData.Form = form
 			formData.Workspace = workspace
 		}
@@ -93,9 +96,18 @@ func (s *Service) formsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	workspaceChan := make(chan WorkspaceRes)
 	go func(c chan WorkspaceRes) {
+		userIDc := strings.ReplaceAll(userID, "-", "")
+		userIDa, err := hex.DecodeString(userIDc)
+		if err != nil {
+			c <- WorkspaceRes{
+				data: Workspace{},
+				err:  err,
+			}
+			return
+		}
 		workspaceRow, err := s.Queries.GetWorkspaceByID(r.Context(), db.GetWorkspaceByIDParams{
 			ID:     int32(workspaceID),
-			UserID: int32(userID),
+			UserID: pgtype.UUID{Bytes: [16]byte(userIDa), Valid: true},
 		})
 		workspace := Workspace{
 			ID:        int64(workspaceRow.ID),
@@ -181,7 +193,7 @@ func (s *Service) formCreateHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	row := s.Conn.QueryRow(context.Background(), `SELECT user_id FROM workspaces WHERE id = $1`, workspaceID)
-	var dbUserID int64
+	var dbUserID string
 	if err = row.Scan(&dbUserID); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -224,9 +236,16 @@ func (s *Service) formDataHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
+	userIDc := strings.ReplaceAll(userID, "-", "")
+	userIDa, err := hex.DecodeString(userIDc)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 	rows, err := s.Queries.GetFormDataAndElements(r.Context(), db.GetFormDataAndElementsParams{
 		ID:     int32(formID),
-		UserID: int32(userID),
+		UserID: pgtype.UUID{Bytes: [16]byte(userIDa), Valid: true},
 	})
 	if err != nil {
 		log.Println(err)

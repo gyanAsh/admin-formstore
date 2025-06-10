@@ -2,14 +2,17 @@ package server
 
 import (
 	"context"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"sort"
+	"strings"
 	"time"
 
 	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgtype"
 	"local.formstore.admin/db"
 )
 
@@ -20,12 +23,12 @@ type WorkspaceRequest struct {
 type Workspace struct {
 	ID        int64     `json:"id"`
 	Name      string    `json:"name"`
-	UserID    int64     `json:"user_id"`
+	UserID    string    `json:"user_id"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-func parseRowsToWorkspaces(rows []db.GetWorkspacesForUserRow, userID int64) []Workspace {
+func parseRowsToWorkspaces(rows []db.GetWorkspacesForUserRow, userID string) []Workspace {
 	var workspaces []Workspace
 	for _, row := range rows {
 		var workspace Workspace
@@ -46,7 +49,14 @@ func (s *Service) workspacesHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
-	rows, err := s.Queries.GetWorkspacesForUser(r.Context(), int32(userID))
+	userIDc := strings.ReplaceAll(userID, "-", "")
+	userIDa, err := hex.DecodeString(userIDc)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	rows, err := s.Queries.GetWorkspacesForUser(r.Context(), pgtype.UUID{Bytes: [16]byte(userIDa), Valid: true})
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -131,7 +141,7 @@ func (s *Service) workspaceUpdateHandler(w http.ResponseWriter, r *http.Request)
 	row := s.Conn.QueryRow(r.Context(), `SELECT user_id FROM workspaces
 		WHERE ID = $1 AND user_id = $2`, workspace.ID,
 		workspace.UserID)
-	var dbUserID int64
+	var dbUserID string
 	if err = row.Scan(&dbUserID); err != nil {
 		log.Println(err)
 		if err == pgx.ErrNoRows {

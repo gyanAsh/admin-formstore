@@ -3,7 +3,7 @@ package server
 import "testing"
 
 func TestCreateAndParseToken(t *testing.T) {
-	var userID int64 = 11224431
+	userID := "c9b0aac1-f184-439d-a09d-64c0b1cd644b"
 	signedSecret := []byte("sample secret")
 	tokenString, err := generateAuthToken(userID, signedSecret)
 	if err != nil {

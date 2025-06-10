@@ -4,7 +4,7 @@
 
 -- placeholder user until google oauth has been implemented
 CREATE TABLE IF NOT EXISTS users (
-	ID SERIAL PRIMARY KEY,
+	ID UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
 	username VARCHAR NOT NULL,
 	email VARCHAR NOT NULL UNIQUE,
 	password VARCHAR NOT NULL
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS workspaces (
 	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
 	updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
 	deleted_at TIMESTAMP,
-	user_id INTEGER NOT NULL,
+	user_id UUID NOT NULL,
 	FOREIGN KEY (user_id) REFERENCES users(ID)
 );
 
