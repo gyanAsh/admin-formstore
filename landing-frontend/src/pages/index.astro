@@ -4,6 +4,7 @@ import "../styles/global.css";
 // Component Imports
 import MainLayout from "@/layouts/main.astro";
 import LandingForms from "@/components/homepage/landing-forms";
+import ImageContainer from "@/components/homepage/img-container";
 
 const pageTitle = "Formstore | Easy Form Builder";
 // Full Astro Component Syntax:
@@ -82,9 +83,12 @@ const pageTitle = "Formstore | Easy Form Builder";
     </div>
   </section>
   <div class="flex items-center justify-center px-2 sm:px-4">
-    <LandingForms />
+    <LandingForms client:load />
   </div>
 
+  <section>
+    <ImageContainer client:only />
+  </section>
   <div class="grid place-items-center h-full content-center">
     <Button>Tailwind Button in Astro!</Button>
     <a href="/markdown-page" class="p-4 underline"

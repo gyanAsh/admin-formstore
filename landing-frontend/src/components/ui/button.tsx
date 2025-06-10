@@ -29,6 +29,7 @@ const buttonVariants = cva(
       },
       effect: {
         default: "cursor-pointer hover:scale-105 active:scale-95",
+        none: "cursor-pointer",
       },
     },
     defaultVariants: {
