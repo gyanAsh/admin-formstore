@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"sort"
+	"strings"
 	"time"
 
 	"github.com/jackc/pgx/v5"
@@ -48,7 +49,8 @@ func (s *Service) workspacesHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
-	userIDa, err := hex.DecodeString(userID)
+	userIDc := strings.ReplaceAll(userID, "-", "")
+	userIDa, err := hex.DecodeString(userIDc)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)

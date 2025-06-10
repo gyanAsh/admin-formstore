@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/jackc/pgx/v5/pgtype"
@@ -95,7 +96,8 @@ func (s *Service) formsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	workspaceChan := make(chan WorkspaceRes)
 	go func(c chan WorkspaceRes) {
-		userIDa, err := hex.DecodeString(userID)
+		userIDc := strings.ReplaceAll(userID, "-", "")
+		userIDa, err := hex.DecodeString(userIDc)
 		if err != nil {
 			c <- WorkspaceRes{
 				data: Workspace{},
@@ -234,7 +236,8 @@ func (s *Service) formDataHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	userIDa, err := hex.DecodeString(userID)
+	userIDc := strings.ReplaceAll(userID, "-", "")
+	userIDa, err := hex.DecodeString(userIDc)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
