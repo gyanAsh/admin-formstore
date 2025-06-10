@@ -532,9 +532,13 @@ function ColorPicker({
           <div style={st} className="size-7 rounded-md bg-[var(--bg-color)]" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="end" className="p-0 w-fit">
+      <PopoverContent
+        align="end"
+        className="p-0 w-fit rounded-3xl overflow-hidden border border-zinc-300 shadow-2xl"
+      >
         <Sketch
           color={hex}
+          style={{ padding: 4 }}
           onChange={(color) => {
             setHex(color.hex);
           }}
