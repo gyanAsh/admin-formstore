@@ -26,7 +26,7 @@ type PublishFormReq struct {
 	Elements []FormElementReq `json:"elements"`
 }
 
-func (s *Service) formPushishHandler(w http.ResponseWriter, r *http.Request) {
+func (s *Service) formPublishHandler(w http.ResponseWriter, r *http.Request) {
 	userID, err := s.authenticate(r)
 	if err != nil {
 		log.Println(err)
