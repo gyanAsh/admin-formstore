@@ -22,10 +22,11 @@ type Form struct {
 }
 
 type FormElement struct {
-	ID          int64  `json:"id"`
-	Type        string `json:"type"`
-	Label       string `json:"label"`
-	Description string `json:"description"`
+	ID          int64          `json:"id"`
+	Type        string         `json:"type"`
+	Label       string         `json:"label"`
+	Description string         `json:"description"`
+	Properties  map[string]any `json:"properties"`
 }
 
 type FormData struct {
@@ -68,6 +69,9 @@ func parseFormDataAndElements(rows []db.GetFormDataAndElementsRow) FormData {
 			}
 			element.Label = row.Label.String
 			element.Description = row.Description.String
+			if err = json.Unmarshal(row.Properties, &element.Properties); err != nil {
+				log.Println(err)
+			}
 			formData.FormElements = append(formData.FormElements, element)
 		}
 	}

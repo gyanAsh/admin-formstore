@@ -24,7 +24,8 @@ SELECT
 	form_elements.ID,
 	form_elements.type,
 	form_elements.label,
-	form_elements.description
+	form_elements.description,
+	form_elements.properties
 FROM
 	forms
 INNER JOIN
