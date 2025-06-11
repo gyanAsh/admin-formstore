@@ -2,13 +2,11 @@ package server
 
 import (
 	"context"
-	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"sort"
-	"strings"
 	"time"
 
 	"github.com/jackc/pgx/v5"
@@ -49,14 +47,13 @@ func (s *Service) workspacesHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
-	userIDc := strings.ReplaceAll(userID, "-", "")
-	userIDa, err := hex.DecodeString(userIDc)
+	userIDb, err := convertUUIDStringToBin(userID)
 	if err != nil {
 		log.Println(err)
-		w.WriteHeader(http.StatusInternalServerError)
+		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
-	rows, err := s.Queries.GetWorkspacesForUser(r.Context(), pgtype.UUID{Bytes: [16]byte(userIDa), Valid: true})
+	rows, err := s.Queries.GetWorkspacesForUser(r.Context(), pgtype.UUID{Bytes: userIDb, Valid: true})
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)

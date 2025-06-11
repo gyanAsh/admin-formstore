@@ -2,13 +2,11 @@ package server
 
 import (
 	"context"
-	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/jackc/pgx/v5/pgtype"
@@ -96,8 +94,7 @@ func (s *Service) formsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	workspaceChan := make(chan WorkspaceRes)
 	go func(c chan WorkspaceRes) {
-		userIDc := strings.ReplaceAll(userID, "-", "")
-		userIDa, err := hex.DecodeString(userIDc)
+		userIDb, err := convertUUIDStringToBin(userID)
 		if err != nil {
 			c <- WorkspaceRes{
 				data: Workspace{},
@@ -107,7 +104,7 @@ func (s *Service) formsHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		workspaceRow, err := s.Queries.GetWorkspaceByID(r.Context(), db.GetWorkspaceByIDParams{
 			ID:     int32(workspaceID),
-			UserID: pgtype.UUID{Bytes: [16]byte(userIDa), Valid: true},
+			UserID: pgtype.UUID{Bytes: userIDb, Valid: true},
 		})
 		workspace := Workspace{
 			ID:        int64(workspaceRow.ID),
@@ -236,8 +233,7 @@ func (s *Service) formDataHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	userIDc := strings.ReplaceAll(userID, "-", "")
-	userIDa, err := hex.DecodeString(userIDc)
+	userIDb, err := convertUUIDStringToBin(userID)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -245,7 +241,7 @@ func (s *Service) formDataHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	rows, err := s.Queries.GetFormDataAndElements(r.Context(), db.GetFormDataAndElementsParams{
 		ID:     int32(formID),
-		UserID: pgtype.UUID{Bytes: [16]byte(userIDa), Valid: true},
+		UserID: pgtype.UUID{Bytes: userIDb, Valid: true},
 	})
 	if err != nil {
 		log.Println(err)
