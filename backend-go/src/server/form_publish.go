@@ -16,9 +16,10 @@ type ElementLabel struct {
 }
 
 type FormElementReq struct {
-	SeqNum int32        `json:"seq_num"`
-	Label  ElementLabel `json:"labels"`
-	Type   string       `json:"type"`
+	SeqNum     int32          `json:"seq_num"`
+	Label      ElementLabel   `json:"labels"`
+	Type       string         `json:"type"`
+	Properties map[string]any `json:"properties"`
 }
 
 type PublishFormReq struct {
@@ -56,9 +57,9 @@ func (s *Service) formPublishHandler(w http.ResponseWriter, r *http.Request) {
 	batch.Queue(`DELETE FROM form_elements WHERE form_id = $1`, form.FormID)
 	for _, element := range form.Elements {
 		batch.Queue(`INSERT INTO form_elements (type, label,
-			description, form_id) VALUES ($1, $2, $3, $4)`,
+			description, form_id, properties) VALUES ($1, $2, $3, $4, $5)`,
 			element.Type, element.Label.Title,
-			element.Label.Description, form.FormID)
+			element.Label.Description, form.FormID, element.Properties)
 	}
 	br := s.Conn.SendBatch(r.Context(), batch)
 	defer br.Close()
