@@ -11,10 +11,6 @@ import (
 
 func checkValidUUID(uuid_str string) error {
 	var err error
-	_, err = hex.DecodeString(strings.ReplaceAll(uuid_str, "-", ""))
-	if err != nil {
-		return fmt.Errorf("Failed to decode uuid string with error: %q", err)
-	}
 	re, err := regexp.Compile("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
 	if err != nil {
 		return err
@@ -48,8 +44,22 @@ func parseAuthToken(tokenString string, signedSecret []byte) (string, error) {
 		return "", fmt.Errorf("failed to parse claims with Error: failed to parse user_id to string")
 	}
 	userID, ok := claims["user_id"].(string)
-	if err = checkValidUUID(userID); err != nil {
+	if _, err = convertUUIDStringToBin(userID); err != nil {
 		return "", err
 	}
 	return userID, nil
+}
+
+func convertUUIDStringToBin(uuid_str string) ([16]byte, error) {
+	if err := checkValidUUID(uuid_str); err != nil {
+		return [16]byte{}, err
+	}
+	data, err := hex.DecodeString(strings.ReplaceAll(uuid_str, "-", ""))
+	if err != nil {
+		return [16]byte{}, err
+	}
+	if len(data) != 16 {
+		return [16]byte{}, fmt.Errorf("Failed to convert uuid string to byte: Invalid length")
+	}
+	return [16]byte(data), nil
 }

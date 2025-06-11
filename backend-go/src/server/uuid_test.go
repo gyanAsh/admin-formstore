@@ -43,3 +43,14 @@ func TestCheckValidUUID(t *testing.T) {
 		t.Fatal(fmt.Errorf("Parsed invalid uuid: missing hyphen"))
 	}
 }
+
+func TestConvertUUIDStringToBin(t *testing.T) {
+	assert := require.New(t)
+	orig := "c9b0aac1-f184-439d-a09d-64c0b1cd644b"
+	data, err := convertUUIDStringToBin(orig)
+	if err != nil {
+		t.Fatal(err)
+	}
+	ref := [16]byte{201, 176, 170, 193, 241, 132, 67, 157, 160, 157, 100, 192, 177, 205, 100, 75}
+	assert.Equal(data, ref)
+}
