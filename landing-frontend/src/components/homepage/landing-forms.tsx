@@ -24,41 +24,13 @@ const LandingForms = () => {
           <CustomizeOptionTop />
         </div>
         <div className="absolute inset-0 bg-[url('/homepage/desert.jpg')] bg-cover bg-center -z-1 brightness-85 contrast-95" />
-        <div className="grid grid-cols-1 items-center content-center gap-4 lg:gap-8 grow font-['IBM_Plex_Sans','sans-serif']">
+        <div className="grid grid-cols-1 items-center content-center gap-4 lg:gap-8 grow">
           <div className="flex flex-col gap-3 md:gap-4 lg:gap-1 items-center place-content-center w-full max-w-[750px]">
             <FormLabel />
             <FormDescription />
           </div>
-          <div className="w-full max-w-[650px] self-center place-self-center flex flex-col items-end gap-2.5">
-            <input
-              type="text"
-              className="border-2  border-blue-50/50 placeholder:text-zinc-200 outline-0 focus:border-blue-50 w-full h-fit py-2 px-4 text-lg rounded-full font-medium placeholder:italic bg-blue-50/20"
-              placeholder="Enter your full name"
-            />
-            <Button
-              className="rounded-full text-lg text-sky-700/60 px-7 py-5 hover:bg-blue-50/40 border-2 border-blue-50 bg-blue-50 hover:text-blue-50"
-              variant={"outline"}
-            >
-              OK
-            </Button>
-          </div>
+          <FormInput />
         </div>
-        {/* <div
-      // Combine default classes with any classes passed via props
-      className={clsx(
-        'relative isolate', // Base styles
-        // The ::before pseudo-element holds the background
-        "before:content-[''] before:absolute before:inset-0 before:-z-10",
-        // The background properties now read from our CSS variables
-        'before:bg-[image:var(--bg-image)] before:bg-cover before:bg-center',
-        // The filter properties also read from our CSS variables
-        'before:brightness-[var(--brightness)] before:contrast-[var(--contrast)]',
-        className // Append any user-provided classes
-      )}
-      style={style}
-    >
-      {children}
-    </div> */}
       </section>
     </div>
   );
@@ -111,5 +83,39 @@ const FormDescription = () => {
       This helps us address you professionally in future conversations or
       emails.
     </p>
+  );
+};
+
+const FormInput = () => {
+  const { labelDesign: design, elementDesign: elDesign } = useDesignStore();
+
+  const elStyle: Record<string, string> & React.CSSProperties = {
+    "--family": design.family,
+    "--text-color": elDesign.textColor,
+    "--bg-color": elDesign.bgColor,
+    "--border-color": elDesign.borderColor,
+    "--transparant":
+      elDesign.variant === "glass"
+        ? "40%"
+        : elDesign.variant === "outline"
+        ? "0%"
+        : "100%",
+  };
+  return (
+    <div className="w-full max-w-[650px] self-center place-self-center flex flex-col items-end gap-2.5">
+      <input
+        type="text"
+        className="border-2 text-[var(--text-color)] [font-family:var(--family)] border-[var(--border-color)]/50 placeholder:text-[var(--text-color)]/65 outline-0 focus:border-[var(--border-color)] w-full h-fit py-2 px-4 text-lg rounded-full font-medium placeholder:italic bg-[var(--bg-color)]/[var(--transparant)]"
+        placeholder="Enter your full name"
+        style={elStyle}
+      />
+      <Button
+        className="rounded-full text-[var(--text-color)] [font-family:var(--family)] text-lg px-7 py-5 bg-[var(--bg-color)]/[var(--transparant)] border-2 border-[var(--border-color)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)]"
+        style={elStyle}
+        variant={"outline"}
+      >
+        <span className="">OK</span>
+      </Button>
+    </div>
   );
 };

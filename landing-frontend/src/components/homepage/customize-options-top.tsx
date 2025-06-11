@@ -39,6 +39,7 @@ import {
   textSizes,
   useDesignStore,
   type DescriptionDesign,
+  type ElementDesign,
   type LabelDesign,
   type TextFont,
 } from "@/store/designStore";
@@ -194,48 +195,7 @@ const CustomizeOptionTop = () => {
           </Tooltip>
 
           <PopoverContent className="w-85 rounded-3xl p-5 shadow-2xl">
-            <div className="grid gap-4">
-              <div className="space-y-2">
-                <h4 className="leading-none font-medium">Dimensions</h4>
-                <p className="text-muted-foreground text-sm">
-                  Set the dimensions for the layer.
-                </p>
-              </div>
-              <div className="grid gap-2">
-                <div className="grid grid-cols-3 items-center gap-4">
-                  <Label htmlFor="width">Width</Label>
-                  <Input
-                    id="width"
-                    defaultValue="100%"
-                    className="col-span-2 h-8"
-                  />
-                </div>
-                <div className="grid grid-cols-3 items-center gap-4">
-                  <Label htmlFor="maxWidth">Max. width</Label>
-                  <Input
-                    id="maxWidth"
-                    defaultValue="300px"
-                    className="col-span-2 h-8"
-                  />
-                </div>
-                <div className="grid grid-cols-3 items-center gap-4">
-                  <Label htmlFor="height">Height</Label>
-                  <Input
-                    id="height"
-                    defaultValue="25px"
-                    className="col-span-2 h-8"
-                  />
-                </div>
-                <div className="grid grid-cols-3 items-center gap-4">
-                  <Label htmlFor="maxHeight">Max. height</Label>
-                  <Input
-                    id="maxHeight"
-                    defaultValue="none"
-                    className="col-span-2 h-8"
-                  />
-                </div>
-              </div>
-            </div>
+            <ElementDesignContent />
           </PopoverContent>
         </Popover>
         <Popover modal>
@@ -317,6 +277,121 @@ const CustomizeOptionTop = () => {
 
 export default CustomizeOptionTop;
 
+const ElementDesignContent = () => {
+  const { elementDesign: design, setElementDesign: setDesign } =
+    useDesignStore();
+
+  const [textColor, setTextColor] = useState(design.textColor);
+
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (textColor === design.textColor) return;
+      setDesign({ textColor: textColor });
+    }, 500);
+
+    return () => clearTimeout(timeout); // cancel previous write
+  }, [textColor]);
+  const [bgColor, setBgColor] = useState(design.bgColor);
+
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (bgColor === design.bgColor) return;
+      setDesign({ bgColor: bgColor });
+    }, 500);
+
+    return () => clearTimeout(timeout); // cancel previous write
+  }, [bgColor]);
+  const [borderColor, setBorderColor] = useState(design.borderColor);
+
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (borderColor === design.borderColor) return;
+      setDesign({ borderColor: borderColor });
+    }, 500);
+
+    return () => clearTimeout(timeout); // cancel previous write
+  }, [borderColor]);
+  return (
+    <div className="grid gap-4">
+      <div className="space-y-2">
+        <h4 className="leading-none font-medium">Elements</h4>
+        <p className="text-muted-foreground text-sm">
+          Set the dimensions for the elements.
+        </p>
+      </div>
+      <div className="grid gap-2">
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="element-style">Style</Label>
+          <div
+            className=" col-span-2 flex items-center gap-1"
+            id="element-style"
+          >
+            <ToggleGroup
+              variant="outline"
+              value={design.variant as ElementDesign["variant"]}
+              onValueChange={(e) =>
+                setDesign({ variant: e as ElementDesign["variant"] })
+              }
+              className="inline-flex"
+              type="single"
+            >
+              <ToggleGroupItem
+                className="data-[state=on]:bg-zinc-900 data-[state=on]:text-white"
+                value="solid"
+              >
+                Solid
+              </ToggleGroupItem>
+              <ToggleGroupItem
+                className="data-[state=on]:bg-zinc-900 data-[state=on]:text-white"
+                value="glass"
+              >
+                Glass
+              </ToggleGroupItem>
+              <ToggleGroupItem
+                className="data-[state=on]:bg-zinc-900 data-[state=on]:text-white"
+                value="outline"
+              >
+                Outline
+              </ToggleGroupItem>
+            </ToggleGroup>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="textColor">Text Color</Label>
+          <ColorPicker
+            hex={textColor}
+            setHex={(val) => {
+              setTextColor(val);
+            }}
+            id="textColor"
+          />
+        </div>
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="bgColor">Background Color</Label>
+          <ColorPicker
+            hex={bgColor}
+            setHex={(val) => {
+              setBgColor(val);
+            }}
+            id="bgColor"
+          />
+        </div>
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="borderColor">Border Color</Label>
+          <ColorPicker
+            hex={borderColor}
+            setHex={(val) => {
+              setBorderColor(val);
+            }}
+            id="borderColor"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const DescriptionDesignContent = () => {
   const { descriptionDesign: design, setDescriptionDesign: setDesign } =
     useDesignStore();
@@ -383,8 +458,8 @@ const DescriptionDesignContent = () => {
           />
         </div>
         <div className="grid grid-cols-3 items-center gap-4">
-          <Label htmlFor="height">Styles</Label>
-          <div className=" col-span-2 flex items-center gap-1" id="textSize">
+          <Label htmlFor="text-style">Styles</Label>
+          <div className=" col-span-2 flex items-center gap-1" id="text-style">
             <Button
               aria-selected={design.italics}
               className="aria-[selected=true]:bg-zinc-900 aria-[selected=true]:text-zinc-50"
@@ -576,7 +651,7 @@ function ColorPicker({
           role="combobox"
           className="col-span-2 justify-between"
         >
-          {hex || "Select Font..."}
+          {hex || "Select Color..."}
           <div style={st} className="size-7 rounded-md bg-[var(--bg-color)]" />
         </Button>
       </PopoverTrigger>

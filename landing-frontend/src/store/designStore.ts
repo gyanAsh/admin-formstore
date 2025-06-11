@@ -24,20 +24,27 @@ export interface DescriptionDesign {
   weight: "light" | "normal" | "medium" | "bold";
 }
 
+export interface ElementDesign {
+  variant: "solid" | "outline" | "glass";
+  textColor: string;
+  bgColor: string;
+  borderColor: string;
+}
+
 // Define the overall state interface for the design properties
 interface DesignState {
   labelDesign: LabelDesign;
   descriptionDesign: DescriptionDesign;
+  elementDesign: ElementDesign;
 }
 
-// Define the interface for the actions (functions) that modify the state
+// Define the interface for the actions (functions) that modify the state : allows updating only some properties of Each-Design
 interface DesignStoreActions {
-  // `Partial<LabelDesign>` allows updating only some properties of labelDesign
   setLabelDesign: (newLabelDesign: Partial<LabelDesign>) => void;
-  // `Partial<DescriptionDesign>` allows updating only some properties of descriptionDesign
   setDescriptionDesign: (
     newDescriptionDesign: Partial<DescriptionDesign>
   ) => void;
+  setElementDesign: (newElementDesign: Partial<ElementDesign>) => void;
 }
 
 // Combine the state and actions interfaces to define the full store type
@@ -61,6 +68,12 @@ const defaultDesignState: DesignState = {
     italics: true,
     weight: "light",
   },
+  elementDesign: {
+    variant: "glass",
+    textColor: "#fff",
+    bgColor: "#fff",
+    borderColor: "#fff",
+  },
 };
 
 // --- Zustand Store Creation ---
@@ -72,20 +85,13 @@ export const useDesignStore = create<DesignStore>()(
   devtools(
     // `persist` middleware stores the state in `localStorage` (or other storage).
     persist(
-      // The core store logic, similar to your original setup but with types.
       (set) => ({
         // Initialize the state with the default values.
         ...defaultDesignState,
-
-        // Action to update the labelDesign part of the state.
-        // It takes a partial object that will be merged with the current labelDesign.
         setLabelDesign: (newLabelDesign) =>
           set((state) => ({
             labelDesign: { ...state.labelDesign, ...newLabelDesign },
           })),
-
-        // Action to update the descriptionDesign part of the state.
-        // It takes a partial object that will be merged with the current descriptionDesign.
         setDescriptionDesign: (newDescriptionDesign) =>
           set((state) => ({
             descriptionDesign: {
@@ -93,10 +99,14 @@ export const useDesignStore = create<DesignStore>()(
               ...newDescriptionDesign,
             },
           })),
+        setElementDesign: (newElementDesign) =>
+          set((state) => ({
+            elementDesign: { ...state.elementDesign, ...newElementDesign },
+          })),
       }),
       {
-        // Configuration for the `persist` middleware:
-        name: "design-storage", // A unique string key for your storage item in localStorage
+        // Configuration for the `persist` middleware: A unique string key for your storage item in localStorage
+        name: "design-storage",
       }
     ),
     {
