@@ -24,15 +24,15 @@ const LandingForms = () => {
           <CustomizeOptionTop />
         </div>
         <div className="absolute inset-0 bg-[url('/homepage/desert.jpg')] bg-cover bg-center -z-1 brightness-85 contrast-95" />
-        <div className="grid grid-rows-2 gap-4 grow font-['IBM_Plex_Sans','sans-serif']">
-          <div className="flex flex-col gap-3 md:gap-4 lg:gap-6 items-center place-content-center w-full max-w-[750px]">
+        <div className="grid grid-cols-1 items-center content-center gap-4 lg:gap-8 grow font-['IBM_Plex_Sans','sans-serif']">
+          <div className="flex flex-col gap-3 md:gap-4 lg:gap-1 items-center place-content-center w-full max-w-[750px]">
             <FormLabel />
             <FormDescription />
           </div>
-          <div className="w-full max-w-[750px] flex flex-col items-end gap-2.5">
+          <div className="w-full max-w-[650px] self-center place-self-center flex flex-col items-end gap-2.5">
             <input
               type="text"
-              className="border-2 border-blue-50/50 placeholder:text-zinc-200 outline-0 focus:border-blue-50 w-full h-fit py-2 px-4 text-lg rounded-full font-medium placeholder:italic bg-blue-50/20"
+              className="border-2  border-blue-50/50 placeholder:text-zinc-200 outline-0 focus:border-blue-50 w-full h-fit py-2 px-4 text-lg rounded-full font-medium placeholder:italic bg-blue-50/20"
               placeholder="Enter your full name"
             />
             <Button
@@ -81,7 +81,7 @@ const FormLabel = () => {
   return (
     <h2
       className="text-center whitespace-pre-line text-[calc(var(--sm-size))] md:text-[calc(var(--md-size))] lg:text-[calc(var(--size))] [color:var(--text-color)]
-      [line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)]tracking-tighter"
+      [line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] ztracking-tighter"
       style={style}
     >
       What should we call you?

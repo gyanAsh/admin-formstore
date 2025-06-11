@@ -111,7 +111,7 @@ const CustomizeOptionTop = () => {
             </motion.div>
           </AnimatePresence>
         </main> */}
-        <Popover>
+        <Popover modal>
           <Tooltip>
             <TooltipTrigger asChild>
               <PopoverTrigger asChild>
@@ -141,7 +141,7 @@ const CustomizeOptionTop = () => {
             <LabelDesignContent />
           </PopoverContent>
         </Popover>
-        <Popover>
+        <Popover modal>
           <Tooltip>
             <TooltipTrigger asChild>
               <PopoverTrigger asChild>
@@ -169,7 +169,7 @@ const CustomizeOptionTop = () => {
             <DescriptionDesignContent />
           </PopoverContent>
         </Popover>
-        <Popover>
+        <Popover modal>
           <Tooltip>
             <TooltipTrigger asChild>
               <PopoverTrigger asChild>
@@ -238,7 +238,7 @@ const CustomizeOptionTop = () => {
             </div>
           </PopoverContent>
         </Popover>
-        <Popover>
+        <Popover modal>
           <Tooltip>
             <TooltipTrigger asChild>
               <PopoverTrigger asChild>

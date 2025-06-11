@@ -116,17 +116,17 @@ export const textSizeLineHeight: Record<TextSize["value"], string> = {
 };
 export const maxMdTextSize: Record<TextSize["value"], string> = {
   "60px": "48px",
-  "48px": "30px",
+  "48px": "36px",
   "30px": "20px",
-  "20px": "16px",
+  "20px": "18px",
   "16px": "16px",
 };
 
 export const maxSmTextSize: Record<TextSize["value"], string> = {
-  "60px": "30px",
-  "48px": "20px",
-  "30px": "16px",
-  "20px": "16px",
+  "60px": "36px",
+  "48px": "24px",
+  "30px": "20px",
+  "20px": "18px",
   "16px": "16px",
 };
 export interface TextSize {
