@@ -32,6 +32,11 @@ import type {
   PopoverTriggerProps,
 } from "@radix-ui/react-popover";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const tabs = [
   { id: 1, title: "Label", code: "tab-1" },
@@ -47,7 +52,7 @@ const CustomizeOptionTop = () => {
   // });
   return (
     <>
-      <section className="border border-zinc-400 divide-x  divide-zinc-400 bg-zinc-100 w-full max-w-[80dvw] lg:max-w-[750px] rounded-3xl md:rounded-4xl overflow-hidden">
+      <section className="border border-zinc-400 bg-zinc-100 w-[200px] flex rounded-3xl md:rounded-4xl overflow-hidden">
         {/* <nav>
           <ul className="flex gap-1 border-b border-zinc-950">
             {tabs.map((item, idx) => (
@@ -109,44 +114,88 @@ const CustomizeOptionTop = () => {
           </AnimatePresence>
         </main> */}
         <Popover>
-          <PopoverTrigger asChild>
-            <Button
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <PopoverTrigger asChild>
+                <Button
+                  className="rounded-none bg-gradient-to-br not-hover:from-zinc-800  not-hover:to-zinc-900  hover:from-zinc-700 hover:to-zinc-600 not-hover:text-zinc-300/95"
+                  effect={"none"}
+                >
+                  {/* <Button
               effect={"none"}
               variant="ghost"
-              className="rounded-none bg-yellow-200 hover:bg-zinc-950 hover:text-white h-10 md:h-12 w-1/2 md:w-1/4 data-[state=open]:bg-zinc-950 data-[state=open]:text-white text-base md:text-lg font-semibold"
+              className="rounded-none bg-yellow-200 hover:bg-zinc-950 hover:text-white h-fit w-1/2 md:w-1/4 data-[state=open]:bg-zinc-950 data-[state=open]:text-white text-base md:text-lg"
             >
               Label - <CaseSensitive className="size-7" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent align="start" className="w-85 rounded-4xl p-6">
+            </Button> */}
+                  <CaseSensitive className="size-7" />
+                </Button>
+              </PopoverTrigger>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Label</p>
+            </TooltipContent>
+          </Tooltip>
+          <PopoverContent
+            align="start"
+            className="w-85 rounded-3xl p-5 shadow-2xl"
+          >
             <LabelDesignContent />
           </PopoverContent>
         </Popover>
         <Popover>
-          <PopoverTrigger asChild>
-            <Button
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <PopoverTrigger asChild>
+                <Button
+                  className="rounded-none bg-gradient-to-br not-hover:from-zinc-800  not-hover:to-zinc-900  hover:from-zinc-700 hover:to-zinc-600 not-hover:text-zinc-300/95"
+                  effect={"none"}
+                >
+                  {/*  <Button
               effect={"none"}
               variant="ghost"
-              className="rounded-none bg-pink-200 hover:bg-zinc-950 hover:text-white h-10 md:h-12 w-1/2 md:w-1/4 data-[state=open]:bg-zinc-950 data-[state=open]:text-white text-base md:text-lg font-semibold"
+              className="rounded-none bg-pink-200 hover:bg-zinc-950 hover:text-white h-fit w-1/2 md:w-1/4 data-[state=open]:bg-zinc-950 data-[state=open]:text-white text-base md:text-lg"
             >
               Description - <CaseLower className="size-7" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-85 rounded-4xl p-6">
+            </Button> */}
+                  <CaseLower className="size-7" />
+                </Button>
+              </PopoverTrigger>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Description</p>
+            </TooltipContent>
+          </Tooltip>
+
+          <PopoverContent className="w-85 rounded-3xl p-5 shadow-2xl">
             <DescriptionDesignContent />
           </PopoverContent>
         </Popover>
         <Popover>
-          <PopoverTrigger asChild>
-            <Button
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <PopoverTrigger asChild>
+                <Button
+                  className="rounded-none bg-gradient-to-br not-hover:from-zinc-800  not-hover:to-zinc-900  hover:from-zinc-700 hover:to-zinc-600 not-hover:text-zinc-300/95"
+                  effect={"none"}
+                >
+                  {/*        <Button
               effect={"none"}
               variant="ghost"
-              className="rounded-none bg-blue-200 hover:bg-zinc-950 hover:text-white h-10 md:h-12 w-1/2 md:w-1/4 data-[state=open]:bg-zinc-950 data-[state=open]:text-white text-base md:text-lg font-semibold"
+              className="rounded-none bg-blue-200 hover:bg-zinc-950 hover:text-white h-fit w-1/2 md:w-1/4 data-[state=open]:bg-zinc-950 data-[state=open]:text-white text-base md:text-lg"
             >
               Elements - <Shapes className="size-6" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-85 rounded-4xl p-6">
+            </Button> */}
+                  <Shapes className="size-6" />
+                </Button>
+              </PopoverTrigger>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Elements</p>
+            </TooltipContent>
+          </Tooltip>
+
+          <PopoverContent className="w-85 rounded-3xl p-5 shadow-2xl">
             <div className="grid gap-4">
               <div className="space-y-2">
                 <h4 className="leading-none font-medium">Dimensions</h4>
@@ -192,16 +241,33 @@ const CustomizeOptionTop = () => {
           </PopoverContent>
         </Popover>
         <Popover>
-          <PopoverTrigger asChild>
-            <Button
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <PopoverTrigger asChild>
+                <Button
+                  className="rounded-none bg-gradient-to-br not-hover:from-zinc-800  not-hover:to-zinc-900  hover:from-zinc-700 hover:to-zinc-600 not-hover:text-zinc-300/95"
+                  effect={"none"}
+                >
+                  {/*<Button
               effect={"none"}
               variant="ghost"
-              className="rounded-none bg-violet-200 hover:bg-zinc-950 hover:text-white h-10 md:h-12 w-1/2 md:w-1/4 data-[state=open]:bg-zinc-950 data-[state=open]:text-white text-base md:text-lg font-semibold"
+              className="rounded-none bg-violet-200 hover:bg-zinc-950 hover:text-white h-fit w-1/2 md:w-1/4 data-[state=open]:bg-zinc-950 data-[state=open]:text-white text-base md:text-lg"
             >
               Background - <SquareDashedMousePointer className="size-6" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent align="end" className="w-85 rounded-4xl p-6">
+            </Button>*/}
+                  <SquareDashedMousePointer className="size-6" />
+                </Button>
+              </PopoverTrigger>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Background</p>
+            </TooltipContent>
+          </Tooltip>
+
+          <PopoverContent
+            align="end"
+            className="w-85 rounded-3xl p-5 shadow-2xl"
+          >
             <div className="grid gap-4">
               <div className="space-y-2">
                 <h4 className="leading-none font-medium">Dimensions</h4>
@@ -453,22 +519,22 @@ const LabelDesignContent = () => {
               type="single"
             >
               <ToggleGroupItem
-                className="data-[state=on]:bg-zinc-900 data-[state=on]:text-white"
+                className="data-[state=on]:bg-zinc-900 font-light data-[state=on]:text-white"
                 value="light"
               >
                 Aa
               </ToggleGroupItem>
               <ToggleGroupItem
-                className="data-[state=on]:bg-zinc-900 data-[state=on]:text-white"
+                className="data-[state=on]:bg-zinc-900 font-normal data-[state=on]:text-white"
                 value="normal"
               >
-                <Bold />
+                Aa
               </ToggleGroupItem>
               <ToggleGroupItem
-                className="data-[state=on]:bg-zinc-900 data-[state=on]:text-white"
+                className="data-[state=on]:bg-zinc-900 font-bold data-[state=on]:text-white"
                 value="bold"
               >
-                Aa
+                <Bold />
               </ToggleGroupItem>
             </ToggleGroup>
           </div>
@@ -534,7 +600,7 @@ function ColorPicker({
       </PopoverTrigger>
       <PopoverContent
         align="end"
-        className="p-0 w-fit rounded-3xl overflow-hidden border border-zinc-300 shadow-2xl"
+        className="p-0 w-fit rounded-2xl overflow-hidden border border-zinc-300 shadow-2xl"
       >
         <Sketch
           color={hex}

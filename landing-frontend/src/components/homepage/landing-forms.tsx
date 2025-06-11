@@ -9,7 +9,6 @@ const LandingForms = () => {
 
   return (
     <div className="flex flex-col items-center gap-4 w-full">
-      <CustomizeOptionTop />
       <section
         className={cn(
           "flex flex-col items-center w-full md:max-w-[80dvw] rounded-4xl min-h-[85dvh]",
@@ -18,6 +17,9 @@ const LandingForms = () => {
           "px-4 text-blue-700/75s text-white container border-2 border-blue-50"
         )}
       >
+        <div className="bottom-0 absolute p-4 hover:-translate-y-3 transition-transform duration-200 ease-in-out">
+          <CustomizeOptionTop />
+        </div>
         <div className="absolute inset-0 bg-[url('/homepage/desert.jpg')] bg-cover bg-center -z-1 brightness-85 contrast-95" />
         <div className="grid grid-rows-2 gap-4 grow font-['IBM_Plex_Sans','sans-serif']">
           <div className="flex flex-col items-center place-content-center w-full max-w-[750px]">
