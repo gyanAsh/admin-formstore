@@ -105,12 +105,12 @@ const FormInput = () => {
     <div className="w-full max-w-[650px] self-center place-self-center flex flex-col items-end gap-2.5">
       <input
         type="text"
-        className="border-2 text-[var(--text-color)] [font-family:var(--family)] border-[var(--border-color)]/50 placeholder:text-[var(--text-color)]/65 outline-0 focus:border-[var(--border-color)] w-full h-fit py-2 px-4 text-lg rounded-full font-medium placeholder:italic bg-[var(--bg-color)]/[var(--transparant)]"
+        className="border-2 text-[var(--text-color)] [font-family:var(--family)] border-[var(--border-color)]/60 placeholder:text-[var(--text-color)]/65 outline-0 focus:border-[var(--border-color)] w-full h-fit py-2 px-4 text-lg rounded-full font-medium placeholder:italic bg-[var(--bg-color)]/[var(--transparant)]"
         placeholder="Enter your full name"
         style={elStyle}
       />
       <Button
-        className="rounded-full text-[var(--text-color)] [font-family:var(--family)] text-lg px-7 py-5 bg-[var(--bg-color)]/[var(--transparant)] border-2 border-[var(--border-color)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)]"
+        className="rounded-full text-[var(--text-color)] [font-family:var(--family)] text-lg px-7 py-5 bg-[var(--bg-color)]/[var(--transparant)] border-2 border-[var(--border-color)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)]/[var(--transparant)]"
         style={elStyle}
         variant={"outline"}
       >
