@@ -80,7 +80,7 @@ const FormLabel = () => {
 
   return (
     <h2
-      className="text-center whitespace-pre-line max-sm:text-[calc(var(--sm-size))] md:text-[calc(var(--md-size))] lg:text-[calc(var(--size))] [color:var(--text-color)]
+      className="text-center whitespace-pre-line text-[calc(var(--sm-size))] md:text-[calc(var(--md-size))] lg:text-[calc(var(--size))] [color:var(--text-color)]
       [line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)]tracking-tighter"
       style={style}
     >
@@ -104,7 +104,7 @@ const FormDescription = () => {
 
   return (
     <p
-      className="text-center whitespace-pre-line  max-sm:text-[calc(var(--sm-size))] md:text-[calc(var(--md-size))] lg:text-[calc(var(--size))] [color:var(--text-color)]
+      className="text-center whitespace-pre-line  text-[calc(var(--sm-size))] md:text-[calc(var(--md-size))] lg:text-[calc(var(--size))] [color:var(--text-color)]
       [line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)]"
       style={style}
     >
