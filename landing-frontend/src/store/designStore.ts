@@ -71,7 +71,7 @@ const defaultDesignState: DesignState = {
   elementDesign: {
     variant: "glass",
     textColor: "#fff",
-    bgColor: "#fff",
+    bgColor: "#000",
     borderColor: "#fff",
   },
 };
