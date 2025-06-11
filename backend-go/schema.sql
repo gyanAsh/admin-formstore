@@ -51,5 +51,6 @@ CREATE TABLE IF NOT EXISTS form_elements (
 	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
 	updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
 	form_id INTEGER NOT NULL,
+	properties JSON,
 	FOREIGN KEY (form_id) REFERENCES forms(ID)
 );

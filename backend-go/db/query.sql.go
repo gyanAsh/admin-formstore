@@ -29,7 +29,8 @@ SELECT
 	form_elements.ID,
 	form_elements.type,
 	form_elements.label,
-	form_elements.description
+	form_elements.description,
+	form_elements.properties
 FROM
 	forms
 INNER JOIN
@@ -67,6 +68,7 @@ type GetFormDataAndElementsRow struct {
 	Type        NullFormElementTypes
 	Label       pgtype.Text
 	Description pgtype.Text
+	Properties  []byte
 }
 
 func (q *Queries) GetFormDataAndElements(ctx context.Context, arg GetFormDataAndElementsParams) ([]GetFormDataAndElementsRow, error) {
@@ -92,6 +94,7 @@ func (q *Queries) GetFormDataAndElements(ctx context.Context, arg GetFormDataAnd
 			&i.Type,
 			&i.Label,
 			&i.Description,
+			&i.Properties,
 		); err != nil {
 			return nil, err
 		}

@@ -46,10 +46,9 @@ export default function PublishFormButton({ formId }: { formId: number }) {
         labels: x.labels,
         required: x.required,
         validations: {},
-        properties: convertToTypedKeys(x.validations),
+        properties: x.validations,
       })),
     };
-    console.log(retFormData);
     const res = await fetch(`/api/form/publish`, {
       method: "POST",
       headers: {

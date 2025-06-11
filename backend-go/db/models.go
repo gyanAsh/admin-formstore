@@ -78,6 +78,7 @@ type FormElement struct {
 	CreatedAt   pgtype.Timestamp
 	UpdatedAt   pgtype.Timestamp
 	FormID      int32
+	Properties  []byte
 }
 
 type User struct {
