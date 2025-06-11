@@ -1,12 +1,15 @@
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
-import clsx from "clsx";
-import { useState } from "react";
+import React, { createContext, useState } from "react";
 import CustomizeOptionTop from "./customize-options-top";
+import {
+  maxMdTextSize,
+  maxSmTextSize,
+  textSizeLineHeight,
+  useDesignStore,
+} from "@/store/designStore";
 
 const LandingForms = () => {
-  const [open, setOpen] = useState<boolean>(false);
-
   return (
     <div className="flex flex-col items-center gap-4 w-full">
       <section
@@ -14,7 +17,7 @@ const LandingForms = () => {
           "flex flex-col items-center w-full md:max-w-[80dvw] rounded-4xl min-h-[85dvh]",
           // "[background:radial-gradient(ellipse_at_bottom,_#94b2c2,_#5ea1c4,_#5ea1c4)]",
           "relative overflow-hidden",
-          "px-4 text-blue-700/75s text-white container border-2 border-blue-50"
+          "px-4 text-blue-700/75s text-white border-2 border-blue-50"
         )}
       >
         <div className="bottom-0 absolute p-4 hover:-translate-y-3 transition-transform duration-200 ease-in-out">
@@ -22,14 +25,9 @@ const LandingForms = () => {
         </div>
         <div className="absolute inset-0 bg-[url('/homepage/desert.jpg')] bg-cover bg-center -z-1 brightness-85 contrast-95" />
         <div className="grid grid-rows-2 gap-4 grow font-['IBM_Plex_Sans','sans-serif']">
-          <div className="flex flex-col items-center place-content-center w-full max-w-[750px]">
-            <h2 className="text-center whitespace-pre-line text-5xl @[64rem]:text-7xl font-normal tracking-tighter">
-              What should we call you?
-            </h2>
-            <p className="text-center whitespace-pre-line font-['Playfair_Display','serif'] zfont-['Cal_Sans','sans-serif'] text-xl @[64rem]:text-2xl font-normal sitalic">
-              This helps us address you professionally in future conversations
-              or emails.
-            </p>
+          <div className="flex flex-col gap-3 md:gap-4 lg:gap-6 items-center place-content-center w-full max-w-[750px]">
+            <FormLabel />
+            <FormDescription />
           </div>
           <div className="w-full max-w-[750px] flex flex-col items-end gap-2.5">
             <input
@@ -67,3 +65,51 @@ const LandingForms = () => {
 };
 
 export default LandingForms;
+
+const FormLabel = () => {
+  const { labelDesign: design } = useDesignStore();
+  const style: Record<string, string> & React.CSSProperties = {
+    "--size": design.size,
+    "--md-size": maxMdTextSize[design.size],
+    "--sm-size": maxSmTextSize[design.size],
+    "--family": design.family,
+    "--weight": design.weight,
+    "--text-color": design.color,
+    "--italics": design.italics ? "italic" : "normal",
+  };
+
+  return (
+    <h2
+      className="text-center whitespace-pre-line max-sm:text-[calc(var(--sm-size))] md:text-[calc(var(--md-size))] lg:text-[calc(var(--size))] [color:var(--text-color)]
+      [line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)]tracking-tighter"
+      style={style}
+    >
+      What should we call you?
+    </h2>
+  );
+};
+
+const FormDescription = () => {
+  const { descriptionDesign: design } = useDesignStore();
+  const style: Record<string, string> & React.CSSProperties = {
+    "--size": design.size,
+    "--md-size": maxMdTextSize[design.size],
+    "--sm-size": maxSmTextSize[design.size],
+    "--line-height": textSizeLineHeight[design.size],
+    "--family": design.family,
+    "--weight": design.weight,
+    "--text-color": design.color,
+    "--italics": design.italics ? "italic" : "normal",
+  };
+
+  return (
+    <p
+      className="text-center whitespace-pre-line  max-sm:text-[calc(var(--sm-size))] md:text-[calc(var(--md-size))] lg:text-[calc(var(--size))] [color:var(--text-color)]
+      [line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)]"
+      style={style}
+    >
+      This helps us address you professionally in future conversations or
+      emails.
+    </p>
+  );
+};

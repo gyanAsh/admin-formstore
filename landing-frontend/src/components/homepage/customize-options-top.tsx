@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn, debounce } from "@/lib/utils";
 import { useState } from "react";
 import { Sketch } from "@uiw/react-color";
 
@@ -27,32 +27,30 @@ import {
 } from "@/components/ui/command";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import type {
-  PopoverProps,
-  PopoverTriggerProps,
-} from "@radix-ui/react-popover";
+import type { PopoverTriggerProps } from "@radix-ui/react-popover";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  textFonts,
+  textSizes,
+  useDesignStore,
+  type DescriptionDesign,
+  type LabelDesign,
+  type TextFont,
+} from "@/store/designStore";
 
 const tabs = [
   { id: 1, title: "Label", code: "tab-1" },
   { id: 2, title: "Description", code: "tab-2" },
 ];
 const CustomizeOptionTop = () => {
-  const [selectedTab, setSelectedTab] = useState(tabs[0]);
-  // const [openState, setOpenState] = useState({
-  //   label: false,
-  //   description: false,
-  //   button: false,
-  //   bg: false,
-  // });
   return (
     <>
-      <section className="border border-zinc-400 bg-zinc-100 w-[200px] flex rounded-3xl md:rounded-4xl overflow-hidden">
+      <section className="border border-zinc-400 bg-zinc-100 shadow-2xl w-[200px] flex rounded-3xl md:rounded-4xl overflow-hidden">
         {/* <nav>
           <ul className="flex gap-1 border-b border-zinc-950">
             {tabs.map((item, idx) => (
@@ -320,13 +318,18 @@ const CustomizeOptionTop = () => {
 export default CustomizeOptionTop;
 
 const DescriptionDesignContent = () => {
-  const [labelSize, setLabelSize] = useState("60px");
-  const [labelFamily, setLabelFamily] = useState(fonts.at(0)?.value);
-  const [labelColor, setLabelColor] = useState("#fff");
-  const [labelStyle, setLabelStyle] = useState({
-    italic: false,
-    weight: "light",
-  });
+  const { descriptionDesign: design, setDescriptionDesign: setDesign } =
+    useDesignStore();
+  const [textColor, setTextColor] = useState(design.color);
+
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (textColor === design.color) return;
+      setDesign({ color: textColor });
+    }, 500);
+
+    return () => clearTimeout(timeout); // cancel previous write
+  }, [textColor]);
   return (
     <div className="grid gap-4">
       <div className="space-y-2">
@@ -340,8 +343,10 @@ const DescriptionDesignContent = () => {
           <Label htmlFor="fontFamily">Font family</Label>
 
           <ComboboxDemo
-            value={labelFamily}
-            setValue={setLabelFamily}
+            value={design.family}
+            setValue={(val) => {
+              setDesign({ family: val as TextFont["value"] });
+            }}
             id="fontFamily"
           />
         </div>
@@ -351,15 +356,15 @@ const DescriptionDesignContent = () => {
             className=" col-span-2 flex items-center justify-between gap-1"
             id="textSize"
           >
-            {textSize.map((size) => {
+            {textSizes.map((size) => {
               return (
                 <Button
                   key={size.value}
-                  aria-selected={labelSize === size.value}
+                  aria-selected={design.size === size.value}
                   className=" aria-[selected=true]:bg-zinc-900 aria-[selected=true]:text-zinc-50"
                   variant={"outline"}
                   size={"icon"}
-                  onClick={() => setLabelSize(size.value)}
+                  onClick={() => setDesign({ size: size.value })}
                 >
                   {size.name}
                 </Button>
@@ -369,151 +374,31 @@ const DescriptionDesignContent = () => {
         </div>
         <div className="grid grid-cols-3 items-center gap-4">
           <Label htmlFor="textColor">Text Color</Label>
-          <ColorPicker hex={labelColor} setHex={setLabelColor} id="textColor" />
-        </div>
-        <div className="grid grid-cols-3 items-center gap-4">
-          <Label htmlFor="height">Styles</Label>
-          <div className=" col-span-2 flex items-center gap-1" id="textSize">
-            <Button
-              aria-selected={labelStyle.italic}
-              className="aria-[selected=true]:bg-zinc-900 aria-[selected=true]:text-zinc-50"
-              variant={"outline"}
-              size={"icon"}
-              onClick={() =>
-                setLabelStyle((e) => ({ ...e, italic: !e.italic }))
-              }
-            >
-              <Italic />
-            </Button>
-            <ToggleGroup
-              variant="outline"
-              value={labelStyle.weight}
-              onValueChange={(e) =>
-                setLabelStyle((el) => ({ ...el, weight: e }))
-              }
-              className="inline-flex"
-              type="single"
-            >
-              <ToggleGroupItem
-                className="data-[state=on]:bg-zinc-900 data-[state=on]:text-white"
-                value="light"
-              >
-                Aa
-              </ToggleGroupItem>
-              <ToggleGroupItem
-                className="data-[state=on]:bg-zinc-900 data-[state=on]:text-white"
-                value="normal"
-              >
-                <Bold />
-              </ToggleGroupItem>
-              <ToggleGroupItem
-                className="data-[state=on]:bg-zinc-900 data-[state=on]:text-white"
-                value="bold"
-              >
-                Aa
-              </ToggleGroupItem>
-            </ToggleGroup>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const textSize = [
-  {
-    value: "16px",
-    name: "sm",
-  },
-  {
-    value: "20px",
-    name: "md",
-  },
-  {
-    value: "30px",
-    name: "lg",
-  },
-  {
-    value: "48px",
-    name: "xl",
-  },
-  {
-    value: "60px",
-    name: "xxl",
-  },
-];
-
-const LabelDesignContent = () => {
-  const [labelSize, setLabelSize] = useState("60px");
-  const [labelFamily, setLabelFamily] = useState(fonts.at(0)?.value);
-  const [labelColor, setLabelColor] = useState("#fff");
-  const [labelStyle, setLabelStyle] = useState({
-    italic: false,
-    weight: "light",
-  });
-  return (
-    <div className="grid gap-4">
-      <div className="space-y-2">
-        <h4 className="leading-none font-medium">Label</h4>
-        <p className="text-muted-foreground text-sm">
-          Set the styles for the label.
-        </p>
-      </div>
-      <div className="grid gap-2 md:gap-4 lg:gap-5">
-        <div className="grid grid-cols-3 items-center gap-4">
-          <Label htmlFor="fontFamily">Font family</Label>
-
-          <ComboboxDemo
-            value={labelFamily}
-            setValue={setLabelFamily}
-            id="fontFamily"
+          <ColorPicker
+            hex={textColor}
+            setHex={(val) => {
+              setTextColor(val);
+            }}
+            id="textColor"
           />
         </div>
         <div className="grid grid-cols-3 items-center gap-4">
-          <Label htmlFor="textSize">Text Size</Label>
-          <div
-            className=" col-span-2 flex items-center justify-between gap-1"
-            id="textSize"
-          >
-            {textSize.map((size) => {
-              return (
-                <Button
-                  key={size.value}
-                  aria-selected={labelSize === size.value}
-                  className=" aria-[selected=true]:bg-zinc-900 aria-[selected=true]:text-zinc-50"
-                  variant={"outline"}
-                  size={"icon"}
-                  onClick={() => setLabelSize(size.value)}
-                >
-                  {size.name}
-                </Button>
-              );
-            })}
-          </div>
-        </div>
-        <div className="grid grid-cols-3 items-center gap-4">
-          <Label htmlFor="textColor">Text Color</Label>
-          <ColorPicker hex={labelColor} setHex={setLabelColor} id="textColor" />
-        </div>
-        <div className="grid grid-cols-3 items-center gap-4">
           <Label htmlFor="height">Styles</Label>
           <div className=" col-span-2 flex items-center gap-1" id="textSize">
             <Button
-              aria-selected={labelStyle.italic}
+              aria-selected={design.italics}
               className="aria-[selected=true]:bg-zinc-900 aria-[selected=true]:text-zinc-50"
               variant={"outline"}
               size={"icon"}
-              onClick={() =>
-                setLabelStyle((e) => ({ ...e, italic: !e.italic }))
-              }
+              onClick={() => setDesign({ italics: !design.italics })}
             >
               <Italic />
             </Button>
             <ToggleGroup
               variant="outline"
-              value={labelStyle.weight}
+              value={design.weight as DescriptionDesign["weight"]}
               onValueChange={(e) =>
-                setLabelStyle((el) => ({ ...el, weight: e }))
+                setDesign({ weight: e as DescriptionDesign["weight"] })
               }
               className="inline-flex"
               type="single"
@@ -531,10 +416,17 @@ const LabelDesignContent = () => {
                 Aa
               </ToggleGroupItem>
               <ToggleGroupItem
+                className="data-[state=on]:bg-zinc-900 font-medium data-[state=on]:text-white"
+                value="medium"
+              >
+                Aa
+              </ToggleGroupItem>
+              <ToggleGroupItem
                 className="data-[state=on]:bg-zinc-900 font-bold data-[state=on]:text-white"
                 value="bold"
               >
-                <Bold />
+                {/* <Bold /> */}
+                Aa
               </ToggleGroupItem>
             </ToggleGroup>
           </div>
@@ -544,33 +436,123 @@ const LabelDesignContent = () => {
   );
 };
 
-const fonts = [
-  {
-    value: '"Cal Sans", sans-serif',
-    label: "Cal Sans",
-  },
-  {
-    value: '"IBM Plex Serif", serif',
-    label: "IBM Plex Serif",
-  },
-  {
-    value: '"Roboto", sans-serif',
-    label: "Roboto",
-  },
-  {
-    value: '"Playfair Display", serif',
-    label: "Playfair Display",
-  },
-  {
-    value: '"Lora", serif',
-    label: "Lora",
-  },
+const LabelDesignContent = () => {
+  const { labelDesign: design, setLabelDesign: setDesign } = useDesignStore();
+  const [textColor, setTextColor] = useState(design.color);
 
-  {
-    value: '"IBM Plex Sans", sans-serif',
-    label: "IBM Plex Sans",
-  },
-];
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (textColor === design.color) return;
+      setDesign({ color: textColor });
+    }, 500);
+
+    return () => clearTimeout(timeout); // cancel previous write
+  }, [textColor]);
+  return (
+    <div className="grid gap-4">
+      <div className="space-y-2">
+        <h4 className="leading-none font-medium">Label</h4>
+        <p className="text-muted-foreground text-sm">
+          Set the styles for the label.
+        </p>
+      </div>
+      <div className="grid gap-2 md:gap-4 lg:gap-5">
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="fontFamily">Font family</Label>
+
+          <ComboboxDemo
+            value={design.family}
+            setValue={(val) => {
+              setDesign({ family: val as TextFont["value"] });
+            }}
+            id="fontFamily"
+          />
+        </div>
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="textSize">Text Size</Label>
+          <div
+            className=" col-span-2 flex items-center justify-between gap-1"
+            id="textSize"
+          >
+            {textSizes.map((size) => {
+              return (
+                <Button
+                  key={size.value}
+                  aria-selected={design.size === size.value}
+                  className=" aria-[selected=true]:bg-zinc-900 aria-[selected=true]:text-zinc-50"
+                  variant={"outline"}
+                  size={"icon"}
+                  onClick={() => setDesign({ size: size.value })}
+                >
+                  {size.name}
+                </Button>
+              );
+            })}
+          </div>
+        </div>
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="textColor">Text Color</Label>
+          <ColorPicker
+            hex={textColor}
+            setHex={(val) => {
+              setTextColor(val);
+            }}
+            id="textColor"
+          />
+        </div>
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="height">Styles</Label>
+          <div className=" col-span-2 flex items-center gap-1" id="textSize">
+            <Button
+              aria-selected={design.italics}
+              className="aria-[selected=true]:bg-zinc-900 aria-[selected=true]:text-zinc-50"
+              variant={"outline"}
+              size={"icon"}
+              onClick={() => setDesign({ italics: !design.italics })}
+            >
+              <Italic />
+            </Button>
+            <ToggleGroup
+              variant="outline"
+              value={design.weight as LabelDesign["weight"]}
+              onValueChange={(e) =>
+                setDesign({ weight: e as LabelDesign["weight"] })
+              }
+              className="inline-flex"
+              type="single"
+            >
+              <ToggleGroupItem
+                className="data-[state=on]:bg-zinc-900 font-light data-[state=on]:text-white"
+                value="light"
+              >
+                Aa
+              </ToggleGroupItem>
+              <ToggleGroupItem
+                className="data-[state=on]:bg-zinc-900 font-normal data-[state=on]:text-white"
+                value="normal"
+              >
+                Aa
+              </ToggleGroupItem>
+              <ToggleGroupItem
+                className="data-[state=on]:bg-zinc-900 font-medium data-[state=on]:text-white"
+                value="medium"
+              >
+                Aa
+              </ToggleGroupItem>
+              <ToggleGroupItem
+                className="data-[state=on]:bg-zinc-900 font-bold data-[state=on]:text-white"
+                value="bold"
+              >
+                {/* <Bold /> */}
+                Aa
+              </ToggleGroupItem>
+            </ToggleGroup>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 function ColorPicker({
   hex,
@@ -637,7 +619,7 @@ function ComboboxDemo({
           className="col-span-2 justify-between"
         >
           {value
-            ? fonts.find((font) => font.value === value)?.label
+            ? textFonts.find((font) => font.value === value)?.label
             : "Select Font..."}
           <ChevronsUpDown className="opacity-50" />
         </Button>
@@ -648,7 +630,7 @@ function ComboboxDemo({
           <CommandList>
             <CommandEmpty>No font found.</CommandEmpty>
             <CommandGroup defaultValue={value}>
-              {fonts.map((font) => (
+              {textFonts.map((font) => (
                 <CommandItem
                   key={font.value}
                   value={font.value}
