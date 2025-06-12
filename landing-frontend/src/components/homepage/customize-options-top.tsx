@@ -46,11 +46,17 @@ import {
 } from "@/store/designStore";
 import UploadImage from "../ui/upload-image";
 import { Separator } from "../ui/separator";
+import {
+  Menubar,
+  MenubarContent,
+  MenubarMenu,
+  MenubarTrigger,
+} from "@/components/ui/menubar";
 
 const CustomizeOptionTop = () => {
   return (
     <>
-      <section className="border border-zinc-400 bg-zinc-100 shadow-2xl w-[200px] flex rounded-3xl md:rounded-4xl overflow-hidden">
+      {/* <section className="border border-zinc-400 bg-zinc-100 shadow-2xl w-[200px] flex rounded-3xl md:rounded-4xl overflow-hidden">
         <Popover modal>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -144,7 +150,85 @@ const CustomizeOptionTop = () => {
             <LayoutDesignContext />
           </PopoverContent>
         </Popover>
-      </section>
+      </section> */}
+
+      <Menubar className="bg-black w-fit gap-0 p-0 rounded-3xl md:rounded-4xl overflow-hidden">
+        <MenubarMenu>
+          <Tooltip>
+            <TooltipTrigger>
+              <MenubarTrigger className="rounded-none overflow-hidden">
+                <CaseSensitive className="size-7" />
+              </MenubarTrigger>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Label</p>
+            </TooltipContent>
+          </Tooltip>
+          <MenubarContent
+            align="center"
+            className="w-85 cursor-pointer rounded-3xl p-5 shadow-2xl"
+          >
+            <LabelDesignContent />
+          </MenubarContent>
+        </MenubarMenu>
+        <Separator orientation="vertical" className="bg-muted-foreground" />
+        <MenubarMenu>
+          <Tooltip>
+            <TooltipTrigger>
+              <MenubarTrigger className="rounded-none overflow-hidden">
+                <CaseLower className="size-7" />
+              </MenubarTrigger>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Description</p>
+            </TooltipContent>
+          </Tooltip>
+          <MenubarContent
+            align="center"
+            className="w-85 cursor-pointer rounded-3xl p-5 shadow-2xl"
+          >
+            <DescriptionDesignContent />
+          </MenubarContent>
+        </MenubarMenu>
+        <Separator orientation="vertical" className="bg-muted-foreground" />
+        <MenubarMenu>
+          <Tooltip>
+            <TooltipTrigger>
+              <MenubarTrigger className="rounded-none overflow-hidden">
+                <SquareDashedMousePointer className="size-7 scale-80" />
+              </MenubarTrigger>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Element</p>
+            </TooltipContent>
+          </Tooltip>
+          <MenubarContent
+            align="center"
+            className="w-85 cursor-pointer rounded-3xl p-5 shadow-2xl"
+          >
+            <ElementDesignContent />
+          </MenubarContent>
+        </MenubarMenu>
+        <Separator orientation="vertical" className="bg-muted-foreground" />
+        <MenubarMenu>
+          <Tooltip>
+            <TooltipTrigger>
+              <MenubarTrigger className="rounded-none overflow-hidden">
+                <LayoutDashboard className="size-7 scale-80" />
+              </MenubarTrigger>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Layout</p>
+            </TooltipContent>
+          </Tooltip>
+          <MenubarContent
+            align="center"
+            className="min-w-85 w-fit cursor-pointer rounded-3xl p-5 shadow-2xl"
+          >
+            <LayoutDesignContext />
+          </MenubarContent>
+        </MenubarMenu>
+      </Menubar>
     </>
   );
 };

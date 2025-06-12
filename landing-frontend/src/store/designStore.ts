@@ -92,7 +92,7 @@ const defaultDesignState: DesignState = {
   layoutDesign: {
     textAlign: "center",
     elementSpacing: "12px",
-    bgColor: "#ffffff",
+    bgColor: "#000000",
   },
 };
 
@@ -149,17 +149,17 @@ export const textSizeLineHeight: Record<TextSize["value"], string> = {
 export const maxMdTextSize: Record<TextSize["value"], string> = {
   "60px": "48px",
   "48px": "36px",
-  "30px": "20px",
-  "20px": "18px",
+  "30px": "25px",
+  "20px": "20px",
   "16px": "16px",
 };
 
 export const maxSmTextSize: Record<TextSize["value"], string> = {
-  "60px": "36px",
-  "48px": "24px",
-  "30px": "20px",
-  "20px": "18px",
-  "16px": "16px",
+  "60px": "35px",
+  "48px": "30px",
+  "30px": "25px",
+  "20px": "20px",
+  "16px": "15px",
 };
 
 export interface TextSize {
