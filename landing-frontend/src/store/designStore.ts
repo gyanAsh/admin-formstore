@@ -1,6 +1,3 @@
-// src/store/designStore.ts
-// This file defines your Zustand store with TypeScript types and persistence.
-
 import { create } from "zustand";
 import { persist, devtools, createJSONStorage } from "zustand/middleware";
 
@@ -12,11 +9,10 @@ export interface LabelDesign {
   family: TextFont["value"];
   color: string;
   italics: boolean;
-  weight: "light" | "normal" | "medium" | "bold"; // Specific string literal union for weight
+  weight: "light" | "normal" | "medium" | "bold";
   letter_spacing: LetterSpacing["value"];
 }
 
-// Define the interface for the description design properties
 export interface DescriptionDesign {
   size: TextSize["value"];
   family: TextFont["value"];
@@ -82,12 +78,9 @@ const defaultDesignState: DesignState = {
 
 // --- Zustand Store Creation ---
 
-// Create the Zustand store using TypeScript types and middleware
 export const useDesignStore = create<DesignStore>()(
   // `devtools` middleware provides integration with Redux DevTools Extension for debugging.
-  // It should wrap `persist` to ensure all actions are logged.
   devtools(
-    // `persist` middleware stores the state in `localStorage` (or other storage).
     persist(
       (set) => ({
         // Initialize the state with the default values.
@@ -144,14 +137,12 @@ export const maxSmTextSize: Record<TextSize["value"], string> = {
   "20px": "18px",
   "16px": "16px",
 };
+
 export interface TextSize {
   value: "16px" | "20px" | "30px" | "48px" | "60px";
   name: "sm" | "md" | "lg" | "xl" | "xxl";
 }
-export interface LetterSpacing {
-  value: "-0.05em" | "-0.025em" | "0em" | "0.025em" | "0.1em";
-  name: "Tight" | "Tighter" | "Normal" | "Wide" | "Wider";
-}
+
 export const textSizes: TextSize[] = [
   {
     value: "16px",
@@ -222,6 +213,10 @@ export const textFonts: TextFont[] = [
 ];
 
 //---Letter Spacing---
+export interface LetterSpacing {
+  value: "-0.05em" | "-0.025em" | "0em" | "0.025em" | "0.1em";
+  name: "Tight" | "Tighter" | "Normal" | "Wide" | "Wider";
+}
 
 export const letterSpacings: LetterSpacing[] = [
   {
