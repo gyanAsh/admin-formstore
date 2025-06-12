@@ -176,6 +176,10 @@ paths:
       responses:
         200:
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
         400:
           description: Any form of error from the client side
           content:
