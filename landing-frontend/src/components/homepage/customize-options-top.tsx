@@ -44,6 +44,8 @@ import {
   type LayoutDesign,
   type TextFont,
 } from "@/store/designStore";
+import UploadImage from "../ui/upload-image";
+import { Separator } from "../ui/separator";
 
 const CustomizeOptionTop = () => {
   return (
@@ -137,7 +139,7 @@ const CustomizeOptionTop = () => {
 
           <PopoverContent
             align="end"
-            className="w-85 rounded-3xl p-5 shadow-2xl"
+            className="min-w-85 w-fit rounded-3xl p-5 shadow-2xl"
           >
             <LayoutDesignContext />
           </PopoverContent>
@@ -151,14 +153,24 @@ export default CustomizeOptionTop;
 
 const LayoutDesignContext = () => {
   const { layoutDesign: design, setLayoutDesign: setDesign } = useDesignStore();
+  const [bgColor, setBgColor] = useState(design.bgColor);
+
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (bgColor === design.bgColor) return;
+      setDesign({ bgColor: bgColor });
+    }, 500);
+
+    return () => clearTimeout(timeout); // cancel previous write
+  }, [bgColor]);
 
   return (
-    <div className="grid gap-4">
+    <div className="grid gap-4 max-h-[270px] overflow-y-auto">
       <div className="space-y-2">
         <h4 className="leading-none font-medium">Layout</h4>
         <p className="text-muted-foreground text-sm">Set the Form layout.</p>
       </div>
-      <div className="grid gap-2">
+      <div className="grid gap-2 md:gap-4 lg:gap-5">
         <div className="grid grid-cols-3 items-center gap-4">
           <Label htmlFor="text-align">Text Align</Label>
           <ToggleGroup
@@ -175,6 +187,7 @@ const LayoutDesignContext = () => {
           >
             {textAlignments.map((e) => (
               <ToggleGroupItem
+                key={e.value}
                 className="data-[state=on]:bg-zinc-900 text-xs data-[state=on]:text-white"
                 value={e.value}
               >
@@ -204,6 +217,24 @@ const LayoutDesignContext = () => {
               );
             })}
           </div>
+        </div>
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="bgColor">Background Color</Label>
+          <ColorPicker
+            hex={bgColor}
+            setHex={(val) => {
+              setBgColor(val);
+            }}
+            id="bgColor"
+          />
+        </div>
+        <div className="grid grid-cols-3 items-center text-center gap-4">
+          <Separator orientation="horizontal" /> Or
+          <Separator orientation="horizontal" />
+        </div>
+        <div className="grid items-center gap-4">
+          <Label>Background Image</Label>
+          <UploadImage />
         </div>
       </div>
     </div>
@@ -236,7 +267,7 @@ const ElementDesignContent = () => {
           Set the styles for the elements.
         </p>
       </div>
-      <div className="grid gap-2">
+      <div className="grid gap-2 md:gap-4 lg:gap-5">
         <div className="grid grid-cols-3 items-center gap-4">
           <Label htmlFor="element-style">Style</Label>
           <div

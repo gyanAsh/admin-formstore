@@ -14,7 +14,7 @@ const LandingForms = () => {
     <div className="flex flex-col items-center gap-4 w-full">
       <section
         className={cn(
-          "flex flex-col items-center w-full md:max-w-[80dvw] rounded-4xl min-h-[85dvh]",
+          "flex flex-col items-center w-full md:max-w-[80dvw] rounded-4xl h-[85dvh]",
           // "[background:radial-gradient(ellipse_at_bottom,_#94b2c2,_#5ea1c4,_#5ea1c4)]",
           "relative overflow-hidden",
           "px-4 text-blue-700/75s text-white border-2 border-blue-50"
@@ -24,6 +24,10 @@ const LandingForms = () => {
           <CustomizeOptionTop />
         </div>
         <div className="absolute inset-0 bg-[url('/homepage/desert.jpg')] bg-cover bg-center -z-1 brightness-85 contrast-95" />
+        {/* <img
+          src="/homepage/desert.jpg"
+          className="absolute object-contain object-center -z-1 brightness-85 contrast-95"
+        /> */}
         <FormContainer>
           <TextContainer>
             <div>

@@ -39,6 +39,7 @@ export interface ElementDesign {
 export interface LayoutDesign {
   textAlign: TextAlign["value"];
   elementSpacing: Spacing["value"];
+  bgColor: string;
 }
 
 // Define the overall state interface for the design properties
@@ -90,7 +91,8 @@ const defaultDesignState: DesignState = {
   },
   layoutDesign: {
     textAlign: "center",
-    elementSpacing: "4px",
+    elementSpacing: "12px",
+    bgColor: "#ffffff",
   },
 };
 
