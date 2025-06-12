@@ -2,8 +2,10 @@ package server
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
+	"slices"
 
 	"github.com/jackc/pgx/v5"
 )
@@ -25,6 +27,31 @@ type FormElementReq struct {
 type PublishFormReq struct {
 	FormID   int64            `json:"form_id"`
 	Elements []FormElementReq `json:"elements"`
+}
+
+func validateSeqNumber(elements []FormElementReq) error {
+	if len(elements) == 0 {
+		return fmt.Errorf("Empty Array")
+	}
+	if len(elements) >= 1000 {
+		return fmt.Errorf("Out of bounds: Max element count is 1000")
+	}
+	seqNumArray := make([]int32, 0)
+	for _, el := range elements {
+		if el.SeqNum < int32(1) {
+			return fmt.Errorf("Negative Number")
+		}
+		seqNumArray = append(seqNumArray, el.SeqNum)
+	}
+	slices.Sort(seqNumArray)
+	for i, x := range seqNumArray {
+		if x < int32(i+1) {
+			return fmt.Errorf("Duplicate Element: %d", x)
+		} else if x > int32(i+1) {
+			return fmt.Errorf("Missing Element: %d, Next Element: %d", i+1, x)
+		}
+	}
+	return nil
 }
 
 func (s *Service) formPublishHandler(w http.ResponseWriter, r *http.Request) {
