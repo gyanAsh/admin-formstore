@@ -20,23 +20,57 @@ const LandingForms = () => {
           "px-4 text-blue-700/75s text-white border-2 border-blue-50"
         )}
       >
-        <div className="bottom-0 absolute p-4 hover:-translate-y-3 transition-transform duration-200 ease-in-out">
+        <div className="bottom-0 absolute p-4 hover:-translate-y-3 transition-transform duration-100 ease-in-out hover:duration-300">
           <CustomizeOptionTop />
         </div>
         <div className="absolute inset-0 bg-[url('/homepage/desert.jpg')] bg-cover bg-center -z-1 brightness-85 contrast-95" />
-        <div className="grid grid-cols-1 items-center content-center gap-4 lg:gap-8 grow">
-          <div className="flex flex-col gap-3 md:gap-4 lg:gap-1 items-center place-content-center w-full max-w-[750px]">
-            <FormLabel />
-            <FormDescription />
-          </div>
+        <FormContainer>
+          <TextContainer>
+            <div>
+              <FormLabel />
+              <FormDescription />
+            </div>
+          </TextContainer>
           <FormInput />
-        </div>
+        </FormContainer>
       </section>
     </div>
   );
 };
 
 export default LandingForms;
+
+const FormContainer = ({ children }: React.ComponentProps<"div">) => {
+  const { layoutDesign: design } = useDesignStore();
+  const style: Record<string, string> & React.CSSProperties = {
+    "--space-gap": design.elementSpacing,
+  };
+
+  return (
+    <div
+      className="grid grid-cols-1 items-center content-center gap-[calc(var(--space-gap)_*_4)] grow"
+      style={style}
+    >
+      {children}
+    </div>
+  );
+};
+
+const TextContainer = ({ children }: React.ComponentProps<"div">) => {
+  const { layoutDesign: design } = useDesignStore();
+  const style: Record<string, string> & React.CSSProperties = {
+    "--text-align": design.textAlign,
+  };
+
+  return (
+    <div
+      className="[text-align:var(--text-align)] flex flex-col  items-center place-content-center w-full max-w-[750px]"
+      style={style}
+    >
+      {children}
+    </div>
+  );
+};
 
 const FormLabel = () => {
   const { labelDesign: design } = useDesignStore();
@@ -53,7 +87,7 @@ const FormLabel = () => {
 
   return (
     <h2
-      className="text-center whitespace-pre-line text-[calc(var(--sm-size))] md:text-[calc(var(--md-size))] lg:text-[calc(var(--size))] [color:var(--text-color)]
+      className="whitespace-pre-line text-[calc(var(--sm-size))] md:text-[calc(var(--md-size))] lg:text-[calc(var(--size))] [color:var(--text-color)]
       [line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] tracking-[var(--letter-space)]"
       style={style}
     >
@@ -78,7 +112,7 @@ const FormDescription = () => {
 
   return (
     <p
-      className="text-center whitespace-pre-line  text-[calc(var(--sm-size))] md:text-[calc(var(--md-size))] lg:text-[calc(var(--size))] [color:var(--text-color)]
+      className="whitespace-pre-line  text-[calc(var(--sm-size))] md:text-[calc(var(--md-size))] lg:text-[calc(var(--size))] [color:var(--text-color)]
       [line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] tracking-[var(--letter-space)]"
       style={style}
     >

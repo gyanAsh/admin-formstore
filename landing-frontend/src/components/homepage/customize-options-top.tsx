@@ -1,4 +1,4 @@
-import { cn, debounce } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Sketch } from "@uiw/react-color";
 
@@ -7,15 +7,12 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 import * as React from "react";
 import {
-  Bold,
   CaseLower,
   CaseSensitive,
   Check,
   ChevronsUpDown,
-  Component,
   Italic,
   LayoutDashboard,
-  Shapes,
   SquareDashedMousePointer,
 } from "lucide-react";
 import {
@@ -27,7 +24,6 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Label } from "../ui/label";
-import { Input } from "../ui/input";
 import type { PopoverTriggerProps } from "@radix-ui/react-popover";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 import {
@@ -37,84 +33,22 @@ import {
 } from "@/components/ui/tooltip";
 import {
   letterSpacings,
+  spacingSizes,
+  textAlignments,
   textFonts,
   textSizes,
   useDesignStore,
   type DescriptionDesign,
   type ElementDesign,
   type LabelDesign,
-  type LetterSpacing,
+  type LayoutDesign,
   type TextFont,
 } from "@/store/designStore";
 
-const tabs = [
-  { id: 1, title: "Label", code: "tab-1" },
-  { id: 2, title: "Description", code: "tab-2" },
-];
 const CustomizeOptionTop = () => {
   return (
     <>
       <section className="border border-zinc-400 bg-zinc-100 shadow-2xl w-[200px] flex rounded-3xl md:rounded-4xl overflow-hidden">
-        {/* <nav>
-          <ul className="flex gap-1 border-b border-zinc-950">
-            {tabs.map((item, idx) => (
-              <div key={idx} className="flex items-center gap-1">
-                {idx !== 0 && (
-                  <div className="text-xl text-muted-foreground">&bull;</div>
-                )}
-                <motion.li
-                  initial={false}
-                  onClick={() => setSelectedTab(item)}
-                  className={cn(
-                    "relative py-1.5 px-2 w-fit cursor-pointer font-bold   text-center   hover:bg-zinc-300/65 rounded-2xl",
-
-                    item === selectedTab ? "" : "text-muted-foreground/85 "
-                  )}
-                >
-                  <span className="">{item.title}</span>
-                  {item.id === selectedTab.id ? (
-                    <motion.div
-                      className="absolute  h-1 bottom-0 left-[8%] w-[84%]   rounded-t-2xl bg-primary"
-                      layoutId="underline"
-                      id="underline"
-                    />
-                  ) : null}
-                </motion.li>
-              </div>
-            ))}
-          </ul>
-        </nav>
-        <main className="flex flex-col p-2 grow">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={selectedTab ? selectedTab.id : "empty"}
-              initial={{ y: 10, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -10, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="grow mt-3"
-            >
-              {selectedTab.code === "tab-1" ? (
-                <div className="flex items-center flex-wrap gap-2">
-                  <div className="flex flex-col gap-2">
-                    <h1>Font-family:</h1>
-                    <ComboboxDemo />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <h1>Font-family:</h1>
-                    <ComboboxDemo />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <h1>Font-family:</h1>
-                    <ComboboxDemo />
-                  </div>
-                </div>
-              ) : selectedTab.code === "tab-2" ? (
-                <DesignContent />
-              ) : null}
-            </motion.div>
-          </AnimatePresence>
-        </main> */}
         <Popover modal>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -216,36 +150,60 @@ const CustomizeOptionTop = () => {
 export default CustomizeOptionTop;
 
 const LayoutDesignContext = () => {
+  const { layoutDesign: design, setLayoutDesign: setDesign } = useDesignStore();
+
   return (
     <div className="grid gap-4">
       <div className="space-y-2">
         <h4 className="leading-none font-medium">Layout</h4>
-        <p className="text-muted-foreground text-sm">Set the form layout.</p>
+        <p className="text-muted-foreground text-sm">Set the Form layout.</p>
       </div>
       <div className="grid gap-2">
         <div className="grid grid-cols-3 items-center gap-4">
-          <Label htmlFor="width">Width</Label>
-          <Input id="width" defaultValue="100%" className="col-span-2 h-8" />
+          <Label htmlFor="text-align">Text Align</Label>
+          <ToggleGroup
+            variant="outline"
+            id="text-align"
+            value={design.textAlign as LayoutDesign["textAlign"]}
+            onValueChange={(e) =>
+              setDesign({
+                textAlign: e as LayoutDesign["textAlign"],
+              })
+            }
+            className=" col-span-2 items-center flex-wrap inline-flex w-full"
+            type="single"
+          >
+            {textAlignments.map((e) => (
+              <ToggleGroupItem
+                className="data-[state=on]:bg-zinc-900 text-xs data-[state=on]:text-white"
+                value={e.value}
+              >
+                <e.icon />
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
         </div>
         <div className="grid grid-cols-3 items-center gap-4">
-          <Label htmlFor="maxWidth">Max. width</Label>
-          <Input
-            id="maxWidth"
-            defaultValue="300px"
-            className="col-span-2 h-8"
-          />
-        </div>
-        <div className="grid grid-cols-3 items-center gap-4">
-          <Label htmlFor="height">Height</Label>
-          <Input id="height" defaultValue="25px" className="col-span-2 h-8" />
-        </div>
-        <div className="grid grid-cols-3 items-center gap-4">
-          <Label htmlFor="maxHeight">Max. height</Label>
-          <Input
-            id="maxHeight"
-            defaultValue="none"
-            className="col-span-2 h-8"
-          />
+          <Label htmlFor="element-spacing">Spacing</Label>
+          <div
+            className=" col-span-2 flex items-center justify-between gap-1"
+            id="element-spacing"
+          >
+            {spacingSizes.map((space) => {
+              return (
+                <Button
+                  key={space.value}
+                  aria-selected={design.elementSpacing === space.value}
+                  className=" aria-[selected=true]:bg-zinc-900 aria-[selected=true]:text-zinc-50"
+                  variant={"outline"}
+                  size={"icon"}
+                  onClick={() => setDesign({ elementSpacing: space.value })}
+                >
+                  {space.name}
+                </Button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
@@ -374,7 +332,7 @@ const DescriptionDesignContent = () => {
       </div>
       <div className="grid gap-2 md:gap-4 lg:gap-5">
         <div className="grid grid-cols-3 items-center gap-4">
-          <Label htmlFor="fontFamily">Font family</Label>
+          <Label htmlFor="fontFamily">Font Family</Label>
 
           <ComboboxDemo
             value={design.family}
@@ -516,7 +474,7 @@ const LabelDesignContent = () => {
       </div>
       <div className="grid gap-2 md:gap-4 lg:gap-5">
         <div className="grid grid-cols-3 items-center gap-4">
-          <Label htmlFor="fontFamily">Font family</Label>
+          <Label htmlFor="fontFamily">Font Family</Label>
 
           <ComboboxDemo
             value={design.family}

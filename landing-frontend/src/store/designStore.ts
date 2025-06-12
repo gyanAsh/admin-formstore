@@ -1,3 +1,10 @@
+import { validHex } from "@uiw/react-color";
+import {
+  AlignCenter,
+  AlignLeft,
+  AlignRight,
+  type LucideIcon,
+} from "lucide-react";
 import { create } from "zustand";
 import { persist, devtools, createJSONStorage } from "zustand/middleware";
 
@@ -29,11 +36,17 @@ export interface ElementDesign {
   borderColor: string;
 }
 
+export interface LayoutDesign {
+  textAlign: TextAlign["value"];
+  elementSpacing: Spacing["value"];
+}
+
 // Define the overall state interface for the design properties
 interface DesignState {
   labelDesign: LabelDesign;
   descriptionDesign: DescriptionDesign;
   elementDesign: ElementDesign;
+  layoutDesign: LayoutDesign;
 }
 
 // Define the interface for the actions (functions) that modify the state : allows updating only some properties of Each-Design
@@ -43,6 +56,7 @@ interface DesignStoreActions {
     newDescriptionDesign: Partial<DescriptionDesign>
   ) => void;
   setElementDesign: (newElementDesign: Partial<ElementDesign>) => void;
+  setLayoutDesign: (newLayoutDesign: Partial<LayoutDesign>) => void;
 }
 
 // Combine the state and actions interfaces to define the full store type
@@ -74,6 +88,10 @@ const defaultDesignState: DesignState = {
     bgColor: "#ffffff",
     borderColor: "#ffffff",
   },
+  layoutDesign: {
+    textAlign: "center",
+    elementSpacing: "4px",
+  },
 };
 
 // --- Zustand Store Creation ---
@@ -99,6 +117,10 @@ export const useDesignStore = create<DesignStore>()(
         setElementDesign: (newElementDesign) =>
           set((state) => ({
             elementDesign: { ...state.elementDesign, ...newElementDesign },
+          })),
+        setLayoutDesign: (newLayoutDesign) =>
+          set((state) => ({
+            layoutDesign: { ...state.layoutDesign, ...newLayoutDesign },
           })),
       }),
       {
@@ -162,6 +184,36 @@ export const textSizes: TextSize[] = [
   },
   {
     value: "60px",
+    name: "xxl",
+  },
+];
+
+//--Spacing---//
+
+export interface Spacing {
+  value: "4px" | "8px" | "12px" | "16px" | "20px";
+  name: "sm" | "md" | "lg" | "xl" | "xxl";
+}
+
+export const spacingSizes: Spacing[] = [
+  {
+    value: "4px",
+    name: "sm",
+  },
+  {
+    value: "8px",
+    name: "md",
+  },
+  {
+    value: "12px",
+    name: "lg",
+  },
+  {
+    value: "16px",
+    name: "xl",
+  },
+  {
+    value: "20px",
     name: "xxl",
   },
 ];
@@ -235,5 +287,26 @@ export const letterSpacings: LetterSpacing[] = [
   {
     value: "0.1em",
     name: "Wider",
+  },
+];
+
+//---Letter Spacing---
+export interface TextAlign {
+  value: "left" | "center" | "right";
+  icon: LucideIcon;
+}
+
+export const textAlignments: TextAlign[] = [
+  {
+    value: "left",
+    icon: AlignLeft,
+  },
+  {
+    value: "center",
+    icon: AlignCenter,
+  },
+  {
+    value: "right",
+    icon: AlignRight,
   },
 ];
