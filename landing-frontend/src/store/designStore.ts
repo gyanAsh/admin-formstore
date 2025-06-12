@@ -68,31 +68,31 @@ type DesignStore = DesignState & DesignStoreActions;
 // Define the initial default state with type assertion
 const defaultDesignState: DesignState = {
   labelDesign: {
-    size: "60px",
-    family: '"IBM Plex Sans", sans-serif',
-    color: "#ffffff",
+    size: "48px",
+    family: '"IBM Plex Serif", serif',
+    color: "#417505",
     italics: false,
-    weight: "light",
-    letter_spacing: "-0.025em",
+    weight: "bold",
+    letter_spacing: "-0.05em",
   },
   descriptionDesign: {
     size: "20px",
     family: '"IBM Plex Serif", serif',
-    color: "#ffffff",
+    color: "#417505",
     italics: true,
     weight: "light",
     letter_spacing: "0em",
   },
   elementDesign: {
-    variant: "glass",
-    textColor: "#ffffff",
-    bgColor: "#ffffff",
-    borderColor: "#ffffff",
+    variant: "outline",
+    textColor: "#417505",
+    bgColor: "#417505",
+    borderColor: "#417505",
   },
   layoutDesign: {
     textAlign: "center",
     elementSpacing: "12px",
-    bgColor: "#000000",
+    bgColor: "#f8ea6f",
   },
 };
 
