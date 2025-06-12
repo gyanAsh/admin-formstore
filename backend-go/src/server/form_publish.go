@@ -56,9 +56,9 @@ func (s *Service) formPublishHandler(w http.ResponseWriter, r *http.Request) {
 	batch := &pgx.Batch{}
 	batch.Queue(`DELETE FROM form_elements WHERE form_id = $1`, form.FormID)
 	for _, element := range form.Elements {
-		batch.Queue(`INSERT INTO form_elements (type, label,
-			description, form_id, properties) VALUES ($1, $2, $3, $4, $5)`,
-			element.Type, element.Label.Title,
+		batch.Queue(`INSERT INTO form_elements (type, label, seq_number,
+			description, form_id, properties) VALUES ($1, $2, $3, $4, $5, $6)`,
+			element.Type, element.Label.Title, element.SeqNum,
 			element.Label.Description, form.FormID, element.Properties)
 	}
 	br := s.Conn.SendBatch(r.Context(), batch)
@@ -82,6 +82,11 @@ func (s *Service) formPublishHandler(w http.ResponseWriter, r *http.Request) {
 			})
 			return
 		}
+	}
+	if err = json.NewEncoder(w).Encode(map[string]any{
+		"message": "form successfull published",
+	}); err != nil {
+		log.Println(err)
 	}
 	return
 }
