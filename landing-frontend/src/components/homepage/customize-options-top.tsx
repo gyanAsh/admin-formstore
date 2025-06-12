@@ -14,6 +14,7 @@ import {
   ChevronsUpDown,
   Component,
   Italic,
+  LayoutDashboard,
   Shapes,
   SquareDashedMousePointer,
 } from "lucide-react";
@@ -117,16 +118,10 @@ const CustomizeOptionTop = () => {
             <TooltipTrigger asChild>
               <PopoverTrigger asChild>
                 <Button
-                  className="rounded-none bg-gradient-to-br not-hover:from-zinc-800  not-hover:to-zinc-900  hover:from-zinc-700 hover:to-zinc-600 not-hover:text-zinc-300/95"
+                  className="rounded-none bg-gradient-to-br not-hover:from-zinc-800  not-hover:to-zinc-900  hover:from-zinc-700 hover:to-zinc-600 not-hover:text-zinc-300/95
+                aria-[expanded=true]:from-zinc-700 aria-[expanded=true]:to-zinc-600"
                   effect={"none"}
                 >
-                  {/* <Button
-              effect={"none"}
-              variant="ghost"
-              className="rounded-none bg-yellow-200 hover:bg-zinc-950 hover:text-white h-fit w-1/2 md:w-1/4 data-[state=open]:bg-zinc-950 data-[state=open]:text-white text-base md:text-lg"
-            >
-              Label - <CaseSensitive className="size-7" />
-            </Button> */}
                   <CaseSensitive className="size-7" />
                 </Button>
               </PopoverTrigger>
@@ -147,16 +142,10 @@ const CustomizeOptionTop = () => {
             <TooltipTrigger asChild>
               <PopoverTrigger asChild>
                 <Button
-                  className="rounded-none bg-gradient-to-br not-hover:from-zinc-800  not-hover:to-zinc-900  hover:from-zinc-700 hover:to-zinc-600 not-hover:text-zinc-300/95"
+                  className="rounded-none bg-gradient-to-br not-hover:from-zinc-800  not-hover:to-zinc-900  hover:from-zinc-700 hover:to-zinc-600 not-hover:text-zinc-300/95
+                aria-[expanded=true]:from-zinc-700 aria-[expanded=true]:to-zinc-600"
                   effect={"none"}
                 >
-                  {/*  <Button
-              effect={"none"}
-              variant="ghost"
-              className="rounded-none bg-pink-200 hover:bg-zinc-950 hover:text-white h-fit w-1/2 md:w-1/4 data-[state=open]:bg-zinc-950 data-[state=open]:text-white text-base md:text-lg"
-            >
-              Description - <CaseLower className="size-7" />
-            </Button> */}
                   <CaseLower className="size-7" />
                 </Button>
               </PopoverTrigger>
@@ -175,17 +164,11 @@ const CustomizeOptionTop = () => {
             <TooltipTrigger asChild>
               <PopoverTrigger asChild>
                 <Button
-                  className="rounded-none bg-gradient-to-br not-hover:from-zinc-800  not-hover:to-zinc-900  hover:from-zinc-700 hover:to-zinc-600 not-hover:text-zinc-300/95"
+                  className="rounded-none bg-gradient-to-br not-hover:from-zinc-800  not-hover:to-zinc-900  hover:from-zinc-700 hover:to-zinc-600 not-hover:text-zinc-300/95
+                aria-[expanded=true]:from-zinc-700 aria-[expanded=true]:to-zinc-600"
                   effect={"none"}
                 >
-                  {/*        <Button
-              effect={"none"}
-              variant="ghost"
-              className="rounded-none bg-blue-200 hover:bg-zinc-950 hover:text-white h-fit w-1/2 md:w-1/4 data-[state=open]:bg-zinc-950 data-[state=open]:text-white text-base md:text-lg"
-            >
-              Elements - <Shapes className="size-6" />
-            </Button> */}
-                  <Shapes className="size-6" />
+                  <SquareDashedMousePointer className="size-6" />
                 </Button>
               </PopoverTrigger>
             </TooltipTrigger>
@@ -203,22 +186,16 @@ const CustomizeOptionTop = () => {
             <TooltipTrigger asChild>
               <PopoverTrigger asChild>
                 <Button
-                  className="rounded-none bg-gradient-to-br not-hover:from-zinc-800  not-hover:to-zinc-900  hover:from-zinc-700 hover:to-zinc-600 not-hover:text-zinc-300/95"
+                  className="rounded-none bg-gradient-to-br not-hover:from-zinc-800  not-hover:to-zinc-900  hover:from-zinc-700 hover:to-zinc-600 not-hover:text-zinc-300/95
+                aria-[expanded=true]:from-zinc-700 aria-[expanded=true]:to-zinc-600"
                   effect={"none"}
                 >
-                  {/*<Button
-              effect={"none"}
-              variant="ghost"
-              className="rounded-none bg-violet-200 hover:bg-zinc-950 hover:text-white h-fit w-1/2 md:w-1/4 data-[state=open]:bg-zinc-950 data-[state=open]:text-white text-base md:text-lg"
-            >
-              Background - <SquareDashedMousePointer className="size-6" />
-            </Button>*/}
-                  <SquareDashedMousePointer className="size-6" />
+                  <LayoutDashboard className="size-6" />
                 </Button>
               </PopoverTrigger>
             </TooltipTrigger>
             <TooltipContent>
-              <p>Background</p>
+              <p>Layout</p>
             </TooltipContent>
           </Tooltip>
 
@@ -226,48 +203,7 @@ const CustomizeOptionTop = () => {
             align="end"
             className="w-85 rounded-3xl p-5 shadow-2xl"
           >
-            <div className="grid gap-4">
-              <div className="space-y-2">
-                <h4 className="leading-none font-medium">Dimensions</h4>
-                <p className="text-muted-foreground text-sm">
-                  Set the dimensions for the layer.
-                </p>
-              </div>
-              <div className="grid gap-2">
-                <div className="grid grid-cols-3 items-center gap-4">
-                  <Label htmlFor="width">Width</Label>
-                  <Input
-                    id="width"
-                    defaultValue="100%"
-                    className="col-span-2 h-8"
-                  />
-                </div>
-                <div className="grid grid-cols-3 items-center gap-4">
-                  <Label htmlFor="maxWidth">Max. width</Label>
-                  <Input
-                    id="maxWidth"
-                    defaultValue="300px"
-                    className="col-span-2 h-8"
-                  />
-                </div>
-                <div className="grid grid-cols-3 items-center gap-4">
-                  <Label htmlFor="height">Height</Label>
-                  <Input
-                    id="height"
-                    defaultValue="25px"
-                    className="col-span-2 h-8"
-                  />
-                </div>
-                <div className="grid grid-cols-3 items-center gap-4">
-                  <Label htmlFor="maxHeight">Max. height</Label>
-                  <Input
-                    id="maxHeight"
-                    defaultValue="none"
-                    className="col-span-2 h-8"
-                  />
-                </div>
-              </div>
-            </div>
+            <LayoutDesignContext />
           </PopoverContent>
         </Popover>
       </section>
@@ -277,46 +213,67 @@ const CustomizeOptionTop = () => {
 
 export default CustomizeOptionTop;
 
+const LayoutDesignContext = () => {
+  return (
+    <div className="grid gap-4">
+      <div className="space-y-2">
+        <h4 className="leading-none font-medium">Layout</h4>
+        <p className="text-muted-foreground text-sm">Set the form layout.</p>
+      </div>
+      <div className="grid gap-2">
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="width">Width</Label>
+          <Input id="width" defaultValue="100%" className="col-span-2 h-8" />
+        </div>
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="maxWidth">Max. width</Label>
+          <Input
+            id="maxWidth"
+            defaultValue="300px"
+            className="col-span-2 h-8"
+          />
+        </div>
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="height">Height</Label>
+          <Input id="height" defaultValue="25px" className="col-span-2 h-8" />
+        </div>
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="maxHeight">Max. height</Label>
+          <Input
+            id="maxHeight"
+            defaultValue="none"
+            className="col-span-2 h-8"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const ElementDesignContent = () => {
   const { elementDesign: design, setElementDesign: setDesign } =
     useDesignStore();
 
   const [textColor, setTextColor] = useState(design.textColor);
 
-  React.useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (textColor === design.textColor) return;
-      setDesign({ textColor: textColor });
-    }, 500);
-
-    return () => clearTimeout(timeout); // cancel previous write
-  }, [textColor]);
   const [bgColor, setBgColor] = useState(design.bgColor);
-
-  React.useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (bgColor === design.bgColor) return;
-      setDesign({ bgColor: bgColor });
-    }, 500);
-
-    return () => clearTimeout(timeout); // cancel previous write
-  }, [bgColor]);
   const [borderColor, setBorderColor] = useState(design.borderColor);
-
   React.useEffect(() => {
     const timeout = setTimeout(() => {
-      if (borderColor === design.borderColor) return;
-      setDesign({ borderColor: borderColor });
+      if (textColor !== design.textColor) setDesign({ textColor: textColor });
+      if (bgColor !== design.bgColor) setDesign({ bgColor: bgColor });
+      if (borderColor !== design.borderColor)
+        setDesign({ borderColor: borderColor });
     }, 500);
 
     return () => clearTimeout(timeout); // cancel previous write
-  }, [borderColor]);
+  }, [textColor, bgColor, borderColor]);
   return (
     <div className="grid gap-4">
       <div className="space-y-2">
         <h4 className="leading-none font-medium">Elements</h4>
         <p className="text-muted-foreground text-sm">
-          Set the dimensions for the elements.
+          Set the styles for the elements.
         </p>
       </div>
       <div className="grid gap-2">
