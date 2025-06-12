@@ -36,12 +36,14 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import {
+  letterSpacings,
   textFonts,
   textSizes,
   useDesignStore,
   type DescriptionDesign,
   type ElementDesign,
   type LabelDesign,
+  type LetterSpacing,
   type TextFont,
 } from "@/store/designStore";
 
@@ -432,7 +434,7 @@ const DescriptionDesignContent = () => {
               onValueChange={(e) =>
                 setDesign({ weight: e as DescriptionDesign["weight"] })
               }
-              className="inline-flex"
+              className="inline-flex w-full"
               type="single"
             >
               <ToggleGroupItem
@@ -462,6 +464,30 @@ const DescriptionDesignContent = () => {
               </ToggleGroupItem>
             </ToggleGroup>
           </div>
+        </div>
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="letter-spacing">Letter Spacing</Label>
+          <ToggleGroup
+            variant="outline"
+            id="letter-spacing"
+            value={design.letter_spacing as DescriptionDesign["letter_spacing"]}
+            onValueChange={(e) =>
+              setDesign({
+                letter_spacing: e as DescriptionDesign["letter_spacing"],
+              })
+            }
+            className=" col-span-2 items-center w-full flex-wrap inline-flex"
+            type="single"
+          >
+            {letterSpacings.map((e) => (
+              <ToggleGroupItem
+                className="data-[state=on]:bg-zinc-900 text-xs data-[state=on]:text-white"
+                value={e.value}
+              >
+                {e.name}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
         </div>
       </div>
     </div>
@@ -580,6 +606,30 @@ const LabelDesignContent = () => {
               </ToggleGroupItem>
             </ToggleGroup>
           </div>
+        </div>
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="letter-spacing">Letter Spacing</Label>
+          <ToggleGroup
+            variant="outline"
+            id="letter-spacing"
+            value={design.letter_spacing as LabelDesign["letter_spacing"]}
+            onValueChange={(e) =>
+              setDesign({
+                letter_spacing: e as LabelDesign["letter_spacing"],
+              })
+            }
+            className=" col-span-2 items-center flex-wrap inline-flex"
+            type="single"
+          >
+            {letterSpacings.map((e) => (
+              <ToggleGroupItem
+                className="data-[state=on]:bg-zinc-900 text-xs data-[state=on]:text-white"
+                value={e.value}
+              >
+                {e.name}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
         </div>
       </div>
     </div>

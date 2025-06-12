@@ -48,12 +48,13 @@ const FormLabel = () => {
     "--weight": design.weight,
     "--text-color": design.color,
     "--italics": design.italics ? "italic" : "normal",
+    "--letter-space": design.letter_spacing,
   };
 
   return (
     <h2
       className="text-center whitespace-pre-line text-[calc(var(--sm-size))] md:text-[calc(var(--md-size))] lg:text-[calc(var(--size))] [color:var(--text-color)]
-      [line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] ztracking-tighter"
+      [line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] tracking-[var(--letter-space)]"
       style={style}
     >
       What should we call you?
@@ -72,12 +73,13 @@ const FormDescription = () => {
     "--weight": design.weight,
     "--text-color": design.color,
     "--italics": design.italics ? "italic" : "normal",
+    "--letter-space": design.letter_spacing,
   };
 
   return (
     <p
       className="text-center whitespace-pre-line  text-[calc(var(--sm-size))] md:text-[calc(var(--md-size))] lg:text-[calc(var(--size))] [color:var(--text-color)]
-      [line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)]"
+      [line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] tracking-[var(--letter-space)]"
       style={style}
     >
       This helps us address you professionally in future conversations or

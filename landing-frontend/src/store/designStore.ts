@@ -2,7 +2,7 @@
 // This file defines your Zustand store with TypeScript types and persistence.
 
 import { create } from "zustand";
-import { persist, devtools } from "zustand/middleware";
+import { persist, devtools, createJSONStorage } from "zustand/middleware";
 
 // --- TypeScript Interfaces ---
 
@@ -13,6 +13,7 @@ export interface LabelDesign {
   color: string;
   italics: boolean;
   weight: "light" | "normal" | "medium" | "bold"; // Specific string literal union for weight
+  letter_spacing: LetterSpacing["value"];
 }
 
 // Define the interface for the description design properties
@@ -22,6 +23,7 @@ export interface DescriptionDesign {
   color: string;
   italics: boolean;
   weight: "light" | "normal" | "medium" | "bold";
+  letter_spacing: LetterSpacing["value"];
 }
 
 export interface ElementDesign {
@@ -57,22 +59,24 @@ const defaultDesignState: DesignState = {
   labelDesign: {
     size: "60px",
     family: '"IBM Plex Sans", sans-serif',
-    color: "#fff",
+    color: "#ffffff",
     italics: false,
     weight: "light",
+    letter_spacing: "-0.025em",
   },
   descriptionDesign: {
     size: "20px",
     family: '"IBM Plex Serif", serif',
-    color: "#fff",
+    color: "#ffffff",
     italics: true,
     weight: "light",
+    letter_spacing: "0em",
   },
   elementDesign: {
     variant: "glass",
-    textColor: "#fff",
-    bgColor: "#000",
-    borderColor: "#fff",
+    textColor: "#ffffff",
+    bgColor: "#ffffff",
+    borderColor: "#ffffff",
   },
 };
 
@@ -107,6 +111,7 @@ export const useDesignStore = create<DesignStore>()(
       {
         // Configuration for the `persist` middleware: A unique string key for your storage item in localStorage
         name: "design-storage",
+        storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
       }
     ),
     {
@@ -142,6 +147,10 @@ export const maxSmTextSize: Record<TextSize["value"], string> = {
 export interface TextSize {
   value: "16px" | "20px" | "30px" | "48px" | "60px";
   name: "sm" | "md" | "lg" | "xl" | "xxl";
+}
+export interface LetterSpacing {
+  value: "-0.05em" | "-0.025em" | "0em" | "0.025em" | "0.1em";
+  name: "Tight" | "Tighter" | "Normal" | "Wide" | "Wider";
 }
 export const textSizes: TextSize[] = [
   {
@@ -209,5 +218,27 @@ export const textFonts: TextFont[] = [
   {
     value: '"IBM Plex Sans", sans-serif',
     label: "IBM Plex Sans",
+  },
+];
+
+//---Letter Spacing---
+
+export const letterSpacings: LetterSpacing[] = [
+  {
+    value: "-0.05em",
+    name: "Tighter",
+  },
+  {
+    value: "-0.025em",
+    name: "Tight",
+  },
+
+  {
+    value: "0.025em",
+    name: "Wide",
+  },
+  {
+    value: "0.1em",
+    name: "Wider",
   },
 ];
