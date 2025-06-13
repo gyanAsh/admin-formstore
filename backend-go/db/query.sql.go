@@ -26,7 +26,7 @@ SELECT
 	-- user
 	workspaces.user_id,
 	-- form elements (null values, due to left outer join)
-	form_elements.ID,
+	form_elements.seq_number,
 	form_elements.type,
 	form_elements.label,
 	form_elements.description,
@@ -46,7 +46,7 @@ WHERE
 AND
 	workspaces.user_id = $2
 ORDER BY
-	form_elements.ID
+	form_elements.form_id, form_elements.seq_number
 `
 
 type GetFormDataAndElementsParams struct {
@@ -64,7 +64,7 @@ type GetFormDataAndElementsRow struct {
 	CreatedAt_2 pgtype.Timestamp
 	UpdatedAt_2 pgtype.Timestamp
 	UserID      pgtype.UUID
-	ID_3        pgtype.Int4
+	SeqNumber   pgtype.Int4
 	Type        NullFormElementTypes
 	Label       pgtype.Text
 	Description pgtype.Text
@@ -90,7 +90,7 @@ func (q *Queries) GetFormDataAndElements(ctx context.Context, arg GetFormDataAnd
 			&i.CreatedAt_2,
 			&i.UpdatedAt_2,
 			&i.UserID,
-			&i.ID_3,
+			&i.SeqNumber,
 			&i.Type,
 			&i.Label,
 			&i.Description,

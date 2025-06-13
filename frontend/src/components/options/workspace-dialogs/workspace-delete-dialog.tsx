@@ -49,7 +49,7 @@ export function DeleteWorkspaceDialog({
       queryClient.invalidateQueries({ queryKey: ["api-workspace-forms"] });
       setOpenDialog(false);
       if (parseInt(String(params.workspaceId)) == parseInt(String(workspaceId))) {
-        navigate("/workspace");
+        navigate("/dashboard");
       }
     },
     onError: (err) => {

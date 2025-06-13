@@ -22,7 +22,7 @@ type Form struct {
 }
 
 type FormElement struct {
-	ID          int64          `json:"id"`
+	SeqNumber   int32          `json:"id"`
 	Type        string         `json:"type"`
 	Label       string         `json:"label"`
 	Description string         `json:"description"`
@@ -56,8 +56,8 @@ func parseFormDataAndElements(rows []db.GetFormDataAndElementsRow) FormData {
 		}
 
 		var element FormElement
-		if row.ID_3.Valid {
-			element.ID = int64(row.ID_3.Int32)
+		if row.SeqNumber.Valid {
+			element.SeqNumber = row.SeqNumber.Int32
 			val, err := row.Type.Value()
 			var ok bool
 			element.Type, ok = val.(string)

@@ -70,7 +70,6 @@ type Form struct {
 }
 
 type FormElement struct {
-	ID          int32
 	Type        FormElementTypes
 	SeqNumber   int32
 	Label       pgtype.Text
