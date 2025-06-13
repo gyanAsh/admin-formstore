@@ -155,11 +155,11 @@ const CustomizeOptionTop = () => {
       <Menubar className="bg-black w-fit gap-0 p-0 rounded-3xl md:rounded-4xl overflow-hidden">
         <MenubarMenu>
           <Tooltip>
-            <TooltipTrigger>
-              <MenubarTrigger className="rounded-none overflow-hidden">
+            <MenubarTrigger asChild className="rounded-none overflow-hidden">
+              <TooltipTrigger>
                 <CaseSensitive className="size-7" />
-              </MenubarTrigger>
-            </TooltipTrigger>
+              </TooltipTrigger>
+            </MenubarTrigger>
             <TooltipContent>
               <p>Label</p>
             </TooltipContent>
@@ -174,11 +174,11 @@ const CustomizeOptionTop = () => {
         <Separator orientation="vertical" className="bg-muted-foreground" />
         <MenubarMenu>
           <Tooltip>
-            <TooltipTrigger>
-              <MenubarTrigger className="rounded-none overflow-hidden">
+            <MenubarTrigger asChild className="rounded-none overflow-hidden">
+              <TooltipTrigger>
                 <CaseLower className="size-7" />
-              </MenubarTrigger>
-            </TooltipTrigger>
+              </TooltipTrigger>
+            </MenubarTrigger>
             <TooltipContent>
               <p>Description</p>
             </TooltipContent>
@@ -193,11 +193,11 @@ const CustomizeOptionTop = () => {
         <Separator orientation="vertical" className="bg-muted-foreground" />
         <MenubarMenu>
           <Tooltip>
-            <TooltipTrigger>
-              <MenubarTrigger className="rounded-none overflow-hidden">
+            <MenubarTrigger asChild className="rounded-none overflow-hidden">
+              <TooltipTrigger>
                 <SquareDashedMousePointer className="size-7 scale-80" />
-              </MenubarTrigger>
-            </TooltipTrigger>
+              </TooltipTrigger>
+            </MenubarTrigger>
             <TooltipContent>
               <p>Element</p>
             </TooltipContent>
@@ -212,11 +212,11 @@ const CustomizeOptionTop = () => {
         <Separator orientation="vertical" className="bg-muted-foreground" />
         <MenubarMenu>
           <Tooltip>
-            <TooltipTrigger>
-              <MenubarTrigger className="rounded-none overflow-hidden">
+            <MenubarTrigger asChild className="rounded-none overflow-hidden">
+              <TooltipTrigger>
                 <LayoutDashboard className="size-7 scale-80" />
-              </MenubarTrigger>
-            </TooltipTrigger>
+              </TooltipTrigger>
+            </MenubarTrigger>
             <TooltipContent>
               <p>Layout</p>
             </TooltipContent>
@@ -554,6 +554,7 @@ const DescriptionDesignContent = () => {
           >
             {letterSpacings.map((e) => (
               <ToggleGroupItem
+                key={e.value}
                 className="data-[state=on]:bg-zinc-900 text-xs data-[state=on]:text-white"
                 value={e.value}
               >
@@ -632,8 +633,8 @@ const LabelDesignContent = () => {
           />
         </div>
         <div className="grid grid-cols-3 items-center gap-4">
-          <Label htmlFor="height">Styles</Label>
-          <div className=" col-span-2 flex items-center gap-1" id="textSize">
+          <Label htmlFor="text-style">Styles</Label>
+          <div className=" col-span-2 flex items-center gap-1" id="text-style">
             <Button
               aria-selected={design.italics}
               className="aria-[selected=true]:bg-zinc-900 aria-[selected=true]:text-zinc-50"
@@ -649,7 +650,7 @@ const LabelDesignContent = () => {
               onValueChange={(e) =>
                 setDesign({ weight: e as LabelDesign["weight"] })
               }
-              className="inline-flex"
+              className="inline-flex w-full"
               type="single"
             >
               <ToggleGroupItem
@@ -696,6 +697,7 @@ const LabelDesignContent = () => {
           >
             {letterSpacings.map((e) => (
               <ToggleGroupItem
+                key={e.name}
                 className="data-[state=on]:bg-zinc-900 text-xs data-[state=on]:text-white"
                 value={e.value}
               >
