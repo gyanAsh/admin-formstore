@@ -70,7 +70,7 @@ export default function Workspace() {
                 otherPageLinks={[
                   {
                     name: "Dashboard",
-                    path: "/workspace",
+                    path: "/dashboard",
                   },
                 ]}
               />
@@ -209,7 +209,7 @@ export default function Workspace() {
                             onClick={() => {
                               // navigate(`/workspace/${workspaceId}/${form.id}`);
                               navigate(
-                                `/workspace/${workspaceId}/${form.id}/create`,
+                                `/dashboard/${workspaceId}/${form.id}/create`,
                               );
                             }}
                             asChild

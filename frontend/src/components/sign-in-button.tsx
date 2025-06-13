@@ -152,7 +152,7 @@ export default function SignInButton({
     onSuccess: (data) => {
       localStorage.setItem("auth-token", data?.jwt_token);
       toast.success("You are now logged in. Start exploring your dashboard!");
-      navigate("/workspace");
+      navigate("/dashboard");
       setOpenDialog(false);
     },
     onError: (error) => {
@@ -192,7 +192,7 @@ export default function SignInButton({
     onSuccess: (data) => {
       localStorage.setItem("auth-token", data?.jwt_token);
       toast.success("You are now logged in. Start exploring your dashboard!");
-      navigate("/workspace");
+      navigate("/dashboard");
       setOpenDialog(false);
     },
     onError: (error) => {
@@ -309,7 +309,7 @@ export default function SignInButton({
               <section className="flex items-center gap-3.5">
                 <Button
                   className="rounded-full w-1/2"
-                  onClick={() => navigate("/workspace")}
+                  onClick={() => navigate("/dashboard")}
                 >
                   Login as {userLoginData?.username}
                 </Button>

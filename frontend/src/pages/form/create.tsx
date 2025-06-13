@@ -69,13 +69,13 @@ export default function CreateForm() {
                 otherPageLinks={[
                   {
                     name: "Dashboard",
-                    path: "/workspace",
+                    path: "/dashboard",
                   },
                   {
                     name:
                       formData?.workspace?.name ||
                       `Workspace: ID${workspaceId}`,
-                    path: `/workspace/${workspaceId}`,
+                    path: `/dashboard/${workspaceId}`,
                   },
                 ]}
               />

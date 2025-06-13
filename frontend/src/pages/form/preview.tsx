@@ -180,7 +180,7 @@ const PreviewFormPage = ({
           effect={"small_scale"}
           asChild
         >
-          <Link to={`/workspace/${workspaceId}/${formId}/create`}>
+          <Link to={`/dashboard/${workspaceId}/${formId}/create`}>
             <ChevronLeft className="size-7 group-hover:-translate-x-2 duration-250 ease-linear" />
             Go Back{" "}
           </Link>
