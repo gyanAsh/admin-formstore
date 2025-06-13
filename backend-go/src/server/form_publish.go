@@ -31,24 +31,24 @@ type PublishFormReq struct {
 
 func validateSeqNumber(elements []FormElementReq) error {
 	if len(elements) == 0 {
-		return fmt.Errorf("Empty Array")
+		return fmt.Errorf("empty array")
 	}
 	if len(elements) >= 1000 {
-		return fmt.Errorf("Out of bounds: Max element count is 1000")
+		return fmt.Errorf("out of bounds: max element count is 1000")
 	}
 	seqNumArray := make([]int32, 0)
 	for _, el := range elements {
 		if el.SeqNum < int32(1) {
-			return fmt.Errorf("Negative Number")
+			return fmt.Errorf("negative number")
 		}
 		seqNumArray = append(seqNumArray, el.SeqNum)
 	}
 	slices.Sort(seqNumArray)
 	for i, x := range seqNumArray {
 		if x < int32(i+1) {
-			return fmt.Errorf("Duplicate Element: %d", x)
+			return fmt.Errorf("duplicate element: %d", x)
 		} else if x > int32(i+1) {
-			return fmt.Errorf("Missing Element: %d, Next Element: %d", i+1, x)
+			return fmt.Errorf("missing element: %d, next element: %d", i+1, x)
 		}
 	}
 	return nil
@@ -115,5 +115,4 @@ func (s *Service) formPublishHandler(w http.ResponseWriter, r *http.Request) {
 	}); err != nil {
 		log.Println(err)
 	}
-	return
 }
