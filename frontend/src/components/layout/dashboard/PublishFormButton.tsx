@@ -59,6 +59,7 @@ export default function PublishFormButton({ formId }: { formId: number }) {
     });
     const data = await res.json();
     console.log(data);
+    setOpenDialog(false);
   }
 
   return (
