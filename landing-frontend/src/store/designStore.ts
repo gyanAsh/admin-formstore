@@ -37,7 +37,7 @@ export interface ElementDesign {
 }
 
 export interface LayoutDesign {
-  textAlign: TextAlign["value"];
+  layoutAlign: LayoutAlign["value"];
   elementSpacing: Spacing["value"];
   bgColor: string;
 }
@@ -90,7 +90,7 @@ const defaultDesignState: DesignState = {
     borderColor: "#417505",
   },
   layoutDesign: {
-    textAlign: "center",
+    layoutAlign: "center",
     elementSpacing: "12px",
     bgColor: "#f8ea6f",
   },
@@ -293,12 +293,12 @@ export const letterSpacings: LetterSpacing[] = [
 ];
 
 //---Letter Spacing---
-export interface TextAlign {
+export interface LayoutAlign {
   value: "left" | "center" | "right";
   icon: LucideIcon;
 }
 
-export const textAlignments: TextAlign[] = [
+export const layoutAlignments: LayoutAlign[] = [
   {
     value: "left",
     icon: AlignLeft,
@@ -312,3 +312,10 @@ export const textAlignments: TextAlign[] = [
     icon: AlignRight,
   },
 ];
+
+//--Align-Content--//
+export const justifyContent: Record<LayoutAlign["value"], string> = {
+  center: "center",
+  left: "flex-start",
+  right: "flex-end",
+};

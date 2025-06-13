@@ -32,9 +32,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import {
+  layoutAlignments,
   letterSpacings,
   spacingSizes,
-  textAlignments,
   textFonts,
   textSizes,
   useDesignStore,
@@ -256,20 +256,20 @@ const LayoutDesignContext = () => {
       </div>
       <div className="grid gap-2 md:gap-4 lg:gap-5">
         <div className="grid grid-cols-3 items-center gap-4">
-          <Label htmlFor="text-align">Text Align</Label>
+          <Label htmlFor="layout-align">Align Content</Label>
           <ToggleGroup
             variant="outline"
-            id="text-align"
-            value={design.textAlign as LayoutDesign["textAlign"]}
+            id="layout-align"
+            value={design.layoutAlign as LayoutDesign["layoutAlign"]}
             onValueChange={(e) =>
               setDesign({
-                textAlign: e as LayoutDesign["textAlign"],
+                layoutAlign: e as LayoutDesign["layoutAlign"],
               })
             }
             className=" col-span-2 items-center flex-wrap inline-flex w-full"
             type="single"
           >
-            {textAlignments.map((e) => (
+            {layoutAlignments.map((e) => (
               <ToggleGroupItem
                 key={e.value}
                 className="data-[state=on]:bg-zinc-900 text-xs data-[state=on]:text-white"
@@ -283,7 +283,7 @@ const LayoutDesignContext = () => {
         <div className="grid grid-cols-3 items-center gap-4">
           <Label htmlFor="element-spacing">Spacing</Label>
           <div
-            className=" col-span-2 flex items-center justify-between gap-1"
+            className=" col-span-2 flex items-center justify-between"
             id="element-spacing"
           >
             {spacingSizes.map((space) => {
@@ -364,7 +364,7 @@ const ElementDesignContent = () => {
               onValueChange={(e) =>
                 setDesign({ variant: e as ElementDesign["variant"] })
               }
-              className="inline-flex"
+              className="inline-flex w-full"
               type="single"
             >
               <ToggleGroupItem

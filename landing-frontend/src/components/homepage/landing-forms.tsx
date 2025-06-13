@@ -1,8 +1,9 @@
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
-import React, { createContext, useState } from "react";
+import React from "react";
 import CustomizeOptionTop from "./customize-options-top";
 import {
+  justifyContent,
   maxMdTextSize,
   maxSmTextSize,
   textSizeLineHeight,
@@ -28,7 +29,9 @@ const LandingForms = () => {
               <FormDescription />
             </div>
           </TextContainer>
-          <FormInput />
+          <InputContainer>
+            <FormInput />
+          </InputContainer>
         </FormContainer>
       </FormCardContainer>
     </div>
@@ -76,12 +79,28 @@ const FormContainer = ({ children }: React.ComponentProps<"div">) => {
 const TextContainer = ({ children }: React.ComponentProps<"div">) => {
   const { layoutDesign: design } = useDesignStore();
   const style: Record<string, string> & React.CSSProperties = {
-    "--text-align": design.textAlign,
+    "--layout-align": design.layoutAlign,
   };
 
   return (
     <div
-      className="[text-align:var(--text-align)] flex flex-col  items-center place-content-center w-full max-w-[750px]"
+      className="[text-align:var(--layout-align)] flex flex-col items-center place-content-center w-full max-w-[750px]"
+      style={style}
+    >
+      {children}
+    </div>
+  );
+};
+
+const InputContainer = ({ children }: React.ComponentProps<"div">) => {
+  const { layoutDesign: design } = useDesignStore();
+  const style: Record<string, string> & React.CSSProperties = {
+    "--layout-align": justifyContent[design.layoutAlign],
+  };
+
+  return (
+    <div
+      className=" flex [justify-content:var(--layout-align)] w-full max-w-[750px]"
       style={style}
     >
       {children}
