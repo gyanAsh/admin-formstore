@@ -16,7 +16,7 @@ func checkValidUUID(uuid_str string) error {
 		return err
 	}
 	if !re.MatchString(uuid_str) {
-		return fmt.Errorf("Validation failed: user id - uuid match failed")
+		return fmt.Errorf("validation failed: user id - uuid match failed")
 	}
 	return nil
 }
@@ -44,6 +44,9 @@ func parseAuthToken(tokenString string, signedSecret []byte) (string, error) {
 		return "", fmt.Errorf("failed to parse claims with Error: failed to parse user_id to string")
 	}
 	userID, ok := claims["user_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("failed to parse claim to string")
+	}
 	if _, err = convertUUIDStringToBin(userID); err != nil {
 		return "", err
 	}
@@ -59,7 +62,7 @@ func convertUUIDStringToBin(uuid_str string) ([16]byte, error) {
 		return [16]byte{}, err
 	}
 	if len(data) != 16 {
-		return [16]byte{}, fmt.Errorf("Failed to convert uuid string to byte: Invalid length")
+		return [16]byte{}, fmt.Errorf("failed to convert uuid string to byte: invalid length")
 	}
 	return [16]byte(data), nil
 }

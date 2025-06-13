@@ -115,5 +115,4 @@ func (s *Service) formPublishHandler(w http.ResponseWriter, r *http.Request) {
 	}); err != nil {
 		log.Println(err)
 	}
-	return
 }

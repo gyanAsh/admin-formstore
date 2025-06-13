@@ -33,10 +33,10 @@ func HttpServiceStart() error {
 		log.Fatal(err)
 	}
 	pool, err := pgxpool.New(context.Background(), os.Getenv("DATABASE_URL"))
-	defer pool.Close()
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer pool.Close()
 	jwtSecret := os.Getenv("JWT_SECRET")
 	if jwtSecret == "" {
 		log.Fatalf("failed to load JWT_SECRET: %s", jwtSecret)
