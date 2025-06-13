@@ -11,7 +11,7 @@ import { SidebarTriggerButton } from "../workspace";
 import PublishFormButton from "@/components/layout/dashboard/PublishFormButton";
 import { AnimatePresence } from "motion/react";
 import * as motion from "motion/react-client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { AddFormElement } from "@/components/add-form-element";
 import { addForm } from "@/store/forms/form-elements";
 import { FormElementPreview } from "@/components/preview-form-elements";

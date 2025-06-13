@@ -25,7 +25,14 @@ export default function PublishFormButton({ formId }: { formId: number }) {
   const [openDialog, setOpenDialog] = useState(false);
 
   async function publishFormHandler() {
-    const formData = getFormElementsById(formId);
+    const formData = getFormElementsById(String(formId));
+    if (
+      !formData.elements ||
+      typeof formData.elements != "object" ||
+      !Array.isArray(formData.elements)
+    ) {
+      return;
+    }
     const retFormData = {
       form_id: formId,
       design: formData.design,
@@ -41,7 +48,7 @@ export default function PublishFormButton({ formId }: { formId: number }) {
     const res = await fetch(`/api/form/publish`, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${getAuthToken()}`,
+        Authorization: `Bearer ${getAuthToken()}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(retFormData),
