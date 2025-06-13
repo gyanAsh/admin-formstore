@@ -73,7 +73,7 @@ const defaultDesignState: DesignState = {
   labelDesign: {
     size: "48px",
     family: '"IBM Plex Serif", serif',
-    color: "#417505",
+    color: "#f2f7fcff",
     italics: false,
     weight: "bold",
     letter_spacing: "-0.05em",
@@ -81,23 +81,23 @@ const defaultDesignState: DesignState = {
   descriptionDesign: {
     size: "20px",
     family: '"IBM Plex Serif", serif',
-    color: "#417505",
+    color: "#f2f7fcff",
     italics: true,
     weight: "light",
     letter_spacing: "0em",
   },
   elementDesign: {
-    variant: "solid",
+    variant: "glass",
     textColor: "#ffffffff",
-    bgColor: "#4175055c",
-    borderColor: "#417505",
+    bgColor: "#f2f7fcff",
+    borderColor: "#ffffffff",
   },
   layoutDesign: {
     layoutAlign: "center",
     elementSpacing: "12px",
     bgType: "image",
-    bgSolidValue: { color: "#f8ea6f" },
-    bgImageValue: { imageUrl: "/homepage/cactus.jpg" },
+    bgSolidValue: { color: "#000000" },
+    bgImageValue: { imageUrl: "/homepage/desert.jpg" },
     bgCustomValue: {
       value: `radial-gradient(at 64.60129310344827% 44.79166666666667%, #ccf62c 0px, transparent 50%),
                  radial-gradient(at 77% 4%, #98c74e 0px, transparent 50%),

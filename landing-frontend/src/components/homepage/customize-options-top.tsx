@@ -318,13 +318,24 @@ const LayoutDesignContext = () => {
         </div>
         <div className="grid grid-cols-3 items-center gap-4">
           <Label htmlFor="bgType">Background Type</Label>
-          <BackgroundComboBox
-            value={design.bgType}
-            setValue={(val) => {
-              setDesign({ bgType: val as BgType["type"] });
-            }}
-            id="bgType"
-          />
+          <div className="flex col-span-2 items-center flex-wrap gap-2">
+            {bgTypes.map((bg) => {
+              return (
+                <Button
+                  key={bg.type}
+                  data-state={bg.type === design.bgType}
+                  className="data-[state=true]:bg-black data-[state=true]:text-white"
+                  variant={"outline"}
+                  onClick={() => {
+                    if (bg.type === design.bgType) return;
+                    setDesign({ bgType: bg.type });
+                  }}
+                >
+                  {bg.label}
+                </Button>
+              );
+            })}
+          </div>
         </div>
         {typeof design.bgType === "string" && (
           <div className="grid grid-cols-3 text-center items-center gap-4">

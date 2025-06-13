@@ -17,7 +17,7 @@ const LandingForms = () => {
         <div className="bottom-0 absolute p-4 transition-transform duration-100 ease-in-out hover:duration-300">
           <CustomizeOptionTop />
         </div>
-        {/* <div className="absolute inset-0 bg-[url('/homepage/desert.jpg')] bg-cover bg-center -z-1 brightness-85 contrast-95" /> */}
+        {/* <div className="absolute inset-0 bg-[url('/homepage/cactus.jpg')] bg-cover bg-center -z-1 brightness-85 contrast-95" /> */}
         {/* <img
           src="/homepage/desert.jpg"
           className="absolute object-contain object-center -z-1 brightness-85 contrast-95"
@@ -64,7 +64,7 @@ const FormCardContainer = ({ children }: React.ComponentProps<"section">) => {
         <div className="absolute inset-0 [background:var(--bg-custom)] bg-cover bg-center -z-1 zbrightness-85 zcontrast-95" />
       )}
       {design.bgType === "image" && (
-        <div className="absolute inset-0 [background:var(--bg-img)] bg-contain bg-center -z-1 zbrightness-85 zcontrast-95" />
+        <div className="absolute inset-0 [background-image:var(--bg-img)] bg-cover bg-center -z-1 zbrightness-85 zcontrast-95" />
       )}
 
       {children}
