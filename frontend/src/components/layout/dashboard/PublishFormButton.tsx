@@ -21,17 +21,6 @@ export const createFormSchema = z.object({
   }),
 });
 
-function convertToTypedKeys(obj: Object<any>) {
-  const out = [];
-  if (!obj) {
-    return out;
-  }
-  for (const [key, value] of Object.entries(obj)) {
-    out.push({ type: key, value: value });
-  }
-  return out;
-}
-
 export default function PublishFormButton({ formId }: { formId: number }) {
   const [openDialog, setOpenDialog] = useState(false);
 
