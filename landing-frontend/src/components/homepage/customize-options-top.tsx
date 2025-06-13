@@ -16,6 +16,7 @@ import {
   Italic,
   LayoutDashboard,
   SquareDashedMousePointer,
+  WandSparkles,
 } from "lucide-react";
 import {
   Command,
@@ -164,84 +165,101 @@ const CustomizeOptionTop = () => {
           </PopoverContent>
         </Popover>
       </section> */}
-
-      <Menubar className="bg-black w-fit gap-0 p-0 rounded-3xl md:rounded-4xl overflow-hidden">
-        <MenubarMenu>
+      <section className="relative">
+        <Menubar className="bg-black w-fit gap-0 p-0 rounded-3xl md:rounded-4xl overflow-hidden">
+          <MenubarMenu>
+            <Tooltip>
+              <MenubarTrigger asChild className="rounded-none overflow-hidden">
+                <TooltipTrigger>
+                  <CaseSensitive className="size-7" />
+                </TooltipTrigger>
+              </MenubarTrigger>
+              <TooltipContent>
+                <p>Label</p>
+              </TooltipContent>
+            </Tooltip>
+            <MenubarContent
+              align="center"
+              className="w-85 cursor-pointer rounded-3xl p-5 shadow-2xl"
+            >
+              <LabelDesignContent />
+            </MenubarContent>
+          </MenubarMenu>
+          <Separator orientation="vertical" className="bg-muted-foreground" />
+          <MenubarMenu>
+            <Tooltip>
+              <MenubarTrigger asChild className="rounded-none overflow-hidden">
+                <TooltipTrigger>
+                  <CaseLower className="size-7" />
+                </TooltipTrigger>
+              </MenubarTrigger>
+              <TooltipContent>
+                <p>Description</p>
+              </TooltipContent>
+            </Tooltip>
+            <MenubarContent
+              align="center"
+              className="w-85 cursor-pointer rounded-3xl p-5 shadow-2xl"
+            >
+              <DescriptionDesignContent />
+            </MenubarContent>
+          </MenubarMenu>
+          <Separator orientation="vertical" className="bg-muted-foreground" />
+          <MenubarMenu>
+            <Tooltip>
+              <MenubarTrigger asChild className="rounded-none overflow-hidden">
+                <TooltipTrigger>
+                  <SquareDashedMousePointer className="size-7 scale-80" />
+                </TooltipTrigger>
+              </MenubarTrigger>
+              <TooltipContent>
+                <p>Element</p>
+              </TooltipContent>
+            </Tooltip>
+            <MenubarContent
+              align="center"
+              className="w-85 cursor-pointer rounded-3xl p-5 shadow-2xl"
+            >
+              <ElementDesignContent />
+            </MenubarContent>
+          </MenubarMenu>
+          <Separator orientation="vertical" className="bg-muted-foreground" />
+          <MenubarMenu>
+            <Tooltip>
+              <MenubarTrigger asChild className="rounded-none overflow-hidden">
+                <TooltipTrigger>
+                  <LayoutDashboard className="size-7 scale-80" />
+                </TooltipTrigger>
+              </MenubarTrigger>
+              <TooltipContent>
+                <p>Layout</p>
+              </TooltipContent>
+            </Tooltip>
+            <MenubarContent
+              align="center"
+              className="w-85 cursor-pointer rounded-3xl p-5 shadow-2xl"
+            >
+              <LayoutDesignContext />
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>
+        <div className="absolute -right-12 top-0">
           <Tooltip>
-            <MenubarTrigger asChild className="rounded-none overflow-hidden">
-              <TooltipTrigger>
-                <CaseSensitive className="size-7" />
-              </TooltipTrigger>
-            </MenubarTrigger>
+            <TooltipTrigger asChild>
+              <Button
+                variant={"outline"}
+                size={"icon"}
+                className=" rounded-full overflow-hidden border  text-black border-black/75 "
+              >
+                <WandSparkles />
+              </Button>
+            </TooltipTrigger>
             <TooltipContent>
-              <p>Label</p>
+              <p>Themes</p>
             </TooltipContent>
           </Tooltip>
-          <MenubarContent
-            align="center"
-            className="w-85 cursor-pointer rounded-3xl p-5 shadow-2xl"
-          >
-            <LabelDesignContent />
-          </MenubarContent>
-        </MenubarMenu>
-        <Separator orientation="vertical" className="bg-muted-foreground" />
-        <MenubarMenu>
-          <Tooltip>
-            <MenubarTrigger asChild className="rounded-none overflow-hidden">
-              <TooltipTrigger>
-                <CaseLower className="size-7" />
-              </TooltipTrigger>
-            </MenubarTrigger>
-            <TooltipContent>
-              <p>Description</p>
-            </TooltipContent>
-          </Tooltip>
-          <MenubarContent
-            align="center"
-            className="w-85 cursor-pointer rounded-3xl p-5 shadow-2xl"
-          >
-            <DescriptionDesignContent />
-          </MenubarContent>
-        </MenubarMenu>
-        <Separator orientation="vertical" className="bg-muted-foreground" />
-        <MenubarMenu>
-          <Tooltip>
-            <MenubarTrigger asChild className="rounded-none overflow-hidden">
-              <TooltipTrigger>
-                <SquareDashedMousePointer className="size-7 scale-80" />
-              </TooltipTrigger>
-            </MenubarTrigger>
-            <TooltipContent>
-              <p>Element</p>
-            </TooltipContent>
-          </Tooltip>
-          <MenubarContent
-            align="center"
-            className="w-85 cursor-pointer rounded-3xl p-5 shadow-2xl"
-          >
-            <ElementDesignContent />
-          </MenubarContent>
-        </MenubarMenu>
-        <Separator orientation="vertical" className="bg-muted-foreground" />
-        <MenubarMenu>
-          <Tooltip>
-            <MenubarTrigger asChild className="rounded-none overflow-hidden">
-              <TooltipTrigger>
-                <LayoutDashboard className="size-7 scale-80" />
-              </TooltipTrigger>
-            </MenubarTrigger>
-            <TooltipContent>
-              <p>Layout</p>
-            </TooltipContent>
-          </Tooltip>
-          <MenubarContent
-            align="center"
-            className="w-85 cursor-pointer rounded-3xl p-5 shadow-2xl"
-          >
-            <LayoutDesignContext />
-          </MenubarContent>
-        </MenubarMenu>
-      </Menubar>
+        </div>
+      </section>
     </>
   );
 };
