@@ -43,7 +43,11 @@ export default LandingForms;
 const FormCardContainer = ({ children }: React.ComponentProps<"section">) => {
   const { layoutDesign: design } = useDesignStore();
   const style: Record<string, string> & React.CSSProperties = {
-    "--bg-color": design.bgColor,
+    "--bg-color":
+      (design.bgType === "solid" && design.bgSolidValue?.color) ||
+      "transparent",
+    "--bg-custom": `${design.bgCustomValue?.value}`,
+    "--bg-img": `url(${design.bgImageValue?.imageUrl})`,
   };
 
   return (
@@ -56,6 +60,13 @@ const FormCardContainer = ({ children }: React.ComponentProps<"section">) => {
       )}
       style={style}
     >
+      {design.bgType === "custom" && (
+        <div className="absolute inset-0 [background:var(--bg-custom)] bg-cover bg-center -z-1 zbrightness-85 zcontrast-95" />
+      )}
+      {design.bgType === "image" && (
+        <div className="absolute inset-0 [background:var(--bg-img)] bg-contain bg-center -z-1 zbrightness-85 zcontrast-95" />
+      )}
+
       {children}
     </section>
   );

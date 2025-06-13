@@ -2,8 +2,13 @@ import { AlertCircleIcon, ImageIcon, UploadIcon, XIcon } from "lucide-react";
 
 import { useFileUpload } from "@/hooks/use-file-upload";
 import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
 
-export default function UploadImage() {
+export default function UploadImage({
+  sendImgUrl,
+}: {
+  sendImgUrl: (url: string) => void;
+}) {
   const maxSizeMB = 2;
   const maxSize = maxSizeMB * 1024 * 1024; // 2MB default
 
@@ -24,7 +29,10 @@ export default function UploadImage() {
   });
   const previewUrl = files[0]?.preview || null;
   const fileName = files[0]?.file.name || null;
-
+  useEffect(() => {
+    if (!previewUrl) return;
+    sendImgUrl(previewUrl);
+  }, [previewUrl]);
   return (
     <div className="flex flex-col gap-2">
       <div className="relative">
@@ -60,7 +68,7 @@ export default function UploadImage() {
               </div>
               <p className="mb-1.5 text-sm font-medium">Drop your image here</p>
               <p className="text-muted-foreground text-xs">
-                SVG, PNG, JPG or GIF (max. {maxSizeMB}MB)
+                SVG, PNG, JPG or WEBP (max. {maxSizeMB}MB)
               </p>
               <Button
                 variant="outline"

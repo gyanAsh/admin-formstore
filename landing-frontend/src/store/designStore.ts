@@ -39,7 +39,10 @@ export interface ElementDesign {
 export interface LayoutDesign {
   layoutAlign: LayoutAlign["value"];
   elementSpacing: Spacing["value"];
-  bgColor: string;
+  bgType: BgType["type"];
+  bgSolidValue?: SolidValueType;
+  bgCustomValue?: CustomValueType;
+  bgImageValue?: ImageValueType;
 }
 
 // Define the overall state interface for the design properties
@@ -84,15 +87,25 @@ const defaultDesignState: DesignState = {
     letter_spacing: "0em",
   },
   elementDesign: {
-    variant: "outline",
-    textColor: "#417505",
-    bgColor: "#417505",
+    variant: "solid",
+    textColor: "#ffffffff",
+    bgColor: "#4175055c",
     borderColor: "#417505",
   },
   layoutDesign: {
     layoutAlign: "center",
     elementSpacing: "12px",
-    bgColor: "#f8ea6f",
+    bgType: "image",
+    bgSolidValue: { color: "#f8ea6f" },
+    bgImageValue: { imageUrl: "/homepage/cactus.jpg" },
+    bgCustomValue: {
+      value: `radial-gradient(at 64.60129310344827% 44.79166666666667%, #ccf62c 0px, transparent 50%),
+                 radial-gradient(at 77% 4%, #98c74e 0px, transparent 50%),
+                 radial-gradient(at 0% 94.09722169240315%, #60a261 0px, transparent 50%),
+                 radial-gradient(at 100% 100%, #357a5b 0px, transparent 50%),
+                 radial-gradient(at 100% 7.5%, #417505 0px, transparent 50%),
+                 #ccf62c`,
+    },
   },
 };
 
@@ -101,36 +114,29 @@ const defaultDesignState: DesignState = {
 export const useDesignStore = create<DesignStore>()(
   // `devtools` middleware provides integration with Redux DevTools Extension for debugging.
   devtools(
-    persist(
-      (set) => ({
-        // Initialize the state with the default values.
-        ...defaultDesignState,
-        setLabelDesign: (newLabelDesign) =>
-          set((state) => ({
-            labelDesign: { ...state.labelDesign, ...newLabelDesign },
-          })),
-        setDescriptionDesign: (newDescriptionDesign) =>
-          set((state) => ({
-            descriptionDesign: {
-              ...state.descriptionDesign,
-              ...newDescriptionDesign,
-            },
-          })),
-        setElementDesign: (newElementDesign) =>
-          set((state) => ({
-            elementDesign: { ...state.elementDesign, ...newElementDesign },
-          })),
-        setLayoutDesign: (newLayoutDesign) =>
-          set((state) => ({
-            layoutDesign: { ...state.layoutDesign, ...newLayoutDesign },
-          })),
-      }),
-      {
-        // Configuration for the `persist` middleware: A unique string key for your storage item in localStorage
-        name: "design-storage",
-        storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
-      }
-    ),
+    (set) => ({
+      // Initialize the state with the default values.
+      ...defaultDesignState,
+      setLabelDesign: (newLabelDesign) =>
+        set((state) => ({
+          labelDesign: { ...state.labelDesign, ...newLabelDesign },
+        })),
+      setDescriptionDesign: (newDescriptionDesign) =>
+        set((state) => ({
+          descriptionDesign: {
+            ...state.descriptionDesign,
+            ...newDescriptionDesign,
+          },
+        })),
+      setElementDesign: (newElementDesign) =>
+        set((state) => ({
+          elementDesign: { ...state.elementDesign, ...newElementDesign },
+        })),
+      setLayoutDesign: (newLayoutDesign) =>
+        set((state) => ({
+          layoutDesign: { ...state.layoutDesign, ...newLayoutDesign },
+        })),
+    }),
     {
       name: "Design Store", // Name for the devtools instance
     }
@@ -319,3 +325,31 @@ export const justifyContent: Record<LayoutAlign["value"], string> = {
   left: "flex-start",
   right: "flex-end",
 };
+
+//--Background-Types--//
+export interface SolidValueType {
+  color: string;
+}
+export interface CustomValueType {
+  value: string;
+}
+export interface ImageValueType {
+  imageUrl: string;
+}
+
+// user can customize solid and image but custom is for template which can contain (linear/radial/mesh/patterns)
+export interface BgType {
+  type: "solid" | "custom" | "image";
+  label: "Single Color" | "Custom" | "Image";
+}
+
+export const bgTypes: BgType[] = [
+  {
+    type: "solid",
+    label: "Single Color",
+  },
+  {
+    type: "image",
+    label: "Image",
+  },
+];

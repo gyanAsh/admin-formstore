@@ -34,16 +34,19 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import {
+  bgTypes,
   layoutAlignments,
   letterSpacings,
   spacingSizes,
   textFonts,
   textSizes,
   useDesignStore,
+  type BgType,
   type DescriptionDesign,
   type ElementDesign,
   type LabelDesign,
   type LayoutDesign,
+  type SolidValueType,
   type TextFont,
 } from "@/store/designStore";
 import UploadImage from "../ui/upload-image";
@@ -54,6 +57,14 @@ import {
   MenubarMenu,
   MenubarTrigger,
 } from "@/components/ui/menubar";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const CustomizeOptionTop = () => {
   return (
@@ -225,7 +236,7 @@ const CustomizeOptionTop = () => {
           </Tooltip>
           <MenubarContent
             align="center"
-            className="min-w-85 w-fit cursor-pointer rounded-3xl p-5 shadow-2xl"
+            className="w-85 cursor-pointer rounded-3xl p-5 shadow-2xl"
           >
             <LayoutDesignContext />
           </MenubarContent>
@@ -239,19 +250,20 @@ export default CustomizeOptionTop;
 
 const LayoutDesignContext = () => {
   const { layoutDesign: design, setLayoutDesign: setDesign } = useDesignStore();
-  const [bgColor, setBgColor] = useState(design.bgColor);
-
+  const [bgColor, setBgColor] = useState(design.bgSolidValue?.color);
+  const [bgImgUrl, setBgImgUrl] = useState("");
+  console.log({ bgColor, ss: design.bgType, pp: design });
   React.useEffect(() => {
     const timeout = setTimeout(() => {
-      if (bgColor === design.bgColor) return;
-      setDesign({ bgColor: bgColor });
+      if (!bgColor || bgColor === design.bgSolidValue?.color) return;
+      setDesign({ bgSolidValue: { color: bgColor } });
     }, 500);
 
     return () => clearTimeout(timeout); // cancel previous write
   }, [bgColor]);
 
   return (
-    <div className="grid gap-4 max-h-[270px] overflow-y-auto">
+    <div className="grid gap-4 zmax-h-[270px] zoverflow-y-auto">
       <div className="space-y-2">
         <h4 className="leading-none font-medium">Layout</h4>
         <p className="text-muted-foreground text-sm">Set the Form layout.</p>
@@ -305,23 +317,67 @@ const LayoutDesignContext = () => {
           </div>
         </div>
         <div className="grid grid-cols-3 items-center gap-4">
-          <Label htmlFor="bgColor">Background Color</Label>
-          <ColorPicker
-            hex={bgColor}
-            setHex={(val) => {
-              setBgColor(val);
+          <Label htmlFor="bgType">Background Type</Label>
+          <BackgroundComboBox
+            value={design.bgType}
+            setValue={(val) => {
+              setDesign({ bgType: val as BgType["type"] });
             }}
-            id="bgColor"
+            id="bgType"
           />
         </div>
-        <div className="grid grid-cols-3 items-center text-center gap-4">
-          <Separator orientation="horizontal" /> Or
-          <Separator orientation="horizontal" />
-        </div>
-        <div className="grid items-center gap-4">
+        {typeof design.bgType === "string" && (
+          <div className="grid grid-cols-3 text-center items-center gap-4">
+            <Separator orientation="horizontal" />
+            <div className=" capitalize text-sm">Update</div>
+            <Separator orientation="horizontal" />
+          </div>
+        )}
+        {design.bgType === "solid" && (
+          <div className="grid grid-cols-1 items-center gap-4">
+            <ColorPicker
+              hex={bgColor!}
+              setHex={(val) => {
+                setBgColor(val as string);
+              }}
+              id="bgColor"
+            />
+          </div>
+        )}
+        {design.bgType === "image" && (
+          <div className="grid grid-cols-1 items-center gap-4">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button>Click to Upload Image</Button>
+              </DialogTrigger>
+              <DialogContent className="rounded-4xl">
+                <DialogHeader>
+                  <DialogTitle>Upload Image</DialogTitle>
+                  <DialogDescription>
+                    Add image from your device
+                  </DialogDescription>
+                </DialogHeader>
+                <UploadImage sendImgUrl={setBgImgUrl} />
+                <Button
+                  disabled={!bgImgUrl}
+                  onClick={() =>
+                    setDesign({ bgImageValue: { imageUrl: bgImgUrl } })
+                  }
+                >
+                  Update
+                </Button>
+              </DialogContent>
+            </Dialog>
+          </div>
+        )}
+
+        {/* <div className="grid items-center gap-4">
           <Label>Background Image</Label>
+
+          
+
           <UploadImage />
-        </div>
+        </div> */}
       </div>
     </div>
   );
@@ -451,7 +507,7 @@ const DescriptionDesignContent = () => {
         <div className="grid grid-cols-3 items-center gap-4">
           <Label htmlFor="fontFamily">Font Family</Label>
 
-          <FontComboBoxDemo
+          <FontComboBox
             value={design.family}
             setValue={(val) => {
               setDesign({ family: val as TextFont["value"] });
@@ -594,7 +650,7 @@ const LabelDesignContent = () => {
         <div className="grid grid-cols-3 items-center gap-4">
           <Label htmlFor="fontFamily">Font Family</Label>
 
-          <FontComboBoxDemo
+          <FontComboBox
             value={design.family}
             setValue={(val) => {
               setDesign({ family: val as TextFont["value"] });
@@ -747,7 +803,7 @@ function ColorPicker({
           color={hex}
           style={{ padding: 4 }}
           onChange={(color) => {
-            setHex(color.hex);
+            setHex(color.hexa);
           }}
         />
       </PopoverContent>
@@ -755,7 +811,7 @@ function ColorPicker({
   );
 }
 
-function FontComboBoxDemo({
+function FontComboBox({
   value,
   setValue,
   ...props
@@ -803,6 +859,66 @@ function FontComboBoxDemo({
                     className={cn(
                       "ml-auto",
                       value === font.value ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
+function BackgroundComboBox({
+  value,
+  setValue,
+  ...props
+}: React.ComponentProps<
+  React.ForwardRefExoticComponent<PopoverTriggerProps>
+> & {
+  value: string | undefined;
+  setValue: React.Dispatch<React.SetStateAction<string | undefined>>;
+}) {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild {...props}>
+        <Button
+          effect={"none"}
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className="col-span-2 justify-between data-[state=open]:[&>svg]:rotate-90"
+        >
+          {value
+            ? bgTypes.find((bg) => bg.type === value)?.label
+            : "Select type..."}
+          <ChevronRight className="opacity-50 transform transition-transform" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[200px] p-0">
+        <Command>
+          <CommandInput placeholder="Search type..." className="h-9" />
+          <CommandList>
+            <CommandEmpty>No type found.</CommandEmpty>
+            <CommandGroup defaultValue={value}>
+              {bgTypes.map((bg) => (
+                <CommandItem
+                  key={bg.type}
+                  value={bg.type}
+                  onSelect={(currentValue) => {
+                    setValue(currentValue === value ? "" : currentValue);
+                    setOpen(false);
+                  }}
+                >
+                  {bg.label}
+                  <Check
+                    className={cn(
+                      "ml-auto",
+                      value === bg.type ? "opacity-100" : "opacity-0"
                     )}
                   />
                 </CommandItem>
