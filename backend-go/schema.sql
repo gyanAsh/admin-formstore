@@ -20,12 +20,19 @@ CREATE TABLE IF NOT EXISTS workspaces (
 	FOREIGN KEY (user_id) REFERENCES users(ID)
 );
 
+CREATE TYPE form_status_type AS ENUM (
+	'draft', -- unpublished
+	'published',
+	'completed'
+);
+
 CREATE TABLE IF NOT EXISTS forms (
 	ID SERIAL PRIMARY KEY,
 	title VARCHAR NOT NULL,
 	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
 	updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
 	workspace_id INTEGER NOT NULL,
+	status form_status_type NOT NULL DEFAULT 'draft',
 	FOREIGN KEY (workspace_id) REFERENCES workspaces(ID) ON DELETE CASCADE
 );
 
