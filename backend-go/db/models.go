@@ -61,12 +61,56 @@ func (ns NullFormElementTypes) Value() (driver.Value, error) {
 	return string(ns.FormElementTypes), nil
 }
 
+type FormStatusType string
+
+const (
+	FormStatusTypeDraft     FormStatusType = "draft"
+	FormStatusTypePublished FormStatusType = "published"
+	FormStatusTypeCompleted FormStatusType = "completed"
+)
+
+func (e *FormStatusType) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = FormStatusType(s)
+	case string:
+		*e = FormStatusType(s)
+	default:
+		return fmt.Errorf("unsupported scan type for FormStatusType: %T", src)
+	}
+	return nil
+}
+
+type NullFormStatusType struct {
+	FormStatusType FormStatusType
+	Valid          bool // Valid is true if FormStatusType is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullFormStatusType) Scan(value interface{}) error {
+	if value == nil {
+		ns.FormStatusType, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.FormStatusType.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullFormStatusType) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.FormStatusType), nil
+}
+
 type Form struct {
 	ID          int32
 	Title       string
 	CreatedAt   pgtype.Timestamp
 	UpdatedAt   pgtype.Timestamp
 	WorkspaceID int32
+	Status      FormStatusType
 }
 
 type FormElement struct {

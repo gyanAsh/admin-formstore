@@ -107,7 +107,7 @@ func (q *Queries) GetFormDataAndElements(ctx context.Context, arg GetFormDataAnd
 }
 
 const getFormsInWorkspace = `-- name: GetFormsInWorkspace :many
-SELECT id, title, created_at, updated_at, workspace_id FROM forms WHERE workspace_id = $1
+SELECT id, title, created_at, updated_at, workspace_id, status FROM forms WHERE workspace_id = $1
 `
 
 func (q *Queries) GetFormsInWorkspace(ctx context.Context, workspaceID int32) ([]Form, error) {
@@ -125,6 +125,7 @@ func (q *Queries) GetFormsInWorkspace(ctx context.Context, workspaceID int32) ([
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.WorkspaceID,
+			&i.Status,
 		); err != nil {
 			return nil, err
 		}
