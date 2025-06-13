@@ -43,7 +43,6 @@ CREATE TYPE form_element_types AS ENUM (
 );
 
 CREATE TABLE IF NOT EXISTS form_elements (
-	ID SERIAL PRIMARY KEY,
 	type form_element_types NOT NULL,
 	seq_number INTEGER NOT NULL,
 	label VARCHAR,
@@ -52,5 +51,6 @@ CREATE TABLE IF NOT EXISTS form_elements (
 	updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
 	form_id INTEGER NOT NULL,
 	properties JSON,
-	FOREIGN KEY (form_id) REFERENCES forms(ID)
+	FOREIGN KEY (form_id) REFERENCES forms(ID),
+	PRIMARY KEY (form_id, seq_number)
 );

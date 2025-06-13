@@ -21,7 +21,7 @@ SELECT
 	-- user
 	workspaces.user_id,
 	-- form elements (null values, due to left outer join)
-	form_elements.ID,
+	form_elements.seq_number,
 	form_elements.type,
 	form_elements.label,
 	form_elements.description,
@@ -41,7 +41,7 @@ WHERE
 AND
 	workspaces.user_id = $2
 ORDER BY
-	form_elements.ID;
+	form_elements.form_id, form_elements.seq_number;
 
 
 -- name: GetWorkspaceByID :one
