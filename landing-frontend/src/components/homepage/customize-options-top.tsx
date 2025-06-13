@@ -10,6 +10,8 @@ import {
   CaseLower,
   CaseSensitive,
   Check,
+  ChevronDown,
+  ChevronRight,
   ChevronsUpDown,
   Italic,
   LayoutDashboard,
@@ -449,7 +451,7 @@ const DescriptionDesignContent = () => {
         <div className="grid grid-cols-3 items-center gap-4">
           <Label htmlFor="fontFamily">Font Family</Label>
 
-          <ComboboxDemo
+          <FontComboBoxDemo
             value={design.family}
             setValue={(val) => {
               setDesign({ family: val as TextFont["value"] });
@@ -592,7 +594,7 @@ const LabelDesignContent = () => {
         <div className="grid grid-cols-3 items-center gap-4">
           <Label htmlFor="fontFamily">Font Family</Label>
 
-          <ComboboxDemo
+          <FontComboBoxDemo
             value={design.family}
             setValue={(val) => {
               setDesign({ family: val as TextFont["value"] });
@@ -753,7 +755,7 @@ function ColorPicker({
   );
 }
 
-function ComboboxDemo({
+function FontComboBoxDemo({
   value,
   setValue,
   ...props
@@ -773,12 +775,12 @@ function ComboboxDemo({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="col-span-2 justify-between"
+          className="col-span-2 justify-between data-[state=open]:[&>svg]:rotate-90"
         >
           {value
             ? textFonts.find((font) => font.value === value)?.label
             : "Select Font..."}
-          <ChevronsUpDown className="opacity-50" />
+          <ChevronRight className="opacity-50 transform transition-transform" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
