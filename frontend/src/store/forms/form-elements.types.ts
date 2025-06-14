@@ -5,7 +5,7 @@ export interface Forms {
   id: string;
   workspaceId: string;
   form_name: string;
-  elements?: FormElements[];
+  elements: FormElements[];
   design: FormDesignAttributes;
 }
 

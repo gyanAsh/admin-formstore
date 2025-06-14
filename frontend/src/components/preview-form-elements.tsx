@@ -12,25 +12,13 @@ import { useStore } from "@nanostores/react";
 import { Toggle } from "./ui/toggle";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { cn } from "@/lib/utils";
-import { useMemo } from "react";
-import { $all_forms } from "@/store/forms/form-elements";
+import { $current_form } from "@/store/forms/form-elements";
 
 export const FormElementPreview = () => {
   const { workspaceId, formId } = useParams();
-  const allForms = useStore($all_forms);
+  const currentForm = useStore($current_form);
 
-  // Memoize the derived 'elements' array && 'designAttr' (design-attributes) to prevent recalculation on every render
-  const { elements, designAtts } = useMemo(() => {
-    const form = allForms.find(
-      (form) => form.id === formId && form.workspaceId === workspaceId
-    );
-    if (!form?.id)
-      return {
-        elements: [],
-        designAtts: { theme: ThemeValues.luxe_minimal_noir.value },
-      };
-    return { elements: form.elements || [], designAtts: form.design };
-  }, [allForms, formId, workspaceId]);
+  const { elements, design: designAtts } = currentForm;
 
   return (
     <div>

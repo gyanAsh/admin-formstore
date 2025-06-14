@@ -115,7 +115,8 @@ export const AddFormElement = () => {
         >
           <DialogTrigger asChild>
             <Button className="font-bold w-fit" effect={"small_scale"}>
-              <Plus strokeWidth={3} /> Element
+              <Plus strokeWidth={3} />
+              Add Element
             </Button>
           </DialogTrigger>
           <DialogContent className="md:max-w-[700px] lg:max-w-[950px] rounded-4xl bg-gray-200 dark:bg-inherit">
@@ -814,7 +815,8 @@ const DndKitContainer = ({
         )}
       >
         <div className="flex items-center gap-2 rounded-md lg:rounded-sm bg-blue-200/85 px-1 group-hover:!bg-transparent text-transparent not-dark:group-hover:text-blue-300 group-hover:text-blue-200/85 transition-all ease-in-out duration-100">
-          <GripVertical /> <h2 className="font-semibold text-xl">Click and Get Started!</h2>
+          <GripVertical />{" "}
+          <h2 className="font-semibold text-xl">Click and Get Started!</h2>
         </div>
       </div>
       <div

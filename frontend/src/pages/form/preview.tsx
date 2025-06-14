@@ -1,6 +1,10 @@
-import { $all_forms } from "@/store/forms/form-elements";
+import {
+  $current_form,
+  selectedFormId,
+  selectedWorkspaceId,
+} from "@/store/forms/form-elements";
 import { useStore } from "@nanostores/react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router";
 
 import { AnimatePresence, motion } from "motion/react";
@@ -54,23 +58,17 @@ const PreviewFormPage = ({
   formCardClassName?: React.ComponentProps<"div">["className"];
 }) => {
   const { workspaceId, formId } = useParams();
-  const allForms = useStore($all_forms);
+  const currentForm = useStore($current_form);
 
   const [currentSection, setCurrentSection] = useState(0);
   const [direction, setDirection] = useState<"prev" | "next">("next");
 
-  // Memoize the derived 'elements' array && 'designAttr' (design-attributes) to prevent recalculation on every render
-  const { elements, designAtts } = useMemo(() => {
-    const form = allForms.find(
-      (form) => form.id === formId && form.workspaceId === workspaceId
-    );
-    if (!form?.id)
-      return {
-        elements: [],
-        designAtts: { theme: ThemeValues.luxe_minimal_noir.value },
-      };
-    return { elements: form.elements || [], designAtts: form.design };
-  }, [allForms, formId, workspaceId]);
+  const { elements, design: designAtts } = currentForm;
+
+  useEffect(() => {
+    selectedWorkspaceId.set(workspaceId);
+    selectedFormId.set(formId);
+  }, [formId, workspaceId]);
 
   // Memoize the paginate function to prevent it from being recreated on every render
   const paginate = useCallback(

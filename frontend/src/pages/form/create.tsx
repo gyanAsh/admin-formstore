@@ -39,6 +39,7 @@ export default function CreateForm() {
           id: String(data.form.id),
           workspaceId: String(data.workspace.id),
           form_name: data.form.title,
+          elements: [],
           design: {
             theme: ThemeValues.luxe_minimal_noir.value,
             displayTwoColumns: false,

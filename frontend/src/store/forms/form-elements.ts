@@ -1,5 +1,6 @@
 import { persistentAtom } from "@nanostores/persistent";
 import { FormElements, Forms } from "./form-elements.types";
+import { computed } from "nanostores";
 
 export const $all_forms = persistentAtom<Forms[]>(
   "all_forms", // Key to store in localStorage
@@ -7,6 +8,41 @@ export const $all_forms = persistentAtom<Forms[]>(
   {
     encode: JSON.stringify,
     decode: JSON.parse,
+  }
+);
+
+let defaultCurrentForm: Forms = {
+  id: "",
+  workspaceId: "",
+  form_name: "",
+  elements: [],
+  design: {
+    theme: "luxe_minimal_noir",
+    addGrainyBG: false,
+    displayTwoColumns: false,
+  },
+};
+
+// Selected workspace and form ID
+export const selectedWorkspaceId = persistentAtom<string | undefined>(
+  "selected-workspace-id",
+  undefined
+);
+export const selectedFormId = persistentAtom<string | undefined>(
+  "selected-form-id",
+  undefined
+);
+
+// Computed store to get current form
+export const $current_form = computed(
+  [$all_forms, selectedWorkspaceId, selectedFormId],
+  (allForms, workspaceId, formId) => {
+    if (!workspaceId || !formId) return defaultCurrentForm;
+    return (
+      allForms.find(
+        (form) => form.workspaceId === workspaceId && form.id === formId
+      ) || defaultCurrentForm
+    );
   }
 );
 
