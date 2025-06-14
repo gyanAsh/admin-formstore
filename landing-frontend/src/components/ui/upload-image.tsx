@@ -2,12 +2,79 @@ import { AlertCircleIcon, ImageIcon, UploadIcon, XIcon } from "lucide-react";
 
 import { useFileUpload } from "@/hooks/use-file-upload";
 import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
+
+import { useCallback, useEffect, useState } from "react";
+import {
+  Cropper,
+  CropperCropArea,
+  CropperDescription,
+  CropperImage,
+} from "@/components/ui/cropper";
+
+// Define type for pixel crop area
+type Area = { x: number; y: number; width: number; height: number };
+
+// --- Start: Copied Helper Functions ---
+const createImage = (url: string): Promise<HTMLImageElement> =>
+  new Promise((resolve, reject) => {
+    const image = new Image();
+    image.addEventListener("load", () => resolve(image));
+    image.addEventListener("error", (error) => reject(error));
+    image.setAttribute("crossOrigin", "anonymous"); // Needed for canvas Tainted check
+    image.src = url;
+  });
+
+async function getCroppedImg(
+  imageSrc: string,
+  pixelCrop: Area,
+  outputWidth: number = pixelCrop.width, // Optional: specify output size
+  outputHeight: number = pixelCrop.height
+): Promise<Blob | null> {
+  try {
+    const image = await createImage(imageSrc);
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    if (!ctx) {
+      return null;
+    }
+
+    // Set canvas size to desired output size
+    canvas.width = outputWidth;
+    canvas.height = outputHeight;
+
+    // Draw the cropped image onto the canvas
+    ctx.drawImage(
+      image,
+      pixelCrop.x,
+      pixelCrop.y,
+      pixelCrop.width,
+      pixelCrop.height,
+      0,
+      0,
+      outputWidth, // Draw onto the output size
+      outputHeight
+    );
+
+    // Convert canvas to blob
+    return new Promise((resolve) => {
+      canvas.toBlob((blob) => {
+        resolve(blob);
+      }, "image/jpeg"); // Specify format and quality if needed
+    });
+  } catch (error) {
+    console.error("Error in getCroppedImg:", error);
+    return null;
+  }
+}
+// --- End: Copied Helper Functions ---
 
 export default function UploadImage({
-  sendImgUrl,
+  returnUrl,
+  oldImageUrl,
 }: {
-  sendImgUrl: (url: string) => void;
+  returnUrl: (url: string) => void;
+  oldImageUrl: string;
 }) {
   const maxSizeMB = 2;
   const maxSize = maxSizeMB * 1024 * 1024; // 2MB default
@@ -29,10 +96,51 @@ export default function UploadImage({
   });
   const previewUrl = files[0]?.preview || null;
   const fileName = files[0]?.file.name || null;
-  useEffect(() => {
-    if (!previewUrl) return;
-    sendImgUrl(previewUrl);
-  }, [previewUrl]);
+  const ORIGINAL_IMAGE_URL = previewUrl || "";
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
+
+  // Callback to update crop area state
+  const handleCropChange = useCallback((pixels: Area | null) => {
+    setCroppedAreaPixels(pixels);
+  }, []);
+
+  // Function to handle the crop button click
+  const handleCrop = async () => {
+    if (!croppedAreaPixels) {
+      console.error("No crop area selected.");
+      return;
+    }
+
+    try {
+      const croppedBlob = await getCroppedImg(
+        ORIGINAL_IMAGE_URL,
+        croppedAreaPixels
+      );
+      if (!croppedBlob) {
+        throw new Error("Failed to generate cropped image blob.");
+      }
+
+      // Create a new object URL
+      const newCroppedUrl = URL.createObjectURL(croppedBlob);
+
+      // Revoke the old URL if it exists
+      if (oldImageUrl) {
+        URL.revokeObjectURL(oldImageUrl);
+      }
+      if (ORIGINAL_IMAGE_URL) {
+        URL.revokeObjectURL(ORIGINAL_IMAGE_URL);
+      }
+      returnUrl(newCroppedUrl);
+      // Set the new URL
+    } catch (error) {
+      console.error("Error during cropping:", error);
+      // Optionally: Clear the old image URL on error
+      if (oldImageUrl) {
+        URL.revokeObjectURL(oldImageUrl);
+      }
+    }
+  };
+
   return (
     <div className="flex flex-col gap-2">
       <div className="relative">
@@ -52,11 +160,16 @@ export default function UploadImage({
           />
           {previewUrl ? (
             <div className="absolute inset-0 flex items-center justify-center p-4">
-              <img
-                src={previewUrl}
-                alt={files[0]?.file?.name || "Uploaded image"}
-                className="mx-auto max-h-full rounded object-contain"
-              />
+              <Cropper
+                className="h-64 md:flex-1"
+                image={ORIGINAL_IMAGE_URL}
+                aspectRatio={16 / 9}
+                onCropChange={handleCropChange}
+              >
+                <CropperDescription />
+                <CropperImage />
+                <CropperCropArea />
+              </Cropper>
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center px-4 py-3 text-center">
@@ -98,7 +211,13 @@ export default function UploadImage({
           </div>
         )}
       </div>
-
+      <Button
+        onClick={handleCrop}
+        className="hover:scale-[1.02]"
+        disabled={!croppedAreaPixels}
+      >
+        Upload Image
+      </Button>
       {errors.length > 0 && (
         <div
           className="text-destructive flex items-center gap-1 text-xs"

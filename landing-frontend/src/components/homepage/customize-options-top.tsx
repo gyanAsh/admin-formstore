@@ -269,8 +269,7 @@ export default CustomizeOptionTop;
 const LayoutDesignContext = () => {
   const { layoutDesign: design, setLayoutDesign: setDesign } = useDesignStore();
   const [bgColor, setBgColor] = useState(design.bgSolidValue?.color);
-  const [bgImgUrl, setBgImgUrl] = useState("");
-  console.log({ bgColor, ss: design.bgType, pp: design });
+  const [imageUploadDialogState, setImageUploadDialogState] = useState(false);
   React.useEffect(() => {
     const timeout = setTimeout(() => {
       if (!bgColor || bgColor === design.bgSolidValue?.color) return;
@@ -358,7 +357,7 @@ const LayoutDesignContext = () => {
         {typeof design.bgType === "string" && (
           <div className="grid grid-cols-3 text-center items-center gap-4">
             <Separator orientation="horizontal" />
-            <div className=" capitalize text-sm">Update</div>
+            <div className=" capitalize text-sm">Insert</div>
             <Separator orientation="horizontal" />
           </div>
         )}
@@ -375,7 +374,10 @@ const LayoutDesignContext = () => {
         )}
         {design.bgType === "image" && (
           <div className="grid grid-cols-1 items-center gap-4">
-            <Dialog>
+            <Dialog
+              open={imageUploadDialogState}
+              onOpenChange={setImageUploadDialogState}
+            >
               <DialogTrigger asChild>
                 <Button>Click to Upload Image</Button>
               </DialogTrigger>
@@ -386,27 +388,17 @@ const LayoutDesignContext = () => {
                     Add image from your device
                   </DialogDescription>
                 </DialogHeader>
-                <UploadImage sendImgUrl={setBgImgUrl} />
-                <Button
-                  disabled={!bgImgUrl}
-                  onClick={() =>
-                    setDesign({ bgImageValue: { imageUrl: bgImgUrl } })
-                  }
-                >
-                  Update
-                </Button>
+                <UploadImage
+                  oldImageUrl={design.bgImageValue?.imageUrl || ""}
+                  returnUrl={(url) => {
+                    setDesign({ bgImageValue: { imageUrl: url } });
+                    setImageUploadDialogState(false);
+                  }}
+                />
               </DialogContent>
             </Dialog>
           </div>
         )}
-
-        {/* <div className="grid items-center gap-4">
-          <Label>Background Image</Label>
-
-          
-
-          <UploadImage />
-        </div> */}
       </div>
     </div>
   );

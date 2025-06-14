@@ -17,6 +17,9 @@ importers:
       '@astrojs/react':
         specifier: ^4.3.0
         version: 4.3.0(@types/node@22.15.30)(@types/react-dom@19.1.6(@types/react@19.1.6))(@types/react@19.1.6)(jiti@2.4.2)(lightningcss@1.30.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@origin-space/image-cropper':
+        specifier: ^0.1.9
+        version: 0.1.9(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-dialog':
         specifier: ^1.1.14
         version: 1.1.14(@types/react-dom@19.1.6(@types/react@19.1.6))(@types/react@19.1.6)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -739,6 +742,12 @@ packages:
 
   '@mdx-js/mdx@3.1.0':
     resolution: {integrity: sha512-/QxEhPAvGwbQmy1Px8F899L5Uc2KZ6JtXwlCgJmjSTBedwOZkByYcBG4GceIGPXRDsmfxhHazuS+hlOShRLeDw==}
+
+  '@origin-space/image-cropper@0.1.9':
+    resolution: {integrity: sha512-Ebl57I6beh7uKjSv8+r3VObEoOXIXhx4SicDUdxa9U7NVY18SzEGfqPDuhNyXuFIB5G/S8nYUToNlIRp9wwB9Q==}
+    peerDependencies:
+      react: ^19.1.0
+      react-dom: ^19.1.0
 
   '@oslojs/encoding@1.1.0':
     resolution: {integrity: sha512-70wQhgYmndg4GCPxPPxPGevRKqTIJ2Nh4OkiMWmDAVYsTQ+Ta7Sq+rPevXyXGdzr30/qZBnyOalCszoMxlyldQ==}
@@ -3676,6 +3685,11 @@ snapshots:
     transitivePeerDependencies:
       - acorn
       - supports-color
+
+  '@origin-space/image-cropper@0.1.9(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
 
   '@oslojs/encoding@1.1.0': {}
 
