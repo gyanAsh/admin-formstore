@@ -93,13 +93,10 @@ const PreviewFormPage = ({
   if (elements.length > 0)
     return (
       <section className={cn("h-[100dvh]", className)} {...props}>
-        <FormBackground theme={designAtts.theme}>
+        <FormBackground>
           {designAtts.addGrainyBG === true && <div className="grain-overlay" />}
           {/* Progress Bar */}
-          <FormProgressBar
-            progressPercentage={progressPercentage}
-            theme={designAtts.theme}
-          />
+          <FormProgressBar progressPercentage={progressPercentage} />
 
           {/* Sections */}
           <div className="h-full overflow-hidden">

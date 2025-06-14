@@ -12,9 +12,9 @@ import PublishFormButton from "@/components/layout/dashboard/PublishFormButton";
 import { AnimatePresence } from "motion/react";
 import * as motion from "motion/react-client";
 import { useState } from "react";
-import { AddFormElement } from "@/components/add-form-element";
+import { AddFormElement } from "@/components/tabs-content/create-form/add-form-element";
 import { addForm } from "@/store/forms/form-elements";
-import { FormElementPreview } from "@/components/preview-form-elements";
+import { FormElementPreview } from "@/components/tabs-content/create-form/preview-form-elements";
 import { ThemeValues } from "@/store/forms/designs/values";
 
 export default function CreateForm() {

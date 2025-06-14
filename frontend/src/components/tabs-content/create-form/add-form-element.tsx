@@ -1,5 +1,5 @@
 import * as motion from "motion/react-client";
-import { Button } from "./ui/button";
+import { Button } from "../../ui/button";
 import { useSortable } from "@dnd-kit/sortable";
 import {
   DndContext,
@@ -34,10 +34,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
-import { ScrollArea } from "./ui/scroll-area";
+} from "../../ui/dialog";
+import { ScrollArea } from "../../ui/scroll-area";
 import { cn, generateMicroId } from "@/lib/utils";
-import { Card } from "./ui/card";
+import { Card } from "../../ui/card";
 import {
   $all_forms,
   addFormElement,
@@ -47,10 +47,10 @@ import {
 import { useParams } from "react-router";
 import { FormElements as FormElementsType } from "@/store/forms/form-elements.types";
 import { useStore } from "@nanostores/react";
-import { Badge } from "./ui/badge";
+import { Badge } from "../../ui/badge";
 import { AnimatePresence } from "motion/react";
 import { useState } from "react";
-import { FromElementDialogContent } from "./options/form-element-options";
+import { FromElementDialogContent } from "../../options/form-element-options";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -63,7 +63,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+} from "../../ui/dropdown-menu";
 import {
   FormElements,
   getDefaultLabelTitle,

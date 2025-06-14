@@ -1,5 +1,5 @@
 import { ArrowUpRight, Columns2 } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "../../ui/button";
 import { useParams } from "react-router";
 import { ThemeValues } from "@/store/forms/designs/values";
 import {
@@ -9,8 +9,8 @@ import {
 } from "@/store/forms/designs/design-elements";
 import PreviewFormPage from "@/pages/form/preview";
 import { useStore } from "@nanostores/react";
-import { Toggle } from "./ui/toggle";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Toggle } from "../../ui/toggle";
+import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
 import { cn } from "@/lib/utils";
 import { $current_form } from "@/store/forms/form-elements";
 

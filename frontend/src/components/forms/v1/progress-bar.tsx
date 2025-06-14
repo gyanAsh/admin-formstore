@@ -1,14 +1,15 @@
 import { cn } from "@/lib/utils";
-import { FormTheme } from "@/store/forms/designs/design-elements.types";
 import { ThemeValues } from "@/store/forms/designs/values";
+import { $current_form } from "@/store/forms/form-elements";
+import { useStore } from "@nanostores/react";
 
 export const FormProgressBar = ({
   progressPercentage,
-  theme,
 }: {
   progressPercentage: number;
-  theme: FormTheme;
 }) => {
+  const currentForm = useStore($current_form);
+  const theme = currentForm.design.theme;
   return (
     <div
       id="scroll-progress"

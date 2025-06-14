@@ -1,12 +1,15 @@
 import { cn } from "@/lib/utils";
-import { FormTheme } from "@/store/forms/designs/design-elements.types";
 import { ThemeValues } from "@/store/forms/designs/values";
+import { $current_form } from "@/store/forms/form-elements";
+import { useStore } from "@nanostores/react";
 
 export const FormBackground = ({
-  theme = ThemeValues.luxe_minimal_noir.value,
   className,
   ...props
-}: React.ComponentProps<"div"> & { theme: FormTheme }) => {
+}: React.ComponentProps<"div">) => {
+  const currentForm = useStore($current_form);
+  const theme = currentForm.design.theme;
+
   return (
     <div
       className={cn(
