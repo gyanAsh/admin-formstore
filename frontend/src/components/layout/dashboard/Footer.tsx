@@ -8,9 +8,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenu, SidebarMenuItem } from "@/components/ui/sidebar";
 import { $userLoginData } from "@/store/user";
+import { useStore } from "@nanostores/react";
 import { LogOut, Logs, Search, Settings, Timer, User } from "lucide-react";
 export function Footer() {
-  let user = $userLoginData.get();
+  let user = useStore($userLoginData);
   return (
     <>
       <SidebarMenu>

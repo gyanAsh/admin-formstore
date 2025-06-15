@@ -40,8 +40,10 @@ import {
 import React, { useState } from "react";
 import {
   $set_design_description,
+  $set_design_element,
   $set_design_label,
   DescriptionDesign,
+  ElementDesign,
   LabelDesign,
   letterSpacings,
   TextFont,
@@ -52,6 +54,7 @@ import { Label } from "@/components/ui/label";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
   $get_design_description,
+  $get_design_element,
   $get_design_label,
 } from "@/store/forms/form-elements";
 import { useStore } from "@nanostores/react";
@@ -122,7 +125,7 @@ const FormEditorOption = () => {
               align="center"
               className="w-85 cursor-pointer rounded-3xl p-5 shadow-2xl"
             >
-              {/* <ElementDesignContent /> */}
+              <ElementDesignContent />
             </MenubarContent>
           </MenubarMenu>
           <Separator orientation="vertical" className="bg-muted-foreground" />
@@ -310,104 +313,104 @@ export default FormEditorOption;
 //   );
 // };
 
-// const ElementDesignContent = () => {
-//   const { elementDesign: design, setElementDesign: setDesign } =
-//     useDesignStore();
+const ElementDesignContent = () => {
+  const setDesign = $set_design_element;
+  const design = useStore($get_design_element);
 
-//   const [textColor, setTextColor] = useState(design.textColor);
+  const [textColor, setTextColor] = useState(design.textColor);
 
-//   const [bgColor, setBgColor] = useState(design.bgColor);
-//   const [borderColor, setBorderColor] = useState(design.borderColor);
-//   React.useEffect(() => {
-//     const timeout = setTimeout(() => {
-//       if (textColor !== design.textColor) setDesign({ textColor: textColor });
-//       if (bgColor !== design.bgColor) setDesign({ bgColor: bgColor });
-//       if (borderColor !== design.borderColor)
-//         setDesign({ borderColor: borderColor });
-//     }, 500);
+  const [bgColor, setBgColor] = useState(design.bgColor);
+  const [borderColor, setBorderColor] = useState(design.borderColor);
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (textColor !== design.textColor) setDesign({ textColor: textColor });
+      if (bgColor !== design.bgColor) setDesign({ bgColor: bgColor });
+      if (borderColor !== design.borderColor)
+        setDesign({ borderColor: borderColor });
+    }, 500);
 
-//     return () => clearTimeout(timeout); // cancel previous write
-//   }, [textColor, bgColor, borderColor]);
-//   return (
-//     <div className="grid gap-4">
-//       <div className="space-y-2">
-//         <h4 className="leading-none font-medium">Elements</h4>
-//         <p className="text-muted-foreground text-sm">
-//           Set the styles for the elements.
-//         </p>
-//       </div>
-//       <div className="grid gap-2 md:gap-4 lg:gap-5">
-//         <div className="grid grid-cols-3 items-center gap-4">
-//           <Label htmlFor="element-style">Style</Label>
-//           <div
-//             className=" col-span-2 flex items-center gap-1"
-//             id="element-style"
-//           >
-//             <ToggleGroup
-//               variant="outline"
-//               value={design.variant as ElementDesign["variant"]}
-//               onValueChange={(e) =>
-//                 setDesign({ variant: e as ElementDesign["variant"] })
-//               }
-//               className="inline-flex w-full"
-//               type="single"
-//             >
-//               <ToggleGroupItem
-//                 className="data-[state=on]:bg-zinc-900 data-[state=on]:text-white"
-//                 value="solid"
-//               >
-//                 Solid
-//               </ToggleGroupItem>
-//               <ToggleGroupItem
-//                 className="data-[state=on]:bg-zinc-900 data-[state=on]:text-white"
-//                 value="glass"
-//               >
-//                 Glass
-//               </ToggleGroupItem>
-//               <ToggleGroupItem
-//                 className="data-[state=on]:bg-zinc-900 data-[state=on]:text-white"
-//                 value="outline"
-//               >
-//                 Outline
-//               </ToggleGroupItem>
-//             </ToggleGroup>
-//           </div>
-//         </div>
+    return () => clearTimeout(timeout); // cancel previous write
+  }, [textColor, bgColor, borderColor]);
+  return (
+    <div className="grid gap-4">
+      <div className="space-y-2">
+        <h4 className="leading-none font-medium">Elements</h4>
+        <p className="text-muted-foreground text-sm">
+          Set the styles for the elements.
+        </p>
+      </div>
+      <div className="grid gap-2 md:gap-4 lg:gap-5">
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="element-style">Style</Label>
+          <div
+            className=" col-span-2 flex items-center gap-1"
+            id="element-style"
+          >
+            <ToggleGroup
+              variant="outline"
+              value={design.variant as ElementDesign["variant"]}
+              onValueChange={(e) =>
+                setDesign({ variant: e as ElementDesign["variant"] })
+              }
+              className="inline-flex w-full"
+              type="single"
+            >
+              <ToggleGroupItem
+                className="data-[state=on]:bg-zinc-900 bg-background dark:data-[state=on]:bg-zinc-200 data-[state=on]:text-white dark:data-[state=on]:text-zinc-900"
+                value="solid"
+              >
+                Solid
+              </ToggleGroupItem>
+              <ToggleGroupItem
+                className="data-[state=on]:bg-zinc-900 bg-background dark:data-[state=on]:bg-zinc-200 data-[state=on]:text-white dark:data-[state=on]:text-zinc-900"
+                value="glass"
+              >
+                Glass
+              </ToggleGroupItem>
+              <ToggleGroupItem
+                className="data-[state=on]:bg-zinc-900 bg-background dark:data-[state=on]:bg-zinc-200 data-[state=on]:text-white dark:data-[state=on]:text-zinc-900"
+                value="outline"
+              >
+                Outline
+              </ToggleGroupItem>
+            </ToggleGroup>
+          </div>
+        </div>
 
-//         <div className="grid grid-cols-3 items-center gap-4">
-//           <Label htmlFor="textColor">Text Color</Label>
-//           <ColorPicker
-//             hex={textColor}
-//             setHex={(val) => {
-//               setTextColor(val);
-//             }}
-//             id="textColor"
-//           />
-//         </div>
-//         <div className="grid grid-cols-3 items-center gap-4">
-//           <Label htmlFor="bgColor">Background Color</Label>
-//           <ColorPicker
-//             hex={bgColor}
-//             setHex={(val) => {
-//               setBgColor(val);
-//             }}
-//             id="bgColor"
-//           />
-//         </div>
-//         <div className="grid grid-cols-3 items-center gap-4">
-//           <Label htmlFor="borderColor">Border Color</Label>
-//           <ColorPicker
-//             hex={borderColor}
-//             setHex={(val) => {
-//               setBorderColor(val);
-//             }}
-//             id="borderColor"
-//           />
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="textColor">Text Color</Label>
+          <ColorPicker
+            hex={textColor}
+            setHex={(val) => {
+              setTextColor(val);
+            }}
+            id="textColor"
+          />
+        </div>
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="bgColor">Background Color</Label>
+          <ColorPicker
+            hex={bgColor}
+            setHex={(val) => {
+              setBgColor(val);
+            }}
+            id="bgColor"
+          />
+        </div>
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="borderColor">Border Color</Label>
+          <ColorPicker
+            hex={borderColor}
+            setHex={(val) => {
+              setBorderColor(val);
+            }}
+            id="borderColor"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const DescriptionDesignContent = () => {
   const setDesign = $set_design_description;
@@ -542,7 +545,7 @@ const DescriptionDesignContent = () => {
             {letterSpacings.map((e) => (
               <ToggleGroupItem
                 key={e.value}
-                className="data-[state=on]:bg-zinc-900 text-xs data-[state=on]:text-white"
+                className="data-[state=on]:bg-zinc-900 text-xs bg-background dark:data-[state=on]:bg-zinc-200 data-[state=on]:text-white dark:data-[state=on]:text-zinc-900"
                 value={e.value}
               >
                 {e.name}
@@ -724,7 +727,10 @@ function ColorPicker({
           className="col-span-2 justify-between"
         >
           {hex || "Select Color..."}
-          <div style={st} className="size-7 rounded-md bg-[var(--bg-color)]" />
+          <div
+            style={st}
+            className="size-7 rounded-md bg-[var(--bg-color)] border"
+          />
         </Button>
       </PopoverTrigger>
       <PopoverContent
