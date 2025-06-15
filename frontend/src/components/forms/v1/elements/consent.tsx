@@ -1,17 +1,19 @@
 import { cn } from "@/lib/utils";
-import { FormTheme } from "@/store/forms/designs/design-elements.types";
 import { ConsentValidation } from "@/store/forms/form-elements.types";
 import { FormButton } from "../button";
+import { useStore } from "@nanostores/react";
+import { $current_form } from "@/store/forms/form-elements";
 
 export const FormConsent = ({
   consent,
-  theme,
   goNextFunction,
 }: {
   consent: ConsentValidation;
-  theme: FormTheme;
   goNextFunction: Function;
 }) => {
+  const currentForm = useStore($current_form);
+  const theme = currentForm.design.theme;
+
   const validate = () => {
     goNextFunction();
   };

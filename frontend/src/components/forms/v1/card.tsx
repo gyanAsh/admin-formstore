@@ -1,11 +1,13 @@
 import { cn } from "@/lib/utils";
-import { FormTheme } from "@/store/forms/designs/design-elements.types";
+import { $current_form } from "@/store/forms/form-elements";
+import { useStore } from "@nanostores/react";
 
 export const FormCard = ({
-  showTwoCol,
   className,
   ...props
-}: React.ComponentProps<"div"> & { theme: FormTheme; showTwoCol: boolean }) => {
+}: React.ComponentProps<"div">) => {
+  const currentForm = useStore($current_form);
+  const showTwoCol = currentForm.design.displayTwoColumns;
   return (
     <div
       className={cn(

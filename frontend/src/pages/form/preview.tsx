@@ -217,8 +217,6 @@ const FormPage = ({
 }) => {
   return (
     <FormCard
-      showTwoCol={Boolean(designAtts.displayTwoColumns)}
-      theme={designAtts.theme}
       className={cn(
         "overflow-y-scroll gap-3 zmd:gap-6 @container",
         formCardClassName
@@ -229,10 +227,8 @@ const FormPage = ({
           "flex flex-col justify-center  px-2 md:px-8 lg:px-16 gap-2.5 md:gap-5.5 "
         )}
       >
-        <FormLabel theme={designAtts.theme}>{element.labels.title}</FormLabel>
-        <FormDescription theme={designAtts.theme}>
-          {element.labels.description}
-        </FormDescription>
+        <FormLabel>{element.labels.title}</FormLabel>
+        <FormDescription>{element.labels.description}</FormDescription>
       </section>
       <section
         className={cn(
@@ -246,31 +242,26 @@ const FormPage = ({
         {element.field === "email" ? (
           <FormEmail
             email={element.validations as EmailValidation}
-            theme={designAtts.theme}
             goNextFunction={goNextFunction}
           />
         ) : element.field === "consent" ? (
           <FormConsent
             consent={element.validations as ConsentValidation}
-            theme={designAtts.theme}
             goNextFunction={goNextFunction}
           />
         ) : element.field === "rating" ? (
           <FormRating
             rating={element.validations as RatingValidation}
-            theme={designAtts.theme}
             goNextFunction={goNextFunction}
           />
         ) : element.field === "text" ? (
           <FormText
             text={element.validations as TextValidation}
-            theme={designAtts.theme}
             goNextFunction={goNextFunction}
           />
         ) : element.field === "website" ? (
           <FormWebsite
             url={element.validations as UrlValidation}
-            theme={designAtts.theme}
             goNextFunction={goNextFunction}
           />
         ) : (

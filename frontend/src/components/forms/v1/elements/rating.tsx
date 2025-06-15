@@ -1,23 +1,24 @@
 import { cn, wait } from "@/lib/utils";
-import { FormTheme } from "@/store/forms/designs/design-elements.types";
 import { RatingKey, RatingValidation } from "@/store/forms/form-elements.types";
 import { FormButton } from "../button";
 import { useState } from "react";
 import { RatingValues } from "@/store/forms/values";
 import * as motion from "motion/react-client";
+import { $current_form } from "@/store/forms/form-elements";
+import { useStore } from "@nanostores/react";
 
 export const FormRating = ({
   rating,
-  theme,
   goNextFunction,
 }: {
   rating: RatingValidation;
-  theme: FormTheme;
   goNextFunction: Function;
 }) => {
   const [hovered, setHovered] = useState<number | null>(null);
   const [selected, setSelected] = useState<number | null>(null);
 
+  const currentForm = useStore($current_form);
+  const theme = currentForm.design.theme;
   const validate = () => {
     goNextFunction();
   };

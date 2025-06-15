@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import { FormTheme } from "@/store/forms/designs/design-elements.types";
 import { EmailValidation } from "@/store/forms/form-elements.types";
 import { Input } from "react-aria-components";
 import { FormButton } from "../button";
@@ -8,16 +7,16 @@ import { useState } from "react";
 import { z } from "zod";
 import { ThemeValues } from "@/store/forms/designs/values";
 import useAutoFocusOnVisible from "@/hooks/use-autofocus-on-visible";
+import { $current_form } from "@/store/forms/form-elements";
+import { useStore } from "@nanostores/react";
 
 const emailSchema = z.string().email({ message: "Invalid email address" });
 
 export const FormEmail = ({
   email,
-  theme,
   goNextFunction,
 }: {
   email: EmailValidation;
-  theme: FormTheme;
   goNextFunction: Function;
 }) => {
   const [inputState, setInputState] = useState("");
@@ -28,6 +27,8 @@ export const FormEmail = ({
   }>({ show: false, msg: "", type: "error" });
   const { ref } = useAutoFocusOnVisible<HTMLInputElement>(0.5);
 
+  const currentForm = useStore($current_form);
+  const theme = currentForm.design.theme;
   const validate = () => {
     const result = emailSchema.safeParse(inputState);
     if (!result.success) {

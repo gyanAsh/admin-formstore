@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import { FormTheme } from "@/store/forms/designs/design-elements.types";
 import { TextValidation } from "@/store/forms/form-elements.types";
 import { TextArea } from "react-aria-components";
 import { FormButton } from "../button";
@@ -7,14 +6,14 @@ import { useState } from "react";
 import { FormErrorMsgPopUp } from "../error-card";
 import { ThemeValues } from "@/store/forms/designs/values";
 import useAutoFocusOnVisible from "@/hooks/use-autofocus-on-visible";
+import { useStore } from "@nanostores/react";
+import { $current_form } from "@/store/forms/form-elements";
 
 export const FormText = ({
   text,
-  theme,
   goNextFunction,
 }: {
   text: TextValidation;
-  theme: FormTheme;
   goNextFunction: Function;
 }) => {
   const [textState, setTextState] = useState("");
@@ -25,6 +24,9 @@ export const FormText = ({
   }>({ show: false, msg: "", type: "error" });
 
   const { ref } = useAutoFocusOnVisible<HTMLTextAreaElement>(0.2);
+
+  const currentForm = useStore($current_form);
+  const theme = currentForm.design.theme;
 
   const validate = () => {
     if (textState.length < text.minLength) {
