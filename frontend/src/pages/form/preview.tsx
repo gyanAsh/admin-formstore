@@ -5,7 +5,7 @@ import {
 } from "@/store/forms/form-elements";
 import { useStore } from "@nanostores/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Link, useParams } from "react-router";
+import { Link, useLocation, useParams } from "react-router";
 
 import { AnimatePresence, motion } from "motion/react";
 import { Button } from "@/components/ui/button";
@@ -58,6 +58,9 @@ const PreviewFormPage = ({
   formCardClassName?: React.ComponentProps<"div">["className"];
 }) => {
   const { workspaceId, formId } = useParams();
+  const { pathname } = useLocation();
+  let isPreview = pathname.includes("preview");
+
   const currentForm = useStore($current_form);
 
   const [currentSection, setCurrentSection] = useState(0);
@@ -164,8 +167,15 @@ const PreviewFormPage = ({
     );
   else
     return (
-      <div className="h-[100dvh]  w-full flex flex-col gap-4 @[64rem]:gap-10 items-center justify-center @container bg-black">
-        <h2 className="text-4xl text-center text-red-500 font-bold @[64rem]:text-6xl">
+      <div
+        className={cn(
+          "h-[80dvh] rounded-4xl w-full flex flex-col gap-4 @[64rem]:gap-10 items-center justify-center @container bg-black",
+          {
+            "h-[100dvh]": isPreview,
+          }
+        )}
+      >
+        <h2 className="text-4xl text-center text-zinc-200 font-bold @[64rem]:text-6xl">
           No Elements Found
         </h2>
 
@@ -175,10 +185,12 @@ const PreviewFormPage = ({
           effect={"small_scale"}
           asChild
         >
-          <Link to={`/dashboard/${workspaceId}/${formId}/create`}>
-            <ChevronLeft className="size-7 group-hover:-translate-x-2 duration-250 ease-linear" />
-            Go Back{" "}
-          </Link>
+          {isPreview && (
+            <Link to={`/dashboard/${workspaceId}/${formId}/create`}>
+              <ChevronLeft className="size-7 group-hover:-translate-x-2 duration-250 ease-linear" />
+              Go Back{" "}
+            </Link>
+          )}
         </Button>
       </div>
     );

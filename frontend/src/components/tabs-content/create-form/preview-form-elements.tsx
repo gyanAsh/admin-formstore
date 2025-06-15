@@ -13,29 +13,25 @@ import { Toggle } from "../../ui/toggle";
 import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
 import { cn } from "@/lib/utils";
 import { $current_form } from "@/store/forms/form-elements";
+import FormEditorOption from "@/components/forms/v1/editor";
 
 export const FormElementPreview = () => {
   const { workspaceId, formId } = useParams();
   const currentForm = useStore($current_form);
 
-  const { elements, design: designAtts } = currentForm;
+  const { design: designAtts } = currentForm;
 
   return (
     <div>
       <section className="flex items-center justify-end"></section>
       <section className="relative">
-        {elements.length > 0 ? (
-          <PreviewFormPage
-            className="h-[80dvh] rounded-4xl overflow-hidden"
-            formCardClassName="sm:scale-90 md:scale-75  lg:scale-80 xl:scale-85"
-          />
-        ) : (
-          <div className="h-[80dvh]  rounded-4xl overflow-hidden  w-full flex flex-col gap-4 @[64rem]:gap-10 items-center justify-center @container bg-black">
-            <h2 className="text-4xl text-center text-zinc-200 font-bold @[64rem]:text-6xl">
-              Add Elements To Preview Your Form{" "}
-            </h2>
-          </div>
-        )}
+        <PreviewFormPage
+          className="h-[80dvh] rounded-4xl overflow-hidden"
+          formCardClassName="sm:scale-90 md:scale-75  lg:scale-80 xl:scale-85"
+        />
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
+          <FormEditorOption />
+        </div>
 
         <div className="mb-4 absolute right-4 top-4 ">
           <a

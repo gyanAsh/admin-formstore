@@ -298,7 +298,7 @@ export const letterSpacings: LetterSpacing[] = [
   },
 ];
 
-//---Letter Spacing---
+//---Letter Align---
 export interface LayoutAlign {
   value: "left" | "center" | "right";
   icon: LucideIcon;

@@ -1,6 +1,7 @@
 import { persistentAtom } from "@nanostores/persistent";
 import { FormElements, Forms } from "./form-elements.types";
 import { computed } from "nanostores";
+import { defaultDesignState } from "./formV1Design";
 
 export const $all_forms = persistentAtom<Forms[]>(
   "all_forms", // Key to store in localStorage
@@ -20,9 +21,9 @@ let defaultCurrentForm: Forms = {
     theme: "luxe_minimal_noir",
     addGrainyBG: false,
     displayTwoColumns: false,
+    ...defaultDesignState,
   },
 };
-
 // Selected workspace and form ID
 export const selectedWorkspaceId = persistentAtom<string | undefined>(
   "selected-workspace-id",
@@ -45,7 +46,22 @@ export const $current_form = computed(
     );
   }
 );
+export const $get_design_label = computed($current_form, (e) => e.design.label);
 
+export const $get_design_description = computed(
+  $current_form,
+  (e) => e.design.description
+);
+export const $get_design_element = computed(
+  $current_form,
+  (e) => e.design.element
+);
+export const $get_design_layout = computed(
+  $current_form,
+  (e) => e.design.element
+);
+
+// ------------------- Actions-------------------
 export function addForm(newForm: Forms) {
   const existingForms = $all_forms.get();
   const formExists = existingForms.some((form) => form.id === newForm.id);

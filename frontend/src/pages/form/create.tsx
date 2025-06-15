@@ -16,6 +16,7 @@ import { AddFormElement } from "@/components/tabs-content/create-form/add-form-e
 import { addForm } from "@/store/forms/form-elements";
 import { FormElementPreview } from "@/components/tabs-content/create-form/preview-form-elements";
 import { ThemeValues } from "@/store/forms/designs/values";
+import { defaultDesignState } from "@/store/forms/formV1Design";
 
 export default function CreateForm() {
   const { workspaceId, formId } = useParams();
@@ -44,6 +45,7 @@ export default function CreateForm() {
             theme: ThemeValues.luxe_minimal_noir.value,
             displayTwoColumns: false,
             addGrainyBG: false,
+            ...defaultDesignState,
           },
         });
 
