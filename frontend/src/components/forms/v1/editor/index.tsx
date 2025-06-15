@@ -49,6 +49,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { $get_design_label } from "@/store/forms/form-elements";
+import { useStore } from "@nanostores/react";
 const FormEditorOption = () => {
   return (
     <>
@@ -549,7 +550,7 @@ export default FormEditorOption;
 
 const LabelDesignContent = () => {
   const setDesign = $set_design_label;
-  const design = $get_design_label.get();
+  const design = useStore($get_design_label);
   const [textColor, setTextColor] = useState(design.color);
 
   React.useEffect(() => {
