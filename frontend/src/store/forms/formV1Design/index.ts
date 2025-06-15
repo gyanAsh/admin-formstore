@@ -245,7 +245,7 @@ export function $set_design_description(
         ...form,
         design: {
           ...form.design,
-          label: {
+          description: {
             ...form.design.description,
             ...newDescriptionDesign,
           },
@@ -269,8 +269,8 @@ export function $set_design_element(newElementDesign: Partial<ElementDesign>) {
         ...form,
         design: {
           ...form.design,
-          label: {
-            ...form.design.description,
+          element: {
+            ...form.design.element,
             ...newElementDesign,
           },
         },
@@ -390,8 +390,8 @@ export function $set_design_layout(newElementDesign: Partial<ElementDesign>) {
         ...form,
         design: {
           ...form.design,
-          label: {
-            ...form.design.description,
+          layout: {
+            ...form.design.layout,
             ...newElementDesign,
           },
         },

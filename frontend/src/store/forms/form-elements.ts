@@ -58,7 +58,7 @@ export const $get_design_element = computed(
 );
 export const $get_design_layout = computed(
   $current_form,
-  (e) => e.design.element
+  (e) => e.design.layout
 );
 
 // ------------------- Actions-------------------

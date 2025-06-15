@@ -39,7 +39,9 @@ import {
 } from "lucide-react";
 import React, { useState } from "react";
 import {
+  $set_design_description,
   $set_design_label,
+  DescriptionDesign,
   LabelDesign,
   letterSpacings,
   TextFont,
@@ -48,7 +50,10 @@ import {
 } from "@/store/forms/formV1Design";
 import { Label } from "@/components/ui/label";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { $get_design_label } from "@/store/forms/form-elements";
+import {
+  $get_design_description,
+  $get_design_label,
+} from "@/store/forms/form-elements";
 import { useStore } from "@nanostores/react";
 const FormEditorOption = () => {
   return (
@@ -95,7 +100,7 @@ const FormEditorOption = () => {
               align="center"
               className="w-85 cursor-pointer rounded-3xl p-5 shadow-2xl"
             >
-              {/* <DescriptionDesignContent /> */}
+              <DescriptionDesignContent />
             </MenubarContent>
           </MenubarMenu>
           <Separator orientation="vertical" className="bg-muted-foreground" />
@@ -404,149 +409,151 @@ export default FormEditorOption;
 //   );
 // };
 
-// const DescriptionDesignContent = () => {
-//   const { descriptionDesign: design, setDescriptionDesign: setDesign } =
-//     useDesignStore();
-//   const [textColor, setTextColor] = useState(design.color);
+const DescriptionDesignContent = () => {
+  const setDesign = $set_design_description;
+  const design = useStore($get_design_description);
+  const [textColor, setTextColor] = useState(design.color);
 
-//   React.useEffect(() => {
-//     const timeout = setTimeout(() => {
-//       if (textColor === design.color) return;
-//       setDesign({ color: textColor });
-//     }, 500);
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (textColor === design.color) return;
+      setDesign({ color: textColor });
+    }, 500);
 
-//     return () => clearTimeout(timeout); // cancel previous write
-//   }, [textColor]);
-//   return (
-//     <div className="grid gap-4">
-//       <div className="space-y-2">
-//         <h4 className="leading-none font-medium">Description</h4>
-//         <p className="text-muted-foreground text-sm">
-//           Set the styles for the description.
-//         </p>
-//       </div>
-//       <div className="grid gap-2 md:gap-4 lg:gap-5">
-//         <div className="grid grid-cols-3 items-center gap-4">
-//           <Label htmlFor="fontFamily">Font Family</Label>
+    return () => clearTimeout(timeout); // cancel previous write
+  }, [textColor]);
+  return (
+    <div className="grid gap-4">
+      <div className="space-y-2">
+        <h4 className="leading-none font-medium">Description</h4>
+        <p className="text-muted-foreground text-sm">
+          Set the styles for the description.
+        </p>
+      </div>
+      <div className="grid gap-2 md:gap-4 lg:gap-5">
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="fontFamily">Font Family</Label>
 
-//           <FontComboBox
-//             value={design.family}
-//             setValue={(val) => {
-//               setDesign({ family: val as TextFont["value"] });
-//             }}
-//             id="fontFamily"
-//           />
-//         </div>
-//         <div className="grid grid-cols-3 items-center gap-4">
-//           <Label htmlFor="textSize">Text Size</Label>
-//           <div
-//             className=" col-span-2 flex items-center justify-between gap-1"
-//             id="textSize"
-//           >
-//             {textSizes.map((size) => {
-//               return (
-//                 <Button
-//                   key={size.value}
-//                   aria-selected={design.size === size.value}
-//                   className=" aria-[selected=true]:bg-zinc-900 aria-[selected=true]:text-zinc-50"
-//                   variant={"outline"}
-//                   size={"icon"}
-//                   onClick={() => setDesign({ size: size.value })}
-//                 >
-//                   {size.name}
-//                 </Button>
-//               );
-//             })}
-//           </div>
-//         </div>
-//         <div className="grid grid-cols-3 items-center gap-4">
-//           <Label htmlFor="textColor">Text Color</Label>
-//           <ColorPicker
-//             hex={textColor}
-//             setHex={(val) => {
-//               setTextColor(val);
-//             }}
-//             id="textColor"
-//           />
-//         </div>
-//         <div className="grid grid-cols-3 items-center gap-4">
-//           <Label htmlFor="text-style">Styles</Label>
-//           <div className=" col-span-2 flex items-center gap-1" id="text-style">
-//             <Button
-//               aria-selected={design.italics}
-//               className="aria-[selected=true]:bg-zinc-900 aria-[selected=true]:text-zinc-50"
-//               variant={"outline"}
-//               size={"icon"}
-//               onClick={() => setDesign({ italics: !design.italics })}
-//             >
-//               <Italic />
-//             </Button>
-//             <ToggleGroup
-//               variant="outline"
-//               value={design.weight as DescriptionDesign["weight"]}
-//               onValueChange={(e) =>
-//                 setDesign({ weight: e as DescriptionDesign["weight"] })
-//               }
-//               className="inline-flex w-full"
-//               type="single"
-//             >
-//               <ToggleGroupItem
-//                 className="data-[state=on]:bg-zinc-900 font-light data-[state=on]:text-white"
-//                 value="light"
-//               >
-//                 Aa
-//               </ToggleGroupItem>
-//               <ToggleGroupItem
-//                 className="data-[state=on]:bg-zinc-900 font-normal data-[state=on]:text-white"
-//                 value="normal"
-//               >
-//                 Aa
-//               </ToggleGroupItem>
-//               <ToggleGroupItem
-//                 className="data-[state=on]:bg-zinc-900 font-medium data-[state=on]:text-white"
-//                 value="medium"
-//               >
-//                 Aa
-//               </ToggleGroupItem>
-//               <ToggleGroupItem
-//                 className="data-[state=on]:bg-zinc-900 font-bold data-[state=on]:text-white"
-//                 value="bold"
-//               >
-//                 {/* <Bold /> */}
-//                 Aa
-//               </ToggleGroupItem>
-//             </ToggleGroup>
-//           </div>
-//         </div>
-//         <div className="grid grid-cols-3 items-center gap-4">
-//           <Label htmlFor="letter-spacing">Letter Spacing</Label>
-//           <ToggleGroup
-//             variant="outline"
-//             id="letter-spacing"
-//             value={design.letter_spacing as DescriptionDesign["letter_spacing"]}
-//             onValueChange={(e) =>
-//               setDesign({
-//                 letter_spacing: e as DescriptionDesign["letter_spacing"],
-//               })
-//             }
-//             className=" col-span-2 items-center w-full flex-wrap inline-flex"
-//             type="single"
-//           >
-//             {letterSpacings.map((e) => (
-//               <ToggleGroupItem
-//                 key={e.value}
-//                 className="data-[state=on]:bg-zinc-900 text-xs data-[state=on]:text-white"
-//                 value={e.value}
-//               >
-//                 {e.name}
-//               </ToggleGroupItem>
-//             ))}
-//           </ToggleGroup>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
+          <FontComboBox
+            value={design.family}
+            setValue={(val) => {
+              setDesign({ family: val as TextFont["value"] });
+            }}
+            id="fontFamily"
+          />
+        </div>
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="textSize">Text Size</Label>
+          <div
+            className=" col-span-2 flex items-center justify-between gap-1"
+            id="textSize"
+          >
+            {textSizes.map((size) => {
+              return (
+                <Button
+                  key={size.value}
+                  aria-selected={design.size === size.value}
+                  className=" aria-[selected=true]:bg-zinc-900 dark:aria-[selected=true]:bg-zinc-200 aria-[selected=true]:text-zinc-50 dark:aria-[selected=true]:text-zinc-900"
+                  variant={"outline"}
+                  size={"icon"}
+                  onClick={() => {
+                    if (design.size === size.value) return;
+                    setDesign({ size: size.value });
+                  }}
+                >
+                  {size.name}
+                </Button>
+              );
+            })}
+          </div>
+        </div>
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="textColor">Text Color</Label>
+          <ColorPicker
+            hex={textColor}
+            setHex={(val) => {
+              setTextColor(val);
+            }}
+            id="textColor"
+          />
+        </div>
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="text-style">Styles</Label>
+          <div className=" col-span-2 flex items-center gap-1" id="text-style">
+            <Button
+              aria-selected={design.italics}
+              className="aria-[selected=true]:bg-zinc-900 dark:aria-[selected=true]:bg-zinc-200 aria-[selected=true]:text-zinc-50 dark:aria-[selected=true]:text-zinc-900"
+              variant={"outline"}
+              size={"icon"}
+              onClick={() => setDesign({ italics: !design.italics })}
+            >
+              <Italic />
+            </Button>
+            <ToggleGroup
+              variant="outline"
+              value={design.weight as DescriptionDesign["weight"]}
+              onValueChange={(e) =>
+                setDesign({ weight: e as DescriptionDesign["weight"] })
+              }
+              className="inline-flex w-full"
+              type="single"
+            >
+              <ToggleGroupItem
+                className="data-[state=on]:bg-zinc-900 bg-background dark:data-[state=on]:bg-zinc-200 font-light data-[state=on]:text-white dark:data-[state=on]:text-zinc-900"
+                value="light"
+              >
+                Aa
+              </ToggleGroupItem>
+              <ToggleGroupItem
+                className="data-[state=on]:bg-zinc-900 bg-background dark:data-[state=on]:bg-zinc-200 font-normal data-[state=on]:text-white dark:data-[state=on]:text-zinc-900"
+                value="normal"
+              >
+                Aa
+              </ToggleGroupItem>
+              <ToggleGroupItem
+                className="data-[state=on]:bg-zinc-900 bg-background dark:data-[state=on]:bg-zinc-200 font-medium data-[state=on]:text-white dark:data-[state=on]:text-zinc-900"
+                value="medium"
+              >
+                Aa
+              </ToggleGroupItem>
+              <ToggleGroupItem
+                className="data-[state=on]:bg-zinc-900 bg-background dark:data-[state=on]:bg-zinc-200 font-bold data-[state=on]:text-white dark:data-[state=on]:text-zinc-900"
+                value="bold"
+              >
+                Aa
+              </ToggleGroupItem>
+            </ToggleGroup>
+          </div>
+        </div>
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="letter-spacing">Letter Spacing</Label>
+          <ToggleGroup
+            variant="outline"
+            id="letter-spacing"
+            value={design.letter_spacing as DescriptionDesign["letter_spacing"]}
+            onValueChange={(e) =>
+              setDesign({
+                letter_spacing: e as DescriptionDesign["letter_spacing"],
+              })
+            }
+            className=" col-span-2 items-center w-full flex-wrap inline-flex"
+            type="single"
+          >
+            {letterSpacings.map((e) => (
+              <ToggleGroupItem
+                key={e.value}
+                className="data-[state=on]:bg-zinc-900 text-xs data-[state=on]:text-white"
+                value={e.value}
+              >
+                {e.name}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const LabelDesignContent = () => {
   const setDesign = $set_design_label;
