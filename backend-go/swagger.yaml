@@ -331,6 +331,9 @@ components:
           type: integer
         title:
           type: string
+        status:
+          type: string
+          enum: [draft, published, completed]
         created_at:
           type: string
         updated_at:
