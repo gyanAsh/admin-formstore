@@ -194,7 +194,7 @@ export const defaultDesignState: DesignState = {
     elementSpacing: "12px",
     bgType: "image",
     bgSolidValue: { color: "#000000" },
-    bgImageValue: { imageUrl: "/homepage/desert.jpg" },
+    bgImageValue: { imageUrl: "/bg/pink-abstract.jpg" },
     bgCustomValue: {
       value: `radial-gradient(at 64.60129310344827% 44.79166666666667%, #ccf62c 0px, transparent 50%),
                  radial-gradient(at 77% 4%, #98c74e 0px, transparent 50%),
@@ -379,7 +379,7 @@ export const bgTypes: BgType[] = [
   },
 ];
 
-export function $set_design_layout(newElementDesign: Partial<ElementDesign>) {
+export function $set_design_layout(newElementDesign: Partial<LayoutDesign>) {
   const forms = $all_forms.get();
   const workspaceId = selectedWorkspaceId.get();
   const formId = selectedFormId.get();

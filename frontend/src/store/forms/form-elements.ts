@@ -1,6 +1,6 @@
 import { persistentAtom } from "@nanostores/persistent";
 import { FormElements, Forms } from "./form-elements.types";
-import { computed } from "nanostores";
+import { atom, computed } from "nanostores";
 import { defaultDesignState } from "./formV1Design";
 
 export const $all_forms = persistentAtom<Forms[]>(
@@ -24,13 +24,13 @@ let defaultCurrentForm: Forms = {
     ...defaultDesignState,
   },
 };
-// Selected workspace and form ID
-export const selectedWorkspaceId = persistentAtom<string | undefined>(
-  "selected-workspace-id",
+// Selected workspace and form ID : these IDs should not be persisted cos it'll cause wrong form to show when user previews mulitple-froms
+export const selectedWorkspaceId = atom<string | undefined>(
+  // "selected-workspace-id",
   undefined
 );
-export const selectedFormId = persistentAtom<string | undefined>(
-  "selected-form-id",
+export const selectedFormId = atom<string | undefined>(
+  // "selected-form-id",
   undefined
 );
 

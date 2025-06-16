@@ -42,10 +42,15 @@ import {
   $set_design_description,
   $set_design_element,
   $set_design_label,
+  $set_design_layout,
+  bgTypes,
   DescriptionDesign,
   ElementDesign,
   LabelDesign,
+  layoutAlignments,
+  LayoutDesign,
   letterSpacings,
+  spacingSizes,
   TextFont,
   textFonts,
   textSizes,
@@ -56,8 +61,18 @@ import {
   $get_design_description,
   $get_design_element,
   $get_design_label,
+  $get_design_layout,
 } from "@/store/forms/form-elements";
 import { useStore } from "@nanostores/react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import UploadImage from "./upload-image";
 const FormEditorOption = () => {
   return (
     <>
@@ -147,7 +162,7 @@ const FormEditorOption = () => {
               align="center"
               className="w-85 cursor-pointer rounded-3xl p-5 shadow-2xl"
             >
-              {/* <LayoutDesignContext /> */}
+              <LayoutDesignContext />
             </MenubarContent>
           </MenubarMenu>
         </Menubar>
@@ -174,144 +189,148 @@ const FormEditorOption = () => {
 
 export default FormEditorOption;
 
-// const LayoutDesignContext = () => {
-//   const {  design, setLayoutDesign: setDesign } =     useStore($current_form);
+const LayoutDesignContext = () => {
+  const setDesign = $set_design_layout;
+  const design = useStore($get_design_layout);
+  const [bgColor, setBgColor] = useState(design.bgSolidValue?.color);
+  const [imageUploadDialogState, setImageUploadDialogState] = useState(false);
 
-//   const [bgColor, setBgColor] = useState(design.bgSolidValue?.color);
-//   const [imageUploadDialogState, setImageUploadDialogState] = useState(false);
-//   React.useEffect(() => {
-//     const timeout = setTimeout(() => {
-//       if (!bgColor || bgColor === design.bgSolidValue?.color) return;
-//       setDesign({ bgSolidValue: { color: bgColor } });
-//     }, 500);
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (!bgColor || bgColor === design.bgSolidValue?.color) return;
+      setDesign({ bgSolidValue: { color: bgColor } });
+    }, 500);
 
-//     return () => clearTimeout(timeout); // cancel previous write
-//   }, [bgColor]);
+    return () => clearTimeout(timeout); // cancel previous write
+  }, [bgColor]);
 
-//   return (
-//     <div className="grid gap-4 zmax-h-[270px] zoverflow-y-auto">
-//       <div className="space-y-2">
-//         <h4 className="leading-none font-medium">Layout</h4>
-//         <p className="text-muted-foreground text-sm">Set the Form layout.</p>
-//       </div>
-//       <div className="grid gap-2 md:gap-4 lg:gap-5">
-//         <div className="grid grid-cols-3 items-center gap-4">
-//           <Label htmlFor="layout-align">Align Content</Label>
-//           <ToggleGroup
-//             variant="outline"
-//             id="layout-align"
-//             value={design.layoutAlign as LayoutDesign["layoutAlign"]}
-//             onValueChange={(e) =>
-//               setDesign({
-//                 layoutAlign: e as LayoutDesign["layoutAlign"],
-//               })
-//             }
-//             className=" col-span-2 items-center flex-wrap inline-flex w-full"
-//             type="single"
-//           >
-//             {layoutAlignments.map((e) => (
-//               <ToggleGroupItem
-//                 key={e.value}
-//                 className="data-[state=on]:bg-zinc-900 text-xs data-[state=on]:text-white"
-//                 value={e.value}
-//               >
-//                 <e.icon />
-//               </ToggleGroupItem>
-//             ))}
-//           </ToggleGroup>
-//         </div>
-//         <div className="grid grid-cols-3 items-center gap-4">
-//           <Label htmlFor="element-spacing">Spacing</Label>
-//           <div
-//             className=" col-span-2 flex items-center justify-between"
-//             id="element-spacing"
-//           >
-//             {spacingSizes.map((space) => {
-//               return (
-//                 <Button
-//                   key={space.value}
-//                   aria-selected={design.elementSpacing === space.value}
-//                   className=" aria-[selected=true]:bg-zinc-900 aria-[selected=true]:text-zinc-50"
-//                   variant={"outline"}
-//                   size={"icon"}
-//                   onClick={() => setDesign({ elementSpacing: space.value })}
-//                 >
-//                   {space.name}
-//                 </Button>
-//               );
-//             })}
-//           </div>
-//         </div>
-//         <div className="grid grid-cols-3 items-center gap-4">
-//           <Label htmlFor="bgType">Background Type</Label>
-//           <div className="flex col-span-2 items-center flex-wrap gap-2">
-//             {bgTypes.map((bg) => {
-//               return (
-//                 <Button
-//                   key={bg.type}
-//                   data-state={bg.type === design.bgType}
-//                   className="data-[state=true]:bg-black data-[state=true]:text-white"
-//                   variant={"outline"}
-//                   onClick={() => {
-//                     if (bg.type === design.bgType) return;
-//                     setDesign({ bgType: bg.type });
-//                   }}
-//                 >
-//                   {bg.label}
-//                 </Button>
-//               );
-//             })}
-//           </div>
-//         </div>
-//         {typeof design.bgType === "string" && (
-//           <div className="grid grid-cols-3 text-center items-center gap-4">
-//             <Separator orientation="horizontal" />
-//             <div className=" capitalize text-sm">Insert</div>
-//             <Separator orientation="horizontal" />
-//           </div>
-//         )}
-//         {design.bgType === "solid" && (
-//           <div className="grid grid-cols-1 items-center gap-4">
-//             <ColorPicker
-//               hex={bgColor!}
-//               setHex={(val) => {
-//                 setBgColor(val as string);
-//               }}
-//               id="bgColor"
-//             />
-//           </div>
-//         )}
-//         {design.bgType === "image" && (
-//           <div className="grid grid-cols-1 items-center gap-4">
-//             <Dialog
-//               open={imageUploadDialogState}
-//               onOpenChange={setImageUploadDialogState}
-//             >
-//               <DialogTrigger asChild>
-//                 <Button>Click to Upload Image</Button>
-//               </DialogTrigger>
-//               <DialogContent className="rounded-4xl">
-//                 <DialogHeader>
-//                   <DialogTitle>Upload Image</DialogTitle>
-//                   <DialogDescription>
-//                     Add image from your device
-//                   </DialogDescription>
-//                 </DialogHeader>
-//                 <UploadImage
-//                   oldImageUrl={design.bgImageValue?.imageUrl || ""}
-//                   returnUrl={(url) => {
-//                     setDesign({ bgImageValue: { imageUrl: url } });
-//                     setImageUploadDialogState(false);
-//                   }}
-//                 />
-//               </DialogContent>
-//             </Dialog>
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
+  return (
+    <div className="grid gap-4 zmax-h-[270px] zoverflow-y-auto">
+      <div className="space-y-2">
+        <h4 className="leading-none font-medium">Layout</h4>
+        <p className="text-muted-foreground text-sm">Set the Form layout.</p>
+      </div>
+      <div className="grid gap-2 md:gap-4 lg:gap-5">
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="layout-align">Align Content</Label>
+          <ToggleGroup
+            variant="outline"
+            id="layout-align"
+            value={design.layoutAlign as LayoutDesign["layoutAlign"]}
+            onValueChange={(e) =>
+              setDesign({
+                layoutAlign: e as LayoutDesign["layoutAlign"],
+              })
+            }
+            className=" col-span-2 items-center flex-wrap inline-flex w-full"
+            type="single"
+          >
+            {layoutAlignments.map((e) => (
+              <ToggleGroupItem
+                key={e.value}
+                className="data-[state=on]:bg-zinc-900 text-xs bg-background dark:data-[state=on]:bg-zinc-200 data-[state=on]:text-white dark:data-[state=on]:text-zinc-900"
+                value={e.value}
+              >
+                <e.icon />
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
+        </div>
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="element-spacing">Spacing</Label>
+          <div
+            className=" col-span-2 flex items-center justify-between"
+            id="element-spacing"
+          >
+            {spacingSizes.map((space) => {
+              return (
+                <Button
+                  key={space.value}
+                  aria-selected={design.elementSpacing === space.value}
+                  className=" aria-[selected=true]:bg-zinc-900 dark:aria-[selected=true]:bg-zinc-200 aria-[selected=true]:text-zinc-50 dark:aria-[selected=true]:text-zinc-900"
+                  variant={"outline"}
+                  size={"icon"}
+                  onClick={() => {
+                    if (design.elementSpacing === space.value) return;
+                    setDesign({ elementSpacing: space.value });
+                  }}
+                >
+                  {space.name}
+                </Button>
+              );
+            })}
+          </div>
+        </div>
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="bgType">Background Type</Label>
+          <div className="flex col-span-2 items-center flex-wrap gap-2">
+            {bgTypes.map((bg) => {
+              return (
+                <Button
+                  key={bg.type}
+                  aria-selected={bg.type === design.bgType}
+                  className=" aria-[selected=true]:bg-zinc-900 dark:aria-[selected=true]:bg-zinc-200 aria-[selected=true]:text-zinc-50 dark:aria-[selected=true]:text-zinc-900"
+                  variant={"outline"}
+                  onClick={() => {
+                    if (bg.type === design.bgType) return;
+                    setDesign({ bgType: bg.type });
+                  }}
+                >
+                  {bg.label}
+                </Button>
+              );
+            })}
+          </div>
+        </div>
+        {typeof design.bgType === "string" && (
+          <div className="grid grid-cols-3 text-center items-center gap-4">
+            <Separator orientation="horizontal" />
+            <div className=" capitalize text-sm">Insert</div>
+            <Separator orientation="horizontal" />
+          </div>
+        )}
+        {design.bgType === "solid" && (
+          <div className="grid grid-cols-1 items-center gap-4">
+            <ColorPicker
+              hex={bgColor!}
+              setHex={(val) => {
+                setBgColor(val as string);
+              }}
+              id="bgColor"
+            />
+          </div>
+        )}
+        {design.bgType === "image" && (
+          <div className="grid grid-cols-1 items-center gap-4">
+            <Dialog
+              open={imageUploadDialogState}
+              onOpenChange={setImageUploadDialogState}
+            >
+              <DialogTrigger asChild>
+                <Button>Click to Upload Image</Button>
+              </DialogTrigger>
+              <DialogContent className="rounded-4xl">
+                <DialogHeader>
+                  <DialogTitle>Upload Image</DialogTitle>
+                  <DialogDescription>
+                    Add image from your device
+                  </DialogDescription>
+                </DialogHeader>
+                <UploadImage
+                  oldImageUrl={design.bgImageValue?.imageUrl || ""}
+                  returnUrl={(url) => {
+                    setDesign({ bgImageValue: { imageUrl: url } });
+                    setImageUploadDialogState(false);
+                  }}
+                />
+              </DialogContent>
+            </Dialog>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
 
 const ElementDesignContent = () => {
   const setDesign = $set_design_element;
