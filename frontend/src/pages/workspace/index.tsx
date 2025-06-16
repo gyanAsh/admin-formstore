@@ -162,19 +162,21 @@ export default function Workspace() {
                               </h2>
                             </div>
 
-                            <Badge variant={"green"}>
-                              <div className="relative">
-                                <Circle
-                                  className="size-3 z-1 fill-green-400 dark:fill-green-500"
-                                  strokeWidth={0}
-                                />
-                                <Circle
-                                  className="size-3 fill-green-400 dark:fill-green-500 absolute left-0 top-0 animate-ping"
-                                  strokeWidth={0}
-                                />
-                              </div>
-                              Active
-                            </Badge>
+                            {form.status == "published" && (
+                              <Badge variant={"green"}>
+                                <div className="relative">
+                                  <Circle
+                                    className="size-3 z-1 fill-green-400 dark:fill-green-500"
+                                    strokeWidth={0}
+                                  />
+                                  <Circle
+                                    className="size-3 fill-green-400 dark:fill-green-500 absolute left-0 top-0 animate-ping"
+                                    strokeWidth={0}
+                                  />
+                                </div>
+                                Active
+                              </Badge>
+                            )}
                           </div>
 
                           <h2 className="text-muted-foreground text-sm">
