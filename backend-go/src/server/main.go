@@ -61,7 +61,7 @@ func HttpServiceStart() error {
 	mux.HandleFunc("GET /api/form/{form_id}/status", s.formDataHandler)
 
 	mux.HandleFunc("POST /api/workspace", s.workspaceCreateHandler)
-	mux.HandleFunc("POST /api/workspace/{workspace_id}/form", s.formCreateHandler)
+	mux.HandleFunc("POST /api/form", s.formCreateHandler)
 	mux.HandleFunc("POST /api/verify", s.verifyUserHandler)
 	mux.HandleFunc("POST /api/login", s.loginHandler)
 	mux.HandleFunc("POST /api/signup", s.signupHandler)

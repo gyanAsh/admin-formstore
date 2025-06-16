@@ -43,12 +43,17 @@ export default function AddFormButton() {
 
   const formMutation = useMutation({
     mutationFn: async ({ name }: { name: string }) => {
-      const res = await fetch(`/api/workspace/${workspaceId}/form`, {
+      if (isNaN(parseInt(workspaceId))) {
+        throw Error("invalid workspace id");
+        return;
+      }
+      const res = await fetch(`/api/form`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${getAuthToken()}`,
         },
         body: JSON.stringify({
+          workspace_id: parseInt(String(workspaceId)),
           title: name,
         }),
       });

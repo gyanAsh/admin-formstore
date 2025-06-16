@@ -164,19 +164,8 @@ func (s *Service) formCreateHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
-	workspaceID, err := strconv.Atoi(r.PathValue("workspace_id"))
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		if err = json.NewEncoder(w).Encode(map[string]interface{}{
-			"message": "invalid value for workspace id",
-		}); err != nil {
-			log.Println(err)
-		}
-		return
-	}
 
 	var data map[string]interface{}
-	var formTitle string
 	if err = json.NewDecoder(r.Body).Decode(&data); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
@@ -187,7 +176,22 @@ func (s *Service) formCreateHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-	formTitle, ok := data["title"].(string)
+
+	workspaceIDf, ok := data["workspace_id"].(float64)
+	if !ok {
+		log.Println("failed to parse workspace id")
+		w.WriteHeader(http.StatusBadRequest)
+		if err = json.NewEncoder(w).Encode(map[string]interface{}{
+			"message": "invalid value for workspace id",
+		}); err != nil {
+			log.Println(err)
+		}
+		return
+	}
+	workspaceID := int32(workspaceIDf)
+
+	var formTitle string
+	formTitle, ok = data["title"].(string)
 	if !ok || formTitle == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		if err = json.NewEncoder(w).Encode(map[string]interface{}{
