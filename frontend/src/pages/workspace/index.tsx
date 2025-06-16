@@ -42,7 +42,7 @@ export default function Workspace() {
   } = useQuery({
     queryKey: ["api-workspace-forms", workspaceId],
     queryFn: async () => {
-      const res = await fetch(`/api/workspace/${workspaceId}/forms`, {
+      const res = await fetch(`/api/workspace/${workspaceId}`, {
         headers: {
           Authorization: `Bearer ${getAuthToken()}`,
         },

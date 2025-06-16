@@ -78,7 +78,7 @@ paths:
       responses:
         200:
           description: remove workspace
-  /api/workpace/{workspaceId}/forms:
+  /api/workpace/{workspaceId}:
     get:
       parameters:
         - in: path
