@@ -3,7 +3,7 @@ SELECT ID, name, created_at, updated_at FROM workspaces WHERE user_id = $1;
 
 
 -- name: GetFormsInWorkspace :many
-SELECT * FROM forms WHERE workspace_id = $1;
+SELECT * FROM forms WHERE workspace_id = $1 ORDER BY forms.updated_at DESC, forms.created_at ASC;
 
 
 -- name: GetFormDataAndElements :many
