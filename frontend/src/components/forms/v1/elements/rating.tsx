@@ -4,7 +4,7 @@ import { FormButton } from "../button";
 import { useState } from "react";
 import { RatingValues } from "@/store/forms/values";
 import * as motion from "motion/react-client";
-import { $current_form } from "@/store/forms/form-elements";
+import { $get_design_element } from "@/store/forms/form-elements";
 import { useStore } from "@nanostores/react";
 
 export const FormRating = ({
@@ -17,8 +17,19 @@ export const FormRating = ({
   const [hovered, setHovered] = useState<number | null>(null);
   const [selected, setSelected] = useState<number | null>(null);
 
-  const currentForm = useStore($current_form);
-  const theme = currentForm.design.theme;
+  const elDesign = useStore($get_design_element);
+
+  const elStyle: Record<string, string> & React.CSSProperties = {
+    "--border-color": elDesign.borderColor,
+    "--bg-color": elDesign.bgColor,
+    "--transparant":
+      elDesign.variant === "glass"
+        ? "20%"
+        : elDesign.variant === "outline"
+        ? "0%"
+        : "100%",
+  };
+
   const validate = () => {
     goNextFunction();
   };
@@ -45,9 +56,9 @@ export const FormRating = ({
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <icon.icon
-                  strokeWidth={1.5}
+                  strokeWidth={1}
                   className={cn(
-                    `px-2 size-15 md:size-20 cursor-pointer transition-colors`,
+                    `px-2 size-15 md:size-20 cursor-pointer transition-colors text-[var(--border-color)] fill-[var(--bg-color)]/[var(--transparant)]`,
                     { "text-yellow-900 fill-yellow-500": isActive },
                     {
                       "text-red-900 fill-red-500":
@@ -56,19 +67,15 @@ export const FormRating = ({
                           (e) => icon.value === (e as RatingKey)
                         ),
                     }
-                    // {
-                    //   "text-zinc-800  ": !isActive && theme === "trance_sky",
-                    // },
                   )}
+                  style={elStyle}
                 />
               </motion.div>
             );
           })}
         </section>
         <section className="flex justify-end w-full">
-          <FormButton theme={theme} onClick={validate}>
-            OK
-          </FormButton>
+          <FormButton onClick={validate}>OK</FormButton>
         </section>
       </div>
     </section>

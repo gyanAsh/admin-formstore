@@ -5,10 +5,12 @@ import { FormButton } from "../button";
 import { FormErrorMsgPopUp } from "../error-card";
 import { useState } from "react";
 import { z } from "zod";
-import { ThemeValues } from "@/store/forms/designs/values";
 import useAutoFocusOnVisible from "@/hooks/use-autofocus-on-visible";
 import { useStore } from "@nanostores/react";
-import { $current_form } from "@/store/forms/form-elements";
+import {
+  $get_design_element,
+  $get_design_label,
+} from "@/store/forms/form-elements";
 
 const urlSchema = z
   .string()
@@ -30,8 +32,20 @@ export const FormWebsite = ({
 
   const { ref } = useAutoFocusOnVisible<HTMLInputElement>(0.5);
 
-  const currentForm = useStore($current_form);
-  const theme = currentForm.design.theme;
+  const elDesign = useStore($get_design_element);
+  const design = useStore($get_design_label);
+  const elStyle: Record<string, string> & React.CSSProperties = {
+    "--family": design.family,
+    "--text-color": elDesign.textColor,
+    "--bg-color": elDesign.bgColor,
+    "--border-color": elDesign.borderColor,
+    "--transparant":
+      elDesign.variant === "glass"
+        ? "20%"
+        : elDesign.variant === "outline"
+        ? "0%"
+        : "100%",
+  };
 
   const validate = () => {
     const result = urlSchema.safeParse(inputState);
@@ -54,19 +68,10 @@ export const FormWebsite = ({
         className={cn(
           "w-full border-2 py-2 md:py-3 px-3 md:px-4.5 text-lg md:text-xl",
 
-          {
-            " autofill:!bg-transparent !bg-green-900/20 text-white rounded-4xl border-zinc-50 data-focused:outline-zinc-50 placeholder:text-zinc-200/80":
-              theme === ThemeValues.gradient_forest.value,
-          },
-          {
-            "bg-zinc-950/35 text-zinc-300 rounded-4xl border-zinc-400 data-focused:outline-zinc-300 placeholder:text-zinc-600":
-              theme == ThemeValues.luxe_minimal_noir.value,
-          },
-          {
-            " autofill:!bg-transparent !bg-green-900/10 text-inherit rounded-4xl border-green-500 data-focused:outline-green-600 placeholder:text-green-900/55":
-              theme === ThemeValues.luxe_minimal_forest.value,
-          }
+          "text-[var(--text-color)] [font-family:var(--family)] border-[var(--border-color)]/60 placeholder:text-[var(--text-color)]/65 outline-0 focus:border-[var(--border-color)] w-full h-fit py-2 px-4 text-lg rounded-full font-medium placeholder:italic bg-[var(--bg-color)]/[var(--transparant)]",
+          { " backdrop-blur-xs": elDesign.variant === "glass" }
         )}
+        style={elStyle}
         ref={ref}
         // autoFocus={true}
         placeholder={url.placeholder}
@@ -89,9 +94,7 @@ export const FormWebsite = ({
           msg={showError.msg}
         />
 
-        <FormButton theme={theme} onClick={validate}>
-          OK
-        </FormButton>
+        <FormButton onClick={validate}>OK</FormButton>
       </div>
     </section>
   );

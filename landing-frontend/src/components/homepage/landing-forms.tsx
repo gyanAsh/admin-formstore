@@ -184,6 +184,7 @@ const FormInput = () => {
         ? "0%"
         : "100%",
   };
+  // ss
   return (
     <div className="w-full max-w-[650px] self-center place-self-center flex flex-col items-end gap-2.5">
       <input
