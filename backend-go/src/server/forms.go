@@ -16,6 +16,7 @@ import (
 type Form struct {
 	ID          int64     `json:"id"`
 	Title       string    `json:"title"`
+	Status      string    `json:"status"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
 	WorkspaceID string    `json:"workspace_id,omitempty"`
@@ -46,6 +47,7 @@ func parseFormDataAndElements(rows []db.GetFormDataAndElementsRow) FormData {
 			form.Title = row.Title
 			form.CreatedAt = row.CreatedAt.Time
 			form.UpdatedAt = row.UpdatedAt.Time
+			form.Status = string(row.Status)
 			workspace.ID = int64(row.ID_2)
 			workspace.Name = row.Name
 			workspace.CreatedAt = row.CreatedAt_2.Time
@@ -134,6 +136,7 @@ func (s *Service) formsHandler(w http.ResponseWriter, r *http.Request) {
 		form.Title = row.Title
 		form.CreatedAt = row.CreatedAt.Time
 		form.UpdatedAt = row.UpdatedAt.Time
+		form.Status = string(row.Status)
 		forms = append(forms, form)
 	}
 	workspaceRes := <-workspaceChan

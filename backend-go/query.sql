@@ -13,6 +13,7 @@ SELECT
 	forms.title,
 	forms.created_at,
 	forms.updated_at,
+	forms.status,
 	-- workspace
 	workspaces.ID,
 	workspaces.name,
