@@ -3,7 +3,7 @@ import { AlertCircleIcon, ImageIcon, UploadIcon, XIcon } from "lucide-react";
 import { useFileUpload } from "@/hooks/use-file-upload";
 import { Button } from "@/components/ui/button";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import {
   Cropper,
   CropperCropArea,
@@ -95,7 +95,7 @@ export default function UploadImage({
     maxSize,
   });
   const previewUrl = files[0]?.preview || null;
-  const fileName = files[0]?.file.name || null;
+  // const fileName = files[0]?.file.name || null;
   const ORIGINAL_IMAGE_URL = previewUrl || "";
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
 
