@@ -312,7 +312,7 @@ components:
           type: string
           description: name for workspace
         user_id:
-          type: integer
+          type: string
           description: user related to the workspace, not required
         created_at:
           type: string
