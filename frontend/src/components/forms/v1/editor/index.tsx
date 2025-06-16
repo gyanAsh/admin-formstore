@@ -47,7 +47,6 @@ import {
   DescriptionDesign,
   ElementDesign,
   LabelDesign,
-  layoutAlignments,
   LayoutDesign,
   letterSpacings,
   spacingSizes,
@@ -212,18 +211,20 @@ const LayoutDesignContext = () => {
       </div>
       <div className="grid gap-2 md:gap-4 lg:gap-5">
         <div className="grid grid-cols-3 items-center gap-4">
-          <Label htmlFor="layout-align">Align Content</Label>
-          <ToggleGroup
+          <Label htmlFor="layout-align">Effects</Label>
+          {/* <ToggleGroup
             variant="outline"
             id="layout-align"
-            value={design.layoutAlign as LayoutDesign["layoutAlign"]}
-            onValueChange={(e) =>
-              setDesign({
-                layoutAlign: e as LayoutDesign["layoutAlign"],
-              })
-            }
+            // value={design.layoutAlign as LayoutDesign["layoutAlign"]}
+            onValueChange={(e) => {
+              console.log({ e });
+              return;
+              // setDesign({
+              //   layoutAlign: e as LayoutDesign["layoutAlign"],
+              // })
+            }}
             className=" col-span-2 items-center flex-wrap inline-flex w-full"
-            type="single"
+            type="multiple"
           >
             {layoutAlignments.map((e) => (
               <ToggleGroupItem
@@ -234,7 +235,10 @@ const LayoutDesignContext = () => {
                 <e.icon />
               </ToggleGroupItem>
             ))}
-          </ToggleGroup>
+          </ToggleGroup> */}
+          <div className=" col-span-2 flex items-center justify-between">
+            add noice_+_blur effect
+          </div>
         </div>
         <div className="grid grid-cols-3 items-center gap-4">
           <Label htmlFor="element-spacing">Spacing</Label>

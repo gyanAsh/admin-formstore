@@ -5,27 +5,29 @@ import {
   SidebarFooter,
   SidebarHeader,
 } from "@/components/ui/sidebar";
-
 import { Footer } from "@/components/layout/dashboard/Footer";
 import WorkspaceGroup from "./Workspace";
 
 export function AppSidebar() {
   return (
     <Sidebar variant="inset" className="!bg-transparent">
-      <SidebarHeader className="flex-row gap-2.5">
+      <SidebarHeader className="flex-row items-center gap-2.5">
         <img
           src={"/formstore-logo-light.svg"}
           alt="Logo"
           loading="lazy"
-          className="dark:hidden block"
+          className="dark:hidden block size-9"
         />
         <img
           src={"/formstore-logo-dark.svg"}
           alt="Logo"
           loading="lazy"
-          className="hidden dark:block"
+          className="hidden dark:block size-9"
         />
-        <h2 className="text-3xl font-semibold">formstore</h2>
+        <div className="text-lg leading-4 font-semibold">
+          <h1 className="font-['Playfair_Display','serif'] italic">The</h1>
+          <h1 className="">Formstore</h1>
+        </div>
       </SidebarHeader>
       <SidebarContent>
         <ScrollArea className="min-h-[150px] space-y-1">

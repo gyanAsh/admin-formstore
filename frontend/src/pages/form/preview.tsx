@@ -19,20 +19,15 @@ import {
   UrlValidation,
 } from "@/store/forms/form-elements.types";
 import { FormBackground } from "@/components/forms/v1/background";
-import { FormCard } from "@/components/forms/v1/card";
+import { FormCard, InputContainer } from "@/components/forms/v1/card";
 import { FormDescription, FormLabel } from "@/components/forms/v1/details";
 import { cn } from "@/lib/utils";
-import {
-  FormDesignAttributes,
-  FormTheme,
-} from "@/store/forms/designs/design-elements.types";
 import { FormProgressBar } from "@/components/forms/v1/progress-bar";
 import { FormEmail } from "@/components/forms/v1/elements/email";
 import { FormConsent } from "@/components/forms/v1/elements/consent";
 import { FormRating } from "@/components/forms/v1/elements/rating";
 import { FormText } from "@/components/forms/v1/elements/text";
 import { FormWebsite } from "@/components/forms/v1/elements/website";
-import { ThemeValues } from "@/store/forms/designs/values";
 const variants = {
   enter: (direction: "prev" | "next") => ({
     x: direction === "prev" ? -100 : 100,
@@ -118,7 +113,6 @@ const PreviewFormPage = ({
                     formCardClassName={formCardClassName}
                     goNextFunction={() => paginate("next")}
                     element={currentElement}
-                    designAtts={designAtts}
                   />
                 </motion.div>
               )}
@@ -126,22 +120,9 @@ const PreviewFormPage = ({
           </div>
 
           {/* Navigation Buttons */}
-          <div className="text-sm absolute flex items-center border-zinc-200 bg-inherit pr-1.5 rounded-xl bottom-4 right-4 space-x-2">
-            <div
-              className={cn(
-                "flex items-center p-1 rounded-xl space-x-1.5 border",
-                {
-                  " border-zinc-50/60":
-                    designAtts.theme === ThemeValues.gradient_forest.value,
-                },
-                {
-                  " border-green-600/40":
-                    designAtts.theme === ThemeValues.luxe_minimal_forest.value,
-                }
-              )}
-            >
+          <div className="text-sm absolute flex items-center border-zinc-200 bg-black text-white p-2 rounded-3xl bottom-4 right-4 space-x-2">
+            <div className={cn("flex items-center space-x-0.5")}>
               <FormNavBtn
-                theme={designAtts.theme}
                 onClick={() => paginate("prev")}
                 disabled={currentSection === 0}
                 className="p-0.5 rounded-l-lg"
@@ -150,7 +131,6 @@ const PreviewFormPage = ({
               </FormNavBtn>
               <FormNavBtn
                 onClick={() => paginate("next")}
-                theme={designAtts.theme}
                 disabled={currentSection === elements.length - 1}
                 className="p-0.5 rounded-r-lg"
               >
@@ -158,8 +138,8 @@ const PreviewFormPage = ({
               </FormNavBtn>
             </div>
 
-            <h2 className="ml-1">
-              Powered by <b>Formstore</b>
+            <h2 className="ml-0.5 text-base">
+              Made with <b>Formstore</b>
             </h2>
           </div>
         </FormBackground>
@@ -199,12 +179,9 @@ const PreviewFormPage = ({
 export default PreviewFormPage;
 
 const FormNavBtn = ({
-  theme,
   className,
   ...props
-}: React.ComponentProps<"button"> & {
-  theme: FormTheme;
-}) => {
+}: React.ComponentProps<"button"> & {}) => {
   return (
     <button
       className={cn(
@@ -220,12 +197,10 @@ const FormPage = ({
   formCardClassName,
   goNextFunction,
   element,
-  designAtts,
 }: {
   formCardClassName?: React.ComponentProps<"div">["className"];
   goNextFunction: Function;
   element: FormElements;
-  designAtts: FormDesignAttributes;
 }) => {
   return (
     <FormCard
@@ -236,21 +211,14 @@ const FormPage = ({
     >
       <section
         className={cn(
-          "flex flex-col justify-center  px-2 md:px-8 lg:px-16 gap-2.5 md:gap-5.5 "
+          "flex flex-col justify-center  px-2 md:px-8 lg:px-16 gap-2.5 md:gap-5.5"
         )}
       >
         <FormLabel>{element.labels.title}</FormLabel>
         <FormDescription>{element.labels.description}</FormDescription>
       </section>
-      <section
-        className={cn(
-          "scale-90 @[64rem]:scale-100 flex justify-center font-['Roboto','sans-serif']",
-          {
-            "font-['Playfair_Display','serif'] font-light":
-              designAtts.theme === ThemeValues.luxe_minimal_forest.value,
-          }
-        )}
-      >
+
+      <InputContainer>
         {element.field === "email" ? (
           <FormEmail
             email={element.validations as EmailValidation}
@@ -279,7 +247,7 @@ const FormPage = ({
         ) : (
           <p>{element.field}</p>
         )}
-      </section>
+      </InputContainer>
     </FormCard>
   );
 };

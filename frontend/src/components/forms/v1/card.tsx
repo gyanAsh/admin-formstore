@@ -1,19 +1,26 @@
 import { cn } from "@/lib/utils";
-import { $current_form } from "@/store/forms/form-elements";
-import { useStore } from "@nanostores/react";
 
 export const FormCard = ({
   className,
   ...props
 }: React.ComponentProps<"div">) => {
-  const currentForm = useStore($current_form);
-  const showTwoCol = currentForm.design.displayTwoColumns;
+  return (
+    <div
+      className={cn("p-6 h-full grid grid-cols-1 text-center", className)}
+      {...props}
+    />
+  );
+};
+
+export const InputContainer = ({
+  className,
+  ...props
+}: React.ComponentProps<"div">) => {
   return (
     <div
       className={cn(
-        "p-6 h-full grid grid-cols-1 text-center",
-        { " lg:grid-cols-2 lg:items-center": showTwoCol },
-
+        "scale-90 @[64rem]:scale-100 flex justify-center",
+        "  px-2 md:px-8 lg:px-16 gap-2.5 md:gap-5.5 ",
         className
       )}
       {...props}
