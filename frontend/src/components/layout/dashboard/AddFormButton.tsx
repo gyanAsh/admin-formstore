@@ -43,7 +43,7 @@ export default function AddFormButton() {
 
   const formMutation = useMutation({
     mutationFn: async ({ name }: { name: string }) => {
-      if (isNaN(parseInt(workspaceId))) {
+      if (isNaN(parseInt(String(workspaceId)))) {
         throw Error("invalid workspace id");
         return;
       }
