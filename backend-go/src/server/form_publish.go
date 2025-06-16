@@ -110,6 +110,14 @@ func (s *Service) formPublishHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+
+	if _, err = s.Conn.Exec(r.Context(), `UPDATE forms SET status =
+	'published' WHERE ID = $1`, form.FormID); err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
 	if err = json.NewEncoder(w).Encode(map[string]any{
 		"message": "form successfull published",
 	}); err != nil {
