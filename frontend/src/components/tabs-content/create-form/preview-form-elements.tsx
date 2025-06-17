@@ -1,17 +1,11 @@
-import { ArrowUpRight, Columns2 } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { Button } from "../../ui/button";
 import { useParams } from "react-router";
 import { ThemeValues } from "@/store/forms/designs/values";
-import {
-  setBGNoise,
-  setFormTheme,
-  setTwoColumns,
-} from "@/store/forms/designs/design-elements";
+import { setFormTheme } from "@/store/forms/designs/design-elements";
 import PreviewFormPage from "@/pages/form/preview";
 import { useStore } from "@nanostores/react";
-import { Toggle } from "../../ui/toggle";
 import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
-import { cn } from "@/lib/utils";
 import { $current_form } from "@/store/forms/form-elements";
 import FormEditorOption from "@/components/forms/v1/editor";
 
@@ -83,30 +77,6 @@ export const FormElementPreview = () => {
               </div>
             </PopoverContent>
           </Popover>
-          <Toggle
-            pressed={designAtts.addGrainyBG}
-            onPressedChange={(e) => setBGNoise(formId!, e)}
-            aria-label="Toggle Noise"
-            className={cn(
-              "rounded-full cursor-pointer border-2 border-transparent",
-              " data-[state=on]:border-white data-[state=on]:bg-black data-[state=on]:text-white data-[state=on]:scale-95",
-              " bg-slate-900 text-zinc-50 hover:bg-slate-950 hover:text-white active:scale-95 active:border-white"
-            )}
-          >
-            Noise
-          </Toggle>
-          <Toggle
-            pressed={designAtts.displayTwoColumns}
-            onPressedChange={(e) => setTwoColumns(formId!, e)}
-            aria-label="Toggle Noise"
-            className={cn(
-              "rounded-full cursor-pointer border-2 border-transparent",
-              " data-[state=on]:border-white data-[state=on]:bg-black data-[state=on]:text-white data-[state=on]:scale-95",
-              " bg-slate-900 text-zinc-50 hover:bg-slate-950 hover:text-white active:scale-95 active:border-white"
-            )}
-          >
-            <Columns2 />
-          </Toggle>
         </div>
       </section>
     </div>

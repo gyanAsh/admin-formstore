@@ -14,30 +14,3 @@ export function setFormTheme(formId: string, theme: FormTheme) {
     })
   );
 }
-export function setBGNoise(formId: string, addNoise: boolean) {
-  $all_forms.set(
-    $all_forms.get().map((form) => {
-      if (form.id === formId) {
-        return {
-          ...form,
-          design: { ...form.design, addGrainyBG: addNoise },
-        };
-      }
-      return form;
-    })
-  );
-}
-
-export function setTwoColumns(formId: string, addTwoCols: boolean) {
-  $all_forms.set(
-    $all_forms.get().map((form) => {
-      if (form.id === formId) {
-        return {
-          ...form,
-          design: { ...form.design, displayTwoColumns: addTwoCols },
-        };
-      }
-      return form;
-    })
-  );
-}

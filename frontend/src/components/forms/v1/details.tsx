@@ -71,3 +71,13 @@ export const FormDescription = ({
     />
   );
 };
+
+export const DetailsContainer = ({
+  children,
+}: React.ComponentProps<"section">) => {
+  return (
+    <section className="flex flex-col justify-center px-2 md:px-8 lg:px-16 gap-2.5 md:gap-5.5  ">
+      {children}
+    </section>
+  );
+};

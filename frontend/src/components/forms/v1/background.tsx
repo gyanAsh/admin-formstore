@@ -3,6 +3,7 @@ import { $get_design_layout } from "@/store/forms/form-elements";
 import { useStore } from "@nanostores/react";
 
 export const FormBackground = ({
+  children,
   className,
   ...props
 }: React.ComponentProps<"div">) => {
@@ -17,7 +18,7 @@ export const FormBackground = ({
   return (
     <div
       className={cn(
-        "relative overflow-hidden h-full cursor-default",
+        "relative overflow-hidden h-full cursor-default ",
         {
           "bg-[var(--bg-color)]": design.bgType === "solid",
         },
@@ -34,6 +35,13 @@ export const FormBackground = ({
       )}
       style={style}
       {...props}
-    />
+    >
+      {/* {design.addNoise && <div className="grain-overlay" />} */}
+      {/* {design.addBlur && (
+        <div className="absolute rounded-4xl inset-0 backdrop-blur-sm" />
+      )} */}
+
+      {children}
+    </div>
   );
 };

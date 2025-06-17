@@ -1,4 +1,3 @@
-import { AlignCenter, AlignLeft, AlignRight, LucideIcon } from "lucide-react";
 import {
   $all_forms,
   selectedFormId,
@@ -190,7 +189,9 @@ export const defaultDesignState: DesignState = {
     borderColor: "#ffffffff",
   },
   layout: {
-    layoutAlign: "center",
+    addBlur: true,
+    addHalo: true,
+    addNoise: true,
     elementSpacing: "12px",
     bgType: "image",
     bgSolidValue: { color: "#000000" },
@@ -285,7 +286,9 @@ export function $set_design_element(newElementDesign: Partial<ElementDesign>) {
 // ------------------------------------Layout-----------------------------------------
 
 export interface LayoutDesign {
-  layoutAlign: LayoutAlign["value"];
+  addNoise: boolean;
+  addBlur: boolean;
+  addHalo: boolean;
   elementSpacing: Spacing["value"];
   bgType: BgType["type"];
   bgSolidValue: SolidValueType;
@@ -324,32 +327,6 @@ export const spacingSizes: Spacing[] = [
 ];
 
 //---Letter Align---
-export interface LayoutAlign {
-  value: "left" | "center" | "right";
-  icon: LucideIcon;
-}
-
-export const layoutAlignments: LayoutAlign[] = [
-  {
-    value: "left",
-    icon: AlignLeft,
-  },
-  {
-    value: "center",
-    icon: AlignCenter,
-  },
-  {
-    value: "right",
-    icon: AlignRight,
-  },
-];
-
-//--Align-Content--//
-export const justifyContent: Record<LayoutAlign["value"], string> = {
-  center: "center",
-  left: "flex-start",
-  right: "flex-end",
-};
 
 //--Background-Types--//
 export interface SolidValueType {

@@ -47,7 +47,6 @@ import {
   DescriptionDesign,
   ElementDesign,
   LabelDesign,
-  LayoutDesign,
   letterSpacings,
   spacingSizes,
   TextFont,
@@ -210,36 +209,46 @@ const LayoutDesignContext = () => {
         <p className="text-muted-foreground text-sm">Set the Form layout.</p>
       </div>
       <div className="grid gap-2 md:gap-4 lg:gap-5">
-        <div className="grid grid-cols-3 items-center gap-4">
-          <Label htmlFor="layout-align">Effects</Label>
-          {/* <ToggleGroup
-            variant="outline"
-            id="layout-align"
-            // value={design.layoutAlign as LayoutDesign["layoutAlign"]}
-            onValueChange={(e) => {
-              console.log({ e });
-              return;
-              // setDesign({
-              //   layoutAlign: e as LayoutDesign["layoutAlign"],
-              // })
-            }}
-            className=" col-span-2 items-center flex-wrap inline-flex w-full"
-            type="multiple"
-          >
-            {layoutAlignments.map((e) => (
-              <ToggleGroupItem
-                key={e.value}
-                className="data-[state=on]:bg-zinc-900 text-xs bg-background dark:data-[state=on]:bg-zinc-200 data-[state=on]:text-white dark:data-[state=on]:text-zinc-900"
-                value={e.value}
+        {false && (
+          <div className="grid grid-cols-3 items-center gap-4">
+            <Label htmlFor="layout-effect">Effects</Label>
+            <div
+              id="layout-effect"
+              className=" col-span-2 flex items-center justify-between w-full"
+            >
+              <Button
+                variant={"outline"}
+                aria-selected={design.addNoise}
+                className=" aria-[selected=true]:bg-zinc-900 dark:aria-[selected=true]:bg-zinc-200 aria-[selected=true]:text-zinc-50 dark:aria-[selected=true]:text-zinc-900"
+                onClick={() => {
+                  setDesign({ addNoise: !design.addNoise });
+                }}
               >
-                <e.icon />
-              </ToggleGroupItem>
-            ))}
-          </ToggleGroup> */}
-          <div className=" col-span-2 flex items-center justify-between">
-            add noice_+_blur effect
+                Noise
+              </Button>
+              <Button
+                variant={"outline"}
+                aria-selected={design.addBlur}
+                className=" aria-[selected=true]:bg-zinc-900 dark:aria-[selected=true]:bg-zinc-200 aria-[selected=true]:text-zinc-50 dark:aria-[selected=true]:text-zinc-900"
+                onClick={() => {
+                  setDesign({ addBlur: !design.addBlur });
+                }}
+              >
+                Blur
+              </Button>
+              <Button
+                variant={"outline"}
+                aria-selected={design.addHalo}
+                className=" aria-[selected=true]:bg-zinc-900 dark:aria-[selected=true]:bg-zinc-200 aria-[selected=true]:text-zinc-50 dark:aria-[selected=true]:text-zinc-900"
+                onClick={() => {
+                  setDesign({ addHalo: !design.addHalo });
+                }}
+              >
+                Halo
+              </Button>
+            </div>
           </div>
-        </div>
+        )}
         <div className="grid grid-cols-3 items-center gap-4">
           <Label htmlFor="element-spacing">Spacing</Label>
           <div
@@ -379,19 +388,19 @@ const ElementDesignContent = () => {
               type="single"
             >
               <ToggleGroupItem
-                className="data-[state=on]:bg-zinc-900 bg-background dark:data-[state=on]:bg-zinc-200 data-[state=on]:text-white dark:data-[state=on]:text-zinc-900"
+                className="data-[state=on]:bg-zinc-900 bg-background grow dark:data-[state=on]:bg-zinc-200 data-[state=on]:text-white dark:data-[state=on]:text-zinc-900"
                 value="solid"
               >
                 Solid
               </ToggleGroupItem>
               <ToggleGroupItem
-                className="data-[state=on]:bg-zinc-900 bg-background dark:data-[state=on]:bg-zinc-200 data-[state=on]:text-white dark:data-[state=on]:text-zinc-900"
+                className="data-[state=on]:bg-zinc-900 bg-background grow dark:data-[state=on]:bg-zinc-200 data-[state=on]:text-white dark:data-[state=on]:text-zinc-900"
                 value="glass"
               >
                 Glass
               </ToggleGroupItem>
               <ToggleGroupItem
-                className="data-[state=on]:bg-zinc-900 bg-background dark:data-[state=on]:bg-zinc-200 data-[state=on]:text-white dark:data-[state=on]:text-zinc-900"
+                className="data-[state=on]:bg-zinc-900 bg-background grow dark:data-[state=on]:bg-zinc-200 data-[state=on]:text-white dark:data-[state=on]:text-zinc-900"
                 value="outline"
               >
                 Outline

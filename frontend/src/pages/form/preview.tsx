@@ -20,7 +20,11 @@ import {
 } from "@/store/forms/form-elements.types";
 import { FormBackground } from "@/components/forms/v1/background";
 import { FormCard, InputContainer } from "@/components/forms/v1/card";
-import { FormDescription, FormLabel } from "@/components/forms/v1/details";
+import {
+  DetailsContainer,
+  FormDescription,
+  FormLabel,
+} from "@/components/forms/v1/details";
 import { cn } from "@/lib/utils";
 import { FormProgressBar } from "@/components/forms/v1/progress-bar";
 import { FormEmail } from "@/components/forms/v1/elements/email";
@@ -61,7 +65,7 @@ const PreviewFormPage = ({
   const [currentSection, setCurrentSection] = useState(0);
   const [direction, setDirection] = useState<"prev" | "next">("next");
 
-  const { elements, design: designAtts } = currentForm;
+  const { elements } = currentForm;
 
   useEffect(() => {
     selectedWorkspaceId.set(workspaceId);
@@ -92,7 +96,6 @@ const PreviewFormPage = ({
     return (
       <section className={cn("h-[100dvh]", className)} {...props}>
         <FormBackground>
-          {designAtts.addGrainyBG === true && <div className="grain-overlay" />}
           {/* Progress Bar */}
           <FormProgressBar progressPercentage={progressPercentage} />
 
@@ -203,20 +206,11 @@ const FormPage = ({
   element: FormElements;
 }) => {
   return (
-    <FormCard
-      className={cn(
-        "overflow-y-scroll gap-3 zmd:gap-6 @container",
-        formCardClassName
-      )}
-    >
-      <section
-        className={cn(
-          "flex flex-col justify-center  px-2 md:px-8 lg:px-16 gap-2.5 md:gap-5.5"
-        )}
-      >
+    <FormCard className={cn("overflow-y-scroll @container", formCardClassName)}>
+      <DetailsContainer>
         <FormLabel>{element.labels.title}</FormLabel>
         <FormDescription>{element.labels.description}</FormDescription>
-      </section>
+      </DetailsContainer>
 
       <InputContainer>
         {element.field === "email" ? (

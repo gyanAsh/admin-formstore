@@ -1,12 +1,23 @@
 import { cn } from "@/lib/utils";
+import { $get_design_layout } from "@/store/forms/form-elements";
+import { useStore } from "@nanostores/react";
 
 export const FormCard = ({
   className,
   ...props
 }: React.ComponentProps<"div">) => {
+  const design = useStore($get_design_layout);
+  const style: Record<string, string> & React.CSSProperties = {
+    "--space-gap": design.elementSpacing,
+  };
+  console.log({ design });
   return (
     <div
-      className={cn("p-6 h-full grid grid-cols-1 text-center", className)}
+      className={cn(
+        "p-6 h-full grid grid-cols-1 gap-[calc(var(--space-gap)_*_4)] text-center",
+        className
+      )}
+      style={style}
       {...props}
     />
   );
