@@ -45,11 +45,18 @@ we don't have a product as most people would visit here.
 
 # Diagram
 
-`Athens` --> `Constantinople`
- |
- | shares connection
- |
-`Berlin` --> `Florence`
+Athens ◄───── Constantinople
+
+  │
+  │ trades
+  │
+
+Berlin ◄───── Florence
 
 
-`Venice`
+Vencie (stands independent)
+
+## terminology
+- to `trade` in to share some sort of data
+- in the case of **Athens** and **Berlin** they share form data across (postgres and redis database)
+
