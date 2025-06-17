@@ -209,46 +209,6 @@ const LayoutDesignContext = () => {
         <p className="text-muted-foreground text-sm">Set the Form layout.</p>
       </div>
       <div className="grid gap-2 md:gap-4 lg:gap-5">
-        {false && (
-          <div className="grid grid-cols-3 items-center gap-4">
-            <Label htmlFor="layout-effect">Effects</Label>
-            <div
-              id="layout-effect"
-              className=" col-span-2 flex items-center justify-between w-full"
-            >
-              <Button
-                variant={"outline"}
-                aria-selected={design.addNoise}
-                className=" aria-[selected=true]:bg-zinc-900 dark:aria-[selected=true]:bg-zinc-200 aria-[selected=true]:text-zinc-50 dark:aria-[selected=true]:text-zinc-900"
-                onClick={() => {
-                  setDesign({ addNoise: !design.addNoise });
-                }}
-              >
-                Noise
-              </Button>
-              <Button
-                variant={"outline"}
-                aria-selected={design.addBlur}
-                className=" aria-[selected=true]:bg-zinc-900 dark:aria-[selected=true]:bg-zinc-200 aria-[selected=true]:text-zinc-50 dark:aria-[selected=true]:text-zinc-900"
-                onClick={() => {
-                  setDesign({ addBlur: !design.addBlur });
-                }}
-              >
-                Blur
-              </Button>
-              <Button
-                variant={"outline"}
-                aria-selected={design.addHalo}
-                className=" aria-[selected=true]:bg-zinc-900 dark:aria-[selected=true]:bg-zinc-200 aria-[selected=true]:text-zinc-50 dark:aria-[selected=true]:text-zinc-900"
-                onClick={() => {
-                  setDesign({ addHalo: !design.addHalo });
-                }}
-              >
-                Halo
-              </Button>
-            </div>
-          </div>
-        )}
         <div className="grid grid-cols-3 items-center gap-4">
           <Label htmlFor="element-spacing">Spacing</Label>
           <div

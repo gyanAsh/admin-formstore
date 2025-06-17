@@ -27,11 +27,11 @@ export const FormButton = ({
   return (
     <button
       className={cn(
-        " min-w-25 w-[135px] md:w-[160px]",
-        " px-2 md:px-3 py-2 md:py-3 cursor-pointer",
+        " min-w-25  md:min-w-[160px] w-fit",
+        " px-2.5 md:px-3 py-2.5 md:py-3 cursor-pointer",
         " hover:contrast-75 hover:scale-[1.02] active:scale-95 duration-200 transition-colors",
 
-        "rounded-full text-[var(--text-color)] [font-family:var(--family)] text-lg px-7 py-5 bg-[var(--bg-color)]/[var(--transparant)] border-2 border-[var(--border-color)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)]/[var(--transparant)]",
+        "rounded-full text-[var(--text-color)] [font-family:var(--family)] text-lg bg-[var(--bg-color)]/[var(--transparant)] border-2 border-[var(--border-color)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)]/[var(--transparant)]",
         { " backdrop-blur-[1px]": elDesign.variant === "glass" },
         className
       )}

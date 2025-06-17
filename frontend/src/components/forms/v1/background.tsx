@@ -36,11 +36,6 @@ export const FormBackground = ({
       style={style}
       {...props}
     >
-      {/* {design.addNoise && <div className="grain-overlay" />} */}
-      {/* {design.addBlur && (
-        <div className="absolute rounded-4xl inset-0 backdrop-blur-sm" />
-      )} */}
-
       {children}
     </div>
   );

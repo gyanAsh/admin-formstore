@@ -15,9 +15,13 @@ export const FormConsent = ({
 
   return (
     <section className={cn(" max-w-150 flex flex-col gap-2.5 grow")}>
-      <div className="flex items-start justify-center md:justify-between gap-5">
-        <FormButton onClick={validate}>{consent.rejectBtnText}</FormButton>
-        <FormButton onClick={validate}>{consent.acceptBtnText}</FormButton>
+      <div className="grid md:grid-cols-2 place-items-center gap-5">
+        <FormButton className="w-full" onClick={validate}>
+          {consent.rejectBtnText}
+        </FormButton>
+        <FormButton className="w-full" onClick={validate}>
+          {consent.acceptBtnText}
+        </FormButton>
       </div>
     </section>
   );

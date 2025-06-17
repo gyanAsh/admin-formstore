@@ -189,9 +189,6 @@ export const defaultDesignState: DesignState = {
     borderColor: "#ffffffff",
   },
   layout: {
-    addBlur: true,
-    addHalo: true,
-    addNoise: true,
     elementSpacing: "12px",
     bgType: "image",
     bgSolidValue: { color: "#000000" },
@@ -286,9 +283,6 @@ export function $set_design_element(newElementDesign: Partial<ElementDesign>) {
 // ------------------------------------Layout-----------------------------------------
 
 export interface LayoutDesign {
-  addNoise: boolean;
-  addBlur: boolean;
-  addHalo: boolean;
   elementSpacing: Spacing["value"];
   bgType: BgType["type"];
   bgSolidValue: SolidValueType;
