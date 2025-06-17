@@ -19,8 +19,6 @@ let defaultCurrentForm: Forms = {
   elements: [],
   design: {
     theme: "luxe_minimal_noir",
-    addGrainyBG: false,
-    displayTwoColumns: false,
     ...defaultDesignState,
   },
 };
@@ -136,8 +134,4 @@ export function removeFormElement(formId: string, elementId: string) {
       return form;
     })
   );
-}
-
-export function getFormElementsById(formId: string) {
-  return $all_forms.get().filter((x) => x.id == formId)[0];
 }

@@ -43,8 +43,6 @@ export default function CreateForm() {
           elements: [],
           design: {
             theme: ThemeValues.luxe_minimal_noir.value,
-            displayTwoColumns: false,
-            addGrainyBG: false,
             ...defaultDesignState,
           },
         });

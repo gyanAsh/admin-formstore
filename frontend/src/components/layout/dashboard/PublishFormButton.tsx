@@ -14,7 +14,8 @@ import {
 import { Button } from "@/components/ui/button";
 import * as motion from "motion/react-client";
 import { cn, getAuthToken } from "@/lib/utils";
-import { getFormElementsById } from "@/store/forms/form-elements";
+import { $current_form } from "@/store/forms/form-elements";
+import { useStore } from "@nanostores/react";
 export const createFormSchema = z.object({
   name: z.string().min(2, {
     message: "Form name must be at least 2 characters.",
@@ -23,9 +24,9 @@ export const createFormSchema = z.object({
 
 export default function PublishFormButton({ formId }: { formId: number }) {
   const [openDialog, setOpenDialog] = useState(false);
+  const formData = useStore($current_form);
 
   async function publishFormHandler() {
-    const formData = getFormElementsById(String(formId));
     if (
       !formData.elements ||
       typeof formData.elements != "object" ||
@@ -70,7 +71,7 @@ export default function PublishFormButton({ formId }: { formId: number }) {
         >
           <Button className="text-sm font-semibold text-white rounded-lg">
             Publish
-            <span className="sr-only">Add Form</span>
+            <span className="sr-only">Publish Form</span>
           </Button>
         </motion.div>
       </DialogTrigger>
@@ -93,7 +94,7 @@ export default function PublishFormButton({ formId }: { formId: number }) {
               effect="small_scale"
               className={cn(
                 "flex-1 rounded-lg text-base",
-                "bg-transparent border border-white-500 text-white-500 hover:text-white-500 ease-in duration-80",
+                "bg-transparent border border-white-500 text-white-500 hover:text-white-500 ease-in duration-80"
               )}
             >
               Cancel
@@ -104,7 +105,7 @@ export default function PublishFormButton({ formId }: { formId: number }) {
             effect={"small_scale"}
             className={cn(
               "flex-1 rounded-lg text-white! text-base  ease-in duration-80",
-              "bg-primary/85",
+              "bg-primary/85"
             )}
             onClick={publishFormHandler}
           >

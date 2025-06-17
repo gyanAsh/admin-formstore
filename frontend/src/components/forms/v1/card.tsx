@@ -10,7 +10,6 @@ export const FormCard = ({
   const style: Record<string, string> & React.CSSProperties = {
     "--space-gap": design.elementSpacing,
   };
-  console.log({ design });
   return (
     <div
       className={cn(
