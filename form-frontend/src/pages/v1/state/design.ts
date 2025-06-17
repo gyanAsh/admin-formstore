@@ -1,15 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import type { Forms } from "../types/elements.types";
-import { ThemeValues } from "./values";
-
-// interface BearState {
-//   form_elements: {
-
-//   };
-//   increase: () => void;
-//   removeAllBears: () => void;
-// }
 
 // Create a store with the persist middleware
 export const useFormV1Store = create<Forms>()(
@@ -17,10 +8,45 @@ export const useFormV1Store = create<Forms>()(
     (set) => ({
       id: "",
       form_name: "",
+      elements: [],
       design: {
-        theme: ThemeValues.luxe_minimal_noir.value,
-        addGrainyBG: false,
-        displayTwoColumns: false,
+        theme: "luxe_minimal_noir",
+        label: {
+          size: "48px",
+          family: '"IBM Plex Serif", serif',
+          color: "#f2f7fcff",
+          italics: false,
+          weight: "bold",
+          letter_spacing: "0.025em",
+        },
+        description: {
+          size: "20px",
+          family: '"IBM Plex Serif", serif',
+          color: "#f2f7fcff",
+          italics: true,
+          weight: "light",
+          letter_spacing: "-0.05em",
+        },
+        element: {
+          variant: "solid",
+          textColor: "#000000ff",
+          bgColor: "#f2f7fcff",
+          borderColor: "#000000ff",
+        },
+        layout: {
+          elementSpacing: "8px",
+          bgType: "custom",
+          bgSolidValue: {
+            color: "#000000ff",
+          },
+          bgImageValue: {
+            imageUrl: "/bg/pink-abstract.jpg",
+          },
+          bgCustomValue: {
+            value:
+              "radial-gradient(at 64.60129310344827% 44.79166666666667%, #ccf62c 0px, transparent 50%),radial-gradient(at 77% 4%, #98c74e 0px, transparent 50%),radial-gradient(at 0% 94.09722169240315%, #60a261 0px, transparent 50%),radial-gradient(at 100% 100%, #357a5b 0px, transparent 50%),radial-gradient(at 100% 7.5%, #417505 0px, transparent 50%),#ccf62c",
+          },
+        },
       },
       //   increase: () => set((state) => ({ form_elements: state.bears + 1 })),
       //   removeAllBears: () => set({ bears: 0 }),

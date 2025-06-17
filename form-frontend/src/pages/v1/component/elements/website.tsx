@@ -1,23 +1,23 @@
 import { cn } from "@/lib/utils";
-import { FormTheme } from "@/store/forms/designs/design-elements.types";
-import { EmailValidation } from "@/store/forms/form-elemets.types";
-import { Input } from "react-aria-components";
+// import { Input } from "react-aria-components";
 import { FormButton } from "../button";
 import { FormErrorMsgPopUp } from "../error-card";
 import { useState } from "react";
 import { z } from "zod";
-import { ThemeValues } from "@/store/forms/designs/values";
+
+import { useFormV1Store } from "../../state/design";
+import type { UrlValidation } from "../../types/elements.types";
 import useAutoFocusOnVisible from "@/hooks/use-autofocus-on-visible";
 
-const emailSchema = z.string().email({ message: "Invalid email address" });
+const urlSchema = z
+  .string()
+  .url({ message: "Please enter a valid URL, eg: https:// or http://" });
 
-export const FormEmail = ({
-  email,
-  theme,
+export const FormWebsite = ({
+  url,
   goNextFunction,
 }: {
-  email: EmailValidation;
-  theme: FormTheme;
+  url: UrlValidation;
   goNextFunction: Function;
 }) => {
   const [inputState, setInputState] = useState("");
@@ -26,15 +26,33 @@ export const FormEmail = ({
     msg: string;
     type: "warn" | "error";
   }>({ show: false, msg: "", type: "error" });
+
   const { ref } = useAutoFocusOnVisible<HTMLInputElement>(0.5);
 
+  const { element: elDesign, label: design } = useFormV1Store(
+    (state) => state.design
+  );
+
+  const elStyle: Record<string, string> & React.CSSProperties = {
+    "--family": design.family,
+    "--text-color": elDesign.textColor,
+    "--bg-color": elDesign.bgColor,
+    "--border-color": elDesign.borderColor,
+    "--transparant":
+      elDesign.variant === "glass"
+        ? "20%"
+        : elDesign.variant === "outline"
+        ? "0%"
+        : "100%",
+  };
+
   const validate = () => {
-    const result = emailSchema.safeParse(inputState);
+    const result = urlSchema.safeParse(inputState);
     if (!result.success) {
       setShowError({
         show: true,
         msg: result.error.errors.at(0)?.message!,
-        type: "warn",
+        type: "error",
       });
       return;
     }
@@ -43,26 +61,19 @@ export const FormEmail = ({
 
   return (
     <section className={cn(" max-w-150 flex flex-col gap-2.5 grow")}>
-      <Input
-        type="email"
-        id="email-element"
+      <input
+        type="url"
+        id="url-element"
         className={cn(
           "w-full border-2 py-2 md:py-3 px-3 md:px-4.5 text-lg md:text-xl",
-          {
-            " autofill:!bg-transparent !bg-green-900/20 text-white rounded-4xl border-zinc-50 data-focused:outline-zinc-50 placeholder:text-zinc-200/80":
-              theme === ThemeValues.gradient_forest.value,
-          },
-          {
-            " autofill:!bg-transparent !bg-green-900/10 text-inherit rounded-4xl border-green-500 data-focused:outline-green-600 placeholder:text-green-900/55":
-              theme === ThemeValues.luxe_minimal_forest.value,
-          },
-          {
-            "bg-zinc-950/35 text-zinc-300 rounded-4xl border-zinc-400 data-focused:outline-zinc-300 placeholder:text-zinc-600":
-              theme == ThemeValues.luxe_minimal_noir.value,
-          }
+
+          "text-[var(--text-color)] [font-family:var(--family)] border-[var(--border-color)]/60 placeholder:text-[var(--text-color)]/65 outline-0 focus:border-[var(--border-color)] w-full h-fit py-2 px-4 text-lg rounded-full font-medium placeholder:italic bg-[var(--bg-color)]/[var(--transparant)]",
+          { " backdrop-blur-xs": elDesign.variant === "glass" }
         )}
+        style={elStyle}
         ref={ref}
-        placeholder={email.placeholder}
+        // autoFocus={true}
+        placeholder={url.placeholder}
         formNoValidate
         value={inputState}
         onChange={(e) => {
@@ -82,9 +93,7 @@ export const FormEmail = ({
           msg={showError.msg}
         />
 
-        <FormButton theme={theme} onClick={validate}>
-          OK
-        </FormButton>
+        <FormButton onClick={validate}>OK</FormButton>
       </div>
     </section>
   );

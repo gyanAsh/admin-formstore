@@ -18,7 +18,7 @@ export default function App() {
     <Routes>
       <Route
         errorElement={<ErrorFound />}
-        path=":versionId/:formId/preview"
+        path=":formId/preview"
         element={<FormV1 />}
       />
       <Route path="*" element={<NotFound />} />

@@ -1,11 +1,11 @@
 import type { LucideIcon } from "lucide-react";
-import type { FormDesignAttributes } from "./design.types";
+import type { DesignState, FormDesignAttributes } from "./design.types";
 
 export interface Forms {
   id: string;
   form_name: string;
-  elements?: FormElements[];
-  design: FormDesignAttributes;
+  elements: FormElements[];
+  design: FormDesignAttributes & DesignState;
 }
 
 export type FormElements = {

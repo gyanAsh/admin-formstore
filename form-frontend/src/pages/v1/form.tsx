@@ -1,8 +1,23 @@
-import { useCallback, useMemo, useState } from "react";
-import { Link, useParams } from "react-router";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Link, useLocation, useParams } from "react-router";
 
 import { AnimatePresence, motion } from "motion/react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+// import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight, Info } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+import { FormEmail } from "./component/elements/email";
+import { FormConsent } from "./component/elements/consent";
+import { FormRating } from "./component/elements/rating";
+import { FormText } from "./component/elements/text";
+import { FormWebsite } from "./component/elements/website";
+import { FormProgressBar } from "./component/progress-bar";
+import { FormCard, InputContainer } from "./component/card";
+import {
+  DetailsContainer,
+  FormDescription,
+  FormLabel,
+} from "./component/details";
 import type {
   ConsentValidation,
   EmailValidation,
@@ -11,19 +26,11 @@ import type {
   TextValidation,
   UrlValidation,
 } from "./types/elements.types";
-import { FormBackground } from "./components/background";
-import { FormCard } from "./components/card";
-import { FormDescription, FormLabel } from "./components/details";
-import { cn } from "@/lib/utils";
-import type { FormDesignAttributes, FormTheme } from "./types/design.types";
-import { FormProgressBar } from "./components/progress-bar";
-import { FormEmail } from "./components/elements/email";
-import { FormConsent } from "./components/elements/consent";
-import { FormRating } from "./components/elements/rating";
-import { FormText } from "./components/elements/text";
-import { FormWebsite } from "./components/elements/website";
+import { FormBackground } from "./component/background";
 import { useFormV1Store } from "./state/design";
-import { ThemeValues } from "./state/values";
+import { useQuery } from "@tanstack/react-query";
+import { fetchUsers } from "./endpoint";
+
 const variants = {
   enter: (direction: "prev" | "next") => ({
     x: direction === "prev" ? -100 : 100,
@@ -41,20 +48,38 @@ const variants = {
   }),
 };
 
-const FormV1 = ({
+const PreviewFormPage = ({
   formCardClassName,
   className,
   ...props
 }: React.ComponentProps<"section"> & {
   formCardClassName?: React.ComponentProps<"div">["className"];
 }) => {
-  const { workspaceId, formId } = useParams();
+  const { formId } = useParams();
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["users"],
+    queryFn: async () => {
+      try {
+        let token =
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNDQwN2U3NmYtODc1YS00OGYxLThiZDYtYTA5M2JhNDE2NDM3In0.ajm2v1YHSSYmdq8xw4WM4jQprXl1C0rAYaKR9w8s2FQ";
+        const data = await fetchUsers(formId!, token);
+        console.log({ data });
+        return data;
+      } catch (err) {
+        console.error(err);
+      }
+      return [];
+    },
+    refetchOnWindowFocus: false,
+  });
+  console.log({ outsidedata: data });
+  const { pathname } = useLocation();
+  let isPreview = pathname.includes("preview");
+
+  const elements = useFormV1Store((state) => state.elements);
 
   const [currentSection, setCurrentSection] = useState(0);
   const [direction, setDirection] = useState<"prev" | "next">("next");
-
-  const elements = useFormV1Store((state) => state.elements) || [];
-  const designAtts = useFormV1Store((state) => state.design);
 
   // Memoize the paginate function to prevent it from being recreated on every render
   const paginate = useCallback(
@@ -75,17 +100,14 @@ const FormV1 = ({
   }, [currentSection, elements.length]);
 
   const currentElement = elements[currentSection];
-
-  if (elements.length > 0)
+  if (isLoading) return <div>Loading...</div>;
+  else if (isError) return <div>Error: {(error as Error).message}</div>;
+  else if (elements.length > 0)
     return (
       <section className={cn("h-[100dvh]", className)} {...props}>
-        <FormBackground theme={designAtts.theme}>
-          {designAtts.addGrainyBG === true && <div className="grain-overlay" />}
+        <FormBackground>
           {/* Progress Bar */}
-          <FormProgressBar
-            progressPercentage={progressPercentage}
-            theme={designAtts.theme}
-          />
+          <FormProgressBar progressPercentage={progressPercentage} />
 
           {/* Sections */}
           <div className="h-full overflow-hidden">
@@ -104,7 +126,6 @@ const FormV1 = ({
                     formCardClassName={formCardClassName}
                     goNextFunction={() => paginate("next")}
                     element={currentElement}
-                    designAtts={designAtts}
                   />
                 </motion.div>
               )}
@@ -112,22 +133,9 @@ const FormV1 = ({
           </div>
 
           {/* Navigation Buttons */}
-          <div className="text-sm absolute flex items-center border-zinc-200 bg-inherit pr-1.5 rounded-xl bottom-4 right-4 space-x-2">
-            <div
-              className={cn(
-                "flex items-center p-1 rounded-xl space-x-1.5 border",
-                {
-                  " border-zinc-50/60":
-                    designAtts.theme === ThemeValues.gradient_forest.value,
-                },
-                {
-                  " border-green-600/40":
-                    designAtts.theme === ThemeValues.luxe_minimal_forest.value,
-                }
-              )}
-            >
+          <div className="text-sm absolute flex items-center border-zinc-200 bg-black text-white p-2 rounded-3xl bottom-4 right-4 space-x-2">
+            <div className={cn("flex items-center space-x-0.5")}>
               <FormNavBtn
-                theme={designAtts.theme}
                 onClick={() => paginate("prev")}
                 disabled={currentSection === 0}
                 className="p-0.5 rounded-l-lg"
@@ -136,7 +144,6 @@ const FormV1 = ({
               </FormNavBtn>
               <FormNavBtn
                 onClick={() => paginate("next")}
-                theme={designAtts.theme}
                 disabled={currentSection === elements.length - 1}
                 className="p-0.5 rounded-r-lg"
               >
@@ -144,8 +151,8 @@ const FormV1 = ({
               </FormNavBtn>
             </div>
 
-            <h2 className="ml-1">
-              Powered by <b>Formstore</b>
+            <h2 className="ml-0.5 text-base">
+              Made with <b>Formstore</b>
             </h2>
           </div>
         </FormBackground>
@@ -153,31 +160,27 @@ const FormV1 = ({
     );
   else
     return (
-      <div className="h-[100dvh]  w-full flex flex-col gap-4 @[64rem]:gap-10 items-center justify-center @container bg-black">
-        <h2 className="text-4xl text-center text-red-500 font-bold @[64rem]:text-6xl">
-          Form Not Found
+      <div
+        className={cn(
+          "h-[80dvh] w-full flex flex-col gap-4 @[64rem]:gap-10 items-center justify-center @container bg-black",
+          {
+            "h-[100dvh]": isPreview,
+          }
+        )}
+      >
+        <h2 className="text-4xl flex items-center justify-center gap-5 text-center text-zinc-200 font-bold @[64rem]:text-6xl">
+          <Info className="size-8" /> Form Not Found
         </h2>
-
-        <Link
-          to={`/workspace/${workspaceId}/${formId}/create`}
-          className=" @max-[64rem]:scale-75 @max-[64rem]:hover:scale-80 hover:scale-105 w-40 h-12 text-2xl group duration-250"
-        >
-          <ChevronRight className="size-7 group-hover:-translate-x-2 duration-250 ease-linear" />
-          Powered by <b>Formstore</b>
-        </Link>
       </div>
     );
 };
 
-export default FormV1;
+export default PreviewFormPage;
 
 const FormNavBtn = ({
-  theme,
   className,
   ...props
-}: React.ComponentProps<"button"> & {
-  theme: FormTheme;
-}) => {
+}: React.ComponentProps<"button"> & {}) => {
   return (
     <button
       className={cn(
@@ -193,75 +196,48 @@ const FormPage = ({
   formCardClassName,
   goNextFunction,
   element,
-  designAtts,
 }: {
   formCardClassName?: React.ComponentProps<"div">["className"];
   goNextFunction: Function;
   element: FormElements;
-  designAtts: FormDesignAttributes;
 }) => {
   return (
-    <FormCard
-      showTwoCol={Boolean(designAtts.displayTwoColumns)}
-      theme={designAtts.theme}
-      className={cn(
-        "overflow-y-scroll gap-3 zmd:gap-6 @container",
-        formCardClassName
-      )}
-    >
-      <section
-        className={cn(
-          "flex flex-col justify-center  px-2 md:px-8 lg:px-16 gap-2.5 md:gap-5.5 "
-        )}
-      >
-        <FormLabel theme={designAtts.theme}>{element.labels.title}</FormLabel>
-        <FormDescription theme={designAtts.theme}>
-          {element.labels.description}
-        </FormDescription>
-      </section>
-      <section
-        className={cn(
-          "scale-90 @[64rem]:scale-100 flex justify-center font-['Roboto','sans-serif']",
-          {
-            "font-['Playfair_Display','serif'] font-light":
-              designAtts.theme === ThemeValues.luxe_minimal_forest.value,
-          }
-        )}
-      >
+    <FormCard className={cn("overflow-y-scroll @container", formCardClassName)}>
+      <DetailsContainer>
+        <FormLabel>{element.labels.title}</FormLabel>
+        <FormDescription>{element.labels.description}</FormDescription>
+      </DetailsContainer>
+
+      <InputContainer>
         {element.field === "email" ? (
           <FormEmail
             email={element.validations as EmailValidation}
-            theme={designAtts.theme}
             goNextFunction={goNextFunction}
           />
         ) : element.field === "consent" ? (
           <FormConsent
             consent={element.validations as ConsentValidation}
-            theme={designAtts.theme}
             goNextFunction={goNextFunction}
           />
         ) : element.field === "rating" ? (
           <FormRating
             rating={element.validations as RatingValidation}
-            theme={designAtts.theme}
             goNextFunction={goNextFunction}
           />
         ) : element.field === "text" ? (
           <FormText
             text={element.validations as TextValidation}
-            theme={designAtts.theme}
             goNextFunction={goNextFunction}
           />
         ) : element.field === "website" ? (
           <FormWebsite
             url={element.validations as UrlValidation}
-            theme={designAtts.theme}
             goNextFunction={goNextFunction}
           />
         ) : (
           <p>{element.field}</p>
         )}
-      </section>
+      </InputContainer>
     </FormCard>
   );
 };

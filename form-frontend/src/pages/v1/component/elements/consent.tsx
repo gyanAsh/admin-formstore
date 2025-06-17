@@ -1,15 +1,12 @@
 import { cn } from "@/lib/utils";
-import { FormTheme } from "@/store/forms/designs/design-elements.types";
-import { ConsentValidation } from "@/store/forms/form-elemets.types";
 import { FormButton } from "../button";
+import type { ConsentValidation } from "../../types/elements.types";
 
 export const FormConsent = ({
   consent,
-  theme,
   goNextFunction,
 }: {
   consent: ConsentValidation;
-  theme: FormTheme;
   goNextFunction: Function;
 }) => {
   const validate = () => {
@@ -18,11 +15,11 @@ export const FormConsent = ({
 
   return (
     <section className={cn(" max-w-150 flex flex-col gap-2.5 grow")}>
-      <div className="flex items-start justify-center md:justify-between gap-5">
-        <FormButton theme={theme} variant="secondary" onClick={validate}>
+      <div className="grid md:grid-cols-2 place-items-center gap-5">
+        <FormButton className="w-full" onClick={validate}>
           {consent.rejectBtnText}
         </FormButton>
-        <FormButton theme={theme} onClick={validate}>
+        <FormButton className="w-full" onClick={validate}>
           {consent.acceptBtnText}
         </FormButton>
       </div>

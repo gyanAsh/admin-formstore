@@ -1,0 +1,79 @@
+import { cn } from "@/lib/utils";
+import { useFormV1Store } from "../state/design";
+import {
+  maxMdTextSize,
+  maxSmTextSize,
+  textSizeLineHeight,
+} from "../types/design.types";
+
+export const FormLabel = ({
+  className,
+  ...props
+}: React.ComponentProps<"div">) => {
+  const { label: design } = useFormV1Store((state) => state.design);
+  const style: Record<string, string> & React.CSSProperties = {
+    "--size": design.size,
+    "--md-size": maxMdTextSize[design.size],
+    "--sm-size": maxSmTextSize[design.size],
+    "--family": design.family,
+    "--weight": design.weight,
+    "--text-color": design.color,
+    "--italics": design.italics ? "italic" : "normal",
+    "--letter-space": design.letter_spacing,
+  };
+
+  return (
+    <div
+      className={cn(
+        "whitespace-pre-line ",
+        "text-[calc(var(--sm-size))] md:text-[calc(var(--md-size))] lg:text-[calc(var(--size))] [color:var(--text-color)]",
+        "[line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] tracking-[var(--letter-space)]",
+        className
+      )}
+      style={style}
+      {...props}
+    />
+  );
+};
+
+export const FormDescription = ({
+  className,
+  ...props
+}: React.ComponentProps<"div">) => {
+  const { description: design } = useFormV1Store((state) => state.design);
+  const style: Record<string, string> & React.CSSProperties = {
+    "--size": design.size,
+    "--md-size": maxMdTextSize[design.size],
+    "--sm-size": maxSmTextSize[design.size],
+    "--line-height": textSizeLineHeight[design.size],
+    "--family": design.family,
+    "--weight": design.weight,
+    "--text-color": design.color,
+    "--italics": design.italics ? "italic" : "normal",
+    "--letter-space": design.letter_spacing,
+  };
+
+  return (
+    <div
+      className={cn(
+        "whitespace-pre-line ",
+        " text-[calc(var(--sm-size))] md:text-[calc(var(--md-size))] lg:text-[calc(var(--size))] [color:var(--text-color)]",
+        "[line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] tracking-[var(--letter-space)]",
+
+        className
+      )}
+      style={style}
+      {...props}
+    />
+  );
+};
+
+export const DetailsContainer = ({
+  children,
+}: React.ComponentProps<"section">) => {
+  return (
+    <section className="flex flex-col justify-center px-2 md:px-8 lg:px-16 gap-2.5 md:gap-5.5  ">
+      {children}
+    </section>
+  );
+};
