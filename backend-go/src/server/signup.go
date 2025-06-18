@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
@@ -51,9 +53,14 @@ func (s *Service) signupHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		log.Println(err)
+	}
 	row := s.Conn.QueryRow(context.Background(), `INSERT INTO users
 		(username, email, password) VALUES ($1, $2, $3) RETURNING ID`,
-		user.Username, user.Email, user.Password)
+		user.Username, user.Email, string(hashedPassword))
 	if err := row.Scan(&user.ID); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusConflict)

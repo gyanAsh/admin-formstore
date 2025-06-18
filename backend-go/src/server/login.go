@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 func (s *Service) loginHandler(w http.ResponseWriter, r *http.Request) {
@@ -38,8 +40,8 @@ func (s *Service) loginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	row := s.Conn.QueryRow(r.Context(), `SELECT ID, password FROM users WHERE email = $1`, user.Email)
-	var dbUserPassword string
-	if err := row.Scan(&user.ID, &dbUserPassword); err != nil {
+	var hashedPassword string
+	if err := row.Scan(&user.ID, &hashedPassword); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(map[string]interface{}{
@@ -47,7 +49,8 @@ func (s *Service) loginHandler(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	}
-	if dbUserPassword != user.Password {
+	if err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(user.Password)); err != nil {
+		log.Println(err)
 		w.WriteHeader(http.StatusUnauthorized)
 		if err := json.NewEncoder(w).Encode(map[string]interface{}{
 			"message": "incorrect email or password",
