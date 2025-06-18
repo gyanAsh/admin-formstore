@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"slices"
+	"time"
 
 	"github.com/jackc/pgx/v5"
 )
@@ -90,6 +91,7 @@ func (s *Service) formPublishHandler(w http.ResponseWriter, r *http.Request) {
 			element.Type, element.Label.Title, element.SeqNum,
 			element.Label.Description, form.FormID, element.Properties)
 	}
+	batch.Queue(`UPDATE forms SET updated_at = $1`, time.Now().Format(time.RFC3339))
 	br := s.Conn.SendBatch(r.Context(), batch)
 	defer br.Close()
 
@@ -118,6 +120,13 @@ func (s *Service) formPublishHandler(w http.ResponseWriter, r *http.Request) {
 			})
 			return
 		}
+	}
+	// UPDATE time
+	_, err = br.Exec()
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
 	if _, err = s.Conn.Exec(r.Context(), `UPDATE forms SET status =
