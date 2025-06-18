@@ -73,24 +73,24 @@ type DesignStore = DesignState & DesignStoreActions;
 const defaultDesignState: DesignState = {
   labelDesign: {
     size: "48px",
-    family: '"Cal Sans", sans-serif',
-    color: "#417505",
-    italics: false,
+    family: '"IBM Plex Sans", sans-serif',
+    color: "#ffffffff",
+    italics: true,
     weight: "bold",
-    letter_spacing: "0.025em",
+    letter_spacing: "-0.05em",
   },
   descriptionDesign: {
     size: "20px",
-    family: '"Lora", serif',
-    color: "#417505",
+    family: '"IBM Plex Sans", sans-serif',
+    color: "#ffffffff",
     italics: false,
-    weight: "light",
+    weight: "bold",
     letter_spacing: "-0.025em",
   },
   elementDesign: {
     variant: "glass",
-    textColor: "#417505",
-    bgColor: "#237807",
+    textColor: "#ffffffff",
+    bgColor: "#877287ff",
     borderColor: "#ffffffff",
   },
   layoutDesign: {
@@ -99,8 +99,7 @@ const defaultDesignState: DesignState = {
     bgType: "image",
     bgSolidValue: { color: "#000000" },
     bgImageValue: {
-      imageUrl:
-        "https://nh6fiqwsdb.ufs.sh/f/PORzhCLowc0mjAubYAGetKiaRyW8s7TOoL6QdZ1c2FqV9G0j",
+      imageUrl: "/homepage/forest.webp",
     },
     bgCustomValue: {
       value: `radial-gradient(ellipse at center, #0991D4, #0D9EE7, #0FA6F3)`,

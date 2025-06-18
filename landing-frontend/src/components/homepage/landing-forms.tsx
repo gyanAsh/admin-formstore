@@ -18,36 +18,36 @@ let ArrayDesigns: DesignState[] = [
     labelDesign: {
       size: "48px",
       family: '"Cal Sans", sans-serif',
-      color: "#417505",
+      color: "#000000cf",
       italics: false,
-      weight: "bold",
+      weight: "medium",
       letter_spacing: "0.025em",
     },
     descriptionDesign: {
       size: "20px",
       family: '"Lora", serif',
-      color: "#417505",
+      color: "#000000cf",
       italics: false,
-      weight: "light",
+      weight: "bold",
       letter_spacing: "-0.025em",
     },
     elementDesign: {
-      variant: "glass",
-      textColor: "#417505",
-      bgColor: "#237807",
-      borderColor: "#ffffffff",
+      variant: "solid",
+      textColor: "#000000cf",
+      bgColor: "#79C3EF",
+      borderColor: "#000000cf",
     },
     layoutDesign: {
       layoutAlign: "center",
-      elementSpacing: "12px",
-      bgType: "image",
+      elementSpacing: "20px",
+      bgType: "custom",
       bgSolidValue: { color: "#000000" },
       bgImageValue: {
-        imageUrl:
-          "https://nh6fiqwsdb.ufs.sh/f/PORzhCLowc0mjAubYAGetKiaRyW8s7TOoL6QdZ1c2FqV9G0j",
+        imageUrl: "",
       },
       bgCustomValue: {
-        value: `radial-gradient(ellipse at center, #0991D4, #0D9EE7, #0FA6F3)`,
+        value: `radial-gradient(ellipse at center, rgba(255,255,255,0.4) 0%, transparent 90%),
+                linear-gradient(to bottom, #79C3EF 0%, #79BAEF 50%, #79C3EF 100%)`,
       },
     },
   },
@@ -77,11 +77,10 @@ let ArrayDesigns: DesignState[] = [
     layoutDesign: {
       layoutAlign: "center",
       elementSpacing: "12px",
-      bgType: "image",
+      bgType: "solid",
       bgSolidValue: { color: "#000000" },
       bgImageValue: {
-        imageUrl:
-          "https://nh6fiqwsdb.ufs.sh/f/PORzhCLowc0m8xg7WqtBs0j2QXwIaMxu7LGND5yZ6e9fcAC3",
+        imageUrl: "",
       },
       bgCustomValue: {
         value: `radial-gradient(ellipse at center, #0991D4, #0D9EE7, #0FA6F3)`,
@@ -117,8 +116,7 @@ let ArrayDesigns: DesignState[] = [
       bgType: "image",
       bgSolidValue: { color: "#000000" },
       bgImageValue: {
-        imageUrl:
-          "https://nh6fiqwsdb.ufs.sh/f/PORzhCLowc0mJc9MvqkejC5UhOGVRIZndswxQ4yD6oEYlfc7",
+        imageUrl: "/homepage/forest.webp",
       },
       bgCustomValue: {
         value: `radial-gradient(ellipse at center, #0991D4, #0D9EE7, #0FA6F3)`,
@@ -145,7 +143,7 @@ const variants = {
 };
 
 const LandingForms = () => {
-  const [currentIndex, setCurrentIndex] = React.useState(1);
+  const [currentIndex, setCurrentIndex] = React.useState(2);
   const setDesign = useDesignStore((state) => state.setDesign);
 
   React.useEffect(() => {
@@ -291,7 +289,7 @@ const FormLabel = () => {
   return (
     <h2
       className="whitespace-pre-line text-[calc(var(--sm-size))] md:text-[calc(var(--md-size))] lg:text-[calc(var(--size))] [color:var(--text-color)]
-      [line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] tracking-[var(--letter-space)] [text-shadow:_4px_4px_18px_rgba(0,_0,_0,_0.4)]"
+      [line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] tracking-[var(--letter-space)]"
       style={style}
     >
       What should we call you?
@@ -316,7 +314,7 @@ const FormDescription = () => {
   return (
     <p
       className="whitespace-pre-line  text-[calc(var(--sm-size))] md:text-[calc(var(--md-size))] lg:text-[calc(var(--size))] [color:var(--text-color)]
-      [line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] tracking-[var(--letter-space)] [text-shadow:_2px_2px_4px_rgba(0,_0,_0,_0.2)]"
+      [line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] tracking-[var(--letter-space)]"
       style={style}
     >
       This helps us address you professionally in future conversations or
@@ -340,7 +338,7 @@ const FormInput = () => {
         ? "0%"
         : "100%",
   };
-  // ss
+
   return (
     <div className="w-full max-w-[650px] self-center place-self-center flex flex-col items-end gap-2.5">
       <input
