@@ -46,7 +46,7 @@ export interface LayoutDesign {
 }
 
 // Define the overall state interface for the design properties
-interface DesignState {
+export interface DesignState {
   labelDesign: LabelDesign;
   descriptionDesign: DescriptionDesign;
   elementDesign: ElementDesign;
@@ -55,6 +55,7 @@ interface DesignState {
 
 // Define the interface for the actions (functions) that modify the state : allows updating only some properties of Each-Design
 interface DesignStoreActions {
+  setDesign: (design: DesignState) => void;
   setLabelDesign: (newLabelDesign: Partial<LabelDesign>) => void;
   setDescriptionDesign: (
     newDescriptionDesign: Partial<DescriptionDesign>
@@ -72,24 +73,24 @@ type DesignStore = DesignState & DesignStoreActions;
 const defaultDesignState: DesignState = {
   labelDesign: {
     size: "48px",
-    family: '"IBM Plex Serif", serif',
-    color: "#f2f7fcff",
+    family: '"Cal Sans", sans-serif',
+    color: "#417505",
     italics: false,
     weight: "bold",
-    letter_spacing: "-0.05em",
+    letter_spacing: "0.025em",
   },
   descriptionDesign: {
     size: "20px",
-    family: '"IBM Plex Serif", serif',
-    color: "#f2f7fcff",
-    italics: true,
+    family: '"Lora", serif',
+    color: "#417505",
+    italics: false,
     weight: "light",
-    letter_spacing: "0em",
+    letter_spacing: "-0.025em",
   },
   elementDesign: {
     variant: "glass",
-    textColor: "#ffffffff",
-    bgColor: "#f2f7fcff",
+    textColor: "#417505",
+    bgColor: "#237807",
     borderColor: "#ffffffff",
   },
   layoutDesign: {
@@ -97,14 +98,12 @@ const defaultDesignState: DesignState = {
     elementSpacing: "12px",
     bgType: "image",
     bgSolidValue: { color: "#000000" },
-    bgImageValue: { imageUrl: "/homepage/desert.jpg" },
+    bgImageValue: {
+      imageUrl:
+        "https://nh6fiqwsdb.ufs.sh/f/PORzhCLowc0mjAubYAGetKiaRyW8s7TOoL6QdZ1c2FqV9G0j",
+    },
     bgCustomValue: {
-      value: `radial-gradient(at 64.60129310344827% 44.79166666666667%, #ccf62c 0px, transparent 50%),
-                 radial-gradient(at 77% 4%, #98c74e 0px, transparent 50%),
-                 radial-gradient(at 0% 94.09722169240315%, #60a261 0px, transparent 50%),
-                 radial-gradient(at 100% 100%, #357a5b 0px, transparent 50%),
-                 radial-gradient(at 100% 7.5%, #417505 0px, transparent 50%),
-                 #ccf62c`,
+      value: `radial-gradient(ellipse at center, #0991D4, #0D9EE7, #0FA6F3)`,
     },
   },
 };
@@ -117,6 +116,7 @@ export const useDesignStore = create<DesignStore>()(
     (set) => ({
       // Initialize the state with the default values.
       ...defaultDesignState,
+      setDesign: (design) => set(design),
       setLabelDesign: (newLabelDesign) =>
         set((state) => ({
           labelDesign: { ...state.labelDesign, ...newLabelDesign },

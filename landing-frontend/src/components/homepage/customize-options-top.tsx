@@ -243,22 +243,6 @@ const CustomizeOptionTop = () => {
             </MenubarContent>
           </MenubarMenu>
         </Menubar>
-        <div className="absolute -right-12 top-0">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant={"outline"}
-                size={"icon"}
-                className=" rounded-full overflow-hidden border  text-black border-black/75 "
-              >
-                <WandSparkles />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Themes</p>
-            </TooltipContent>
-          </Tooltip>
-        </div>
       </section>
     </>
   );

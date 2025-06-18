@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn, wait } from "@/lib/utils";
 import { Button } from "../ui/button";
 import React from "react";
 import CustomizeOptionTop from "./customize-options-top";
@@ -8,32 +8,188 @@ import {
   maxSmTextSize,
   textSizeLineHeight,
   useDesignStore,
+  type DesignState,
 } from "@/store/designStore";
+import { AnimatePresence } from "motion/react";
+import * as motion from "motion/react-client";
+
+let ArrayDesigns: DesignState[] = [
+  {
+    labelDesign: {
+      size: "48px",
+      family: '"Cal Sans", sans-serif',
+      color: "#417505",
+      italics: false,
+      weight: "bold",
+      letter_spacing: "0.025em",
+    },
+    descriptionDesign: {
+      size: "20px",
+      family: '"Lora", serif',
+      color: "#417505",
+      italics: false,
+      weight: "light",
+      letter_spacing: "-0.025em",
+    },
+    elementDesign: {
+      variant: "glass",
+      textColor: "#417505",
+      bgColor: "#237807",
+      borderColor: "#ffffffff",
+    },
+    layoutDesign: {
+      layoutAlign: "center",
+      elementSpacing: "12px",
+      bgType: "image",
+      bgSolidValue: { color: "#000000" },
+      bgImageValue: {
+        imageUrl:
+          "https://nh6fiqwsdb.ufs.sh/f/PORzhCLowc0mjAubYAGetKiaRyW8s7TOoL6QdZ1c2FqV9G0j",
+      },
+      bgCustomValue: {
+        value: `radial-gradient(ellipse at center, #0991D4, #0D9EE7, #0FA6F3)`,
+      },
+    },
+  },
+  {
+    labelDesign: {
+      size: "48px",
+      family: '"Playfair Display", serif',
+      color: "#ffffffff",
+      italics: false,
+      weight: "bold",
+      letter_spacing: "-0.05em",
+    },
+    descriptionDesign: {
+      size: "20px",
+      family: '"Lora", serif',
+      color: "#ffffffff",
+      italics: false,
+      weight: "light",
+      letter_spacing: "-0.025em",
+    },
+    elementDesign: {
+      variant: "glass",
+      textColor: "#ffffffff",
+      bgColor: "#cce9f6e4",
+      borderColor: "#efefefff",
+    },
+    layoutDesign: {
+      layoutAlign: "center",
+      elementSpacing: "12px",
+      bgType: "image",
+      bgSolidValue: { color: "#000000" },
+      bgImageValue: {
+        imageUrl:
+          "https://nh6fiqwsdb.ufs.sh/f/PORzhCLowc0m8xg7WqtBs0j2QXwIaMxu7LGND5yZ6e9fcAC3",
+      },
+      bgCustomValue: {
+        value: `radial-gradient(ellipse at center, #0991D4, #0D9EE7, #0FA6F3)`,
+      },
+    },
+  },
+  {
+    labelDesign: {
+      size: "48px",
+      family: '"IBM Plex Sans", sans-serif',
+      color: "#ffffffff",
+      italics: true,
+      weight: "bold",
+      letter_spacing: "-0.05em",
+    },
+    descriptionDesign: {
+      size: "20px",
+      family: '"IBM Plex Sans", sans-serif',
+      color: "#ffffffff",
+      italics: false,
+      weight: "bold",
+      letter_spacing: "-0.025em",
+    },
+    elementDesign: {
+      variant: "glass",
+      textColor: "#ffffffff",
+      bgColor: "#877287ff",
+      borderColor: "#ffffffff",
+    },
+    layoutDesign: {
+      layoutAlign: "center",
+      elementSpacing: "12px",
+      bgType: "image",
+      bgSolidValue: { color: "#000000" },
+      bgImageValue: {
+        imageUrl:
+          "https://nh6fiqwsdb.ufs.sh/f/PORzhCLowc0mJc9MvqkejC5UhOGVRIZndswxQ4yD6oEYlfc7",
+      },
+      bgCustomValue: {
+        value: `radial-gradient(ellipse at center, #0991D4, #0D9EE7, #0FA6F3)`,
+      },
+    },
+  },
+];
+
+const variants = {
+  enter: (direction: "prev" | "next") => ({
+    x: direction === "prev" ? -100 : 100,
+    opacity: 0,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+    transition: { duration: 0.3 },
+  },
+  exit: (direction: "prev" | "next") => ({
+    x: direction === "prev" ? 100 : -100,
+    opacity: 0,
+    transition: { duration: 0.3 },
+  }),
+};
 
 const LandingForms = () => {
+  const [currentIndex, setCurrentIndex] = React.useState(1);
+  const setDesign = useDesignStore((state) => state.setDesign);
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % ArrayDesigns.length);
+    }, 5000); // every 5 seconds
+
+    return () => clearInterval(interval); // cleanup on unmount
+  }, []);
+
+  React.useEffect(() => {
+    wait(() => setDesign(ArrayDesigns[currentIndex]), 300);
+  }, [currentIndex]);
+
   return (
-    <div className="flex flex-col items-center gap-4 w-full">
-      <FormCardContainer>
-        <div className="bottom-0 absolute p-4 transition-transform duration-100 ease-in-out hover:duration-300">
-          <CustomizeOptionTop />
-        </div>
-        {/* <div className="absolute inset-0 bg-[url('/homepage/cactus.jpg')] bg-cover bg-center -z-1 brightness-85 contrast-95" /> */}
-        {/* <img
-          src="/homepage/desert.jpg"
-          className="absolute object-contain object-center -z-1 brightness-85 contrast-95"
-        /> */}
-        <FormContainer>
-          <TextContainer>
-            <div>
-              <FormLabel />
-              <FormDescription />
+    <div className="w-full h-fit overflow-hidden">
+      <AnimatePresence custom={"next"} mode="wait">
+        <motion.div
+          key={currentIndex}
+          custom={"next"}
+          variants={variants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          className=" flex flex-col items-center gap-4 w-full"
+        >
+          <FormCardContainer>
+            <div className="hidden bottom-0 absolute p-4 transition-transform duration-100 ease-in-out hover:duration-300">
+              <CustomizeOptionTop />
             </div>
-          </TextContainer>
-          <InputContainer>
-            <FormInput />
-          </InputContainer>
-        </FormContainer>
-      </FormCardContainer>
+            <FormContainer>
+              <TextContainer>
+                <div>
+                  <FormLabel />
+                  <FormDescription />
+                </div>
+              </TextContainer>
+              <InputContainer>
+                <FormInput />
+              </InputContainer>
+            </FormContainer>
+          </FormCardContainer>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 };
@@ -135,7 +291,7 @@ const FormLabel = () => {
   return (
     <h2
       className="whitespace-pre-line text-[calc(var(--sm-size))] md:text-[calc(var(--md-size))] lg:text-[calc(var(--size))] [color:var(--text-color)]
-      [line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] tracking-[var(--letter-space)]"
+      [line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] tracking-[var(--letter-space)] [text-shadow:_4px_4px_18px_rgba(0,_0,_0,_0.4)]"
       style={style}
     >
       What should we call you?
@@ -160,7 +316,7 @@ const FormDescription = () => {
   return (
     <p
       className="whitespace-pre-line  text-[calc(var(--sm-size))] md:text-[calc(var(--md-size))] lg:text-[calc(var(--size))] [color:var(--text-color)]
-      [line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] tracking-[var(--letter-space)]"
+      [line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] tracking-[var(--letter-space)] [text-shadow:_2px_2px_4px_rgba(0,_0,_0,_0.2)]"
       style={style}
     >
       This helps us address you professionally in future conversations or
