@@ -1,7 +1,7 @@
 import { cn, wait } from "@/lib/utils";
 import { Button } from "../ui/button";
 import React from "react";
-import CustomizeOptionTop from "./customize-options-top";
+// import CustomizeOptionTop from "./customize-options-top";
 import {
   justifyContent,
   maxMdTextSize,
@@ -34,12 +34,12 @@ let ArrayDesigns: DesignState[] = [
     elementDesign: {
       variant: "solid",
       textColor: "#000000cf",
-      bgColor: "#79C3EF",
+      bgColor: "#54A8F3",
       borderColor: "#000000cf",
     },
     layoutDesign: {
       layoutAlign: "center",
-      elementSpacing: "20px",
+      elementSpacing: "12px",
       bgType: "custom",
       bgSolidValue: { color: "#000000" },
       bgImageValue: {
@@ -47,7 +47,7 @@ let ArrayDesigns: DesignState[] = [
       },
       bgCustomValue: {
         value: `radial-gradient(ellipse at center, rgba(255,255,255,0.4) 0%, transparent 90%),
-                linear-gradient(to bottom, #79C3EF 0%, #79BAEF 50%, #79C3EF 100%)`,
+                linear-gradient(to bottom, #54A8F3 0%, #54A8F3 50%, #54A8F3 100%)`,
       },
     },
   },
@@ -171,9 +171,9 @@ const LandingForms = () => {
           className=" flex flex-col items-center gap-4 w-full"
         >
           <FormCardContainer>
-            <div className="hidden bottom-0 absolute p-4 transition-transform duration-100 ease-in-out hover:duration-300">
+            {/* <div className=" bottom-0 absolute p-4 transition-transform duration-100 ease-in-out hover:duration-300">
               <CustomizeOptionTop />
-            </div>
+            </div> */}
             <FormContainer>
               <TextContainer>
                 <div>
