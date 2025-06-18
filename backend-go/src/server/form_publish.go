@@ -26,6 +26,7 @@ type FormElementReq struct {
 
 type PublishFormReq struct {
 	FormID   int64            `json:"form_id"`
+	Design   map[string]any   `json:"design"`
 	Elements []FormElementReq `json:"elements"`
 }
 
@@ -81,6 +82,7 @@ func (s *Service) formPublishHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	batch := &pgx.Batch{}
+	batch.Queue(`UPDATE forms SET design = $1 WHERE ID = $2`, form.Design, form.FormID)
 	batch.Queue(`DELETE FROM form_elements WHERE form_id = $1`, form.FormID)
 	for _, element := range form.Elements {
 		batch.Queue(`INSERT INTO form_elements (type, label, seq_number,
@@ -91,6 +93,13 @@ func (s *Service) formPublishHandler(w http.ResponseWriter, r *http.Request) {
 	br := s.Conn.SendBatch(r.Context(), batch)
 	defer br.Close()
 
+	// UPDATE forms
+	_, err = br.Exec()
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 	// DELETE
 	_, err = br.Exec()
 	if err != nil {

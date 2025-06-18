@@ -111,6 +111,7 @@ type Form struct {
 	UpdatedAt   pgtype.Timestamp
 	WorkspaceID int32
 	Status      FormStatusType
+	Design      []byte
 }
 
 type FormElement struct {

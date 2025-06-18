@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS forms (
 	updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
 	workspace_id INTEGER NOT NULL,
 	status form_status_type NOT NULL DEFAULT 'draft',
+	design JSON,
 	FOREIGN KEY (workspace_id) REFERENCES workspaces(ID) ON DELETE CASCADE
 );
 

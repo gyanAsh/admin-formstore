@@ -19,6 +19,7 @@ SELECT
 	forms.created_at,
 	forms.updated_at,
 	forms.status,
+	forms.design,
 	-- workspace
 	workspaces.ID,
 	workspaces.name,
@@ -61,6 +62,7 @@ type GetFormDataAndElementsRow struct {
 	CreatedAt   pgtype.Timestamp
 	UpdatedAt   pgtype.Timestamp
 	Status      FormStatusType
+	Design      []byte
 	ID_2        int32
 	Name        string
 	CreatedAt_2 pgtype.Timestamp
@@ -88,6 +90,7 @@ func (q *Queries) GetFormDataAndElements(ctx context.Context, arg GetFormDataAnd
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.Status,
+			&i.Design,
 			&i.ID_2,
 			&i.Name,
 			&i.CreatedAt_2,
@@ -110,7 +113,7 @@ func (q *Queries) GetFormDataAndElements(ctx context.Context, arg GetFormDataAnd
 }
 
 const getFormsInWorkspace = `-- name: GetFormsInWorkspace :many
-SELECT id, title, created_at, updated_at, workspace_id, status FROM forms WHERE workspace_id = $1 ORDER BY forms.updated_at DESC, forms.created_at ASC
+SELECT id, title, created_at, updated_at, workspace_id, status, design FROM forms WHERE workspace_id = $1 ORDER BY forms.updated_at DESC, forms.created_at ASC
 `
 
 func (q *Queries) GetFormsInWorkspace(ctx context.Context, workspaceID int32) ([]Form, error) {
@@ -129,6 +132,7 @@ func (q *Queries) GetFormsInWorkspace(ctx context.Context, workspaceID int32) ([
 			&i.UpdatedAt,
 			&i.WorkspaceID,
 			&i.Status,
+			&i.Design,
 		); err != nil {
 			return nil, err
 		}

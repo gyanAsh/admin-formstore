@@ -14,12 +14,13 @@ import (
 )
 
 type Form struct {
-	ID          int64     `json:"id"`
-	Title       string    `json:"title"`
-	Status      string    `json:"status"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at"`
-	WorkspaceID string    `json:"workspace_id,omitempty"`
+	ID          int64          `json:"id"`
+	Title       string         `json:"title"`
+	Status      string         `json:"status"`
+	Design      map[string]any `json:"design"`
+	CreatedAt   time.Time      `json:"created_at"`
+	UpdatedAt   time.Time      `json:"updated_at"`
+	WorkspaceID string         `json:"workspace_id,omitempty"`
 }
 
 type FormElement struct {
@@ -48,6 +49,9 @@ func parseFormDataAndElements(rows []db.GetFormDataAndElementsRow) FormData {
 			form.CreatedAt = row.CreatedAt.Time
 			form.UpdatedAt = row.UpdatedAt.Time
 			form.Status = string(row.Status)
+			if err := json.Unmarshal(row.Design, &form.Design); err != nil {
+				log.Println(fmt.Errorf("form desgin json:  %v", err))
+			}
 			workspace.ID = int64(row.ID_2)
 			workspace.Name = row.Name
 			workspace.CreatedAt = row.CreatedAt_2.Time
