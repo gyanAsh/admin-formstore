@@ -26,7 +26,7 @@
 - powered by **Athens**
 
 ## Venice
-- project name: **landing frontend**
+- project name: **landing-frontend**
 - Person in 1300s for trade would visit Venice thus our landing frontend page.
 - written in astro
 - stands independent
@@ -34,7 +34,7 @@
 ## Florence
 - The birth place of renaissance thus this is the core product without it
 we don't have a product as most people would visit here.
-- project name: **frontend**
+- project name: **form-frontend**
 - written in react again
 - powered by **Berlin**
 
