@@ -14,6 +14,7 @@ SELECT
 	forms.created_at,
 	forms.updated_at,
 	forms.status,
+	forms.design,
 	-- workspace
 	workspaces.ID,
 	workspaces.name,
