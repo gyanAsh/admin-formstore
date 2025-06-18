@@ -51,7 +51,7 @@ func queryUsers(conn *pgx.Conn) ([]UserRow, InputAction, error) {
 				if count > 0 {
 					fmt.Println("invalid answer: %v\ntry again...%v/3", answer, count)
 				}
-				fmt.Println("User list contains password that are hashed.Do you still wish to continue you can (S)kip (Y) / (O)verride / (A)bort (N)?.\nRecommended: (S)kip and manually fix/delete incorrect values.")
+				fmt.Println("User list contains password that are hashed. Do you still wish to continue you can (S)kip (S/Y) / (O)verride / (A)bort (A/N)?.\nRecommended: (S)kip and manually fix/delete incorrect values.")
 				fmt.Scanf("%s", &answer)
 				if answer == "S" || answer == "Y" {
 					action = InputActionSkip
@@ -71,10 +71,10 @@ func queryUsers(conn *pgx.Conn) ([]UserRow, InputAction, error) {
 			if action == InputActionAbort {
 				return []UserRow{}, action, nil
 			} else if action == InputActionSkip {
-				fmt.Println("Skipping user: %v", user.ID)
+				fmt.Println("Skipping user:", user.ID)
 				continue
 			} else if action == InputActionOverride {
-				fmt.Println("Overriding user password for user: %v", user.ID)
+				fmt.Println("Overriding user:", user.ID)
 			}
 		}
 		users = append(users, user)
@@ -83,6 +83,9 @@ func queryUsers(conn *pgx.Conn) ([]UserRow, InputAction, error) {
 }
 
 func updatePasswords(conn *pgx.Conn, users []UserRow) error {
+	if len(users) == 0 {
+		return fmt.Errorf("no rows in user object")
+	}
 	tx, err := conn.Begin(context.Background())
 	if err != nil {
 		return fmt.Errorf("transaction begin: %v", err)
@@ -124,10 +127,14 @@ func main() {
 	}
 	switch action {
 	case InputActionSkip, InputActionOverride, InputActionNone:
+		if len(users) == 0 {
+			fmt.Printf("Users updated %d, changes successfully applied.\n", len(users))
+			return
+		}
 		if err := updatePasswords(conn, users); err != nil {
 			log.Println(fmt.Errorf("update pasword failed: %v", err))
 		} else {
-			fmt.Println("changes successfully applied.")
+			fmt.Printf("Users updated %d, changes successfully applied.\n", len(users))
 		}
 	case InputActionAbort:
 		log.Println("execution aborted.")
