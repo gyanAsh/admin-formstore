@@ -155,6 +155,39 @@ const pageTitle = "Formstore | Easy Form Builder";
   <div class="flex items-center justify-center px-2 sm:px-4">
     <LandingForms client:load />
   </div>
+  <AnimateSvg
+    width="100%"
+    height="100%"
+    viewBox="0 0 250 100"
+    className="absolute translate-y-15 -top-40 md:top-0 -left-50 md:-left-80 -rotate-125 blur-2xl -z-[5] stroke-purple-400 md:stroke-purple-300"
+    path="M 223.00 10.00 C 92.00 21.01, 121.00 126.01, 10.00 179.00"
+    strokeWidth={16}
+    strokeColor="inherit"
+    strokeLinecap="round"
+    animationDuration={10}
+    animationDelay={0}
+    animationBounce={0.3}
+    reverseAnimation={false}
+    enableHoverAnimation={false}
+    client:load
+  />
+
+  <AnimateSvg
+    width="100%"
+    height="100%"
+    viewBox="0 0 250 100"
+    className="absolute translate-y-15 top-40 md:top-80 left-20 -rotate-0 blur-2xl -z-[5] stroke-yellow-400 md:stroke-yellow-200"
+    path="M 223.00 10.00 C 92.00 21.01, 121.00 126.01, 10.00 179.00"
+    strokeWidth={16}
+    strokeColor="inherit"
+    strokeLinecap="round"
+    animationDuration={7}
+    animationDelay={0}
+    animationBounce={0.3}
+    reverseAnimation={true}
+    enableHoverAnimation={false}
+    client:load
+  />
 
   <div
     class="grid place-items-center h-full content-center mt-9 py-9 text-zinc-900 bg-lime-200/85 srounded-[60px] px-4 md:px-10 lg:px-16"
@@ -175,7 +208,7 @@ const pageTitle = "Formstore | Easy Form Builder";
     <div
       class="text-4xl px-2 md:px-4 max-w-3xl font-['Roboto'] font-medium text-center leading-8 mb-4 flex items-center gap-2 text-clip"
     >
-      Run a Survey in 3 Easy Steps
+      Run a Survey in 3 <span class="italic">Easy</span> Steps
     </div>
     <div
       class="text-zinc-800 font-['IBM_Plex_Serif'] italic font-semibold text-xl"
@@ -183,55 +216,42 @@ const pageTitle = "Formstore | Easy Form Builder";
       Just click, style, and launch.
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-3 mt-12 m-10">
+    <div
+      class="grid grid-cols-1 lg:grid-cols-3 max-w-4xl gap-6 lg:gap-3 mt-12 m-10"
+    >
       <section
-        class="relative grid grid-rows-3 lg:grid-rows-4 px-4 md:px-5 py-4 pt-8 place-items-start border-[2px] border-white bg-gradient-to-tr from-zinc-200 to-pink-100 rounded-2xl"
+        class="relative flex flex-col gap-3 px-4 md:px-5 py-4 place-items-start border-[1px] border-white bg-gradient-to-tr from-zinc-50 to-pink-100 rounded-2xl"
       >
-        <h2 class="font-['Roboto'] text-2xl font-semibold text-start">
-          <span
-            class="font-normal text-base absolute top-0 left-1/2 -translate-y-1/2 border-[2px] border-white bg-pink-50 text-pink-400 px-3 rounded-4xl -translate-x-1/2"
-            >Step 1</span
-          >
+        <h2 class="font-semibold italic font-['Lora'] text-2xl">
+          <span class="font-medium font-['Lora']">Step 1 :</span><br />
           Add Your Questions
         </h2>
-        <p
-          class="text-zinc-700 text-lg row-span-2 lg:row-span-3 text-start font-medium"
-        >
+        <p class="text-zinc-700 text-lg text-start font-medium">
           Choose from text fields, ratings, checkboxes — whatever fits your
           story.
         </p>
       </section>
 
       <section
-        class="relative grid grid-rows-3 lg:grid-rows-4 px-4 md:px-5 py-4 pt-8 place-items-start border-[2px] border-white bg-gradient-to-tr from-zinc-200 to-purple-100 rounded-2xl"
+        class="relative flex flex-col gap-3 px-4 md:px-5 py-4 place-items-start border-[1px] border-white bg-gradient-to-tr from-zinc-50 to-purple-100 rounded-2xl"
       >
-        <h2 class="font-['Roboto'] text-2xl font-semibold text-start">
-          <span
-            class="font-normal text-base absolute top-0 left-1/2 -translate-y-1/2 border-[2px] border-white bg-purple-50 text-purple-400 px-3 rounded-4xl -translate-x-1/2"
-            >Step 2</span
-          >
+        <h2 class="font-semibold italic font-['Lora'] text-2xl">
+          <span class="font-medium font-['Lora']">Step 2 :</span><br />
           Select a Design
         </h2>
-        <p
-          class="text-zinc-700 text-lg row-span-2 lg:row-span-3 text-start font-medium"
-        >
+        <p class="text-zinc-700 text-lg text-start font-medium">
           Match your mood or brand with beautiful, ready-made themes.
         </p>
       </section>
 
       <section
-        class="relative grid grid-rows-3 lg:grid-rows-4 px-4 md:px-5 py-4 pt-8 place-items-start border-[2px] border-white bg-gradient-to-tr from-zinc-200 to-blue-100 rounded-2xl"
+        class="relative flex flex-col gap-3 px-4 md:px-5 py-4 place-items-start border-[1px] border-white bg-gradient-to-tr from-zinc-50 to-blue-100 rounded-2xl"
       >
-        <h2 class="font-['Roboto'] text-2xl font-semibold text-start">
-          <span
-            class="font-normal text-base absolute top-0 left-1/2 -translate-y-1/2 border-[2px] border-white bg-blue-50 text-blue-400 px-3 rounded-4xl -translate-x-1/2"
-            >Step 3</span
-          >
+        <h2 class="font-semibold italic font-['Lora'] text-2xl">
+          <span class="font-medium font-['Lora']">Step 3 :</span><br />
           Hit Publish
         </h2>
-        <p
-          class="text-zinc-700 text-lg row-span-2 lg:row-span-3 text-start font-medium"
-        >
+        <p class="text-zinc-700 text-lg text-start font-medium">
           Your form goes live instantly. Share the link, and watch the responses
           roll in.
         </p>
