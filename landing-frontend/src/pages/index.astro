@@ -68,13 +68,13 @@ const pageTitle = "Formstore | Easy Form Builder";
       > — in seconds
      </h2> -->
 
-    <div class="text-2xl text-center">
+    <div class="text-xl leading-9 text-center">
       <span class="relative inline-block w-fit">
         <AnimateSvg
           width="100%"
           height="100%"
           viewBox="0 0 330 81"
-          className="absolute translate-y-6 top-0 -z-[1] stroke-pink-500"
+          className="absolute translate-y-4.5 top-0 -z-[1] stroke-pink-500"
           path="M276.107 10.7667C258.31 28.3296 234.687 49.9446 218.918 18.406C204.994 -9.44212 183.022 5.05179 163.639 21.9074C157.838 26.9518 147.594 35.084 139.023 33.2603C131.032 31.5602 124.159 19.4215 117.166 15.0108C102.691 5.88068 78.6731 19.6982 64.5392 24.1355C43.8618 30.6273 24.6478 36.5711 3 33.6847"
           strokeColor="inherit"
           strokeWidth={9}
@@ -95,7 +95,7 @@ const pageTitle = "Formstore | Easy Form Builder";
           width="100%"
           height="100%"
           viewBox="0 0 240 100"
-          className="absolute translate-y-6.5 rotate-40 left-10 top-0 -z-[1] stroke-purple-500"
+          className="absolute translate-y-5 rotate-40 top-0 -z-[1] stroke-purple-500"
           path="M3 94.6748C27.4641 99.4874 46.3246 102.55 65.0444 83.8304C73.9796 74.8953 76.1503 62.8261 69.8444 51.4748C58.3692 30.8185 36.6188 61.9308 52.6 71.9193C81.897 90.2303 107.995 53.7887 112.155 28.3637C113.368 20.9544 114.609 12.5035 115 5.07481C115.339 -1.36878 117.032 6.28246 117.844 8.63037C119.35 12.9801 121.884 16.4674 123.356 20.7192C125.931 28.1593 122.746 21.3428 121.755 17.8748C118.913 7.92667 118.724 -1.31665 108.6 8.27481C106.563 10.205 95.3631 19.2352 97.3999 19.4748C103.175 20.1542 109.598 23.9571 115 24.2748C122.394 24.7098 126.464 27.2512 116.6 22.3192C113.382 20.71 110.214 19.6588 107 18.2304C101.703 15.8763 109.23 17.7389 109.844 18.2304C111.629 19.6579 116.523 20.3297 111.8 18.2304C110.584 17.6899 105.386 16.2748 107 16.2748C112.097 16.2748 118.803 21.3653 116.956 17.8748C115.403 14.9415 113.389 14.4872 110.2 14.6748C109.114 14.7386 105.166 17.8748 107 17.8748"
           strokeWidth={9}
           strokeColor="inherit"
@@ -116,10 +116,10 @@ const pageTitle = "Formstore | Easy Form Builder";
         <AnimateSvg
           width="100%"
           height="100%"
-          viewBox="0 0 240 150"
-          className="absolute translate-y-7.5 top-0 -z-[1] stroke-blue-500"
-          path="M222.462 12.8345C177.074 10.0328 132.077 4.80881 86.6062 3.64623C60.4691 2.97796 -17.6945 1.02174 8.17755 4.79475C50.7028 10.9964 94.6534 10.7971 137.47 14.9675C154.059 16.5834 170.516 18.7493 187.021 21.0384C193.373 21.9193 198.334 23.4078 188.17 22.8432C142.806 20.323 97.6784 14.7225 52.3141 12.0141C47.4732 11.7251 33.1304 11.5843 37.7934 12.9165C54.8856 17.8 73.2224 19.7239 90.7081 22.433C111.764 25.6952 133.161 27.7326 154.042 32.0315C161.542 33.5757 171.588 34.0575 178.571 37.1999C190.929 42.7607 151.511 39.3406 137.962 39.0868C115.414 38.6643 92.8916 37.3627 70.3626 36.4616"
-          strokeWidth={9}
+          viewBox="0 0 100 100"
+          className="absolute translate-y-3.5 scale-100 top-0 -z-[1] stroke-blue-500"
+          path="M-11.94 44.90 Q62.57 89.42, 129.66 45.83"
+          strokeWidth={5}
           strokeColor="inherit"
           strokeLinecap="round"
           animationDuration={1.5}
@@ -156,43 +156,98 @@ const pageTitle = "Formstore | Easy Form Builder";
     <LandingForms client:load />
   </div>
 
-  <div class="grid place-items-center h-full content-center">
-    <Button>Tailwind Button in Astro!</Button>
+  <div
+    class="grid place-items-center h-full content-center mt-9 py-9 text-zinc-900 bg-lime-200/85 srounded-[60px] px-4 md:px-10 lg:px-16"
+  >
+    <!-- <Button>Tailwind Button in Astro!</Button>
     <a href="/markdown-page" class="p-4 underline"
       >Markdown is also supported...</a
+    > -->
+    <div
+      class="text-xl md:px-4 max-w-3xl font-medium text-center leading-14 flex items-center gap-2 text-clip"
     >
-    <div class="">
-      “Collect your respondent's name — a must-have for personalized
-      follow-ups.”
+      How <img
+        src="/formstore-logo-light.svg"
+        class="size-6 mix-blend-luminosity"
+      />
+      Formstore Works
+    </div>
+    <div
+      class="text-4xl px-2 md:px-4 max-w-3xl font-['Roboto'] font-medium text-center leading-8 mb-4 flex items-center gap-2 text-clip"
+    >
+      Run a Survey in 3 Easy Steps
+    </div>
+    <div
+      class="text-zinc-800 font-['IBM_Plex_Serif'] italic font-semibold text-xl"
+    >
+      Just click, style, and launch.
     </div>
 
-    <br />
-    <div class="">
-      “Capture verified email addresses for communication, newsletters, or
-      onboarding.”
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-3 mt-12 m-10">
+      <section
+        class="relative grid grid-rows-3 lg:grid-rows-4 px-4 md:px-5 py-4 pt-8 place-items-start border-[2px] border-white bg-gradient-to-tr from-zinc-200 to-pink-100 rounded-2xl"
+      >
+        <h2 class="font-['Roboto'] text-2xl font-semibold text-start">
+          <span
+            class="font-normal text-base absolute top-0 left-1/2 -translate-y-1/2 border-[2px] border-white bg-pink-50 text-pink-400 px-3 rounded-4xl -translate-x-1/2"
+            >Step 1</span
+          >
+          Add Your Questions
+        </h2>
+        <p
+          class="text-zinc-700 text-lg row-span-2 lg:row-span-3 text-start font-medium"
+        >
+          Choose from text fields, ratings, checkboxes — whatever fits your
+          story.
+        </p>
+      </section>
+
+      <section
+        class="relative grid grid-rows-3 lg:grid-rows-4 px-4 md:px-5 py-4 pt-8 place-items-start border-[2px] border-white bg-gradient-to-tr from-zinc-200 to-purple-100 rounded-2xl"
+      >
+        <h2 class="font-['Roboto'] text-2xl font-semibold text-start">
+          <span
+            class="font-normal text-base absolute top-0 left-1/2 -translate-y-1/2 border-[2px] border-white bg-purple-50 text-purple-400 px-3 rounded-4xl -translate-x-1/2"
+            >Step 2</span
+          >
+          Select a Design
+        </h2>
+        <p
+          class="text-zinc-700 text-lg row-span-2 lg:row-span-3 text-start font-medium"
+        >
+          Match your mood or brand with beautiful, ready-made themes.
+        </p>
+      </section>
+
+      <section
+        class="relative grid grid-rows-3 lg:grid-rows-4 px-4 md:px-5 py-4 pt-8 place-items-start border-[2px] border-white bg-gradient-to-tr from-zinc-200 to-blue-100 rounded-2xl"
+      >
+        <h2 class="font-['Roboto'] text-2xl font-semibold text-start">
+          <span
+            class="font-normal text-base absolute top-0 left-1/2 -translate-y-1/2 border-[2px] border-white bg-blue-50 text-blue-400 px-3 rounded-4xl -translate-x-1/2"
+            >Step 3</span
+          >
+          Hit Publish
+        </h2>
+        <p
+          class="text-zinc-700 text-lg row-span-2 lg:row-span-3 text-start font-medium"
+        >
+          Your form goes live instantly. Share the link, and watch the responses
+          roll in.
+        </p>
+      </section>
     </div>
-    <br />
-    <div class="">
-      "Let users share their contact number for faster support or coordination.”
-    </div>
-    <br />
-    <div class="">
-      “Discover where your traffic is coming from — helps refine your
-      marketing.”
-    </div>
-    <br />
-    <div class="">
-      “Let users speak freely — perfect for contact forms or collecting
-      feedback.”
-    </div>
-    <br />
-    <div class="">
-      “Give users the option to receive product news, offers, or tips.”
-    </div>
-    <br />
-    <div class="">
-      "Let users quickly rate their experience — ideal for quick feedback.”
-    </div>
-    <br />
   </div>
+  <!-- 
+  <section>
+    💖 Forms That Make People Feel Special<br />
+    💌 Make People Feel Seen, Heard — and Special<br />
+    Your users aren’t just clicks. They’re humans. And your form should feel like
+    a conversation, not a chore.<br />
+
+    With FormStore’s beautifully crafted designs, every survey feels personal.
+    Every question feels thoughtful. Every submission feels appreciated.<br />
+    <br />
+    ✨ Because when your forms look and feel great — your users feel valued.
+  </section> -->
 </MainLayout>
