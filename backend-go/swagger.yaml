@@ -240,6 +240,29 @@ paths:
           description: missing fields
         500:
           description: unexpected error (check log)
+  /api/published/form/${formId}:
+    get:
+      parameters:
+        - in: path
+          name: formId
+          required: true
+          schema:
+            type: integer
+            description: the form id
+      responses:
+        200:
+          description: "published form data"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  form:
+                    $ref: "#/components/schemas/Form"
+                  form_elements:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/FormElementRes"
 
 components:
   schemas:
@@ -324,8 +347,10 @@ components:
     Form:
       type: object
       required:
+        - id
         - title
-        - workspace_id
+        - status
+        - design
       properties:
         id:
           type: integer
@@ -340,4 +365,25 @@ components:
           type: string
         workspace_id:
           type: integer
+        design:
+          type: string
+          enum: [draft, published, completed]
 
+    FormElementRes:
+      type: object
+      properties:
+        seq_number:
+          type: integer
+          example: 1
+        type:
+          type: string
+          example: email
+        label:
+          type: string
+          example: enter your email
+        description:
+          type: string
+          example: this is collected for information purporses only
+        properties:
+          type: object
+          description: anything you put in the frontend
