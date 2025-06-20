@@ -279,10 +279,10 @@ components:
         elements:
           type: array
           items:
-            $ref: "#/components/schemas/FormElement"
+            $ref: "#/components/schemas/FormElementReq"
           description: A list of form elements to be included in this form.
 
-    FormElement:
+    FormElementReq:
       type: object
       required:
         - type
@@ -302,9 +302,9 @@ components:
           description: Sequential number indicating the order of this element in the form.
           example: 1
         label:
-          $ref: "#/components/schemas/FormElementLabel"
+          $ref: "#/components/schemas/FormElementReqLabel"
 
-    FormElementLabel:
+    FormElementReqLabel:
       type: object
       properties:
         title:
