@@ -4,8 +4,10 @@ import "../styles/global.css";
 // Component Imports
 import MainLayout from "@/layouts/main.astro";
 import LandingForms from "@/components/homepage/landing-forms";
-import { Telescope } from "lucide-react";
+import { Dot, Plus, Telescope } from "lucide-react";
 import { AnimateSvg } from "@/components/homepage/animate";
+import { cn } from "@/lib/utils";
+import { Separator } from "@/components/ui/separator";
 
 const pageTitle = "Formstore | Easy Form Builder";
 // Full Astro Component Syntax:
@@ -14,7 +16,7 @@ const pageTitle = "Formstore | Easy Form Builder";
 
 <MainLayout title={pageTitle}>
   <nav
-    class="flex items-center justify-between py-2 px-3 fixed top-0 z-1 w-full bg-inherit"
+    class="flex items-center justify-between py-2 px-3 fixed top-0 z-1 w-full bg-zinc-50/20 backdrop-blur-2xl"
   >
     <div class="flex items-center gap-2.5">
       <img src="/formstore-logo-light.svg" class="size-9" />
@@ -31,7 +33,10 @@ const pageTitle = "Formstore | Easy Form Builder";
     </div>
   </nav>
   <section
-    class="flex flex-col items-center justify-center gap-4 min-h-[600px] md:min-h-[450px] xl:min-h-[65dvh] 2xl:min-h-[60dvh] mt-4 px-4"
+    class={cn(
+      "flex flex-col items-center justify-center gap-4 min-h-[600px] md:min-h-[450px] xl:min-h-[65dvh] 2xl:min-h-[60dvh] pt-4 px-4",
+      "bg-gradient-to-t from-[#51eaea]/5 via-[#ffdbc5]/20 to-[#ff9d76]/20"
+    )}
   >
     <div class="flex flex-col items-center gap-1">
       <div
@@ -47,7 +52,9 @@ const pageTitle = "Formstore | Easy Form Builder";
         <span class="text-zinc-950 font-bold">Formstore</span>
       </h1>
     </div>
-    <h2 class="text-4xl md:px-4 max-w-3xl text-center leading-14 text-clip">
+    <h2
+      class="text-4xl md:px-4 max-w-3xl text-center font-['Playfair_Display','serif'] leading-14 text-clip"
+    >
       <span class="text-pink-500 bg-pink-200 rounded-4xl px-3 py-0.5"
         >Build</span
       > Forms. <span
@@ -88,7 +95,7 @@ const pageTitle = "Formstore | Easy Form Builder";
           hoverStrokeColor="#4f46e5"
           client:load
         />
-        Design</span
+        Publish</span
       > stunning forms in minutes <span class="text-pink-500">&bull;</span>
       <span class="relative inline-block">
         <AnimateSvg
@@ -159,7 +166,7 @@ const pageTitle = "Formstore | Easy Form Builder";
     width="100%"
     height="100%"
     viewBox="0 0 250 100"
-    className="absolute translate-y-15 -top-40 md:top-0 -left-50 md:-left-80 -rotate-125 blur-2xl -z-[5] stroke-purple-400 md:stroke-purple-300"
+    className="absolute translate-y-15 -top-40 md:top-0 -left-50 md:-left-80 -rotate-125 blur-2xl -z-[5] stroke-purple-500 md:stroke-purple-300"
     path="M 223.00 10.00 C 92.00 21.01, 121.00 126.01, 10.00 179.00"
     strokeWidth={16}
     strokeColor="inherit"
@@ -176,7 +183,7 @@ const pageTitle = "Formstore | Easy Form Builder";
     width="100%"
     height="100%"
     viewBox="0 0 250 100"
-    className="absolute translate-y-15 top-40 md:top-80 left-20 -rotate-0 blur-2xl -z-[5] stroke-yellow-400 md:stroke-yellow-200"
+    className="absolute translate-y-15 top-40 md:top-45 left-20 -rotate-0 blur-2xl -z-[5] stroke-lime-500 md:stroke-lime-300"
     path="M 223.00 10.00 C 92.00 21.01, 121.00 126.01, 10.00 179.00"
     strokeWidth={16}
     strokeColor="inherit"
@@ -189,8 +196,54 @@ const pageTitle = "Formstore | Easy Form Builder";
     client:load
   />
 
+  <div class="flex items-center justify-center text-center w-full">
+    <section
+      class="flex flex-col items-center mt-9 py-9 max-w-3xl bg-zinc-200/55 rounded-4xl mx-2 md:mx-8 p-8"
+    >
+      <h2
+        class="font-['Playfair_Display','serif'] text-2xl md:text-3xl lg:text-4xl"
+      >
+        Forms That Make People Feel Special ✨
+      </h2>
+      <h3 class="font-semibold mt-2">
+        Make People Feel Seen, Heard — and Special
+      </h3>
+      <br />
+      <br />
+
+      <div
+        class="grid grid-cols-10 place-items-center gap-3 py-2 border-b-2 border-dashed"
+      >
+        <Plus strokeWidth={3} />
+        <p class="text-xl text-start col-span-9">
+          Your users aren’t just clicks. They’re humans. And your form should
+          feel like a conversation, not a chore.
+        </p>
+      </div>
+      <div
+        class="grid grid-cols-10 place-items-center gap-3 py-2 border-b-2 border-dashed"
+      >
+        <Plus strokeWidth={3} />
+        <p class="text-xl text-start col-span-9">
+          With FormStore’s beautifully crafted designs, every survey feels
+          personal. Every question feels thoughtful. Every submission feels
+          appreciated.
+        </p>
+      </div>
+
+      <br />
+      <br />
+      <p class="text-lg italic">
+        ✨ Because when your forms look and feel great — your users feel valued.
+      </p>
+    </section>
+  </div>
+
   <div
-    class="grid place-items-center h-full content-center mt-9 py-9 text-zinc-900 bg-lime-200/85 srounded-t-[44px] px-4 md:px-10 lg:px-16"
+    class={cn(
+      "grid place-items-center h-full content-center mt-9 py-9 bg-lm text-zinc-900 px-4 md:px-10 lg:px-16",
+      "bg-gradient-to-t from-[#d8f999]/60 via-[#d8f999]/50 to-[#ff9d76]/0"
+    )}
   >
     <!-- <Button>Tailwind Button in Astro!</Button>
     <a href="/markdown-page" class="p-4 underline"
@@ -208,9 +261,9 @@ const pageTitle = "Formstore | Easy Form Builder";
     <div
       class="text-4xl px-2 md:px-4 max-w-3xl font-['Playfair_Display','serif'] font-medium text-center leading-8 mb-4 flex items-center gap-2 text-clip"
     >
-      Run a Survey in 3 <span class="italic">Easy</span> Steps
+      Run a Survey in 3 Easy Steps
     </div>
-    <div class="text-zinc-800 font-semibold text-xl">
+    <div class="text-zinc-800 font-semibold text-lg">
       Just click, style, and launch.
     </div>
 
@@ -218,69 +271,42 @@ const pageTitle = "Formstore | Easy Form Builder";
       class="grid grid-cols-1 lg:grid-cols-3 max-w-4xl gap-6 lg:gap-3 mt-12 m-10"
     >
       <section
-        class="hover:shadow-2xl cursor-default duration-150 ease-in-out relative flex flex-col gap-3 px-4 md:px-5 py-4 place-items-start border-[1px] border-white bg-gradient-to-tr from-zinc-50 to-pink-100 rounded-2xl"
+        class="hover:shadow-2xl cursor-default duration-150 ease-in-out relative flex flex-col gap-3 px-4 md:px-5 py-4 place-items-start border-[1px] border-zinc-300 bg-gradient-to-tr from-white to-pink-100 rounded-3xl"
       >
         <h2 class="font-semibold italic font-['Lora'] text-2xl">
-          <span class="font-medium font-['Lora']">Step 1 :</span><br />
+          <span class="font-medium text-zinc-600">Step 1 :</span><br />
           Add Your Questions
         </h2>
-        <p class="text-zinc-700 text-lg text-start font-medium">
+        <p class="leading-5.5 text-lg text-start">
           Choose from text fields, ratings, checkboxes — whatever fits your
           story.
         </p>
       </section>
 
       <section
-        class="hover:shadow-2xl cursor-default duration-150 ease-in-out relative flex flex-col gap-3 px-4 md:px-5 py-4 place-items-start border-[1px] border-white bg-gradient-to-tr from-zinc-50 to-purple-100 rounded-2xl"
+        class="hover:shadow-2xl cursor-default duration-150 ease-in-out relative flex flex-col gap-3 px-4 md:px-5 py-4 place-items-start border-[1px] border-zinc-300 bg-gradient-to-tr from-white to-purple-100 rounded-3xl"
       >
         <h2 class="font-semibold italic font-['Lora'] text-2xl">
-          <span class="font-medium font-['Lora']">Step 2 :</span><br />
+          <span class="font-medium text-zinc-600">Step 2 :</span><br />
           Select a Design
         </h2>
-        <p class="text-zinc-700 text-lg text-start font-medium">
+        <p class="leading-5.5 text-lg text-start">
           Match your mood or brand with beautiful, ready-made themes.
         </p>
       </section>
 
       <section
-        class="hover:shadow-2xl cursor-default duration-150 ease-in-out relative flex flex-col gap-3 px-4 md:px-5 py-4 place-items-start border-[1px] border-white bg-gradient-to-tr from-zinc-50 to-blue-100 rounded-2xl"
+        class="hover:shadow-2xl cursor-default duration-150 ease-in-out relative flex flex-col gap-3 px-4 md:px-5 py-4 place-items-start border-[1px] border-zinc-300 bg-gradient-to-tr from-white to-blue-100 rounded-3xl"
       >
         <h2 class="font-semibold italic font-['Lora'] text-2xl">
-          <span class="font-medium font-['Lora']">Step 3 :</span><br />
+          <span class="font-medium text-zinc-600">Step 3 :</span><br />
           Hit Publish
         </h2>
-        <p class="text-zinc-700 text-lg text-start font-medium">
+        <p class="leading-5.5 text-lg text-start">
           Your form goes live instantly. Share the link, and watch the responses
           roll in.
         </p>
       </section>
     </div>
-  </div>
-
-  <div class="flex items-center justify-center text-center w-full">
-    <section class="flex flex-col items-center mt-9 py-9 max-w-3xl">
-      <h2
-        class="font-['Playfair_Display','serif'] text-2xl md:text-3xl lg:text-4xl"
-      >
-        Forms That Make People Feel Special
-      </h2>
-      💖
-      <h3>Make People Feel Seen, Heard — and Special</h3>
-      <p>
-        Your users aren’t just clicks. They’re humans. And your form should feel
-        like a conversation, not a chore.
-      </p>
-      <br />
-      <p>
-        With FormStore’s beautifully crafted designs, every survey feels
-        personal. Every question feels thoughtful. Every submission feels
-        appreciated.
-      </p>
-      <br />
-      <br />
-      <p>
-        ✨ Because when your forms look and feel great — your users feel valued.
-      </p>
-    </section>
   </div>
 </MainLayout>
