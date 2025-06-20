@@ -112,6 +112,83 @@ func (q *Queries) GetFormDataAndElements(ctx context.Context, arg GetFormDataAnd
 	return items, nil
 }
 
+const getFormDataPublic = `-- name: GetFormDataPublic :many
+SELECT
+	forms.ID,
+	forms.title,
+	forms.created_at,
+	forms.updated_at,
+	forms.status,
+	forms.design,
+	el.type,
+	el.seq_number,
+	el.label,
+	el.description,
+	el.created_at,
+	el.updated_at,
+	el.properties
+FROM
+	forms
+INNER JOIN
+	form_elements AS el
+ON
+	forms.ID = el.form_id
+WHERE
+	form_id = $1
+AND
+	forms.status = 'published'
+`
+
+type GetFormDataPublicRow struct {
+	ID          int32
+	Title       string
+	CreatedAt   pgtype.Timestamp
+	UpdatedAt   pgtype.Timestamp
+	Status      FormStatusType
+	Design      []byte
+	Type        FormElementTypes
+	SeqNumber   int32
+	Label       pgtype.Text
+	Description pgtype.Text
+	CreatedAt_2 pgtype.Timestamp
+	UpdatedAt_2 pgtype.Timestamp
+	Properties  []byte
+}
+
+func (q *Queries) GetFormDataPublic(ctx context.Context, formID int32) ([]GetFormDataPublicRow, error) {
+	rows, err := q.db.Query(ctx, getFormDataPublic, formID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetFormDataPublicRow
+	for rows.Next() {
+		var i GetFormDataPublicRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.Title,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.Status,
+			&i.Design,
+			&i.Type,
+			&i.SeqNumber,
+			&i.Label,
+			&i.Description,
+			&i.CreatedAt_2,
+			&i.UpdatedAt_2,
+			&i.Properties,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getFormsInWorkspace = `-- name: GetFormsInWorkspace :many
 SELECT id, title, created_at, updated_at, workspace_id, status, design FROM forms WHERE workspace_id = $1 ORDER BY forms.updated_at DESC, forms.created_at ASC
 `

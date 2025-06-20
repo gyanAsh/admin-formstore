@@ -24,7 +24,7 @@ type Form struct {
 }
 
 type FormElement struct {
-	SeqNumber   int32          `json:"id"`
+	SeqNumber   int32          `json:"seq_number"`
 	Type        string         `json:"type"`
 	Label       string         `json:"label"`
 	Description string         `json:"description"`

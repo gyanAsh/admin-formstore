@@ -48,3 +48,30 @@ ORDER BY
 
 -- name: GetWorkspaceByID :one
 SELECT * FROM workspaces WHERE ID = $1 AND workspaces.user_id = $2;
+
+-- the published form cannot contain no element thus inner join
+-- name: GetFormDataPublic :many
+SELECT
+	forms.ID,
+	forms.title,
+	forms.created_at,
+	forms.updated_at,
+	forms.status,
+	forms.design,
+	el.type,
+	el.seq_number,
+	el.label,
+	el.description,
+	el.created_at,
+	el.updated_at,
+	el.properties
+FROM
+	forms
+INNER JOIN
+	form_elements AS el
+ON
+	forms.ID = el.form_id
+WHERE
+	form_id = $1
+AND
+	forms.status = 'published';
