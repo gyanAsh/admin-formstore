@@ -98,21 +98,14 @@ paths:
                   forms:
                     type: array
                     items:
-                      $ref: "#/components/schemas/Form"
+                      $ref: "#/components/schemas/FormRes"
                   workspace:
                     $ref: "#/components/schemas/Workspace"
         401:
           description: user is not logged in
         500:
           description: unexpected error (check log)
-  /api/workspace/{workspaceId}/form:
-    parameters:
-      - in: path
-        name: workspaceId
-        required: true
-        schema:
-          type: integer
-          description: workspace id (this route is subject to change)
+  /api/form:
     post:
       requestBody:
         content:
@@ -122,21 +115,32 @@ paths:
               properties:
                 title:
                   type: string
+                  example: your workspace name
                   description: the title of the form
+                workspace_id:
+                  type: integer
+                  example: 123
+                  description: workspace id
+              required:
+                - title
+                  workspace_id
       responses:
         200:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Form"
+                $ref: "#/components/schemas/FormRes"
           description: create a new form
-  /api/form:
+        401:
+          description: unauthorized
+        500:
+          description: server error
     put:
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Form"
+              $ref: "#/components/schemas/FormReq"
       responses:
         200:
           description: rename the form
@@ -159,7 +163,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Form"
+                type: object
+                properties:
+                  form:
+                    $ref: "#/components/schemas/FormRes"
+                  workspace:
+                    $ref: "#/components/schemas/Workspace"
+                  elements:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/FormElementRes"
         401:
           description: user is not logged in
         500:
@@ -240,6 +253,29 @@ paths:
           description: missing fields
         500:
           description: unexpected error (check log)
+  /api/published/form/${formId}:
+    get:
+      parameters:
+        - in: path
+          name: formId
+          required: true
+          schema:
+            type: integer
+            description: the form id
+      responses:
+        200:
+          description: "published form data"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  form:
+                    $ref: "#/components/schemas/FormRes"
+                  elements:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/FormElementRes"
 
 components:
   schemas:
@@ -256,10 +292,10 @@ components:
         elements:
           type: array
           items:
-            $ref: "#/components/schemas/FormElement"
+            $ref: "#/components/schemas/FormElementReq"
           description: A list of form elements to be included in this form.
 
-    FormElement:
+    FormElementReq:
       type: object
       required:
         - type
@@ -279,9 +315,9 @@ components:
           description: Sequential number indicating the order of this element in the form.
           example: 1
         label:
-          $ref: "#/components/schemas/FormElementLabel"
+          $ref: "#/components/schemas/FormElementReqLabel"
 
-    FormElementLabel:
+    FormElementReqLabel:
       type: object
       properties:
         title:
@@ -303,13 +339,16 @@ components:
     Workspace:
       type: object
       required:
+        - id
         - name
       properties:
         id:
           type: integer
+          example: 123
           description: the id for workspace not required and not used
         name:
           type: string
+          example: your workspace name
           description: name for workspace
         user_id:
           type: string
@@ -321,16 +360,20 @@ components:
           type: string
           description: the last time the workspace was updated
 
-    Form:
+    FormRes:
       type: object
       required:
+        - id
         - title
-        - workspace_id
+        - status
+        - design
       properties:
         id:
           type: integer
+          example: 311
         title:
           type: string
+          example: your form name
         status:
           type: string
           enum: [draft, published, completed]
@@ -340,4 +383,26 @@ components:
           type: string
         workspace_id:
           type: integer
+          example: 123
+        design:
+          type: string
+          enum: [draft, published, completed]
 
+    FormElementRes:
+      type: object
+      properties:
+        seq_number:
+          type: integer
+          example: 1
+        type:
+          type: string
+          example: email
+        label:
+          type: string
+          example: enter your email
+        description:
+          type: string
+          example: this is collected for information purporses only
+        properties:
+          type: object
+          description: anything you put in the frontend

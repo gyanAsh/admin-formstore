@@ -34,7 +34,7 @@ type FormElement struct {
 type FormData struct {
 	Form         Form          `json:"form"`
 	Workspace    Workspace     `json:"workspace"`
-	FormElements []FormElement `json:"form_elements"`
+	FormElements []FormElement `json:"elements"`
 }
 
 func parseFormDataAndElements(rows []db.GetFormDataAndElementsRow) FormData {
