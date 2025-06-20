@@ -10,8 +10,9 @@ import {
   useDesignStore,
   type DesignState,
 } from "@/store/designStore";
-import { AnimatePresence } from "motion/react";
 import * as motion from "motion/react-client";
+import { Telescope } from "lucide-react";
+import CustomizeOptionTop from "./customize-options-top";
 
 let ArrayDesigns: DesignState[] = [
   {
@@ -32,14 +33,14 @@ let ArrayDesigns: DesignState[] = [
       letter_spacing: "-0.025em",
     },
     elementDesign: {
-      variant: "glass",
+      variant: "solid",
       textColor: "#000000cf",
       bgColor: "#f3d1f4",
       borderColor: "#000000cf",
     },
     layoutDesign: {
       layoutAlign: "center",
-      elementSpacing: "12px",
+      elementSpacing: "4px",
       bgType: "custom",
       bgSolidValue: { color: "#00a1559f" },
       bgImageValue: {
@@ -54,7 +55,7 @@ let ArrayDesigns: DesignState[] = [
     labelDesign: {
       size: "48px",
       family: '"Playfair Display", serif',
-      color: "#ffffffff",
+      color: "#417505ff",
       italics: false,
       weight: "bold",
       letter_spacing: "-0.05em",
@@ -62,24 +63,24 @@ let ArrayDesigns: DesignState[] = [
     descriptionDesign: {
       size: "20px",
       family: '"Lora", serif',
-      color: "#ffffffff",
+      color: "#417505ff",
       italics: false,
       weight: "light",
       letter_spacing: "-0.025em",
     },
     elementDesign: {
-      variant: "glass",
+      variant: "solid",
       textColor: "#ffffffff",
-      bgColor: "#cce9f6e4",
-      borderColor: "#efefefff",
+      bgColor: "#417505e7",
+      borderColor: "#2d5103ff",
     },
     layoutDesign: {
       layoutAlign: "center",
-      elementSpacing: "12px",
-      bgType: "solid",
+      elementSpacing: "8px",
+      bgType: "image",
       bgSolidValue: { color: "#000000" },
       bgImageValue: {
-        imageUrl: "",
+        imageUrl: "/homepage/cropdesert.webp",
       },
       bgCustomValue: {
         value: `radial-gradient(ellipse at center, #0991D4, #0D9EE7, #0FA6F3)`,
@@ -89,18 +90,18 @@ let ArrayDesigns: DesignState[] = [
   {
     labelDesign: {
       size: "48px",
-      family: '"IBM Plex Sans", sans-serif',
-      color: "#ffffffff",
-      italics: true,
-      weight: "bold",
-      letter_spacing: "-0.05em",
-    },
-    descriptionDesign: {
-      size: "20px",
-      family: '"IBM Plex Sans", sans-serif',
+      family: '"Lora", serif',
       color: "#ffffffff",
       italics: false,
       weight: "bold",
+      letter_spacing: "0em",
+    },
+    descriptionDesign: {
+      size: "20px",
+      family: '"Roboto", sans-serif',
+      color: "#ffffffff",
+      italics: false,
+      weight: "medium",
       letter_spacing: "-0.025em",
     },
     elementDesign: {
@@ -111,7 +112,7 @@ let ArrayDesigns: DesignState[] = [
     },
     layoutDesign: {
       layoutAlign: "center",
-      elementSpacing: "12px",
+      elementSpacing: "4px",
       bgType: "image",
       bgSolidValue: { color: "#000000" },
       bgImageValue: {
@@ -124,69 +125,52 @@ let ArrayDesigns: DesignState[] = [
   },
 ];
 
-const variants = {
-  enter: (direction: "prev" | "next") => ({
-    x: direction === "prev" ? -100 : 100,
-    opacity: 0,
-  }),
-  center: {
-    x: 0,
-    opacity: 1,
-    transition: { duration: 0.3 },
-  },
-  exit: (direction: "prev" | "next") => ({
-    x: direction === "prev" ? 100 : -100,
-    opacity: 0,
-    transition: { duration: 0.3 },
-  }),
-};
-
 const LandingForms = () => {
-  const [currentIndex, setCurrentIndex] = React.useState(2);
+  const [currentIndex, setCurrentIndex] = React.useState(0);
   const setDesign = useDesignStore((state) => state.setDesign);
 
   React.useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % ArrayDesigns.length);
-    }, 5000); // every 5 seconds
-
-    return () => clearInterval(interval); // cleanup on unmount
-  }, []);
-
-  React.useEffect(() => {
-    wait(() => setDesign(ArrayDesigns[currentIndex]), 300);
+    setDesign(ArrayDesigns[currentIndex]);
   }, [currentIndex]);
 
   return (
-    <div className="w-full h-fit overflow-hidden">
-      <AnimatePresence custom={"next"} mode="wait">
-        <motion.div
-          key={currentIndex}
-          custom={"next"}
-          variants={variants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          className=" flex flex-col items-center gap-4 w-full"
-        >
-          <FormCardContainer>
-            {/* <div className=" bottom-0 absolute p-4 transition-transform duration-100 ease-in-out hover:duration-300">
-              <CustomizeOptionTop />
-            </div> */}
-            <FormContainer>
-              <TextContainer>
-                <div>
-                  <FormLabel />
-                  <FormDescription />
-                </div>
-              </TextContainer>
-              <InputContainer>
-                <FormInput />
-              </InputContainer>
-            </FormContainer>
-          </FormCardContainer>
-        </motion.div>
-      </AnimatePresence>
+    <div className="w-full h-fit overflow-hidden grid gap-3">
+      <motion.div
+        transition={{
+          duration: 5,
+          ease: "easeInOut",
+        }}
+        className=" flex flex-col items-center gap-4 w-full"
+      >
+        <FormCardContainer>
+          <Button
+            variant={"outline"}
+            onClick={() =>
+              setCurrentIndex(
+                (prevIndex) => (prevIndex + 1) % ArrayDesigns.length
+              )
+            }
+            className="rounded-4xl absolute top-5 left-5 text-black border-zinc-600"
+          >
+            <Telescope />
+            Explore Designs
+          </Button>
+          {/* <div className=" bottom-0 absolute p-4 transition-transform duration-100 ease-in-out hover:duration-300">
+            <CustomizeOptionTop />
+          </div> */}
+          <FormContainer>
+            <TextContainer>
+              <div>
+                <FormLabel />
+                <FormDescription />
+              </div>
+            </TextContainer>
+            <InputContainer>
+              <FormInput />
+            </InputContainer>
+          </FormContainer>
+        </FormCardContainer>
+      </motion.div>
     </div>
   );
 };
@@ -291,7 +275,7 @@ const FormLabel = () => {
       [line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] tracking-[var(--letter-space)]"
       style={style}
     >
-      What should we call you?
+      Be the First to Build Forms That Feel Human
     </h2>
   );
 };
@@ -316,8 +300,10 @@ const FormDescription = () => {
       [line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] tracking-[var(--letter-space)]"
       style={style}
     >
-      This helps us address you professionally in future conversations or
-      emails.
+      We’re putting the final touches on something beautiful. <br /> Join the
+      waitlist to get early access to FormStore — where forms feel less like
+      chores and more like conversations. You’ll be the first to try it, shape
+      it, and maybe even fall in love with it.
     </p>
   );
 };
@@ -337,27 +323,42 @@ const FormInput = () => {
         ? "0%"
         : "100%",
   };
-
+  const [email, setEmail] = React.useState("");
+  const validate = async () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) return;
+    console.log({ email });
+  };
   return (
     <div className="w-full max-w-[650px] self-center place-self-center flex flex-col items-end gap-2.5">
       <input
-        type="text"
+        type="email"
+        id="email"
+        name="email"
         className={cn(
-          "border-2 text-[var(--text-color)] [font-family:var(--family)] border-[var(--border-color)]/60 placeholder:text-[var(--text-color)]/65 outline-0 focus:border-[var(--border-color)] w-full h-fit py-2 px-4 text-lg rounded-full font-medium placeholder:italic bg-[var(--bg-color)]/[var(--transparant)]",
+          "border-2 text-[var(--text-color)] [font-family:var(--family)] border-[var(--border-color)]/60 placeholder:text-[var(--text-color)]/65 outline-0 focus:border-[var(--border-color)] w-full h-fit py-2 px-4 text-lg rounded-full font-medium placeholder:italic !bg-[var(--bg-color)]/[var(--transparant)]",
           { " backdrop-blur-xs": elDesign.variant === "glass" }
         )}
-        placeholder="Enter your full name"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="example@mail.com"
         style={elStyle}
+        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          if (e.key === "Enter") {
+            validate();
+          }
+        }}
       />
       <Button
         className={cn(
           "rounded-full text-[var(--text-color)] [font-family:var(--family)] text-lg px-7 py-5 bg-[var(--bg-color)]/[var(--transparant)] border-2 border-[var(--border-color)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)]/[var(--transparant)]",
           { " backdrop-blur-[1px]": elDesign.variant === "glass" }
         )}
+        onClick={validate}
         style={elStyle}
         variant={"outline"}
       >
-        <span className="">OK</span>
+        <span className="">Join Waitlist</span>
       </Button>
     </div>
   );

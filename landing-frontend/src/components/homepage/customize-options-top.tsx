@@ -10,13 +10,10 @@ import {
   CaseLower,
   CaseSensitive,
   Check,
-  ChevronDown,
   ChevronRight,
-  ChevronsUpDown,
   Italic,
   LayoutDashboard,
   SquareDashedMousePointer,
-  WandSparkles,
 } from "lucide-react";
 import {
   Command,
@@ -42,12 +39,10 @@ import {
   textFonts,
   textSizes,
   useDesignStore,
-  type BgType,
   type DescriptionDesign,
   type ElementDesign,
   type LabelDesign,
   type LayoutDesign,
-  type SolidValueType,
   type TextFont,
 } from "@/store/designStore";
 import UploadImage from "../ui/upload-image";

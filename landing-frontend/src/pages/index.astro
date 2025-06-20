@@ -1,13 +1,12 @@
 ---
-import { Button } from "@/components/ui/button";
 import "../styles/global.css";
 // Component Imports
 import MainLayout from "@/layouts/main.astro";
 import LandingForms from "@/components/homepage/landing-forms";
-import { Dot, Plus, Telescope } from "lucide-react";
+import { Plus } from "lucide-react";
 import { AnimateSvg } from "@/components/homepage/animate";
 import { cn } from "@/lib/utils";
-import { Separator } from "@/components/ui/separator";
+import WaitlistButton from "@/components/homepage/waitlistButton";
 
 const pageTitle = "Formstore | Easy Form Builder";
 // Full Astro Component Syntax:
@@ -27,7 +26,7 @@ const pageTitle = "Formstore | Easy Form Builder";
         </div>
       </div>
       <!-- options -->
-      <div class="bg-zinc-900 text-white rounded-4xl">
+      <!-- <div class="bg-zinc-900 text-white rounded-4xl">
         <Button
           className="rounded-4xl backdrop-blur-2xl hover:scale-100 duration-250 transition-colors ease-in-out border-0  "
           variant={"ghost"}
@@ -46,11 +45,13 @@ const pageTitle = "Formstore | Easy Form Builder";
         >
           Solution</Button
         >
-      </div>
+      </div> -->
       <!-- <div>nav tabs</div> -->
       <!-- login -->
       <div>
-        <Button className="rounded-4xl"> Login </Button>
+        <WaitlistButton client:load className="rounded-4xl" id="scroll-btn">
+          Join Waitlist
+        </WaitlistButton>
       </div>
     </nav>
     <section
@@ -63,7 +64,7 @@ const pageTitle = "Formstore | Easy Form Builder";
         <div
           class="border rounded-4xl py-0.5 px-2.5 text-sm w-fit bg-gradient-to-tr from-zinc-700 via-zinc-500 to-zinc-700 text-zinc-50 cursor-default"
         >
-          Beta Version is Live!
+          Work in Progress!
         </div>
         <h1 class="text-xl font-semibold text-zinc-600">
           Welcome to <span
@@ -172,15 +173,15 @@ const pageTitle = "Formstore | Easy Form Builder";
       <span class="">signups</span>
       — do it fast with Formstore.
     </p> -->
-      <div class="flex items-center gap-4">
+      <!-- <div class="flex items-center gap-4">
         <Button className="rounded-4xl"> Get Started — For Free</Button>
         <Button variant={"outline"} className="rounded-4xl border-zinc-600"
           ><Telescope />
           Explore Templates</Button
         >
-      </div>
+      </div> -->
     </section>
-    <div class="flex items-center justify-center px-2 sm:px-4">
+    <div class="flex items-center justify-center px-2 sm:px-4" id="waitlist">
       <LandingForms client:load />
     </div>
     <AnimateSvg
@@ -272,7 +273,7 @@ const pageTitle = "Formstore | Easy Form Builder";
       >Markdown is also supported...</a
     > -->
       <div
-        class="text-xl md:px-4 max-w-3xl font-medium text-center leading-14 flex items-center gap-2 text-clip"
+        class="text-2xl md:text-3xl lg:text-4xl md:px-4 max-w-3xl font-medium text-center leading-14 flex items-center gap-2 text-clip"
       >
         How <img
           src="/formstore-logo-light.svg"
@@ -293,10 +294,10 @@ const pageTitle = "Formstore | Easy Form Builder";
         class="grid grid-cols-1 lg:grid-cols-3 max-w-4xl gap-6 lg:gap-3 mt-12 m-10"
       >
         <section
-          class="hover:shadow-2xl cursor-default duration-150 ease-in-out relative flex flex-col gap-3 px-4 md:px-5 py-4 place-items-start border-[1px] border-zinc-300 bg-gradient-to-tr from-white to-pink-100 rounded-3xl"
+          class="hover:shadow-2xl cursor-default duration-150 ease-in-out relative flex flex-col gap-3 px-4 md:px-5 py-4 place-items-start border-[1px] border-zinc-200 bg-gradient-to-tr from-white to-pink-100 rounded-3xl"
         >
-          <h2 class="font-semibold italic font-['Lora'] text-2xl">
-            <span class="font-medium text-zinc-600">Step 1 :</span><br />
+          <h2 class="font-semibold font-['Playfair_Display','serif'] text-2xl">
+            <span class="font-medium text-zinc-700">Step 1 :</span><br />
             Add Your Questions
           </h2>
           <p class="leading-5.5 text-lg text-start">
@@ -306,10 +307,10 @@ const pageTitle = "Formstore | Easy Form Builder";
         </section>
 
         <section
-          class="hover:shadow-2xl cursor-default duration-150 ease-in-out relative flex flex-col gap-3 px-4 md:px-5 py-4 place-items-start border-[1px] border-zinc-300 bg-gradient-to-tr from-white to-purple-100 rounded-3xl"
+          class="hover:shadow-2xl cursor-default duration-150 ease-in-out relative flex flex-col gap-3 px-4 md:px-5 py-4 place-items-start border-[1px] border-zinc-200 bg-gradient-to-tr from-white to-purple-100 rounded-3xl"
         >
-          <h2 class="font-semibold italic font-['Lora'] text-2xl">
-            <span class="font-medium text-zinc-600">Step 2 :</span><br />
+          <h2 class="font-semibold font-['Playfair_Display','serif'] text-2xl">
+            <span class="font-medium text-zinc-700">Step 2 :</span><br />
             Select a Design
           </h2>
           <p class="leading-5.5 text-lg text-start">
@@ -318,10 +319,10 @@ const pageTitle = "Formstore | Easy Form Builder";
         </section>
 
         <section
-          class="hover:shadow-2xl cursor-default duration-150 ease-in-out relative flex flex-col gap-3 px-4 md:px-5 py-4 place-items-start border-[1px] border-zinc-300 bg-gradient-to-tr from-white to-blue-100 rounded-3xl"
+          class="hover:shadow-2xl cursor-default duration-150 ease-in-out relative flex flex-col gap-3 px-4 md:px-5 py-4 place-items-start border-[1px] border-zinc-200 bg-gradient-to-tr from-white to-blue-100 rounded-3xl"
         >
-          <h2 class="font-semibold italic font-['Lora'] text-2xl">
-            <span class="font-medium text-zinc-600">Step 3 :</span><br />
+          <h2 class="font-semibold font-['Playfair_Display','serif'] text-2xl">
+            <span class="font-medium text-zinc-700">Step 3 :</span><br />
             Hit Publish
           </h2>
           <p class="leading-5.5 text-lg text-start">
