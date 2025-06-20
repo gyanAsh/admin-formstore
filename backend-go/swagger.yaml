@@ -159,7 +159,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Form"
+                type: object
+                properties:
+                  form:
+                    $ref: "#/components/schemas/Form"
+                  workspace:
+                    $ref: "#/components/schemas/Workspace"
+                  elements:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/FormElementRes"
         401:
           description: user is not logged in
         500:
@@ -259,7 +268,7 @@ paths:
                 properties:
                   form:
                     $ref: "#/components/schemas/Form"
-                  form_elements:
+                  elements:
                     type: array
                     items:
                       $ref: "#/components/schemas/FormElementRes"
