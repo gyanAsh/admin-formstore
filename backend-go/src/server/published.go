@@ -12,7 +12,7 @@ import (
 
 type PublishedFormData struct {
 	Form         Form          `json:"form"`
-	FormElements []FormElement `json:"form_elements"`
+	FormElements []FormElement `json:"elements"`
 }
 
 func parseFormDataPublished(rows []db.GetFormDataPublicRow) PublishedFormData {
