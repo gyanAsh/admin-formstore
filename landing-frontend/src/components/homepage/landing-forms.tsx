@@ -206,7 +206,7 @@ const FormCardContainer = ({ children }: React.ComponentProps<"section">) => {
   return (
     <section
       className={cn(
-        "flex flex-col items-center w-full md:max-w-[80dvw] rounded-4xl h-[85dvh]",
+        "flex flex-col items-center w-full md:max-w-[80dvw] rounded-4xl h-[85vh]",
         // "[background:radial-gradient(ellipse_at_bottom,_#94b2c2,_#5ea1c4,_#5ea1c4)]",
         "relative overflow-hidden",
         "px-4 text-blue-700/75s text-white border-2 border-blue-50 bg-[var(--bg-color)]"

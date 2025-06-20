@@ -15,57 +15,58 @@ const pageTitle = "Formstore | Easy Form Builder";
 ---
 
 <MainLayout title={pageTitle}>
-  <nav
-    class="flex items-center justify-between py-2 px-3 fixed top-0 z-1 w-full bg-zinc-50/20 backdrop-blur-2xl"
-  >
-    <div class="flex items-center gap-2.5">
-      <img src="/formstore-logo-light.svg" class="size-9" />
-      <div class="text-lg leading-4 font-semibold">
-        <h1 class="font-['Playfair_Display','serif'] italic">The</h1>
-        <h1 class="">Formstore</h1>
-      </div>
-    </div>
-    <!-- options -->
-    <div>nav tabs</div>
-    <!-- login -->
-    <div>
-      <Button className="rounded-4xl"> Login </Button>
-    </div>
-  </nav>
-  <section
-    class={cn(
-      "flex flex-col items-center justify-center gap-4 min-h-[600px] md:min-h-[450px] xl:min-h-[65dvh] 2xl:min-h-[60dvh] pt-4 px-4",
-      "bg-gradient-to-t from-[#51eaea]/5 via-[#ffdbc5]/20 to-[#ff9d76]/20"
-    )}
-  >
-    <div class="flex flex-col items-center gap-1">
-      <div
-        class="border rounded-4xl py-0.5 px-2.5 text-sm w-fit bg-gradient-to-tr from-zinc-700 via-zinc-500 to-zinc-700 text-zinc-50 cursor-default"
-      >
-        Beta Version is Live!
-      </div>
-      <h1 class="text-xl font-semibold text-zinc-600">
-        Welcome to <span
-          class="font-['Playfair_Display','serif'] italic text-zinc-950 font-bold"
-          >The</span
-        >
-        <span class="text-zinc-950 font-bold">Formstore</span>
-      </h1>
-    </div>
-    <h2
-      class="text-4xl md:px-4 max-w-3xl text-center font-['Playfair_Display','serif'] leading-14 text-clip"
+  <main class="relative max-w-full min-h-full overflow-hidden">
+    <nav
+      class="flex items-center justify-between py-2 px-3 fixed top-0 z-1 w-full bg-zinc-50/20 backdrop-blur-2xl"
     >
-      <span class="text-pink-500 bg-pink-200 rounded-4xl px-3 py-0.5"
-        >Build</span
-      > Forms. <span
-        class="text-purple-500 bg-purple-200 rounded-4xl px-3 py-0.5"
-        >Collect</span
-      > Responses. <span
-        class="text-blue-500 bg-blue-200 rounded-4xl px-3 py-0.5"
-        >Understand</span
-      > People.
-    </h2>
-    <!-- <h2 class="text-4xl md:px-4 max-w-3xl text-center leading-14 text-clip">
+      <div class="flex items-center gap-2.5">
+        <img src="/formstore-logo-light.svg" class="size-9" />
+        <div class="text-lg leading-4 font-semibold">
+          <h1 class="font-['Playfair_Display','serif'] italic">The</h1>
+          <h1 class="">Formstore</h1>
+        </div>
+      </div>
+      <!-- options -->
+      <div>nav tabs</div>
+      <!-- login -->
+      <div>
+        <Button className="rounded-4xl"> Login </Button>
+      </div>
+    </nav>
+    <section
+      class={cn(
+        "flex flex-col items-center justify-center gap-4 min-h-[600px] md:min-h-[450px] xl:min-h-[65vh] 2xl:min-h-[60vh] pt-4 px-4",
+        "bg-gradient-to-t from-[#51eaea]/5 via-[#ffdbc5]/20 to-[#ff9d76]/20"
+      )}
+    >
+      <div class="flex flex-col items-center gap-1">
+        <div
+          class="border rounded-4xl py-0.5 px-2.5 text-sm w-fit bg-gradient-to-tr from-zinc-700 via-zinc-500 to-zinc-700 text-zinc-50 cursor-default"
+        >
+          Beta Version is Live!
+        </div>
+        <h1 class="text-xl font-semibold text-zinc-600">
+          Welcome to <span
+            class="font-['Playfair_Display','serif'] italic text-zinc-950 font-bold"
+            >The</span
+          >
+          <span class="text-zinc-950 font-bold">Formstore</span>
+        </h1>
+      </div>
+      <h2
+        class="text-4xl md:px-4 max-w-3xl text-center font-['Playfair_Display','serif'] leading-14 text-clip"
+      >
+        <span class="text-pink-500 bg-pink-200 rounded-4xl px-3 py-0.5"
+          >Build</span
+        > Forms. <span
+          class="text-purple-500 bg-purple-200 rounded-4xl px-3 py-0.5"
+          >Collect</span
+        > Responses. <span
+          class="text-blue-500 bg-blue-200 rounded-4xl px-3 py-0.5"
+          >Understand</span
+        > People.
+      </h2>
+      <!-- <h2 class="text-4xl md:px-4 max-w-3xl text-center leading-14 text-clip">
       A new way to <span
         class="text-pink-500 bg-pink-200 rounded-4xl px-3 py-0.5">create</span
       >, <span class="text-purple-500 bg-purple-200 rounded-4xl px-3 py-0.5"
@@ -75,75 +76,75 @@ const pageTitle = "Formstore | Easy Form Builder";
       > — in seconds
      </h2> -->
 
-    <div class="text-xl leading-9 text-center">
-      <span class="relative inline-block w-fit">
-        <AnimateSvg
-          width="100%"
-          height="100%"
-          viewBox="0 0 330 81"
-          className="absolute translate-y-4.5 top-0 -z-[1] stroke-pink-500"
-          path="M276.107 10.7667C258.31 28.3296 234.687 49.9446 218.918 18.406C204.994 -9.44212 183.022 5.05179 163.639 21.9074C157.838 26.9518 147.594 35.084 139.023 33.2603C131.032 31.5602 124.159 19.4215 117.166 15.0108C102.691 5.88068 78.6731 19.6982 64.5392 24.1355C43.8618 30.6273 24.6478 36.5711 3 33.6847"
-          strokeColor="inherit"
-          strokeWidth={9}
-          strokeLinecap="round"
-          animationDuration={1.5}
-          animationDelay={0}
-          animationBounce={0.3}
-          reverseAnimation={false}
-          enableHoverAnimation={true}
-          hoverAnimationType="redraw"
-          hoverStrokeColor="#4f46e5"
-          client:load
-        />
-        Publish</span
-      > stunning forms in minutes <span class="text-pink-500">&bull;</span>
-      <span class="relative inline-block">
-        <AnimateSvg
-          width="100%"
-          height="100%"
-          viewBox="0 0 240 100"
-          className="absolute translate-y-5 rotate-40 top-0 -z-[1] stroke-purple-500"
-          path="M3 94.6748C27.4641 99.4874 46.3246 102.55 65.0444 83.8304C73.9796 74.8953 76.1503 62.8261 69.8444 51.4748C58.3692 30.8185 36.6188 61.9308 52.6 71.9193C81.897 90.2303 107.995 53.7887 112.155 28.3637C113.368 20.9544 114.609 12.5035 115 5.07481C115.339 -1.36878 117.032 6.28246 117.844 8.63037C119.35 12.9801 121.884 16.4674 123.356 20.7192C125.931 28.1593 122.746 21.3428 121.755 17.8748C118.913 7.92667 118.724 -1.31665 108.6 8.27481C106.563 10.205 95.3631 19.2352 97.3999 19.4748C103.175 20.1542 109.598 23.9571 115 24.2748C122.394 24.7098 126.464 27.2512 116.6 22.3192C113.382 20.71 110.214 19.6588 107 18.2304C101.703 15.8763 109.23 17.7389 109.844 18.2304C111.629 19.6579 116.523 20.3297 111.8 18.2304C110.584 17.6899 105.386 16.2748 107 16.2748C112.097 16.2748 118.803 21.3653 116.956 17.8748C115.403 14.9415 113.389 14.4872 110.2 14.6748C109.114 14.7386 105.166 17.8748 107 17.8748"
-          strokeWidth={9}
-          strokeColor="inherit"
-          strokeLinecap="round"
-          animationDuration={1.5}
-          animationDelay={0}
-          animationBounce={0.3}
-          reverseAnimation={false}
-          enableHoverAnimation={true}
-          hoverAnimationType="redraw"
-          hoverStrokeColor="#4f46e5"
-          client:load
-        />
-        Share</span
-      > anywhere <span class="text-purple-500">&bull;</span> Get real-time <span
-        class="relative inline-block"
-      >
-        <AnimateSvg
-          width="100%"
-          height="100%"
-          viewBox="0 0 100 100"
-          className="absolute translate-y-3.5 scale-100 top-0 -z-[1] stroke-blue-500"
-          path="M-11.94 44.90 Q62.57 89.42, 129.66 45.83"
-          strokeWidth={5}
-          strokeColor="inherit"
-          strokeLinecap="round"
-          animationDuration={1.5}
-          animationDelay={0}
-          animationBounce={0.3}
-          reverseAnimation={false}
-          enableHoverAnimation={true}
-          hoverAnimationType="redraw"
-          hoverStrokeColor="#4f46e5"
-          client:load
-        />
-        insights</span
-      >
+      <div class="text-xl leading-9 text-center">
+        <span class="relative inline-block w-fit">
+          <AnimateSvg
+            width="100%"
+            height="100%"
+            viewBox="0 0 330 81"
+            className="absolute translate-y-4.5 top-0 -z-[1] stroke-pink-500"
+            path="M276.107 10.7667C258.31 28.3296 234.687 49.9446 218.918 18.406C204.994 -9.44212 183.022 5.05179 163.639 21.9074C157.838 26.9518 147.594 35.084 139.023 33.2603C131.032 31.5602 124.159 19.4215 117.166 15.0108C102.691 5.88068 78.6731 19.6982 64.5392 24.1355C43.8618 30.6273 24.6478 36.5711 3 33.6847"
+            strokeColor="inherit"
+            strokeWidth={9}
+            strokeLinecap="round"
+            animationDuration={1.5}
+            animationDelay={0}
+            animationBounce={0.3}
+            reverseAnimation={false}
+            enableHoverAnimation={true}
+            hoverAnimationType="redraw"
+            hoverStrokeColor="#4f46e5"
+            client:load
+          />
+          Publish</span
+        > stunning forms in minutes <span class="text-pink-500">&bull;</span>
+        <span class="relative inline-block">
+          <AnimateSvg
+            width="100%"
+            height="100%"
+            viewBox="0 0 240 100"
+            className="absolute translate-y-5 rotate-40 top-0 -z-[1] stroke-purple-500"
+            path="M3 94.6748C27.4641 99.4874 46.3246 102.55 65.0444 83.8304C73.9796 74.8953 76.1503 62.8261 69.8444 51.4748C58.3692 30.8185 36.6188 61.9308 52.6 71.9193C81.897 90.2303 107.995 53.7887 112.155 28.3637C113.368 20.9544 114.609 12.5035 115 5.07481C115.339 -1.36878 117.032 6.28246 117.844 8.63037C119.35 12.9801 121.884 16.4674 123.356 20.7192C125.931 28.1593 122.746 21.3428 121.755 17.8748C118.913 7.92667 118.724 -1.31665 108.6 8.27481C106.563 10.205 95.3631 19.2352 97.3999 19.4748C103.175 20.1542 109.598 23.9571 115 24.2748C122.394 24.7098 126.464 27.2512 116.6 22.3192C113.382 20.71 110.214 19.6588 107 18.2304C101.703 15.8763 109.23 17.7389 109.844 18.2304C111.629 19.6579 116.523 20.3297 111.8 18.2304C110.584 17.6899 105.386 16.2748 107 16.2748C112.097 16.2748 118.803 21.3653 116.956 17.8748C115.403 14.9415 113.389 14.4872 110.2 14.6748C109.114 14.7386 105.166 17.8748 107 17.8748"
+            strokeWidth={9}
+            strokeColor="inherit"
+            strokeLinecap="round"
+            animationDuration={1.5}
+            animationDelay={0}
+            animationBounce={0.3}
+            reverseAnimation={false}
+            enableHoverAnimation={true}
+            hoverAnimationType="redraw"
+            hoverStrokeColor="#4f46e5"
+            client:load
+          />
+          Share</span
+        > anywhere <span class="text-purple-500">&bull;</span> Get real-time <span
+          class="relative inline-block"
+        >
+          <AnimateSvg
+            width="100%"
+            height="100%"
+            viewBox="0 0 100 100"
+            className="absolute translate-y-3.5 scale-100 top-0 -z-[1] stroke-blue-500"
+            path="M-11.94 44.90 Q62.57 89.42, 129.66 45.83"
+            strokeWidth={5}
+            strokeColor="inherit"
+            strokeLinecap="round"
+            animationDuration={1.5}
+            animationDelay={0}
+            animationBounce={0.3}
+            reverseAnimation={false}
+            enableHoverAnimation={true}
+            hoverAnimationType="redraw"
+            hoverStrokeColor="#4f46e5"
+            client:load
+          />
+          insights</span
+        >
 
-      with zero setup.
-    </div>
-    <!-- 
+        with zero setup.
+      </div>
+      <!-- 
     <p class="text-lg text-center">
       Whether you're collecting
       <span class="">feedback</span>,
@@ -151,162 +152,164 @@ const pageTitle = "Formstore | Easy Form Builder";
       <span class="">signups</span>
       — do it fast with Formstore.
     </p> -->
-    <div class="flex items-center gap-4">
-      <Button className="rounded-4xl"> Get Started — For Free</Button>
-      <Button variant={"outline"} className="rounded-4xl border-zinc-600"
-        ><Telescope />
-        Explore Templates</Button
-      >
-    </div>
-  </section>
-  <div class="flex items-center justify-center px-2 sm:px-4">
-    <LandingForms client:load />
-  </div>
-  <AnimateSvg
-    width="100%"
-    height="100%"
-    viewBox="0 0 250 100"
-    className="absolute translate-y-15 -top-40 md:top-0 -left-50 md:-left-80 -rotate-125 blur-2xl -z-[5] stroke-purple-500 md:stroke-purple-300"
-    path="M 223.00 10.00 C 92.00 21.01, 121.00 126.01, 10.00 179.00"
-    strokeWidth={16}
-    strokeColor="inherit"
-    strokeLinecap="round"
-    animationDuration={10}
-    animationDelay={0}
-    animationBounce={0.3}
-    reverseAnimation={false}
-    enableHoverAnimation={false}
-    client:load
-  />
-
-  <AnimateSvg
-    width="100%"
-    height="100%"
-    viewBox="0 0 250 100"
-    className="absolute translate-y-15 top-40 md:top-45 left-20 -rotate-0 blur-2xl -z-[5] stroke-lime-500 md:stroke-lime-300"
-    path="M 223.00 10.00 C 92.00 21.01, 121.00 126.01, 10.00 179.00"
-    strokeWidth={16}
-    strokeColor="inherit"
-    strokeLinecap="round"
-    animationDuration={3}
-    animationDelay={0}
-    animationBounce={0.3}
-    reverseAnimation={true}
-    enableHoverAnimation={false}
-    client:load
-  />
-
-  <div class="flex items-center justify-center text-center w-full">
-    <section
-      class="flex flex-col items-center mt-9 py-9 max-w-3xl bg-zinc-200/55 rounded-4xl mx-2 md:mx-8 p-8"
-    >
-      <h2
-        class="font-['Playfair_Display','serif'] text-2xl md:text-3xl lg:text-4xl"
-      >
-        Forms That Make People Feel Special ✨
-      </h2>
-      <h3 class="font-semibold mt-2">
-        Make People Feel Seen, Heard — and Special
-      </h3>
-      <br />
-      <br />
-
-      <div
-        class="grid grid-cols-10 place-items-center gap-3 py-2 border-b-2 border-dashed"
-      >
-        <Plus strokeWidth={3} />
-        <p class="text-xl text-start col-span-9">
-          Your users aren’t just clicks. They’re humans. And your form should
-          feel like a conversation, not a chore.
-        </p>
+      <div class="flex items-center gap-4">
+        <Button className="rounded-4xl"> Get Started — For Free</Button>
+        <Button variant={"outline"} className="rounded-4xl border-zinc-600"
+          ><Telescope />
+          Explore Templates</Button
+        >
       </div>
-      <div
-        class="grid grid-cols-10 place-items-center gap-3 py-2 border-b-2 border-dashed"
-      >
-        <Plus strokeWidth={3} />
-        <p class="text-xl text-start col-span-9">
-          With FormStore’s beautifully crafted designs, every survey feels
-          personal. Every question feels thoughtful. Every submission feels
-          appreciated.
-        </p>
-      </div>
-
-      <br />
-      <br />
-      <p class="text-lg italic">
-        ✨ Because when your forms look and feel great — your users feel valued.
-      </p>
     </section>
-  </div>
+    <div class="flex items-center justify-center px-2 sm:px-4">
+      <LandingForms client:load />
+    </div>
+    <AnimateSvg
+      width="100%"
+      height="100%"
+      viewBox="0 0 250 100"
+      className="absolute -top-200 md:-top-170 -left-50 md:-left-80 -rotate-125 blur-2xl -z-[5] stroke-purple-500 md:stroke-purple-300"
+      path="M 223.00 10.00 C 92.00 21.01, 121.00 126.01, 10.00 179.00"
+      strokeWidth={16}
+      strokeColor="inherit"
+      strokeLinecap="round"
+      animationDuration={10}
+      animationDelay={0}
+      animationBounce={0.3}
+      reverseAnimation={false}
+      enableHoverAnimation={false}
+      client:load
+    />
 
-  <div
-    class={cn(
-      "grid place-items-center h-full content-center mt-9 py-9 bg-lm text-zinc-900 px-4 md:px-10 lg:px-16",
-      "bg-gradient-to-t from-[#d8f999]/60 via-[#d8f999]/50 to-[#ff9d76]/0"
-    )}
-  >
-    <!-- <Button>Tailwind Button in Astro!</Button>
+    <AnimateSvg
+      width="100%"
+      height="100%"
+      viewBox="0 0 250 100"
+      className="absolute translate-y-15 top-40 md:top-45 left-20 -rotate-15 rotate-y-180 blur-2xl -z-[5] stroke-lime-500 md:stroke-lime-300"
+      path="M 223.00 10.00 C 92.00 21.01, 121.00 126.01, 10.00 179.00"
+      strokeWidth={16}
+      strokeColor="inherit"
+      strokeLinecap="round"
+      animationDuration={3}
+      animationDelay={0}
+      animationBounce={0.3}
+      reverseAnimation={true}
+      enableHoverAnimation={false}
+      client:load
+    />
+
+    <div class="flex items-center justify-center text-center w-full">
+      <section
+        class="flex flex-col items-center mt-9 py-9 max-w-3xl bg-zinc-200/55 rounded-4xl mx-2 md:mx-8 p-8"
+      >
+        <h2
+          class="font-['Playfair_Display','serif'] text-2xl md:text-3xl lg:text-4xl"
+        >
+          Forms That Make People Feel Special ✨
+        </h2>
+        <h3 class="font-semibold mt-2">
+          Make People Feel Seen, Heard — and Special
+        </h3>
+        <br />
+        <br />
+
+        <div
+          class="grid grid-cols-10 place-items-center gap-3 py-2 border-b-2 border-dashed"
+        >
+          <Plus strokeWidth={3} />
+          <p class="text-xl text-start col-span-9">
+            Your users aren’t just clicks. They’re humans. And your form should
+            feel like a conversation, not a chore.
+          </p>
+        </div>
+        <div
+          class="grid grid-cols-10 place-items-center gap-3 py-2 border-b-2 border-dashed"
+        >
+          <Plus strokeWidth={3} />
+          <p class="text-xl text-start col-span-9">
+            With FormStore’s beautifully crafted designs, every survey feels
+            personal. Every question feels thoughtful. Every submission feels
+            appreciated.
+          </p>
+        </div>
+
+        <br />
+        <br />
+        <p class="text-lg italic">
+          ✨ Because when your forms look and feel great — your users feel
+          valued.
+        </p>
+      </section>
+    </div>
+
+    <div
+      class={cn(
+        "grid place-items-center h-full content-center mt-9 py-9 bg-lm text-zinc-900 px-4 md:px-10 lg:px-16",
+        "bg-gradient-to-t from-[#d8f999]/60 via-[#d8f999]/50 to-[#ff9d76]/0"
+      )}
+    >
+      <!-- <Button>Tailwind Button in Astro!</Button>
     <a href="/markdown-page" class="p-4 underline"
       >Markdown is also supported...</a
     > -->
-    <div
-      class="text-xl md:px-4 max-w-3xl font-medium text-center leading-14 flex items-center gap-2 text-clip"
-    >
-      How <img
-        src="/formstore-logo-light.svg"
-        class="size-6 mix-blend-luminosity"
-      />
-      Formstore Works
-    </div>
-    <div
-      class="text-4xl px-2 md:px-4 max-w-3xl font-['Playfair_Display','serif'] font-medium text-center leading-8 mb-4 flex items-center gap-2 text-clip"
-    >
-      Run a Survey in 3 Easy Steps
-    </div>
-    <div class="text-zinc-800 font-semibold text-lg">
-      Just click, style, and launch.
-    </div>
-
-    <div
-      class="grid grid-cols-1 lg:grid-cols-3 max-w-4xl gap-6 lg:gap-3 mt-12 m-10"
-    >
-      <section
-        class="hover:shadow-2xl cursor-default duration-150 ease-in-out relative flex flex-col gap-3 px-4 md:px-5 py-4 place-items-start border-[1px] border-zinc-300 bg-gradient-to-tr from-white to-pink-100 rounded-3xl"
+      <div
+        class="text-xl md:px-4 max-w-3xl font-medium text-center leading-14 flex items-center gap-2 text-clip"
       >
-        <h2 class="font-semibold italic font-['Lora'] text-2xl">
-          <span class="font-medium text-zinc-600">Step 1 :</span><br />
-          Add Your Questions
-        </h2>
-        <p class="leading-5.5 text-lg text-start">
-          Choose from text fields, ratings, checkboxes — whatever fits your
-          story.
-        </p>
-      </section>
-
-      <section
-        class="hover:shadow-2xl cursor-default duration-150 ease-in-out relative flex flex-col gap-3 px-4 md:px-5 py-4 place-items-start border-[1px] border-zinc-300 bg-gradient-to-tr from-white to-purple-100 rounded-3xl"
+        How <img
+          src="/formstore-logo-light.svg"
+          class="size-6 mix-blend-luminosity"
+        />
+        Formstore Works
+      </div>
+      <div
+        class="text-4xl px-2 md:px-4 max-w-3xl font-['Playfair_Display','serif'] font-medium text-center leading-8 mb-4 flex items-center gap-2 text-clip"
       >
-        <h2 class="font-semibold italic font-['Lora'] text-2xl">
-          <span class="font-medium text-zinc-600">Step 2 :</span><br />
-          Select a Design
-        </h2>
-        <p class="leading-5.5 text-lg text-start">
-          Match your mood or brand with beautiful, ready-made themes.
-        </p>
-      </section>
+        Run a Survey in 3 Easy Steps
+      </div>
+      <div class="text-zinc-800 font-semibold text-lg">
+        Just click, style, and launch.
+      </div>
 
-      <section
-        class="hover:shadow-2xl cursor-default duration-150 ease-in-out relative flex flex-col gap-3 px-4 md:px-5 py-4 place-items-start border-[1px] border-zinc-300 bg-gradient-to-tr from-white to-blue-100 rounded-3xl"
+      <div
+        class="grid grid-cols-1 lg:grid-cols-3 max-w-4xl gap-6 lg:gap-3 mt-12 m-10"
       >
-        <h2 class="font-semibold italic font-['Lora'] text-2xl">
-          <span class="font-medium text-zinc-600">Step 3 :</span><br />
-          Hit Publish
-        </h2>
-        <p class="leading-5.5 text-lg text-start">
-          Your form goes live instantly. Share the link, and watch the responses
-          roll in.
-        </p>
-      </section>
+        <section
+          class="hover:shadow-2xl cursor-default duration-150 ease-in-out relative flex flex-col gap-3 px-4 md:px-5 py-4 place-items-start border-[1px] border-zinc-300 bg-gradient-to-tr from-white to-pink-100 rounded-3xl"
+        >
+          <h2 class="font-semibold italic font-['Lora'] text-2xl">
+            <span class="font-medium text-zinc-600">Step 1 :</span><br />
+            Add Your Questions
+          </h2>
+          <p class="leading-5.5 text-lg text-start">
+            Choose from text fields, ratings, checkboxes — whatever fits your
+            story.
+          </p>
+        </section>
+
+        <section
+          class="hover:shadow-2xl cursor-default duration-150 ease-in-out relative flex flex-col gap-3 px-4 md:px-5 py-4 place-items-start border-[1px] border-zinc-300 bg-gradient-to-tr from-white to-purple-100 rounded-3xl"
+        >
+          <h2 class="font-semibold italic font-['Lora'] text-2xl">
+            <span class="font-medium text-zinc-600">Step 2 :</span><br />
+            Select a Design
+          </h2>
+          <p class="leading-5.5 text-lg text-start">
+            Match your mood or brand with beautiful, ready-made themes.
+          </p>
+        </section>
+
+        <section
+          class="hover:shadow-2xl cursor-default duration-150 ease-in-out relative flex flex-col gap-3 px-4 md:px-5 py-4 place-items-start border-[1px] border-zinc-300 bg-gradient-to-tr from-white to-blue-100 rounded-3xl"
+        >
+          <h2 class="font-semibold italic font-['Lora'] text-2xl">
+            <span class="font-medium text-zinc-600">Step 3 :</span><br />
+            Hit Publish
+          </h2>
+          <p class="leading-5.5 text-lg text-start">
+            Your form goes live instantly. Share the link, and watch the
+            responses roll in.
+          </p>
+        </section>
+      </div>
     </div>
-  </div>
+  </main>
 </MainLayout>
