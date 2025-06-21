@@ -5,6 +5,13 @@
   // Update to today's date
   "compatibility_date": "2025-06-08",
   "compatibility_flags": ["nodejs_compat"],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "formstore-db",
+      "database_id": "ee69ea10-1676-40cf-875c-6544591fef90"
+    }
+  ],
   "assets": {
     "binding": "ASSETS",
     "directory": "./dist"
