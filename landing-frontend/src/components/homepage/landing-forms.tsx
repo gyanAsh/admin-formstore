@@ -1,7 +1,6 @@
 import { cn, wait } from "@/lib/utils";
 import { Button } from "../ui/button";
 import React from "react";
-// import CustomizeOptionTop from "./customize-options-top";
 import {
   justifyContent,
   maxMdTextSize,
@@ -13,6 +12,9 @@ import {
 import * as motion from "motion/react-client";
 import { Telescope } from "lucide-react";
 import CustomizeOptionTop from "./customize-options-top";
+import { Toaster } from "../ui/sonner";
+import { toast } from "sonner";
+import { useBottomVisible } from "@/hooks/use-bottom-visible";
 
 let ArrayDesigns: DesignState[] = [
   {
@@ -126,6 +128,9 @@ let ArrayDesigns: DesignState[] = [
 ];
 
 const LandingForms = () => {
+  const boxRef = React.useRef(null);
+  const isBottomVisible = useBottomVisible(boxRef);
+
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const setDesign = useDesignStore((state) => state.setDesign);
 
@@ -134,7 +139,7 @@ const LandingForms = () => {
   }, [currentIndex]);
 
   return (
-    <div className="w-full h-fit overflow-hidden grid gap-3">
+    <div className="w-full h-fit overflow-hidden grid gap-3 relative">
       <motion.div
         transition={{
           duration: 5,
@@ -142,8 +147,41 @@ const LandingForms = () => {
         }}
         className=" flex flex-col items-center gap-4 w-full"
       >
-        <FormCardContainer>
-          <Button
+        <FormCardContainer ref={boxRef}>
+          <div className="absolute rounded-4xl top-5 left-5">
+            <motion.button
+              initial={{ "--x": "100%" }}
+              animate={isBottomVisible ? { "--x": "-100%" } : { "--x": "100%" }}
+              transition={{
+                repeat: 2,
+                // repeatType: "loop",
+                repeatDelay: 0.1,
+                type: "spring",
+                stiffness: 20,
+                damping: 15,
+                mass: 2,
+                scale: {
+                  type: "spring",
+                  stiffness: 10,
+                  damping: 5,
+                  mass: 0.1,
+                },
+              }}
+              onClick={() =>
+                setCurrentIndex(
+                  (prevIndex) => (prevIndex + 1) % ArrayDesigns.length
+                )
+              }
+              className=" cursor-pointer px-2 py-2 rounded-4xl relative radial-gradient hover:scale-105 active:scale-95 transition-transform duration-250 "
+            >
+              <span className="flex text-sm items-center gap-2 text-neutral-100 tracking-wide h-full w-full relative linear-mask">
+                <Telescope className=" size-5" />
+                Explore Designs
+              </span>
+              <span className="block absolute inset-0 rounded-4xl p-px linear-overlay" />
+            </motion.button>
+          </div>
+          {/* <Button
             variant={"outline"}
             onClick={() =>
               setCurrentIndex(
@@ -154,7 +192,7 @@ const LandingForms = () => {
           >
             <Telescope />
             Explore Designs
-          </Button>
+          </Button> */}
           {/* <div className=" bottom-0 absolute p-4 transition-transform duration-100 ease-in-out hover:duration-300">
             <CustomizeOptionTop />
           </div> */}
@@ -171,13 +209,21 @@ const LandingForms = () => {
           </FormContainer>
         </FormCardContainer>
       </motion.div>
+
+      <Toaster
+        className="!absolute left-1/2 -translate-x-1/2 bottom-0"
+        richColors
+      />
     </div>
   );
 };
 
 export default LandingForms;
 
-const FormCardContainer = ({ children }: React.ComponentProps<"section">) => {
+const FormCardContainer = ({
+  children,
+  ...props
+}: React.ComponentProps<"section">) => {
   const { layoutDesign: design } = useDesignStore();
   const style: Record<string, string> & React.CSSProperties = {
     "--bg-color":
@@ -190,12 +236,12 @@ const FormCardContainer = ({ children }: React.ComponentProps<"section">) => {
   return (
     <section
       className={cn(
-        "flex flex-col items-center w-full md:max-w-[80dvw] rounded-4xl h-[85vh]",
-        // "[background:radial-gradient(ellipse_at_bottom,_#94b2c2,_#5ea1c4,_#5ea1c4)]",
+        "flex flex-col items-center w-full md:max-w-[80dvw] rounded-4xl min-h-[85vh] py-20",
         "relative overflow-hidden",
         "px-4 text-blue-700/75s text-white border-2 border-blue-50 bg-[var(--bg-color)]"
       )}
       style={style}
+      {...props}
     >
       {design.bgType === "custom" && (
         <div className="absolute inset-0 [background:var(--bg-custom)] bg-cover bg-center -z-1 zbrightness-85 zcontrast-95" />
@@ -326,8 +372,12 @@ const FormInput = () => {
   const [email, setEmail] = React.useState("");
   const validate = async () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email || !emailRegex.test(email)) return;
-    console.log({ email });
+    if (!email || !emailRegex.test(email)) {
+      return toast.warning("Invalid Email!");
+    }
+    wait(() => {
+      toast.success(`Added ${email} to our waitlist.`);
+    }, 500);
   };
   return (
     <div className="w-full max-w-[650px] self-center place-self-center flex flex-col items-end gap-2.5">

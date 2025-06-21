@@ -1,3 +1,4 @@
+import { ArrowRight } from "lucide-react";
 import { Button } from "../ui/button";
 import { animate } from "motion";
 
@@ -22,6 +23,7 @@ const WaitlistButton = ({
   return (
     <Button onClick={scrollToTarget} {...props}>
       {children}
+      <ArrowRight className=" group-hover:translate-x-1 group-hover:scale-105 transition-all duration-250 ease-in-out" />
     </Button>
   );
 };

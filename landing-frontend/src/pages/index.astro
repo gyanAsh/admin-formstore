@@ -48,11 +48,11 @@ const pageTitle = "Formstore | Easy Form Builder";
       </div> -->
       <!-- <div>nav tabs</div> -->
       <!-- login -->
-      <div>
+      <!-- <div>
         <WaitlistButton client:load className="rounded-4xl" id="scroll-btn">
           Join Waitlist
         </WaitlistButton>
-      </div>
+      </div> -->
     </nav>
     <section
       class={cn(
@@ -173,13 +173,20 @@ const pageTitle = "Formstore | Easy Form Builder";
       <span class="">signups</span>
       — do it fast with Formstore.
     </p> -->
-      <!-- <div class="flex items-center gap-4">
-        <Button className="rounded-4xl"> Get Started — For Free</Button>
+      <div class="flex items-center gap-4">
+        <!-- <Button className="rounded-4xl"> Get Started — For Free</Button>
         <Button variant={"outline"} className="rounded-4xl border-zinc-600"
           ><Telescope />
           Explore Templates</Button
+        > -->
+        <WaitlistButton
+          client:load
+          className="rounded-4xl group"
+          id="scroll-btn"
         >
-      </div> -->
+          Join Waitlist
+        </WaitlistButton>
+      </div>
     </section>
     <div class="flex items-center justify-center px-2 sm:px-4" id="waitlist">
       <LandingForms client:load />
