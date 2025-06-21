@@ -12,6 +12,7 @@
     "@astrojs/cloudflare": "^12.5.4",
     "@astrojs/mdx": "^4.3.0",
     "@astrojs/react": "^4.3.0",
+    "@astrojs/sitemap": "^3.4.1",
     "@origin-space/image-cropper": "^0.1.9",
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-label": "^2.1.7",

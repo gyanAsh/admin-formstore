@@ -1,4 +1,5 @@
 ---
+import SEO from "@/components/SEO.astro";
 import "../styles/global.css";
 const { title } = Astro.props;
 ---
@@ -27,6 +28,34 @@ const { title } = Astro.props;
     />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <SEO
+      title="FormStore – Design-First Form Builder"
+      description="Create beautiful, customizable forms for events, surveys, and more. A new way to create, customize, and collect-responses— in seconds. FormStore helps you create aesthetic forms for anything – no code needed."
+      image="https://www.the-formstore.com/formstore-logo-light.svg"
+      url="https://www.the-formstore.com"
+    />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <script is:inline type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "FormStore",
+        "url": "https://www.the-formstore.com/",
+        "applicationCategory": "Form Builder",
+        "operatingSystem": "All",
+        "description": "Design-first, no-code form builder for creatives and professionals."
+        // "offers": {
+        //   "@type": "Offer",
+        //   "price": "0",
+        //   "priceCurrency": "INR"
+        // },
+        // "publisher": {
+        //   "@type": "Organization",
+        //   "name": "FormStore"
+        // }
+      }
+    </script>
   </head>
   <body>
     <slot />
