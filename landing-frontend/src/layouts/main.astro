@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-const { title } = Astro.props;
+const { title = "TheFormstore: Build & Share Beautiful Forms" } = Astro.props;
 const description =
     "Create beautiful, customizable forms for events, surveys, and more. A new way to create, customize, and collect-responses— in seconds. FormStore helps you create aesthetic forms for anything – no code needed.",
   image = "https://the-formstore.com/formstore-logo-light.svg",
@@ -23,6 +23,8 @@ const description =
       href="/formstore-logo-dark.svg"
       media="(prefers-color-scheme: dark)"
     />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -56,6 +58,7 @@ const description =
         "@type": "SoftwareApplication",
         "name": "FormStore",
         "url": "https://the-formstore.com/",
+        "alternateName": "Formstore",
         "applicationCategory": "Form Builder",
         "operatingSystem": "All",
         "description": "Design-first, no-code form builder for creatives and professionals."
