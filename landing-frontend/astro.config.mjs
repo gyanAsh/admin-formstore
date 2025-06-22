@@ -18,7 +18,7 @@ export default defineConfig({
         : undefined,
     },
   },
-  site: "https://www.the-formstore.com",
+  site: "https://the-formstore.com",
   integrations: [react(), sitemap()],
   adapter: cloudflare({
     imageService: "compile",
