@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://www.the-formstore.com/sitemap-index.xml
+Sitemap: https://the-formstore.com/sitemap-index.xml
