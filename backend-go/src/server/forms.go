@@ -79,6 +79,7 @@ func parseFormDataAndElements(rows []db.GetFormDataAndElementsRow) FormData {
 			if err = json.Unmarshal(row.Properties, &element.Properties); err != nil {
 				log.Println(err)
 			}
+			element.Required = row.Required.Bool
 			formData.FormElements = append(formData.FormElements, element)
 		}
 	}
