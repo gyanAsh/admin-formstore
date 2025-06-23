@@ -61,7 +61,8 @@ SELECT
 	form_elements.type,
 	form_elements.label,
 	form_elements.description,
-	form_elements.properties
+	form_elements.properties,
+	form_elements.required
 FROM
 	forms
 INNER JOIN
@@ -102,6 +103,7 @@ type GetFormDataAndElementsRow struct {
 	Label       pgtype.Text
 	Description pgtype.Text
 	Properties  []byte
+	Required    pgtype.Bool
 }
 
 func (q *Queries) GetFormDataAndElements(ctx context.Context, arg GetFormDataAndElementsParams) ([]GetFormDataAndElementsRow, error) {
@@ -130,6 +132,7 @@ func (q *Queries) GetFormDataAndElements(ctx context.Context, arg GetFormDataAnd
 			&i.Label,
 			&i.Description,
 			&i.Properties,
+			&i.Required,
 		); err != nil {
 			return nil, err
 		}
@@ -155,7 +158,8 @@ SELECT
 	el.description,
 	el.created_at,
 	el.updated_at,
-	el.properties
+	el.properties,
+	el.required
 FROM
 	forms
 INNER JOIN
@@ -182,6 +186,7 @@ type GetFormDataPublicRow struct {
 	CreatedAt_2 pgtype.Timestamp
 	UpdatedAt_2 pgtype.Timestamp
 	Properties  []byte
+	Required    pgtype.Bool
 }
 
 // the published form cannot contain no element thus inner join
@@ -208,6 +213,7 @@ func (q *Queries) GetFormDataPublic(ctx context.Context, formID int32) ([]GetFor
 			&i.CreatedAt_2,
 			&i.UpdatedAt_2,
 			&i.Properties,
+			&i.Required,
 		); err != nil {
 			return nil, err
 		}

@@ -27,7 +27,8 @@ SELECT
 	form_elements.type,
 	form_elements.label,
 	form_elements.description,
-	form_elements.properties
+	form_elements.properties,
+	form_elements.required
 FROM
 	forms
 INNER JOIN
@@ -64,7 +65,8 @@ SELECT
 	el.description,
 	el.created_at,
 	el.updated_at,
-	el.properties
+	el.properties,
+	el.required
 FROM
 	forms
 INNER JOIN
