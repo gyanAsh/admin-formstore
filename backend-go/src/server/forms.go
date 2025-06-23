@@ -29,6 +29,7 @@ type FormElement struct {
 	Label       string         `json:"label"`
 	Description string         `json:"description"`
 	Properties  map[string]any `json:"properties"`
+	Required    bool           `json:"required"`
 }
 
 type FormData struct {

@@ -11,6 +11,35 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+const checkFormAccess = `-- name: CheckFormAccess :one
+SELECT forms.ID
+FROM forms
+INNER JOIN workspaces
+ON forms.workspace_id = workspaces.ID
+WHERE forms.ID = $1 AND workspaces.user_id = $2
+`
+
+type CheckFormAccessParams struct {
+	ID     int32
+	UserID pgtype.UUID
+}
+
+func (q *Queries) CheckFormAccess(ctx context.Context, arg CheckFormAccessParams) (int32, error) {
+	row := q.db.QueryRow(ctx, checkFormAccess, arg.ID, arg.UserID)
+	var id int32
+	err := row.Scan(&id)
+	return id, err
+}
+
+const deleteFormElements = `-- name: DeleteFormElements :exec
+DELETE FROM form_elements WHERE form_id = $1
+`
+
+func (q *Queries) DeleteFormElements(ctx context.Context, formID int32) error {
+	_, err := q.db.Exec(ctx, deleteFormElements, formID)
+	return err
+}
+
 const getFormDataAndElements = `-- name: GetFormDataAndElements :many
 SELECT
 	-- form
@@ -32,7 +61,8 @@ SELECT
 	form_elements.type,
 	form_elements.label,
 	form_elements.description,
-	form_elements.properties
+	form_elements.properties,
+	form_elements.required
 FROM
 	forms
 INNER JOIN
@@ -73,6 +103,7 @@ type GetFormDataAndElementsRow struct {
 	Label       pgtype.Text
 	Description pgtype.Text
 	Properties  []byte
+	Required    pgtype.Bool
 }
 
 func (q *Queries) GetFormDataAndElements(ctx context.Context, arg GetFormDataAndElementsParams) ([]GetFormDataAndElementsRow, error) {
@@ -101,6 +132,7 @@ func (q *Queries) GetFormDataAndElements(ctx context.Context, arg GetFormDataAnd
 			&i.Label,
 			&i.Description,
 			&i.Properties,
+			&i.Required,
 		); err != nil {
 			return nil, err
 		}
@@ -126,7 +158,8 @@ SELECT
 	el.description,
 	el.created_at,
 	el.updated_at,
-	el.properties
+	el.properties,
+	el.required
 FROM
 	forms
 INNER JOIN
@@ -153,8 +186,10 @@ type GetFormDataPublicRow struct {
 	CreatedAt_2 pgtype.Timestamp
 	UpdatedAt_2 pgtype.Timestamp
 	Properties  []byte
+	Required    pgtype.Bool
 }
 
+// the published form cannot contain no element thus inner join
 func (q *Queries) GetFormDataPublic(ctx context.Context, formID int32) ([]GetFormDataPublicRow, error) {
 	rows, err := q.db.Query(ctx, getFormDataPublic, formID)
 	if err != nil {
@@ -178,6 +213,7 @@ func (q *Queries) GetFormDataPublic(ctx context.Context, formID int32) ([]GetFor
 			&i.CreatedAt_2,
 			&i.UpdatedAt_2,
 			&i.Properties,
+			&i.Required,
 		); err != nil {
 			return nil, err
 		}
@@ -278,4 +314,18 @@ func (q *Queries) GetWorkspacesForUser(ctx context.Context, userID pgtype.UUID) 
 		return nil, err
 	}
 	return items, nil
+}
+
+const updateFormDesign = `-- name: UpdateFormDesign :exec
+UPDATE forms SET design = $1 WHERE ID = $2
+`
+
+type UpdateFormDesignParams struct {
+	Design []byte
+	ID     int32
+}
+
+func (q *Queries) UpdateFormDesign(ctx context.Context, arg UpdateFormDesignParams) error {
+	_, err := q.db.Exec(ctx, updateFormDesign, arg.Design, arg.ID)
+	return err
 }

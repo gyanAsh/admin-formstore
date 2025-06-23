@@ -23,10 +23,11 @@ type FormElementReq struct {
 	Label      ElementLabel   `json:"labels"`
 	Type       string         `json:"type"`
 	Properties map[string]any `json:"properties"`
+	Required   bool           `json:"required"`
 }
 
 type PublishFormReq struct {
-	FormID   int64            `json:"form_id"`
+	FormID   int32            `json:"form_id"`
 	Design   map[string]any   `json:"design"`
 	Elements []FormElementReq `json:"elements"`
 }
@@ -54,6 +55,30 @@ func validateSeqNumber(elements []FormElementReq) error {
 		}
 	}
 	return nil
+}
+
+func validatePublishFormReq(form PublishFormReq) (string, error) {
+	if form.FormID <= 0 {
+		return "form_id", fmt.Errorf("invalid form_id %d", form.FormID)
+	}
+	for _, el := range form.Elements {
+		if el.Label.Title == "" {
+			return "labels.title", fmt.Errorf("invalid form label title: %q, form element seq number: %v", el.Label.Title, el.SeqNum)
+		}
+		if el.Type != "website" &&
+			el.Type != "consent" &&
+			el.Type != "multiselect" &&
+			el.Type != "dropdown" &&
+			el.Type != "ranking" &&
+			el.Type != "rating" &&
+			el.Type != "date" &&
+			el.Type != "text" &&
+			el.Type != "phone" &&
+			el.Type != "email" {
+			return "type", fmt.Errorf("invalid form type: %q, form element seq number: %v", el.Type, el.SeqNum)
+		}
+	}
+	return "", nil
 }
 
 func (s *Service) formPublishHandler(w http.ResponseWriter, r *http.Request) {
@@ -87,9 +112,11 @@ func (s *Service) formPublishHandler(w http.ResponseWriter, r *http.Request) {
 	batch.Queue(`DELETE FROM form_elements WHERE form_id = $1`, form.FormID)
 	for _, element := range form.Elements {
 		batch.Queue(`INSERT INTO form_elements (type, label, seq_number,
-			description, form_id, properties) VALUES ($1, $2, $3, $4, $5, $6)`,
+			description, form_id, properties, required) VALUES
+			($1, $2, $3, $4, $5, $6, $7)`,
 			element.Type, element.Label.Title, element.SeqNum,
-			element.Label.Description, form.FormID, element.Properties)
+			element.Label.Description, form.FormID,
+			element.Properties, element.Required)
 	}
 	batch.Queue(`UPDATE forms SET updated_at = $1`, time.Now().Format(time.RFC3339))
 	br := s.Conn.SendBatch(r.Context(), batch)
