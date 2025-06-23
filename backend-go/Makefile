@@ -2,7 +2,7 @@ run:
 	go run cmd/http_server/main.go
 
 test:
-	go test -v ./src/server
+	go test ./src/server
 
 swagger:
 	@echo url: http://localhost:4200/swagger.html

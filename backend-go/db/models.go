@@ -118,7 +118,7 @@ type FormElement struct {
 	Type        FormElementTypes
 	SeqNumber   int32
 	Label       pgtype.Text
-	Required    pgtype.Bool
+	Required    bool
 	Description pgtype.Text
 	CreatedAt   pgtype.Timestamp
 	UpdatedAt   pgtype.Timestamp
