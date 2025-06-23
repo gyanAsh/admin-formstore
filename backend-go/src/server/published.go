@@ -40,7 +40,7 @@ func parseFormDataPublished(rows []db.GetFormDataPublicRow) PublishedFormData {
 		if err := json.Unmarshal(row.Properties, &element.Properties); err != nil {
 			log.Println(fmt.Errorf("json unmarshel: %v", err))
 		}
-		element.Required = row.Required.Bool
+		element.Required = row.Required
 		formData.FormElements = append(formData.FormElements, element)
 	}
 	return formData

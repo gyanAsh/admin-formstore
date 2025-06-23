@@ -38,7 +38,7 @@ type AddFormElementsBatchedParams struct {
 	SeqNumber   int32
 	Description pgtype.Text
 	Properties  []byte
-	Required    pgtype.Bool
+	Required    bool
 }
 
 func (q *Queries) AddFormElementsBatched(ctx context.Context, arg []AddFormElementsBatchedParams) *AddFormElementsBatchedBatchResults {

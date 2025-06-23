@@ -186,7 +186,7 @@ type GetFormDataPublicRow struct {
 	CreatedAt_2 pgtype.Timestamp
 	UpdatedAt_2 pgtype.Timestamp
 	Properties  []byte
-	Required    pgtype.Bool
+	Required    bool
 }
 
 // the published form cannot contain no element thus inner join
