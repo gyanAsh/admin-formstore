@@ -35,7 +35,6 @@ import {
   Italic,
   LayoutDashboard,
   SquareDashedMousePointer,
-  WandSparkles,
 } from "lucide-react";
 import React, { useState } from "react";
 import {

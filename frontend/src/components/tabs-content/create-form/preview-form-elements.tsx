@@ -1,10 +1,14 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { useParams } from "react-router";
 import PreviewFormPage from "@/pages/form/preview";
 import FormEditorOption from "@/components/forms/v1/editor";
 import { designTemplate } from "@/components/forms/v1/templates/design";
 import { cn } from "@/lib/utils";
 import {
+  $set_design_description,
+  $set_design_element,
+  $set_design_label,
+  $set_design_layout,
   BgType,
   CustomValueType,
   DescriptionDesign,
@@ -15,12 +19,14 @@ import {
   SolidValueType,
   textSizeLineHeight,
 } from "@/store/forms/formV1Design";
+import { Button } from "@/components/ui/button";
+import { useSidebar } from "@/components/ui/sidebar";
 
 export const FormElementPreview = () => {
   const { workspaceId, formId } = useParams();
 
   return (
-    <div className="grid gap-6">
+    <div className="grid gap-6 @container">
       <section className="relative">
         <PreviewFormPage
           className="h-[80dvh] rounded-4xl overflow-hidden"
@@ -46,27 +52,74 @@ export const FormElementPreview = () => {
           </a>
         </div>
       </section>
-
-      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3">
-        {designTemplate.map((design) => {
-          return (
-            <CardBackground
-              design={{
-                bgType: design.layout.bgType,
-                bgSolidValue: design.layout.bgSolidValue,
-                bgCustomValue: design.layout.bgCustomValue,
-                bgImageValue: design.layout.bgImageValue,
-              }}
-            >
-              <CardLabel design={design.label}>Title</CardLabel>
-              <CardDescription design={design.description}>
-                Description
-              </CardDescription>
-            </CardBackground>
-          );
-        })}
-      </div>
+      <section className="grid gap-3.5">
+        <h2 className=" text-xl md:text-2xl lg:text-3xl font-semibold">
+          Select Design
+        </h2>
+        <ThemeContainer>
+          {designTemplate.map((design) => {
+            return (
+              <CardBackground
+                key={design.themeName}
+                className="flex flex-col sm:flex-row justify-between items-center gap-4 relative"
+                design={{
+                  bgType: design.layout.bgType,
+                  bgSolidValue: design.layout.bgSolidValue,
+                  bgCustomValue: design.layout.bgCustomValue,
+                  bgImageValue: design.layout.bgImageValue,
+                }}
+              >
+                <div className="flex flex-col items-center justify-center">
+                  <CardLabel design={design.label}>Label</CardLabel>
+                  <CardDescription design={design.description}>
+                    Description
+                  </CardDescription>
+                </div>
+                <div className="flex flex-col items-center gap-3">
+                  <div className="w-full bg-inherit h-full">
+                    <CardName design={design.description}>
+                      {design.themeName}
+                    </CardName>
+                  </div>
+                  <Button
+                    variant={"black"}
+                    effect={"scale"}
+                    className="border group border-zinc-400"
+                    onClick={() => {
+                      $set_design_label(design.label);
+                      $set_design_description(design.description);
+                      $set_design_element(design.element);
+                      $set_design_layout(design.layout);
+                    }}
+                  >
+                    <span> Set Design</span>
+                    <span
+                      // className="bg-white text-black dark:bg-black dark:text-white rounded p-0.5"
+                      className=" group-hover:translate-x-2 duration-200 ease-in-out"
+                    >
+                      <ArrowRight />
+                    </span>
+                  </Button>
+                </div>
+              </CardBackground>
+            );
+          })}
+        </ThemeContainer>
+      </section>
     </div>
+  );
+};
+
+const ThemeContainer = ({ ...props }) => {
+  const { open: desktopOpen, isMobile } = useSidebar();
+  let open = desktopOpen && !isMobile;
+  return (
+    <div
+      className={cn("grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3", {
+        "grid-cols-2 lg:grid-cols-3 xl:grid-cols-4": !open,
+      })}
+      {...props}
+    />
   );
 };
 
@@ -92,7 +145,7 @@ const CardBackground = ({
   return (
     <div
       className={cn(
-        "aspect-square sm:aspect-16/9 rounded-2xl  p-3 cursor-default ",
+        "rounded-2xl  p-3 cursor-default ",
         {
           "bg-[var(--bg-color)]": design.bgType === "solid",
         },
@@ -174,6 +227,37 @@ const CardDescription = ({
         "whitespace-pre-line ",
         " text-[calc(var(--sm-size))] md:text-[calc(var(--md-size))] lg:text-[calc(var(--size))] [color:var(--text-color)]",
         "[line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] tracking-[var(--letter-space)]",
+
+        className
+      )}
+      style={style}
+      {...props}
+    />
+  );
+};
+
+const CardName = ({
+  className,
+  design,
+
+  ...props
+}: React.ComponentProps<"div"> & {
+  design: DescriptionDesign;
+}) => {
+  const style: Record<string, string> & React.CSSProperties = {
+    "--family": design.family,
+    "--weight": design.weight,
+    "--text-color": design.color,
+    "--italics": design.italics ? "italic" : "normal",
+    "--letter-space": design.letter_spacing,
+  };
+
+  return (
+    <div
+      className={cn(
+        "whitespace-pre-line ",
+        " text-sm @md:text-base @lg:text-lg [color:var(--text-color)]",
+        " [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] tracking-[var(--letter-space)]",
 
         className
       )}
