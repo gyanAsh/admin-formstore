@@ -3,7 +3,9 @@ import type { DesignState, FormDesignAttributes } from "./design.types";
 
 export interface Forms {
   id: string;
-  form_name: string;
+  title: string;
+  updated_at: string;
+  created_at: string;
   elements: FormElements[];
   design: FormDesignAttributes & DesignState;
 }
@@ -11,18 +13,11 @@ export interface Forms {
 export type FormElements = {
   id: string;
   sequence_number?: number;
-  field: string;
-  badge?: {
-    value: string;
-    color: string;
-  };
-  labels: {
-    title: string;
-    description: string;
-  };
-  ref_img_file?: string;
-  required: boolean;
-  validations?: ValidatonTypes;
+  type: string;
+  label: string;
+  description: string;
+  required?: boolean;
+  properties?: ValidatonTypes;
 };
 
 export type RatingKey =

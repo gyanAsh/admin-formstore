@@ -1,10 +1,6 @@
 import axios from "axios";
 
-export async function fetchUsers(formId: string, token: string): Promise<any> {
-  const response = await axios.get<any>(`/api/form/${formId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+export async function fetchForm(formId: string): Promise<any> {
+  const response = await axios.get<any>(`/api/published/form/${formId}`);
   return response.data;
 }

@@ -2,12 +2,21 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import type { Forms } from "../types/elements.types";
 
+interface DesignStoreActions {
+  setFormState: (design: Forms) => void;
+  // setLabelDesign: (newLabelDesign: Partial<LabelDesign>) => void;
+}
+
+// Combine the state and actions interfaces to define the full store type
+type FormStore = Forms & DesignStoreActions;
 // Create a store with the persist middleware
-export const useFormV1Store = create<Forms>()(
+export const useFormV1Store = create<FormStore>()(
   persist(
     (set) => ({
       id: "",
-      form_name: "",
+      title: "",
+      created_at: "",
+      updated_at: "",
       elements: [],
       design: {
         theme: "luxe_minimal_noir",
@@ -48,8 +57,7 @@ export const useFormV1Store = create<Forms>()(
           },
         },
       },
-      //   increase: () => set((state) => ({ form_elements: state.bears + 1 })),
-      //   removeAllBears: () => set({ bears: 0 }),
+      setFormState: (state) => set(state),
     }),
     {
       name: "current_form", // unique name for storage

@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { Link, useLocation, useParams } from "react-router";
+import { useCallback, useMemo, useState } from "react";
+import { useLocation, useParams } from "react-router";
 
 import { AnimatePresence, motion } from "motion/react";
 // import { Button } from "@/components/ui/button";
@@ -22,6 +22,7 @@ import type {
   ConsentValidation,
   EmailValidation,
   FormElements,
+  Forms,
   RatingValidation,
   TextValidation,
   UrlValidation,
@@ -29,7 +30,7 @@ import type {
 import { FormBackground } from "./component/background";
 import { useFormV1Store } from "./state/design";
 import { useQuery } from "@tanstack/react-query";
-import { fetchUsers } from "./endpoint";
+import { fetchForm } from "./endpoint";
 
 const variants = {
   enter: (direction: "prev" | "next") => ({
@@ -56,14 +57,15 @@ const PreviewFormPage = ({
   formCardClassName?: React.ComponentProps<"div">["className"];
 }) => {
   const { formId } = useParams();
-  const { data, isLoading, isError, error } = useQuery({
+  const setFormState = useFormV1Store((state) => state.setFormState);
+
+  const { isLoading, isError, error } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
       try {
-        let token =
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNDQwN2U3NmYtODc1YS00OGYxLThiZDYtYTA5M2JhNDE2NDM3In0.ajm2v1YHSSYmdq8xw4WM4jQprXl1C0rAYaKR9w8s2FQ";
-        const data = await fetchUsers(formId!, token);
-        console.log({ data });
+        const data = await fetchForm(formId!);
+        // console.log({ data });
+        setFormState(data as Forms);
         return data;
       } catch (err) {
         console.error(err);
@@ -72,7 +74,7 @@ const PreviewFormPage = ({
     },
     refetchOnWindowFocus: false,
   });
-  console.log({ outsidedata: data });
+  // console.log({ outsidedata: data });
   const { pathname } = useLocation();
   let isPreview = pathname.includes("preview");
 
@@ -201,41 +203,42 @@ const FormPage = ({
   goNextFunction: Function;
   element: FormElements;
 }) => {
+  console.log({ element });
   return (
     <FormCard className={cn("overflow-y-scroll @container", formCardClassName)}>
       <DetailsContainer>
-        <FormLabel>{element.labels.title}</FormLabel>
-        <FormDescription>{element.labels.description}</FormDescription>
+        <FormLabel>{element.label}</FormLabel>
+        <FormDescription>{element.description}</FormDescription>
       </DetailsContainer>
 
       <InputContainer>
-        {element.field === "email" ? (
+        {element.type === "email" ? (
           <FormEmail
-            email={element.validations as EmailValidation}
+            email={element.properties as EmailValidation}
             goNextFunction={goNextFunction}
           />
-        ) : element.field === "consent" ? (
+        ) : element.type === "consent" ? (
           <FormConsent
-            consent={element.validations as ConsentValidation}
+            consent={element.properties as ConsentValidation}
             goNextFunction={goNextFunction}
           />
-        ) : element.field === "rating" ? (
+        ) : element.type === "rating" ? (
           <FormRating
-            rating={element.validations as RatingValidation}
+            rating={element.properties as RatingValidation}
             goNextFunction={goNextFunction}
           />
-        ) : element.field === "text" ? (
+        ) : element.type === "text" ? (
           <FormText
-            text={element.validations as TextValidation}
+            text={element.properties as TextValidation}
             goNextFunction={goNextFunction}
           />
-        ) : element.field === "website" ? (
+        ) : element.type === "website" ? (
           <FormWebsite
-            url={element.validations as UrlValidation}
+            url={element.properties as UrlValidation}
             goNextFunction={goNextFunction}
           />
         ) : (
-          <p>{element.field}</p>
+          <p>{element.type}</p>
         )}
       </InputContainer>
     </FormCard>
