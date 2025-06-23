@@ -79,4 +79,40 @@ export const designTemplate: Tempate[] = [
       elementSpacing: "12px",
     },
   },
+  {
+    themeName: "Candy Cal Gradient",
+    label: {
+      size: "48px",
+      family: '"Cal Sans", sans-serif',
+      color: "#000000cf",
+      italics: false,
+      weight: "medium",
+      letter_spacing: "0.025em",
+    },
+    description: {
+      size: "20px",
+      family: '"Roboto", sans-serif',
+      color: "#000000cf",
+      italics: false,
+      weight: "normal",
+      letter_spacing: "-0.025em",
+    },
+    element: {
+      variant: "solid",
+      textColor: "#000000cf",
+      bgColor: "#f3d1f4",
+      borderColor: "#000000cf",
+    },
+    layout: {
+      elementSpacing: "4px",
+      bgType: "custom",
+      bgSolidValue: { color: "#00a1559f" },
+      bgImageValue: {
+        imageUrl: "",
+      },
+      bgCustomValue: {
+        value: `radial-gradient(at 28% 24%, #f3d1f4 0px, transparent 50%), radial-gradient(at 24% 39%, #f5fcc1 0px, transparent 50%), radial-gradient(at 100% 56%, #bae5e5 0px, transparent 50%), radial-gradient(at 16% 49%, #98d6ea 0px, transparent 50%), #f3d1f4`,
+      },
+    },
+  },
 ];
