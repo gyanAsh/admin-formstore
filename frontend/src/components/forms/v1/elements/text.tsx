@@ -3,13 +3,13 @@ import { TextValidation } from "@/store/forms/form-elements.types";
 import { TextArea } from "react-aria-components";
 import { FormButton } from "../button";
 import { useState } from "react";
-import { FormErrorMsgPopUp } from "../error-card";
 import useAutoFocusOnVisible from "@/hooks/use-autofocus-on-visible";
 import { useStore } from "@nanostores/react";
 import {
   $get_design_element,
   $get_design_label,
 } from "@/store/forms/form-elements";
+import { toast } from "sonner";
 
 export const FormText = ({
   text,
@@ -22,8 +22,7 @@ export const FormText = ({
   const [showError, setShowError] = useState<{
     show: boolean;
     msg: string;
-    type: "warn" | "error";
-  }>({ show: false, msg: "", type: "error" });
+  }>({ msg: "", show: false });
 
   const { ref } = useAutoFocusOnVisible<HTMLTextAreaElement>(0.2);
 
@@ -45,10 +44,10 @@ export const FormText = ({
 
   const validate = () => {
     if (textState.length < text.minLength) {
-      setShowError({ show: true, msg: "Text too short.", type: "warn" });
+      toast.warning("Text too short.");
       return;
     } else if (textState.length > text.maxLength) {
-      setShowError({ show: true, msg: "Text too long.", type: "warn" });
+      toast.warning("Text too long.");
       return;
     }
     goNextFunction();
@@ -64,7 +63,7 @@ export const FormText = ({
           let val = e.target.value;
           setTextState(e.target.value);
           if (val.length > text.maxLength) {
-            setShowError({ show: true, msg: "Text too long.", type: "warn" });
+            setShowError({ show: true, msg: "Text too long." });
           } else {
             setShowError((prev) => ({ ...prev, show: false }));
           }
@@ -84,11 +83,14 @@ export const FormText = ({
         style={elStyle}
       />
       <div className="flex items-start justify-end gap-2.5">
-        <FormErrorMsgPopUp
-          show={showError.show}
-          type={showError.type}
-          msg={showError.msg}
-        />
+        <div
+          className={cn(
+            "text-yellow-600 bg-yellow-300 p-2 rounded-xl backdrop-blur-sm",
+            { hidden: !showError.show }
+          )}
+        >
+          {showError.msg}
+        </div>
 
         <FormButton onClick={validate}>OK</FormButton>
       </div>

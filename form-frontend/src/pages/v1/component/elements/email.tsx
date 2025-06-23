@@ -1,13 +1,12 @@
 import { cn } from "@/lib/utils";
-// import { Input } from "react-aria-components";
 import { FormButton } from "../button";
-import { FormErrorMsgPopUp } from "../error-card";
 import { useState } from "react";
 import { z } from "zod";
 
 import useAutoFocusOnVisible from "@/hooks/use-autofocus-on-visible";
 import type { EmailValidation } from "../../types/elements.types";
 import { useFormV1Store } from "../../state/design";
+import { toast } from "sonner";
 
 const emailSchema = z.string().email({ message: "Invalid email address" });
 
@@ -19,11 +18,7 @@ export const FormEmail = ({
   goNextFunction: Function;
 }) => {
   const [inputState, setInputState] = useState("");
-  const [showError, setShowError] = useState<{
-    show: boolean;
-    msg: string;
-    type: "warn" | "error";
-  }>({ show: false, msg: "", type: "error" });
+
   const { ref } = useAutoFocusOnVisible<HTMLInputElement>(0.5);
 
   const { label: design, element: elDesign } = useFormV1Store(
@@ -45,11 +40,7 @@ export const FormEmail = ({
   const validate = () => {
     const result = emailSchema.safeParse(inputState);
     if (!result.success) {
-      setShowError({
-        show: true,
-        msg: result.error.errors.at(0)?.message!,
-        type: "warn",
-      });
+      toast.warning(result.error.errors.at(0)?.message);
       return;
     }
     goNextFunction();
@@ -71,7 +62,6 @@ export const FormEmail = ({
         formNoValidate
         value={inputState}
         onChange={(e) => {
-          setShowError((prev) => ({ ...prev, show: false }));
           setInputState(e.target.value);
         }}
         onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -81,12 +71,6 @@ export const FormEmail = ({
         }}
       />
       <div className="flex items-start justify-end gap-2.5">
-        <FormErrorMsgPopUp
-          show={showError.show}
-          type={showError.type}
-          msg={showError.msg}
-        />
-
         <FormButton onClick={validate}>OK</FormButton>
       </div>
     </section>

@@ -1,13 +1,13 @@
 import { cn } from "@/lib/utils";
 // import { Input } from "react-aria-components";
 import { FormButton } from "../button";
-import { FormErrorMsgPopUp } from "../error-card";
 import { useState } from "react";
 import { z } from "zod";
 
 import { useFormV1Store } from "../../state/design";
 import type { UrlValidation } from "../../types/elements.types";
 import useAutoFocusOnVisible from "@/hooks/use-autofocus-on-visible";
+import { toast } from "sonner";
 
 const urlSchema = z
   .string()
@@ -21,11 +21,6 @@ export const FormWebsite = ({
   goNextFunction: Function;
 }) => {
   const [inputState, setInputState] = useState("");
-  const [showError, setShowError] = useState<{
-    show: boolean;
-    msg: string;
-    type: "warn" | "error";
-  }>({ show: false, msg: "", type: "error" });
 
   const { ref } = useAutoFocusOnVisible<HTMLInputElement>(0.5);
 
@@ -49,11 +44,7 @@ export const FormWebsite = ({
   const validate = () => {
     const result = urlSchema.safeParse(inputState);
     if (!result.success) {
-      setShowError({
-        show: true,
-        msg: result.error.errors.at(0)?.message!,
-        type: "error",
-      });
+      toast.warning(result.error.errors.at(0)?.message);
       return;
     }
     goNextFunction();
@@ -77,7 +68,6 @@ export const FormWebsite = ({
         formNoValidate
         value={inputState}
         onChange={(e) => {
-          setShowError((prev) => ({ ...prev, show: false }));
           setInputState(e.target.value);
         }}
         onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -87,12 +77,6 @@ export const FormWebsite = ({
         }}
       />
       <div className="flex items-start justify-end gap-2.5">
-        <FormErrorMsgPopUp
-          show={showError.show}
-          type={showError.type}
-          msg={showError.msg}
-        />
-
         <FormButton onClick={validate}>OK</FormButton>
       </div>
     </section>
