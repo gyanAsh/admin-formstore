@@ -82,11 +82,15 @@ export const FormText = ({
       <div className="flex items-start justify-end gap-2.5">
         <div
           className={cn(
-            "text-yellow-600 bg-yellow-300 p-2 rounded-xl backdrop-blur-sm",
-            { hidden: !showError.show }
+            "h-full flex items-center justify-center text-center transition-all duration-500 translate-y-0",
+            {
+              "opacity-0  -translate-y-3": !showError.show,
+            }
           )}
         >
-          {showError.msg}
+          <p className="text-yellow-600 bg-yellow-100/95 text-base p-2 rounded-lg  backdrop-blur-2xl ">
+            {showError.msg}
+          </p>
         </div>
 
         <FormButton onClick={validate}>OK</FormButton>
