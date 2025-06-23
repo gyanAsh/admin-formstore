@@ -206,7 +206,12 @@ const FormPage = ({
   element: FormElements;
 }) => {
   return (
-    <FormCard className={cn("overflow-y-scroll @container", formCardClassName)}>
+    <FormCard
+      className={cn(
+        "overflow-y-scroll py-16 md:py-9 @container",
+        formCardClassName
+      )}
+    >
       <DetailsContainer>
         <FormLabel>{element.labels.title}</FormLabel>
         <FormDescription>{element.labels.description}</FormDescription>
