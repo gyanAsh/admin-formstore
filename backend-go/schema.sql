@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS form_elements (
 	type form_element_types NOT NULL,
 	seq_number INTEGER NOT NULL,
 	label VARCHAR,
-	required BOOLEAN DEFAULT FALSE,
+	required BOOLEAN DEFAULT FALSE NOT NULL,
 	description VARCHAR,
 	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
 	updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
