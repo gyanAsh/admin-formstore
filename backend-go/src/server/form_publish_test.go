@@ -49,7 +49,7 @@ func TestPublishFormJson(t *testing.T) {
 
 	assert := require.New(t)
 
-	assert.Equal(formData.FormID, int64(1))
+	assert.Equal(formData.FormID, int32(1))
 	assert.Equal(len(formData.Elements), 3)
 }
 

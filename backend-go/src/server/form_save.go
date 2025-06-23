@@ -55,23 +55,23 @@ func (s *Service) formSaveHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := validateSeqNumber(form.Elements); err != nil {
-		log.Println("save form validate seq number: %v", err)
+		log.Println(fmt.Errorf("save form validate seq number: %v", err))
 		w.WriteHeader(http.StatusBadRequest)
 		if err = json.NewEncoder(w).Encode(map[string]any{
 			"key":     "seq_num",
 			"message": "sequence number validation failed",
 		}); err != nil {
-			log.Println("json write: %v", err)
+			log.Println(fmt.Errorf("json write: %v", err))
 		}
 	}
 	if key, err := validatePublishFormReq(form); err != nil {
-		log.Println("save form validate req: %v", err)
+		log.Println(fmt.Errorf("save form validate req: %v", err))
 		w.WriteHeader(http.StatusBadRequest)
 		if err = json.NewEncoder(w).Encode(map[string]any{
 			"key":     key,
 			"message": "validation failed",
 		}); err != nil {
-			log.Println("json write: %v", err)
+			log.Println(fmt.Errorf("json write: %v", err))
 		}
 	}
 
