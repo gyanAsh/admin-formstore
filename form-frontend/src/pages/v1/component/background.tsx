@@ -14,7 +14,6 @@ export const FormBackground = ({
     "--bg-img": `url(${design.bgImageValue?.imageUrl})`,
   };
 
-  console.log({ design });
   return (
     <div
       className={cn(

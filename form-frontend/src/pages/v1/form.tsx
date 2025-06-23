@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
-import { useLocation, useParams } from "react-router";
+import { useParams } from "react-router";
 
 import { AnimatePresence, motion } from "motion/react";
 // import { Button } from "@/components/ui/button";
@@ -64,8 +64,13 @@ const PreviewFormPage = ({
     queryFn: async () => {
       try {
         const data = await fetchForm(formId!);
-        // console.log({ data });
-        setFormState(data as Forms);
+        let formData: Forms = {
+          id: data.form.id,
+          title: data.form.title,
+          elements: data.elements,
+          design: data.form.design,
+        };
+        setFormState(formData);
         return data;
       } catch (err) {
         console.error(err);
@@ -74,9 +79,6 @@ const PreviewFormPage = ({
     },
     refetchOnWindowFocus: false,
   });
-  // console.log({ outsidedata: data });
-  const { pathname } = useLocation();
-  let isPreview = pathname.includes("preview");
 
   const elements = useFormV1Store((state) => state.elements);
 
@@ -116,7 +118,7 @@ const PreviewFormPage = ({
             <AnimatePresence custom={direction} mode="wait">
               {currentElement && (
                 <motion.div
-                  key={currentElement.id}
+                  key={currentElement.seq_number}
                   custom={direction}
                   variants={variants}
                   initial="enter"
@@ -164,10 +166,7 @@ const PreviewFormPage = ({
     return (
       <div
         className={cn(
-          "h-[80dvh] w-full flex flex-col gap-4 @[64rem]:gap-10 items-center justify-center @container bg-black",
-          {
-            "h-[100dvh]": isPreview,
-          }
+          "h-[100dvh] w-full flex flex-col gap-4 @[64rem]:gap-10 items-center justify-center @container bg-black"
         )}
       >
         <h2 className="text-4xl flex items-center justify-center gap-5 text-center text-zinc-200 font-bold @[64rem]:text-6xl">
@@ -203,7 +202,6 @@ const FormPage = ({
   goNextFunction: Function;
   element: FormElements;
 }) => {
-  console.log({ element });
   return (
     <FormCard className={cn("overflow-y-scroll @container", formCardClassName)}>
       <DetailsContainer>

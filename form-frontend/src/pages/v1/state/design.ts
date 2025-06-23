@@ -15,8 +15,6 @@ export const useFormV1Store = create<FormStore>()(
     (set) => ({
       id: "",
       title: "",
-      created_at: "",
-      updated_at: "",
       elements: [],
       design: {
         theme: "luxe_minimal_noir",
@@ -57,7 +55,7 @@ export const useFormV1Store = create<FormStore>()(
           },
         },
       },
-      setFormState: (state) => set(state),
+      setFormState: (state) => set({ ...state }),
     }),
     {
       name: "current_form", // unique name for storage

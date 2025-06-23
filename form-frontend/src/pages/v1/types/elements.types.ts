@@ -4,15 +4,12 @@ import type { DesignState, FormDesignAttributes } from "./design.types";
 export interface Forms {
   id: string;
   title: string;
-  updated_at: string;
-  created_at: string;
   elements: FormElements[];
   design: FormDesignAttributes & DesignState;
 }
 
 export type FormElements = {
-  id: string;
-  sequence_number?: number;
+  seq_number?: number;
   type: string;
   label: string;
   description: string;
