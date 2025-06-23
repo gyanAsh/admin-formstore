@@ -26,7 +26,7 @@ type FormElementReq struct {
 }
 
 type PublishFormReq struct {
-	FormID   int64            `json:"form_id"`
+	FormID   int32            `json:"form_id"`
 	Design   map[string]any   `json:"design"`
 	Elements []FormElementReq `json:"elements"`
 }
