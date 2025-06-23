@@ -109,6 +109,7 @@ func TestParseFormDataAndElements_WithFullDataSingleRow(t *testing.T) {
 			Type:        db.NullFormElementTypes{FormElementTypes: db.FormElementTypesEmail, Valid: true},
 			Label:       pgtype.Text{String: "enter the email", Valid: true},
 			Description: pgtype.Text{String: "this is the description", Valid: true},
+			Required:    pgtype.Bool{Bool: true, Valid: true},
 		},
 	}
 	formData := parseFormDataAndElements(rows)
@@ -127,7 +128,7 @@ func TestParseFormDataAndElements_WithFullDataSingleRow(t *testing.T) {
 			UserID:    uuidString,
 		},
 		FormElements: []FormElement{
-			{SeqNumber: 1, Type: "email", Label: "enter the email", Description: "this is the description"},
+			{SeqNumber: 1, Type: "email", Label: "enter the email", Description: "this is the description", Required: true},
 		},
 	})
 }
