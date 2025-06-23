@@ -11,6 +11,35 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+const checkFormAccess = `-- name: CheckFormAccess :one
+SELECT forms.ID
+FROM forms
+INNER JOIN workspaces
+ON forms.workspace_id = workspaces.ID
+WHERE forms.ID = $1 AND workspaces.user_id = $2
+`
+
+type CheckFormAccessParams struct {
+	ID     int32
+	UserID pgtype.UUID
+}
+
+func (q *Queries) CheckFormAccess(ctx context.Context, arg CheckFormAccessParams) (int32, error) {
+	row := q.db.QueryRow(ctx, checkFormAccess, arg.ID, arg.UserID)
+	var id int32
+	err := row.Scan(&id)
+	return id, err
+}
+
+const deleteFormElements = `-- name: DeleteFormElements :exec
+DELETE FROM form_elements WHERE form_id = $1
+`
+
+func (q *Queries) DeleteFormElements(ctx context.Context, formID int32) error {
+	_, err := q.db.Exec(ctx, deleteFormElements, formID)
+	return err
+}
+
 const getFormDataAndElements = `-- name: GetFormDataAndElements :many
 SELECT
 	-- form
@@ -155,6 +184,7 @@ type GetFormDataPublicRow struct {
 	Properties  []byte
 }
 
+// the published form cannot contain no element thus inner join
 func (q *Queries) GetFormDataPublic(ctx context.Context, formID int32) ([]GetFormDataPublicRow, error) {
 	rows, err := q.db.Query(ctx, getFormDataPublic, formID)
 	if err != nil {
@@ -278,4 +308,18 @@ func (q *Queries) GetWorkspacesForUser(ctx context.Context, userID pgtype.UUID) 
 		return nil, err
 	}
 	return items, nil
+}
+
+const updateFormDesign = `-- name: UpdateFormDesign :exec
+UPDATE forms SET design = $1 WHERE ID = $2
+`
+
+type UpdateFormDesignParams struct {
+	Design []byte
+	ID     int32
+}
+
+func (q *Queries) UpdateFormDesign(ctx context.Context, arg UpdateFormDesignParams) error {
+	_, err := q.db.Exec(ctx, updateFormDesign, arg.Design, arg.ID)
+	return err
 }

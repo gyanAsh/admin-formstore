@@ -75,3 +75,23 @@ WHERE
 	form_id = $1
 AND
 	forms.status = 'published';
+
+-- name: AddFormElementsBatched :batchexec
+INSERT INTO form_elements (
+	type, label, seq_number, description, form_id, properties
+) VALUES (
+	$2, $3, $4, $5, $1, $6
+);
+
+-- name: DeleteFormElements :exec
+DELETE FROM form_elements WHERE form_id = $1;
+
+-- name: CheckFormAccess :one
+SELECT forms.ID
+FROM forms
+INNER JOIN workspaces
+ON forms.workspace_id = workspaces.ID
+WHERE forms.ID = $1 AND workspaces.user_id = $2;
+
+-- name: UpdateFormDesign :exec
+UPDATE forms SET design = $1 WHERE ID = $2;
