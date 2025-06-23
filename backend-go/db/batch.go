@@ -19,9 +19,9 @@ var (
 
 const addFormElementsBatched = `-- name: AddFormElementsBatched :batchexec
 INSERT INTO form_elements (
-	type, label, seq_number, description, form_id, properties
+	type, label, seq_number, description, form_id, properties, required
 ) VALUES (
-	$2, $3, $4, $5, $1, $6
+	$2, $3, $4, $5, $1, $6, $7
 )
 `
 
@@ -38,6 +38,7 @@ type AddFormElementsBatchedParams struct {
 	SeqNumber   int32
 	Description pgtype.Text
 	Properties  []byte
+	Required    pgtype.Bool
 }
 
 func (q *Queries) AddFormElementsBatched(ctx context.Context, arg []AddFormElementsBatchedParams) *AddFormElementsBatchedBatchResults {
@@ -50,6 +51,7 @@ func (q *Queries) AddFormElementsBatched(ctx context.Context, arg []AddFormEleme
 			a.SeqNumber,
 			a.Description,
 			a.Properties,
+			a.Required,
 		}
 		batch.Queue(addFormElementsBatched, vals...)
 	}

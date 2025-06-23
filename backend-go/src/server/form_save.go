@@ -29,6 +29,7 @@ func parseFormElementRowsBatched(form PublishFormReq) ([]db.AddFormElementsBatch
 			Description: pgtype.Text{String: el.Label.Description, Valid: true},
 			FormID:      int32(form.FormID),
 			Properties:  formElementProperties,
+			Required:    pgtype.Bool{Bool: el.Required, Valid: true},
 		}
 		rowArgs = append(rowArgs, formElement)
 	}
