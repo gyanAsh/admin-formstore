@@ -56,6 +56,30 @@ func validateSeqNumber(elements []FormElementReq) error {
 	return nil
 }
 
+func validatePublishFormReq(form PublishFormReq) (string, error) {
+	if form.FormID <= 0 {
+		return "form_id", fmt.Errorf("invalid form_id %d", form.FormID)
+	}
+	for _, el := range form.Elements {
+		if el.Label.Title == "" {
+			return "labels.title", fmt.Errorf("invalid form label title: %q, form element seq number: %v", el.Label.Title, el.SeqNum)
+		}
+		if el.Type != "website" &&
+			el.Type != "consent" &&
+			el.Type != "multiselect" &&
+			el.Type != "dropdown" &&
+			el.Type != "ranking" &&
+			el.Type != "rating" &&
+			el.Type != "date" &&
+			el.Type != "text" &&
+			el.Type != "phone" &&
+			el.Type != "email" {
+			return "type", fmt.Errorf("invalid form type: %q, form element seq number: %v", el.Type, el.SeqNum)
+		}
+	}
+	return "", nil
+}
+
 func (s *Service) formPublishHandler(w http.ResponseWriter, r *http.Request) {
 	userID, err := s.authenticate(r)
 	if err != nil {
