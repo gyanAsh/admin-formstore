@@ -17,10 +17,7 @@ let defaultCurrentForm: Forms = {
   workspaceId: "",
   form_name: "",
   elements: [],
-  design: {
-    theme: "luxe_minimal_noir",
-    ...defaultDesignState,
-  },
+  design: defaultDesignState,
 };
 // Selected workspace and form ID : these IDs should not be persisted cos it'll cause wrong form to show when user previews mulitple-froms
 export const selectedWorkspaceId = atom<string | undefined>(

@@ -15,7 +15,6 @@ import { useState } from "react";
 import { AddFormElement } from "@/components/tabs-content/create-form/add-form-element";
 import { addForm } from "@/store/forms/form-elements";
 import { FormElementPreview } from "@/components/tabs-content/create-form/preview-form-elements";
-import { ThemeValues } from "@/store/forms/designs/values";
 import { defaultDesignState } from "@/store/forms/formV1Design";
 
 export default function CreateForm() {
@@ -42,7 +41,6 @@ export default function CreateForm() {
           form_name: data.form.title,
           elements: [],
           design: {
-            theme: ThemeValues.luxe_minimal_noir.value,
             ...defaultDesignState,
           },
         });

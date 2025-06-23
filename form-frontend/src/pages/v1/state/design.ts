@@ -17,7 +17,6 @@ export const useFormV1Store = create<FormStore>()(
       title: "",
       elements: [],
       design: {
-        theme: "luxe_minimal_noir",
         label: {
           size: "48px",
           family: '"IBM Plex Serif", serif',
