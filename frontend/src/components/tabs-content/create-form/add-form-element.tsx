@@ -70,11 +70,6 @@ import {
   getDefaultLabelTitle,
   getDefaultValidations,
 } from "@/store/forms/values";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 
 export const AddFormElement = () => {
   const { formId } = useParams();
