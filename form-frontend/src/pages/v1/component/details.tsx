@@ -22,14 +22,13 @@ export const FormLabel = ({
     "--text-color": design.color,
     "--italics": design.italics ? "italic" : "normal",
     "--letter-space": design.letter_spacing,
-    "--text-align": layoutDesign.textAlign,
+    "--text-align": layoutDesign.textAlign || "center",
   };
 
   return (
     <div
       className={cn(
-        "whitespace-pre-line text-center ",
-        " [text-align:var(--text-align)]",
+        "whitespace-pre-line [text-align:var(--text-align)]",
         "text-[calc(var(--sm-size))] md:text-[calc(var(--md-size))] lg:text-[calc(var(--size))] [color:var(--text-color)]",
         "[line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] tracking-[var(--letter-space)]",
         { " max-w-150 w-full ": layoutDesign.spread === true },
@@ -64,8 +63,7 @@ export const FormDescription = ({
   return (
     <div
       className={cn(
-        "whitespace-pre-line text-center ",
-        " [text-align:var(--text-align)]",
+        "whitespace-pre-line [text-align:var(--text-align)]",
         " text-[calc(var(--sm-size))] md:text-[calc(var(--md-size))] lg:text-[calc(var(--size))] [color:var(--text-color)]",
         "[line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] tracking-[var(--letter-space)]",
         { " max-w-150 w-full ": layoutDesign.spread === true },
