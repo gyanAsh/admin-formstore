@@ -75,8 +75,8 @@ export const FormElementPreview = () => {
                     Description
                   </CardDescription>
                 </div>
-                <div className="flex flex-col items-center gap-3">
-                  <div className="w-full bg-inherit h-full">
+                <div className="flex flex-col items-center gap-3 min-sm:absolute min-sm:right-2 min-sm:pl-2 justify-center h-full min-sm:bg-inherit">
+                  <div className="w-full bg-inherit ">
                     <CardName design={design.description}>
                       {design.themeName}
                     </CardName>
@@ -145,7 +145,7 @@ const CardBackground = ({
   return (
     <div
       className={cn(
-        "rounded-2xl  p-3 cursor-default ",
+        "rounded-2xl overflow-hidden p-3 cursor-default ",
         {
           "bg-[var(--bg-color)]": design.bgType === "solid",
         },
@@ -255,7 +255,7 @@ const CardName = ({
   return (
     <div
       className={cn(
-        "whitespace-pre-line ",
+        "whitespace-pre-line text-center",
         " text-sm @md:text-base @lg:text-lg [color:var(--text-color)]",
         " [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] tracking-[var(--letter-space)]",
 

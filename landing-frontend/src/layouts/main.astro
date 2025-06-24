@@ -1,9 +1,10 @@
 ---
 import "../styles/global.css";
-const { title = "The Formstore: Build & Share Beautiful Forms" } = Astro.props;
+const { title = "The Formstore: Create Beautiful & Personal Forms" } =
+  Astro.props;
 const description =
     "Create beautiful, customizable forms for events, surveys, and more. A new way to create, customize, and collect-responses— in seconds. FormStore helps you create aesthetic forms for anything – no code needed.",
-  image = "https://the-formstore.com/formstore-logo-light.svg",
+  image = "/formstore-logo-light.svg",
   url = "https://the-formstore.com";
 ---
 
@@ -23,7 +24,7 @@ const description =
       href="/formstore-logo-dark.svg"
       media="(prefers-color-scheme: dark)"
     />
-    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <!-- <link rel="icon" href="/favicon.ico" sizes="any" /> -->
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -32,7 +33,7 @@ const description =
       rel="stylesheet"
     />
     <meta name="generator" content={Astro.generator} />
-    <title>The Formstore: Build & Share Beautiful Forms</title>
+    <title>{title}</title>
 
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="description" content={description} />
@@ -58,7 +59,7 @@ const description =
         "@type": "SoftwareApplication",
         "name": "FormStore",
         "url": "https://the-formstore.com/",
-        "alternateName": "Formstore",
+        "alternateName": "TheFormstore",
         "applicationCategory": "Form Builder",
         "operatingSystem": "All",
         "description": "Design-first, no-code form builder for creatives and professionals."
