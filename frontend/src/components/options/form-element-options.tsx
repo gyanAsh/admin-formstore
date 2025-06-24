@@ -57,7 +57,11 @@ export const FromElementDialogContent = memo(
           <DialogTitle className="flex items-center gap-2">
             <div
               className={cn(
-                "p-1 border rounded-full text-secondary-foreground",
+                "p-1 border rounded-full text-secondary-foreground relative",
+                {
+                  "after:content-['*'] after:text-red-500":
+                    !!stateElement.required,
+                },
                 "flex items-center gap-1 text-sm px-3 font-normal",
                 {
                   " bg-pink-100 dark:bg-pink-500/15 ":

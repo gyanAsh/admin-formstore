@@ -17,6 +17,7 @@ import {
   ArrowDownFromLine,
   ArrowDownUp,
   ArrowUpFromLine,
+  Asterisk,
   Circle,
   Copy,
   Edit,
@@ -69,6 +70,11 @@ import {
   getDefaultLabelTitle,
   getDefaultValidations,
 } from "@/store/forms/values";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export const AddFormElement = () => {
   const { formId } = useParams();
@@ -227,7 +233,7 @@ export const AddFormElement = () => {
   );
 };
 
-const DndElementItem = ({ id, order, children, className }: any) => {
+const DndElementItem = ({ id, order, children, className, required }: any) => {
   const {
     attributes,
     listeners,
@@ -248,7 +254,7 @@ const DndElementItem = ({ id, order, children, className }: any) => {
       style={style}
       className={cn(
         "flex flex-row items-center gap-4 p-0 border border-gray-300 dark:border-gray-500 mb-1",
-        " bg-zinc-50 dark:bg-slate-900/55 hover:ring-ring hover:ring"
+        " bg-zinc-50 dark:bg-slate-900/55 hover:ring-ring hover:ring relative"
       )}
     >
       {/* Drag Handle */}
@@ -266,7 +272,14 @@ const DndElementItem = ({ id, order, children, className }: any) => {
           <GripVertical className="size-3" strokeWidth={2} />
         </div>
       </div>
-
+      <div
+        className={cn(
+          "absolute top-0 left-4 -translate-y-1/2 text-white dark:text-black font-bold bg-primary px-1.5 py-0.5 rounded-[6px] text-[11px] flex items-center gap-1",
+          { hidden: !required }
+        )}
+      >
+        Required <Asterisk strokeWidth={3} className="size-2.5" />
+      </div>
       {/* Content */}
       <div className={cn("grow", className)}>{children}</div>
     </Card>
@@ -331,6 +344,7 @@ const DndKitContainer = ({
                   order={idx + 1}
                   id={item.id}
                   className={"flex items-center justify-between"}
+                  required={item.required}
                 >
                   <div className="flex min-sm:items-center justify-between max-w-full grow gap-1.5 max-sm:gap-2.5 max-sm:flex-col">
                     <Dialog
