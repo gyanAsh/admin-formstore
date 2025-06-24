@@ -57,7 +57,7 @@ export const FormDescription = ({
     "--text-color": design.color,
     "--italics": design.italics ? "italic" : "normal",
     "--letter-space": design.letter_spacing,
-    "--text-align": layoutDesign.textAlign,
+    "--text-align": layoutDesign.textAlign || "center",
   };
 
   return (
