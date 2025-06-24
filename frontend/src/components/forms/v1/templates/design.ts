@@ -68,6 +68,7 @@ export const designTemplate: Tempate[] = [
     },
     layout: {
       textAlign: "center",
+      spread: false,
       bgCustomValue: {
         value: "",
       },
