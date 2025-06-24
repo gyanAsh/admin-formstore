@@ -28,10 +28,14 @@ import { cn } from "@/lib/utils";
 import Sketch from "@uiw/react-color-sketch";
 import { PopoverTriggerProps } from "@radix-ui/react-popover";
 import {
+  AlignCenter,
+  AlignLeft,
+  AlignRight,
   CaseLower,
   CaseSensitive,
   Check,
   ChevronRight,
+  FlipHorizontal2,
   Italic,
   LayoutDashboard,
   SquareDashedMousePointer,
@@ -192,6 +196,49 @@ const LayoutDesignContext = () => {
         <p className="text-muted-foreground text-sm">Set the Form layout.</p>
       </div>
       <div className="grid gap-2 md:gap-4 lg:gap-5">
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="text-align">Text Align</Label>
+          <div className=" col-span-2 flex items-center gap-1" id="text-align">
+            <Button
+              aria-selected={design.spread}
+              className="aria-[selected=true]:bg-zinc-900 dark:aria-[selected=true]:bg-zinc-200 aria-[selected=true]:text-zinc-50 dark:aria-[selected=true]:text-zinc-900"
+              variant={"outline"}
+              size={"icon"}
+              onClick={() => setDesign({ spread: !design.spread })}
+            >
+              <FlipHorizontal2 />
+            </Button>
+            <ToggleGroup
+              variant="outline"
+              value={design.textAlign as "left" | "center" | "right"}
+              onValueChange={(e) =>
+                setDesign({ textAlign: e as "left" | "center" | "right" })
+              }
+              className="inline-flex w-full"
+              type="single"
+            >
+              <ToggleGroupItem
+                className="data-[state=on]:bg-zinc-900 bg-background grow dark:data-[state=on]:bg-zinc-200 data-[state=on]:text-white dark:data-[state=on]:text-zinc-900"
+                value="left"
+              >
+                <AlignLeft />
+              </ToggleGroupItem>
+              <ToggleGroupItem
+                className="data-[state=on]:bg-zinc-900 bg-background grow dark:data-[state=on]:bg-zinc-200 data-[state=on]:text-white dark:data-[state=on]:text-zinc-900"
+                value="center"
+              >
+                <AlignCenter />
+              </ToggleGroupItem>
+              <ToggleGroupItem
+                className="data-[state=on]:bg-zinc-900 bg-background grow dark:data-[state=on]:bg-zinc-200 data-[state=on]:text-white dark:data-[state=on]:text-zinc-900"
+                value="right"
+              >
+                <AlignRight />
+              </ToggleGroupItem>
+            </ToggleGroup>
+          </div>
+        </div>
+
         <div className="grid grid-cols-3 items-center gap-4">
           <Label htmlFor="element-spacing">Spacing</Label>
           <div

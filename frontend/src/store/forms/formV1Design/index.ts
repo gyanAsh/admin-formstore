@@ -191,6 +191,7 @@ export const defaultDesignState: DesignState = {
   layout: {
     elementSpacing: "12px",
     bgType: "image",
+    textAlign: "center",
     bgSolidValue: { color: "#000000" },
     bgImageValue: { imageUrl: "/bg/pink-abstract.jpg" },
     bgCustomValue: {
@@ -288,6 +289,8 @@ export interface LayoutDesign {
   bgSolidValue: SolidValueType;
   bgCustomValue: CustomValueType;
   bgImageValue: ImageValueType;
+  textAlign: "left" | "center" | "right";
+  spread?: boolean;
 }
 
 //--Spacing---//

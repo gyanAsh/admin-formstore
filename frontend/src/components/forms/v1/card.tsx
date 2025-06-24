@@ -13,7 +13,7 @@ export const FormCard = ({
   return (
     <div
       className={cn(
-        "p-6 h-full grid grid-cols-1 gap-[calc(var(--space-gap)_*_4)] text-center",
+        "p-6 h-full grid grid-cols-1 gap-[calc(var(--space-gap)_*_4)]",
         className
       )}
       style={style}
