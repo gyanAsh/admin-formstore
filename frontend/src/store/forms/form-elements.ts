@@ -69,7 +69,7 @@ export function addFormIfNotExists(newForm: Forms) {
 
 export function updateForm(newForm: Forms) {
   const existingForms = $all_forms.get();
-  const form = existingForms.some((form) => form.id === newForm.id);
+  const form = existingForms.find((form) => form.id === newForm.id);
 
   if (form) {
     if (form.updatedAt < newForm.updatedAt) {
