@@ -6,6 +6,7 @@ export interface Forms {
   workspaceId: string;
   form_name: string;
   elements: FormElements[];
+  updatedAt: Date;
   design: DesignState;
 }
 

@@ -16,6 +16,7 @@ let defaultCurrentForm: Forms = {
   id: "",
   workspaceId: "",
   form_name: "",
+  updatedAt: new Date(0),
   elements: [],
   design: defaultDesignState,
 };

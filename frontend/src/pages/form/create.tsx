@@ -16,6 +16,62 @@ import { AddFormElement } from "@/components/tabs-content/create-form/add-form-e
 import { addForm } from "@/store/forms/form-elements";
 import { FormElementPreview } from "@/components/tabs-content/create-form/preview-form-elements";
 import { defaultDesignState } from "@/store/forms/formV1Design";
+import { FormElements, Forms } from "@/store/forms/form-elements.types";
+
+type ApiFormData = {
+  form: {
+    id: number;
+    title: string;
+    status: string;
+    created_at: string;
+    updated_at: string;
+    design: any;
+  };
+  elements: {
+    seq_number: number;
+    label: string;
+    description: string;
+    type: string;
+    required: boolean;
+    properties: any;
+  }[];
+  workspace: {
+    id: number;
+    name: string;
+    created_at: string;
+    updated_at: string;
+    user_id: string;
+  };
+};
+
+function parseFormDataFromApi(inp: ApiFormData): Forms {
+  const { form, elements, workspace } = inp;
+  let ret: Forms = {
+    id: String(form.id),
+    workspaceId: String(workspace.id),
+    form_name: form.title,
+    elements: [],
+    updatedAt: new Date(form.updated_at),
+    design: form?.design ?? { ...defaultDesignState },
+  };
+  ret.elements = elements.map((el) => {
+    let element: FormElements = {
+      id: String(el.seq_number),
+      sequence_number: el.seq_number,
+      field: el.type,
+      labels: {
+        title: el.label,
+        description: el.description,
+      },
+      required: el.required,
+    };
+    if (el.properties) {
+      element.validations = el.properties;
+    }
+    return element;
+  });
+  return ret;
+}
 
 export default function CreateForm() {
   const { workspaceId, formId } = useParams();
@@ -32,18 +88,12 @@ export default function CreateForm() {
           Authorization: `Bearer ${getAuthToken()}`,
         },
       });
-      const data = await res.json();
+      const data = await res.json() as ApiFormData;
 
-      if (data?.form?.id)
-        addForm({
-          id: String(data.form.id),
-          workspaceId: String(data.workspace.id),
-          form_name: data.form.title,
-          elements: [],
-          design: {
-            ...defaultDesignState,
-          },
-        });
+      // add if not present
+      if (data?.form?.id) {
+        addForm(parseFormDataFromApi(data));
+      }
 
       return data;
     },
@@ -58,7 +108,7 @@ export default function CreateForm() {
           {/* top-navbar */}
           <section
             className={cn(
-              "sticky top-0 z-10 flex max-sm:flex-col max-sm:gap-2.5 sm:items-center sm:justify-between p-2.5 w-full bg-inherit pt-3.5 sm:py-3.5"
+              "sticky top-0 z-10 flex max-sm:flex-col max-sm:gap-2.5 sm:items-center sm:justify-between p-2.5 w-full bg-inherit pt-3.5 sm:py-3.5",
             )}
           >
             <div className="flex items-center sm:justify-between space-x-3">
@@ -146,7 +196,7 @@ function FormTabs() {
               className={cn(
                 "relative py-3 px-3.5 w-fit cursor-pointer font-bold",
 
-                item === selectedTab ? "" : "text-muted-foreground"
+                item === selectedTab ? "" : "text-muted-foreground",
               )}
             >
               {item.title}
