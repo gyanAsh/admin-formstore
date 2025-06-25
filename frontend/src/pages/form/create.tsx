@@ -17,6 +17,7 @@ import { updateForm } from "@/store/forms/form-elements";
 import { FormElementPreview } from "@/components/tabs-content/create-form/preview-form-elements";
 import { defaultDesignState } from "@/store/forms/formV1Design";
 import { FormElements, Forms } from "@/store/forms/form-elements.types";
+import SaveFormButton from "@/components/layout/dashboard/SaveFormButton";
 
 type ApiFormData = {
   form: {
@@ -156,6 +157,7 @@ export default function CreateForm() {
                     </h2>
                   </div>
                   <div className="flex gap-2">
+                    <SaveFormButton />
                     <PublishFormButton formId={parseInt(String(formId))} />
                   </div>
                 </section>
