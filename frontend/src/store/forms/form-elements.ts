@@ -58,7 +58,7 @@ export const $get_design_layout = computed(
 );
 
 // ------------------- Actions-------------------
-export function addForm(newForm: Forms) {
+export function addFormIfNotExists(newForm: Forms) {
   const existingForms = $all_forms.get();
   const formExists = existingForms.some((form) => form.id === newForm.id);
 

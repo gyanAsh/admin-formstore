@@ -13,7 +13,7 @@ import { AnimatePresence } from "motion/react";
 import * as motion from "motion/react-client";
 import { useState } from "react";
 import { AddFormElement } from "@/components/tabs-content/create-form/add-form-element";
-import { addForm } from "@/store/forms/form-elements";
+import { addFormIfNotExists } from "@/store/forms/form-elements";
 import { FormElementPreview } from "@/components/tabs-content/create-form/preview-form-elements";
 import { defaultDesignState } from "@/store/forms/formV1Design";
 import { FormElements, Forms } from "@/store/forms/form-elements.types";
@@ -92,7 +92,7 @@ export default function CreateForm() {
 
       // add if not present
       if (data?.form?.id) {
-        addForm(parseFormDataFromApi(data));
+        addFormIfNotExists(parseFormDataFromApi(data));
       }
 
       return data;
