@@ -223,6 +223,7 @@ export function $set_design_label(newLabelDesign: Partial<LabelDesign>) {
             ...newLabelDesign,
           },
         },
+        updatedAt: new Date(),
       };
     }
     return form;
@@ -273,6 +274,7 @@ export function $set_design_element(newElementDesign: Partial<ElementDesign>) {
             ...newElementDesign,
           },
         },
+        updatedAt: new Date(),
       };
     }
     return form;
@@ -369,6 +371,7 @@ export function $set_design_layout(newElementDesign: Partial<LayoutDesign>) {
             ...newElementDesign,
           },
         },
+        updatedAt: new Date(),
       };
     }
     return form;
