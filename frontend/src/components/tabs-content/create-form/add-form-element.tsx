@@ -67,6 +67,7 @@ import {
 } from "../../ui/dropdown-menu";
 import {
   FormElements,
+  getBadgeValue,
   getDefaultLabelTitle,
   getDefaultValidations,
 } from "@/store/forms/values";
@@ -74,13 +75,7 @@ import {
 export const AddFormElement = () => {
   const { formId } = useParams();
   const [addElementModalState, SetAddElementModalState] = useState(false);
-  const elementClick = ({
-    item,
-    iconColor,
-  }: {
-    item: any;
-    iconColor: string;
-  }) => {
+  const elementClick = ({ item }: { item: any }) => {
     let value = item?.value || "";
 
     if (value.length < 1) {
@@ -94,7 +89,7 @@ export const AddFormElement = () => {
     let element: FormElementsType = {
       id: generateMicroId(6),
       field: value,
-      badge: { value: value, color: iconColor },
+      badge: getBadgeValue(value),
 
       labels: {
         title: getDefaultLabelTitle(value),
@@ -138,9 +133,7 @@ export const AddFormElement = () => {
                         variant={"ghost"}
                         effect={"small_scale"}
                         value={e?.value || ""}
-                        onClick={() =>
-                          elementClick({ item: e, iconColor: el.color })
-                        }
+                        onClick={() => elementClick({ item: e })}
                         className={cn(
                           "relative flex justify-start items-center overflow-hidden not-hover:p-[4px] group hover:border !border-inherit/5 transition-all duration-95",
                           {
