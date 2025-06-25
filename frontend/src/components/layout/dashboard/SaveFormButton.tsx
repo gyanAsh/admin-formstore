@@ -7,7 +7,7 @@ export default function SaveFormButton() {
       className={cn(
         "dark:text-white text-black bg-color-background border border-primary",
         "px-4 py-1 rounded-lg flex flex-row gap-2 items-center",
-        "hover:bg-color-background hover:"
+        "hover:bg-color-background hover:",
       )}
     >
       <svg
@@ -21,7 +21,7 @@ export default function SaveFormButton() {
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
-          d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+          d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15M9 12l3 3m0 0 3-3m-3 3V2.25"
         />
       </svg>
       Save
