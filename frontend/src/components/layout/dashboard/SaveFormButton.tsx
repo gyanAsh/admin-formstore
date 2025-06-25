@@ -7,8 +7,9 @@ export default function SaveFormButton() {
       className={cn(
         "dark:text-white text-black bg-color-background border border-primary",
         "px-4 py-1 rounded-lg flex flex-row gap-2 items-center",
-        "hover:bg-color-background hover:",
+        "hover:bg-color-background",
       )}
+      effect={"scale"}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
