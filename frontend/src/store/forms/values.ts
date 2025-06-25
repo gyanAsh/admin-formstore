@@ -29,6 +29,7 @@ import {
 import {
   ConsentValidation,
   EmailValidation,
+  FormElements as FormElementType,
   FormFields,
   RatingKey,
   RatingValidation,
@@ -140,6 +141,20 @@ export function getDefaultLabelTitle(fieldType: string): string {
       return "Rate...";
     default:
       return "Unknown Field";
+  }
+}
+
+export function getBadgeValue(fieldValue: string): FormElementType["badge"] {
+  if (["email", "url"].some((e) => e === fieldValue)) {
+    return { value: fieldValue, color: "pink" };
+  } else if (["consent"].some((e) => e === fieldValue)) {
+    return { value: fieldValue, color: "blue" };
+  } else if (["rating"].some((e) => e === fieldValue)) {
+    return { value: fieldValue, color: "green" };
+  } else if (["text"].some((e) => e === fieldValue)) {
+    return { value: fieldValue, color: "yellow" };
+  } else {
+    return { value: "new", color: "yellow" };
   }
 }
 
