@@ -16,6 +16,7 @@ import * as motion from "motion/react-client";
 import { cn, getAuthToken } from "@/lib/utils";
 import { $current_form } from "@/store/forms/form-elements";
 import { useStore } from "@nanostores/react";
+import { parseFormDataForApi } from "@/lib/form_parsing";
 export const createFormSchema = z.object({
   name: z.string().min(2, {
     message: "Form name must be at least 2 characters.",
@@ -27,32 +28,13 @@ export default function PublishFormButton({ formId }: { formId: number }) {
   const formData = useStore($current_form);
 
   async function publishFormHandler() {
-    if (
-      !formData.elements ||
-      typeof formData.elements != "object" ||
-      !Array.isArray(formData.elements)
-    ) {
-      return;
-    }
-    const retFormData = {
-      form_id: formId,
-      design: formData.design,
-      elements: formData.elements.map((x, i) => ({
-        seq_num: i + 1,
-        type: x.field,
-        labels: x.labels,
-        required: x.required,
-        validations: {},
-        properties: x.validations,
-      })),
-    };
     const res = await fetch(`/api/form/publish`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${getAuthToken()}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(retFormData),
+      body: JSON.stringify(parseFormDataForApi(formData, formId)),
     });
     const data = await res.json();
     console.log(data);
