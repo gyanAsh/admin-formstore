@@ -70,6 +70,20 @@ export default function PublishFormButton({ formId }: { formId: number }) {
           whileTap={{ scale: 0.95 }}
         >
           <Button className="text-sm font-semibold text-white rounded-lg">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15"
+              />
+            </svg>
             Publish
             <span className="sr-only">Publish Form</span>
           </Button>
@@ -94,7 +108,7 @@ export default function PublishFormButton({ formId }: { formId: number }) {
               effect="small_scale"
               className={cn(
                 "flex-1 rounded-lg text-base",
-                "bg-transparent border border-white-500 text-white-500 hover:text-white-500 ease-in duration-80"
+                "bg-transparent border border-white-500 text-white-500 hover:text-white-500 ease-in duration-80",
               )}
             >
               Cancel
@@ -105,7 +119,7 @@ export default function PublishFormButton({ formId }: { formId: number }) {
             effect={"small_scale"}
             className={cn(
               "flex-1 rounded-lg text-white! text-base  ease-in duration-80",
-              "bg-primary/85"
+              "bg-primary/85",
             )}
             onClick={publishFormHandler}
           >
