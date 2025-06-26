@@ -209,10 +209,15 @@ export default function Workspace() {
                             variant={"black"}
                             className="grow font-bold"
                             onClick={() => {
-                              // navigate(`/workspace/${workspaceId}/${form.id}`);
-                              navigate(
-                                `/dashboard/${workspaceId}/${form.id}/create`,
-                              );
+                              if (form.status == "published") {
+                                navigate(
+                                  `/dashboard/${workspaceId}/${form.id}/analytics`,
+                                );
+                              } else {
+                                navigate(
+                                  `/dashboard/${workspaceId}/${form.id}/create`,
+                                );
+                              }
                             }}
                             asChild
                           >
