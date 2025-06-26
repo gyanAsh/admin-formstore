@@ -116,6 +116,7 @@ export function addFormElement(formId: string, newElement: FormElements) {
           : [newElement];
         return {
           ...form,
+          updatedAt: new Date(),
           elements: updatedElements,
         };
       }
@@ -132,6 +133,7 @@ export function updateFormElement(
       if (form.id === formId) {
         return {
           ...form,
+          updatedAt: new Date(),
           elements: form.elements?.map((e) =>
             e.id === updatedElement.id ? updatedElement : e,
           ),
@@ -148,6 +150,7 @@ export function removeFormElement(formId: string, elementId: string) {
       if (form.id === formId && form.elements) {
         return {
           ...form,
+          updatedAt: new Date(),
           elements: form.elements.filter((element) => element.id !== elementId),
         };
       }
