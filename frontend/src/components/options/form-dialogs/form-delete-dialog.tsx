@@ -31,15 +31,12 @@ export function DeleteFormsDialog({
 
   const formDeleteMutation = useMutation({
     mutationFn: async () => {
-      const res = await fetch("/api/form", {
+      const res = await fetch(`/api/form/${formId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${getAuthToken()}`,
         },
-        body: JSON.stringify({
-          id: parseInt(String(formId)),
-        }),
       });
       if (!res.ok) {
         throw new Error(res.statusText);

@@ -30,15 +30,12 @@ export function DeleteWorkspaceDialog({
 
   const workspaceDeleteMutation = useMutation({
     mutationFn: async () => {
-      const res = await fetch("/api/workspace", {
+      const res = await fetch(`/api/workspace/${workspaceId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${getAuthToken()}`,
         },
-        body: JSON.stringify({
-          id: parseInt(String(workspaceId)),
-        }),
       });
       if (!res.ok) {
         throw new Error(res.statusText);
