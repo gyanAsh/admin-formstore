@@ -199,6 +199,28 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BasicError"
+  /api/form/save:
+    post:
+      summary: Saves a form
+      description: This should be idempotent ie it should over ride the previous record and have the form published with the lastest data only.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PublishFormRequest"
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+        400:
+          description: Any form of error from the client side
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
   /api/verify:
     post:
       responses:
@@ -289,6 +311,12 @@ components:
           type: integer
           description: The unique identifier for the form being published.
           example: 16
+        design:
+          type: object
+          description: All the design json (anything allowed for now)
+          example:
+            max-with: 1200
+            bg-color: "#2FA693"
         elements:
           type: array
           items:
