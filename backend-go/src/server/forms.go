@@ -280,14 +280,10 @@ func (s *Service) formDeleteHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
-	type FormData struct {
-		ID int64 `json:"id"`
-	}
-	var formData FormData
-	if err := json.NewDecoder(r.Body).Decode(&formData); err != nil {
-		log.Println(err)
+	formID, err := strconv.Atoi(r.PathValue("form_id"))
+	if err != nil {
+		log.Println(fmt.Errorf("form id parsing int: %v", err))
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte("required field `id` is missing"))
 		return
 	}
 	res, err := s.Conn.Exec(r.Context(), `
@@ -297,7 +293,7 @@ func (s *Service) formDeleteHandler(w http.ResponseWriter, r *http.Request) {
 			SELECT workspaces.ID
 			FROM workspaces
 			WHERE user_id = $2
-		)`, formData.ID, userID)
+		)`, formID, userID)
 
 	if err != nil {
 		log.Println(err)
