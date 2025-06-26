@@ -161,5 +161,5 @@ export function removeFormElement(formId: string, elementId: string) {
 
 export function getForm(formId: number): Form {
   const forms = $all_forms.get().filter(x => x.id == String(formId));
-  return forms[0];
+  return {...forms[0]};
 }
