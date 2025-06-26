@@ -89,8 +89,9 @@ export const AddFormElement = () => {
     let element: FormElementsType = {
       id: generateMicroId(6),
       field: value,
-      badge: getBadgeValue(value),
-
+      get badge() {
+        return getBadgeValue(this.field);
+      },
       labels: {
         title: getDefaultLabelTitle(value),
         description: "",

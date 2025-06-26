@@ -18,6 +18,7 @@ import { FormElementPreview } from "@/components/tabs-content/create-form/previe
 import { defaultDesignState } from "@/store/forms/formV1Design";
 import { FormElements, Forms } from "@/store/forms/form-elements.types";
 import SaveFormButton from "@/components/layout/dashboard/SaveFormButton";
+import { getBadgeValue } from "@/store/forms/values";
 
 type ApiFormData = {
   form: {
@@ -58,11 +59,13 @@ function parseFormDataFromApi(inp: ApiFormData): Forms {
   ret.elements = elements.map((el) => {
     let element: FormElements = {
       id: String(el.seq_number),
-      sequence_number: el.seq_number,
       field: el.type,
       labels: {
         title: el.label,
         description: el.description,
+      },
+      get badge() {
+        return getBadgeValue(this.field);
       },
       required: el.required,
     };
@@ -91,7 +94,11 @@ export default function CreateForm() {
       });
       const data = await res.json() as ApiFormData;
 
-      updateForm(parseFormDataFromApi(data));
+      try {
+        updateForm(parseFormDataFromApi(data));
+      } catch(err) {
+        console.error("failed to parse form api data with error:", err);
+      }
       return data;
     },
     refetchOnWindowFocus: false,
