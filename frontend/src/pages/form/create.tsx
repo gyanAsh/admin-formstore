@@ -166,7 +166,7 @@ export default function CreateForm() {
                   </div>
                   <div className="flex gap-2">
                     <RefreshFormButton />
-                    <SaveFormButton />
+                    <SaveFormButton formId={parseInt(String(formId))} />
                     <PublishFormButton formId={parseInt(String(formId))} />
                   </div>
                 </section>

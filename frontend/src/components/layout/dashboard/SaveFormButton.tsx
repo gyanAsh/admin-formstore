@@ -1,7 +1,31 @@
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { parseFormDataForApi } from "@/lib/form_parsing";
+import { cn, getAuthToken } from "@/lib/utils";
+import { $all_forms } from "@/store/forms/form-elements";
+import { Forms } from "@/store/forms/form-elements.types";
 
-export default function SaveFormButton() {
+export default function SaveFormButton({ formId }: { formId: number }) {
+  async function saveForm() {
+    if (isNaN(formId)) {
+      throw Error("form id is not a number");
+    }
+    try {
+      const formData: Forms = { ...$all_forms.get().filter((x) => x.id == String(formId))[0] };
+      const res = await fetch(`/api/form/save`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${getAuthToken()}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(parseFormDataForApi(formData, formId)),
+      });
+      const data = await res.json();
+      console.log(data);
+    } catch (err) {
+      console.error("save failed:", err);
+    }
+  }
+
   return (
     <Button
       className={cn(
@@ -10,6 +34,10 @@ export default function SaveFormButton() {
         "hover:bg-color-background",
       )}
       effect={"scale"}
+      onClick={(e) => {
+        e.preventDefault();
+        saveForm();
+      }}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
