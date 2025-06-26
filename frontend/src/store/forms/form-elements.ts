@@ -72,7 +72,8 @@ export function updateForm(newForm: Forms) {
   const form = existingForms.find((form) => form.id === newForm.id);
 
   if (form) {
-    if (form.updatedAt < newForm.updatedAt) {
+    const formUpdatedAt = new Date(form.updatedAt);
+    if (formUpdatedAt < newForm.updatedAt) {
       $all_forms.set(
         existingForms.map((fr) => {
           if (fr.id == newForm.id) {
