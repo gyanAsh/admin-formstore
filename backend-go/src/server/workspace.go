@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"sort"
+	"strconv"
 	"time"
 
 	"github.com/jackc/pgx/v5"
@@ -177,21 +178,15 @@ func (s *Service) workspaceDeleteHandler(w http.ResponseWriter, r *http.Request)
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
-	var workspace Workspace
-	if err = json.NewDecoder(r.Body).Decode(&workspace); err != nil {
-		log.Println(err)
+	workspaceID, err := strconv.Atoi(r.PathValue("workspace_id"))
+	if err != nil {
+		log.Println(fmt.Errorf("integer workspace id conversion: %v", err))
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	if workspace.ID == 0 {
-		log.Println(fmt.Errorf("empty values in workspace"))
-		log.Println(workspace)
-		return
-	}
-	workspace.UserID = userID
 
 	if _, err = s.Conn.Exec(r.Context(), `DELETE FROM workspaces WHERE
-		workspaces.ID = $1 AND user_id = $2`, workspace.ID, userID); err != nil {
+		workspaces.ID = $1 AND user_id = $2`, workspaceID, userID); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusForbidden)
 		return
