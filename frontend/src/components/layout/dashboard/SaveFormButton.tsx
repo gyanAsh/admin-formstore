@@ -1,8 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { parseFormDataForApi } from "@/lib/form_parsing";
 import { cn, getAuthToken } from "@/lib/utils";
-import { $all_forms } from "@/store/forms/form-elements";
-import { Forms } from "@/store/forms/form-elements.types";
+import { getForm } from "@/store/forms/form-elements";
 
 export default function SaveFormButton({ formId }: { formId: number }) {
   async function saveForm() {
@@ -10,7 +9,8 @@ export default function SaveFormButton({ formId }: { formId: number }) {
       throw Error("form id is not a number");
     }
     try {
-      const formData: Forms = { ...$all_forms.get().filter((x) => x.id == String(formId))[0] };
+      const formData = getForm(formId);
+
       const res = await fetch(`/api/form/save`, {
         method: "POST",
         headers: {
