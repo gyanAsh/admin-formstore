@@ -5,7 +5,7 @@ export default function SaveFormButton() {
   return (
     <Button
       className={cn(
-        "dark:text-white text-black bg-color-background border border-primary",
+        "dark:text-gray-200 text-black bg-color-background border border-primary",
         "px-4 py-1 rounded-lg flex flex-row gap-2 items-center",
         "hover:bg-color-background",
       )}
