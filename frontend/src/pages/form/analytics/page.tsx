@@ -1,11 +1,14 @@
+import { Button } from "@/components/ui/button";
+
 function SubmissionTable() {
   return (
+    <div className="p-4">
       <table>
         <thead>
           <tr>
-            <th>date</th> 
-            <th>user reference id</th> 
-            <th>email</th> 
+            <th>date</th>
+            <th>user reference id</th>
+            <th>email</th>
           </tr>
         </thead>
         <tbody>
@@ -21,6 +24,7 @@ function SubmissionTable() {
           </tr>
         </tbody>
       </table>
+    </div>
   );
 }
 
@@ -35,10 +39,15 @@ export default function AnalyticsPage() {
         <div>Jan 20th 2025</div>
         <div>total sumbission count: 1245</div>
       </div>
-      <button className="bg-primary rounded-xl px-4 py-1">download csv</button>
+      <Button className="bg-primary px-4 py-1 dark:text-white font-bold uppercase">
+        download csv
+      </Button>
 
       <SubmissionTable />
-      <button className="bg-red-400 rounded-xl px-4 py-1">close form</button>
+
+      <Button className="bg-red-400 px-4 py-1 dark:text-white font-bold uppercase">
+        close
+      </Button>
     </div>
   );
 }
