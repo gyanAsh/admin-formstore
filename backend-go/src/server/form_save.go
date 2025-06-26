@@ -145,4 +145,10 @@ func (s *Service) formSaveHandler(w http.ResponseWriter, r *http.Request) {
 	if err = tx.Commit(r.Context()); err != nil {
 		log.Println(fmt.Errorf("transaction commit: %v", err))
 	}
+
+	if err = json.NewEncoder(w).Encode(map[string]any{
+		"message": "form saved successfully",
+	}); err != nil {
+		log.Println(fmt.Errorf("json write: %v", err))
+	}
 }
