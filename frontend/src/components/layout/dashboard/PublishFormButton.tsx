@@ -14,7 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import * as motion from "motion/react-client";
 import { cn, getAuthToken } from "@/lib/utils";
-import { $current_form } from "@/store/forms/form-elements";
+import { $current_form, getForm } from "@/store/forms/form-elements";
 import { useStore } from "@nanostores/react";
 import { parseFormDataForApi } from "@/lib/form_parsing";
 export const createFormSchema = z.object({
@@ -25,7 +25,7 @@ export const createFormSchema = z.object({
 
 export default function PublishFormButton({ formId }: { formId: number }) {
   const [openDialog, setOpenDialog] = useState(false);
-  const formData = useStore($current_form);
+  const formData = getForm(formId);
 
   async function publishFormHandler() {
     const res = await fetch(`/api/form/publish`, {
