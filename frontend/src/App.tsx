@@ -1,33 +1,36 @@
 import "@/App.css";
-import Home from "@/pages/home";
-import About from "@/pages/about";
-import { Route, Routes } from "react-router";
+import { Route, Routes, useNavigate } from "react-router";
 import DashboardLayout from "@/components/layout/dashboard";
 import Workspace from "@/pages/workspace";
 import DashboardHome from "@/pages/workspace/home";
-import HeroLayout from "@/components/layout/hero";
 import CreateForm from "@/pages/form/create";
 import PreviewFormPage from "@/pages/form/preview";
 import AnalyticsPage from "@/pages/form/analytics/page";
+import { Button } from "@/components/ui/button";
+import EmptyHome from "@/pages/home/emptyhome";
+import LoginPage from "@/pages/login";
 
 export default function App() {
+  const navigate = useNavigate();
   const NotFound = () => (
-    <div className="flex justify-center items-center">
-      <h1>404 - Page Not Found</h1>
-    </div>
-  );
-  const ErrorFound = () => (
-    <div className="flex justify-center items-center">
-      <h1>Error: Something Not Found.</h1>
+    <div className="flex flex-col gap-7 w-full h-[100dvh] justify-center items-center text-center">
+      <h1 className="text-6xl font-black ">404 - Page Not Found</h1>
+      <Button
+        onClick={() => {
+          navigate("/dashboard");
+        }}
+        className="scale-110 font-semibold"
+        variant={"black"}
+      >
+        Go to Dashboard
+      </Button>
     </div>
   );
 
   return (
     <Routes>
-      <Route path="/" element={<HeroLayout />} errorElement={<ErrorFound />}>
-        <Route index element={<Home />} />
-        <Route path="about" element={<About />} />
-      </Route>
+      <Route path="/" element={<EmptyHome />} />
+      <Route path="/login" element={<LoginPage />} />
       <Route path="/dashboard" element={<DashboardLayout />}>
         <Route index element={<DashboardHome />} />
 

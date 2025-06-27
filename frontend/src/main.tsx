@@ -6,6 +6,7 @@ import App from "./App.tsx";
 import { ThemeProvider } from "@/components/theme-provider.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/sonner.tsx";
+import AuthWrapper from "@/components/auth/AuthWrapper.tsx";
 
 const queryClient = new QueryClient();
 
@@ -14,7 +15,9 @@ createRoot(document.getElementById("root")!).render(
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-          <App />
+          <AuthWrapper>
+            <App />
+          </AuthWrapper>
           <Toaster position="top-center" richColors />
         </ThemeProvider>
       </BrowserRouter>
