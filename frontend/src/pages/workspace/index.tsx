@@ -31,7 +31,7 @@ import * as motion from "motion/react-client";
 import { FormPopoverContentOptions } from "@/components/options/form-options";
 import { Popover, PopoverTrigger } from "@/components/ui/popover";
 
-function WorkspaceLayout({
+export function WorkspaceLayout({
   children,
   workspaceName,
 }: {

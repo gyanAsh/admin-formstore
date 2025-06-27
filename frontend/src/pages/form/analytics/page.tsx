@@ -1,3 +1,4 @@
+import { WorkspaceLayout } from "@/pages/workspace/index";
 import { Button } from "@/components/ui/button";
 
 function SubmissionTable() {
@@ -30,24 +31,26 @@ function SubmissionTable() {
 
 export default function AnalyticsPage() {
   return (
-    <div>
+    <WorkspaceLayout workspaceName={"workspace-name-placeholder"}>
       <div>
-        <h1 className="text-xl font-bold">
-          Survey of tool and technologies used in the working on small
-          organizations
-        </h1>
-        <div>Jan 20th 2025</div>
-        <div>total sumbission count: 1245</div>
+        <div>
+          <h1 className="text-xl font-bold">
+            Survey of tool and technologies used in the working on small
+            organizations
+          </h1>
+          <div>Jan 20th 2025</div>
+          <div>total sumbission count: 1245</div>
+        </div>
+        <Button className="bg-primary px-4 py-1 dark:text-white font-bold uppercase">
+          download csv
+        </Button>
+
+        <SubmissionTable />
+
+        <Button className="bg-red-400 px-4 py-1 dark:text-white font-bold uppercase">
+          close
+        </Button>
       </div>
-      <Button className="bg-primary px-4 py-1 dark:text-white font-bold uppercase">
-        download csv
-      </Button>
-
-      <SubmissionTable />
-
-      <Button className="bg-red-400 px-4 py-1 dark:text-white font-bold uppercase">
-        close
-      </Button>
-    </div>
+    </WorkspaceLayout>
   );
 }
