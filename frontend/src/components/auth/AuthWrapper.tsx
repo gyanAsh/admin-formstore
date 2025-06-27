@@ -1,7 +1,9 @@
 // components/AuthWrapper.tsx
 import { getAuthToken } from "@/lib/utils";
+import EmptyHome from "@/pages/home/emptyhome";
 import { $userLoginData } from "@/store/user";
 import { useMutation } from "@tanstack/react-query";
+import * as motion from "motion/react-client";
 import { useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { toast } from "sonner";
@@ -13,12 +15,14 @@ type Props = {
 const AuthWrapper = ({ children }: Props) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const hasPosted = useRef(false);
+  const hasVerified = useRef(false);
+  const verifying = useRef(false);
 
   const token = getAuthToken();
 
   const verifyUserMutation = useMutation({
     mutationFn: async () => {
+      verifying.current = true;
       const res = await fetch("/api/verify", {
         method: "POST",
         headers: {
@@ -36,6 +40,7 @@ const AuthWrapper = ({ children }: Props) => {
       return data;
     },
     onSuccess: (data) => {
+      verifying.current = false;
       $userLoginData.set(data);
       if (["/"].some((e) => pathname === e)) {
         toast.success("User verified.");
@@ -43,6 +48,7 @@ const AuthWrapper = ({ children }: Props) => {
       } else navigate(pathname);
     },
     onError: (error: any) => {
+      verifying.current = false;
       console.error({ error });
       navigate("/login");
     },
@@ -51,16 +57,36 @@ const AuthWrapper = ({ children }: Props) => {
   useEffect(() => {
     if (
       token &&
-      !hasPosted.current &&
+      !hasVerified.current &&
       !["/login"].some((e) => pathname.startsWith(e))
     ) {
       console.log({ run: "once" });
-      hasPosted.current = true;
+      hasVerified.current = true;
       verifyUserMutation.mutate(); // fire once
     }
   }, [token]);
 
-  return <>{children}</>;
+  if (!!verifying.current)
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.25 }}
+      >
+        <EmptyHome />
+      </motion.div>
+    );
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25 }}
+    >
+      {children}
+    </motion.div>
+  );
 };
 
 export default AuthWrapper;
