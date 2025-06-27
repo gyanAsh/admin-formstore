@@ -31,6 +31,53 @@ import * as motion from "motion/react-client";
 import { FormPopoverContentOptions } from "@/components/options/form-options";
 import { Popover, PopoverTrigger } from "@/components/ui/popover";
 
+function WorkspaceLayout({
+  children,
+  workspaceName,
+}: {
+  children: React.ReactNode;
+  workspaceName: string;
+}) {
+  return (
+    <>
+      <main className="flex grow w-full flex-col items-center justify-center md:p-2 ">
+        <Card className="flex w-full grow p-[0px_8px_8px_8px] h-[97.5dvh] overflow-y-auto border-sidebar-accent relative max-md:rounded-none">
+          {/* top-navbar */}
+          <section
+            className={cn(
+              "sticky top-0 z-10 flex max-sm:flex-col max-sm:gap-2.5 sm:items-center sm:justify-between p-2.5 w-full bg-inherit pt-3.5 sm:py-3.5",
+            )}
+          >
+            <div className="flex items-center sm:justify-between space-x-3">
+              <SidebarTriggerButton className="size-9" />
+              <BreadCrumbs
+                currentPage={workspaceName}
+                otherPageLinks={[
+                  {
+                    name: "Dashboard",
+                    path: "/dashboard",
+                  },
+                ]}
+              />
+            </div>
+
+            <div className="flex justify-end items-center sm:justify-between space-x-3">
+              <UpgradeFormstore />
+
+              <ModeToggle
+                variant="outline"
+                effect={"click"}
+                className="size-9 bg-black text-white dark:bg-white dark:hover:text-white   dark:text-black"
+              />
+            </div>
+          </section>
+          {children}
+        </Card>
+      </main>
+    </>
+  );
+}
+
 export default function Workspace() {
   const { workspaceId } = useParams();
   const navigate = useNavigate();
@@ -54,211 +101,172 @@ export default function Workspace() {
   });
 
   return (
-    <>
-      <main className="flex grow w-full flex-col items-center justify-center md:p-2 ">
-        <Card className="flex w-full grow p-[0px_8px_8px_8px] h-[97.5dvh] overflow-y-auto border-sidebar-accent relative max-md:rounded-none">
-          {/* top-navbar */}
-          <section
-            className={cn(
-              "sticky top-0 z-10 flex max-sm:flex-col max-sm:gap-2.5 sm:items-center sm:justify-between p-2.5 w-full bg-inherit pt-3.5 sm:py-3.5",
-            )}
-          >
-            <div className="flex items-center sm:justify-between space-x-3">
-              <SidebarTriggerButton className="size-9" />
-              <BreadCrumbs
-                currentPage={formsData?.workspace?.name ?? "Current Workspace"}
-                otherPageLinks={[
-                  {
-                    name: "Dashboard",
-                    path: "/dashboard",
-                  },
-                ]}
-              />
-            </div>
-
-            <div className="flex justify-end items-center sm:justify-between space-x-3">
-              <UpgradeFormstore />
-
-              <ModeToggle
-                variant="outline"
-                effect={"click"}
-                className="size-9 bg-black text-white dark:bg-white dark:hover:text-white   dark:text-black"
-              />
-            </div>
+    <WorkspaceLayout
+      workspaceName={formsData?.workspace?.name ?? "workspace 1"}
+    >
+      <section className="grow gap-3">
+        {workspace_isLoading ? (
+          <section className="flex flex-col gap-3 m-4">
+            <Skeleton className="w-[120px] h-[40px]" />
+            <Skeleton className="w-full h-[55px]" />
+            <Skeleton className="w-full h-[55px]" />
           </section>
+        ) : workspace_isSuccess ? (
+          <div className="flex flex-col px-2 gap-4">
+            <section className="flex items-end justify-between w-full">
+              <div className="flex flex-col">
+                <h2 className="font-semibold text-zinc-500 dark:text-zinc-100/75">
+                  Workspace
+                </h2>
+                <h2 className="text-3xl font-bold">
+                  {formsData?.workspace?.name}
+                </h2>
+              </div>
+              <div className="flex gap-2">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant={"outline"} size={"icon"}>
+                      <MoreHorizontal />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <WorkspaceDropdownContentOptions
+                    workspaceId={parseInt(workspaceId!)}
+                    workspaceName={formsData?.workspace?.name}
+                    sideOffset={2}
+                    alignOffset={0}
+                    animationDirection="right"
+                  />
+                </DropdownMenu>
+                <AddFormButton />
+              </div>
+            </section>
 
-          <section className="grow gap-3">
-            {workspace_isLoading ? (
-              <section className="flex flex-col gap-3 m-4">
-                <Skeleton className="w-[120px] h-[40px]" />
-                <Skeleton className="w-full h-[55px]" />
-                <Skeleton className="w-full h-[55px]" />
-              </section>
-            ) : workspace_isSuccess ? (
-              <div className="flex flex-col px-2 gap-4">
-                <section className="flex items-end justify-between w-full">
-                  <div className="flex flex-col">
-                    <h2 className="font-semibold text-zinc-500 dark:text-zinc-100/75">
-                      Workspace
-                    </h2>
-                    <h2 className="text-3xl font-bold">
-                      {formsData?.workspace?.name}
-                    </h2>
-                  </div>
-                  <div className="flex gap-2">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant={"outline"} size={"icon"}>
-                          <MoreHorizontal />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <WorkspaceDropdownContentOptions
-                        workspaceId={parseInt(workspaceId!)}
-                        workspaceName={formsData?.workspace?.name}
-                        sideOffset={2}
-                        alignOffset={0}
-                        animationDirection="right"
-                      />
-                    </DropdownMenu>
-                    <AddFormButton />
-                  </div>
-                </section>
+            <section className="flex items-center gap-2 mt-4">
+              <Avatar className="size-6">
+                <AvatarImage></AvatarImage>
+                <AvatarFallback className="bg-yellow-200 text-sm text-zinc-800">
+                  ek
+                </AvatarFallback>
+              </Avatar>
+              <Label className="font-semibold text-zinc-500 dark:text-zinc-100/75">
+                1 member
+              </Label>
+            </section>
 
-                <section className="flex items-center gap-2 mt-4">
-                  <Avatar className="size-6">
-                    <AvatarImage></AvatarImage>
-                    <AvatarFallback className="bg-yellow-200 text-sm text-zinc-800">
-                      ek
-                    </AvatarFallback>
-                  </Avatar>
-                  <Label className="font-semibold text-zinc-500 dark:text-zinc-100/75">
-                    1 member
-                  </Label>
-                </section>
-
-                <Separator />
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-3">
-                  {/* Only the visible items in the virtualizer, manually positioned to be in view */}
-                  {formsData?.forms?.map((form: any) => {
-                    return (
-                      <Card
-                        key={form.id}
-                        className={cn(
-                          "hover:shadow-2xl hover:border-primary transition-all ease-in-out duration-200",
-                          " cursor-default p-3 rounded-xl bg-zinc-50/75 dark:bg-slate-900/35 gap-4",
-                        )}
-                      >
-                        <section className="flex flex-col items-start">
-                          <div className="flex items-center justify-between w-full">
-                            <div className="flex items-center gap-2">
-                              <Avatar className="size-6">
-                                <AvatarImage></AvatarImage>
-                                <AvatarFallback className="bg-yellow-200 text-sm text-zinc-800">
-                                  ek
-                                </AvatarFallback>
-                              </Avatar>
-                              <h2 className="text-base font-semibold">
-                                {form.title}
-                              </h2>
-                            </div>
-
-                            {form.status == "published" && (
-                              <Badge variant={"green"}>
-                                <div className="relative">
-                                  <Circle
-                                    className="size-3 z-1 fill-green-400 dark:fill-green-500"
-                                    strokeWidth={0}
-                                  />
-                                  <Circle
-                                    className="size-3 fill-green-400 dark:fill-green-500 absolute left-0 top-0 animate-ping"
-                                    strokeWidth={0}
-                                  />
-                                </div>
-                                Active
-                              </Badge>
-                            )}
-                          </div>
-
-                          <h2 className="text-muted-foreground text-sm">
-                            Published on {formatDateISO(form.created_at)}
+            <Separator />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-3">
+              {/* Only the visible items in the virtualizer, manually positioned to be in view */}
+              {formsData?.forms?.map((form: any) => {
+                return (
+                  <Card
+                    key={form.id}
+                    className={cn(
+                      "hover:shadow-2xl hover:border-primary transition-all ease-in-out duration-200",
+                      " cursor-default p-3 rounded-xl bg-zinc-50/75 dark:bg-slate-900/35 gap-4",
+                    )}
+                  >
+                    <section className="flex flex-col items-start">
+                      <div className="flex items-center justify-between w-full">
+                        <div className="flex items-center gap-2">
+                          <Avatar className="size-6">
+                            <AvatarImage></AvatarImage>
+                            <AvatarFallback className="bg-yellow-200 text-sm text-zinc-800">
+                              ek
+                            </AvatarFallback>
+                          </Avatar>
+                          <h2 className="text-base font-semibold">
+                            {form.title}
                           </h2>
-                        </section>
-                        <img
-                          src="/sand-style.png"
-                          alt=""
-                          className=" object-contain border rounded-xl"
-                        />
+                        </div>
 
-                        <section className="grid grid-cols-2 gap-1 text-sm leading-4.5">
-                          <div className=" text-nowrap">
-                            <h2 className="text-muted-foreground">Responses</h2>{" "}
-                            <p className="text-base font-semibold"> 5940</p>
-                          </div>
-                          <div className=" text-nowrap">
-                            <h2 className="text-muted-foreground">
-                              Last Updated
-                            </h2>{" "}
-                            <p className="text-base font-semibold">
-                              2 days ago
-                            </p>
-                          </div>
-                        </section>
+                        {form.status == "published" && (
+                          <Badge variant={"green"}>
+                            <div className="relative">
+                              <Circle
+                                className="size-3 z-1 fill-green-400 dark:fill-green-500"
+                                strokeWidth={0}
+                              />
+                              <Circle
+                                className="size-3 fill-green-400 dark:fill-green-500 absolute left-0 top-0 animate-ping"
+                                strokeWidth={0}
+                              />
+                            </div>
+                            Active
+                          </Badge>
+                        )}
+                      </div>
 
-                        <section className="flex items-center gap-1.5">
-                          <Button
-                            variant={"black"}
-                            className="grow font-bold"
-                            onClick={() => {
-                              if (form.status == "published") {
-                                navigate(
-                                  `/dashboard/${workspaceId}/${form.id}/analytics`,
-                                );
-                              } else {
-                                navigate(
-                                  `/dashboard/${workspaceId}/${form.id}/create`,
-                                );
-                              }
-                            }}
-                            asChild
-                          >
-                            <motion.div
-                              whileHover={{
-                                scale: 1.03,
-                                transition: {
-                                  duration: 0.09,
-                                  type: "spring",
-                                  ease: "easeInOut",
-                                },
-                                border: "1px",
-                              }}
-                              whileTap={{ scale: 0.89 }}
-                            >
-                              View Form
-                            </motion.div>
-                          </Button>
-                          <FormOptions
-                            formId={form.id}
-                            formTitle={form.title}
-                          />
-                        </section>
-                      </Card>
-                    );
-                  })}
-                </div>
-              </div>
-            ) : (
-              <div className="w-full h-full flex flex-col items-center justify-center">
-                <div className="text-red-600 font-bold text-4xl">Error</div>
-                <div>
-                  Something went wrong while fetching your workspace. Please try
-                  again later
-                </div>
-              </div>
-            )}
-          </section>
-        </Card>
-      </main>
-    </>
+                      <h2 className="text-muted-foreground text-sm">
+                        Published on {formatDateISO(form.created_at)}
+                      </h2>
+                    </section>
+                    <img
+                      src="/sand-style.png"
+                      alt=""
+                      className=" object-contain border rounded-xl"
+                    />
+
+                    <section className="grid grid-cols-2 gap-1 text-sm leading-4.5">
+                      <div className=" text-nowrap">
+                        <h2 className="text-muted-foreground">Responses</h2>{" "}
+                        <p className="text-base font-semibold"> 5940</p>
+                      </div>
+                      <div className=" text-nowrap">
+                        <h2 className="text-muted-foreground">Last Updated</h2>{" "}
+                        <p className="text-base font-semibold">2 days ago</p>
+                      </div>
+                    </section>
+
+                    <section className="flex items-center gap-1.5">
+                      <Button
+                        variant={"black"}
+                        className="grow font-bold"
+                        onClick={() => {
+                          if (form.status == "published") {
+                            navigate(
+                              `/dashboard/${workspaceId}/${form.id}/analytics`,
+                            );
+                          } else {
+                            navigate(
+                              `/dashboard/${workspaceId}/${form.id}/create`,
+                            );
+                          }
+                        }}
+                        asChild
+                      >
+                        <motion.div
+                          whileHover={{
+                            scale: 1.03,
+                            transition: {
+                              duration: 0.09,
+                              type: "spring",
+                              ease: "easeInOut",
+                            },
+                            border: "1px",
+                          }}
+                          whileTap={{ scale: 0.89 }}
+                        >
+                          View Form
+                        </motion.div>
+                      </Button>
+                      <FormOptions formId={form.id} formTitle={form.title} />
+                    </section>
+                  </Card>
+                );
+              })}
+            </div>
+          </div>
+        ) : (
+          <div className="w-full h-full flex flex-col items-center justify-center">
+            <div className="text-red-600 font-bold text-4xl">Error</div>
+            <div>
+              Something went wrong while fetching your workspace. Please try
+              again later
+            </div>
+          </div>
+        )}
+      </section>
+    </WorkspaceLayout>
   );
 }
 

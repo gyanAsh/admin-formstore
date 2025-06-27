@@ -14,8 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import * as motion from "motion/react-client";
 import { cn, getAuthToken } from "@/lib/utils";
-import { $current_form, getForm } from "@/store/forms/form-elements";
-import { useStore } from "@nanostores/react";
+import { getForm } from "@/store/forms/form-elements";
 import { parseFormDataForApi } from "@/lib/form_parsing";
 export const createFormSchema = z.object({
   name: z.string().min(2, {
