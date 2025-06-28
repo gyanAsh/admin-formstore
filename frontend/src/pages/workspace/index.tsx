@@ -4,7 +4,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn, formatDateISO, getAuthToken } from "@/lib/utils";
+import { cn, formatDateISO, getAuthToken, getTimeAgo } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import ModeToggle from "@/components/theme-toggle";
@@ -45,7 +45,7 @@ export function WorkspaceLayout({
           {/* top-navbar */}
           <section
             className={cn(
-              "sticky top-0 z-10 flex max-sm:flex-col max-sm:gap-2.5 sm:items-center sm:justify-between p-2.5 w-full bg-inherit pt-3.5 sm:py-3.5",
+              "sticky top-0 z-10 flex max-sm:flex-col max-sm:gap-2.5 sm:items-center sm:justify-between p-2.5 w-full bg-inherit pt-3.5 sm:py-3.5"
             )}
           >
             <div className="flex items-center sm:justify-between space-x-3">
@@ -157,18 +157,19 @@ export default function Workspace() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-3">
               {/* Only the visible items in the virtualizer, manually positioned to be in view */}
               {formsData?.forms?.map((form: any) => {
+                console.log({ form });
                 return (
                   <Card
                     key={form.id}
                     className={cn(
                       "hover:shadow-2xl hover:border-primary transition-all ease-in-out duration-200",
-                      " cursor-default p-3 rounded-xl bg-zinc-50/75 dark:bg-slate-900/35 gap-4",
+                      " cursor-default p-3 rounded-xl bg-zinc-50/75 dark:bg-slate-900/35 gap-3"
                     )}
                   >
-                    <section className="flex flex-col items-start">
+                    <section className="flex flex-col items-start gap-1.5">
                       <div className="flex items-center justify-between w-full">
                         <div className="flex items-center gap-2">
-                          <Avatar className="size-6">
+                          <Avatar className="size-6 border">
                             <AvatarImage></AvatarImage>
                             <AvatarFallback className="bg-yellow-200 text-sm text-zinc-800">
                               ek
@@ -194,26 +195,47 @@ export default function Workspace() {
                             Active
                           </Badge>
                         )}
+                        {form.status == "draft" && (
+                          <Badge variant={"dull"} className="pr-1.5">
+                            <div className="relative">
+                              <Circle
+                                className="size-3 z-1 fill-zinc-400 dark:fill-zinc-500"
+                                strokeWidth={0}
+                              />
+                              {/* <Circle
+                                className="size-3 fill-zinc-400 dark:fill-zinc-500 absolute left-0 top-0 animate-ping"
+                                strokeWidth={0}
+                              /> */}
+                            </div>
+                            Draft
+                          </Badge>
+                        )}
                       </div>
 
                       <h2 className="text-muted-foreground text-sm">
-                        Published on {formatDateISO(form.created_at)}
+                        Created on{" "}
+                        <span className="text-foreground">
+                          {formatDateISO(form.created_at)}
+                        </span>
                       </h2>
                     </section>
-                    <img
+                    {/* <img
                       src="/sand-style.png"
                       alt=""
                       className=" object-contain border rounded-xl"
-                    />
+                    /> */}
 
-                    <section className="grid grid-cols-2 gap-1 text-sm leading-4.5">
-                      <div className=" text-nowrap">
-                        <h2 className="text-muted-foreground">Responses</h2>{" "}
-                        <p className="text-base font-semibold"> 5940</p>
+                    <section className="grid grid-cols-1">
+                      <div className=" text-nowrap text-zinc-800 p-1.5 flex justify-between gap-1.5 text-sm items-end leading-6">
+                        <h2 className="font-medium">Response Collected</h2>
+                        <p className="text-lg font-semibold">---</p>
                       </div>
-                      <div className=" text-nowrap">
-                        <h2 className="text-muted-foreground">Last Updated</h2>{" "}
-                        <p className="text-base font-semibold">2 days ago</p>
+                      <Separator />
+                      <div className=" text-nowrap text-zinc-800 p-1.5 flex justify-between gap-1.5 text-sm items-end leading-6">
+                        <h2 className="font-medium">Last Updated</h2>
+                        <p className="text-lg font-semibold">
+                          {getTimeAgo(form.updated_at)}
+                        </p>
                       </div>
                     </section>
 
@@ -224,11 +246,11 @@ export default function Workspace() {
                         onClick={() => {
                           if (form.status == "published") {
                             navigate(
-                              `/dashboard/${workspaceId}/${form.id}/analytics`,
+                              `/dashboard/${workspaceId}/${form.id}/analytics`
                             );
                           } else {
                             navigate(
-                              `/dashboard/${workspaceId}/${form.id}/create`,
+                              `/dashboard/${workspaceId}/${form.id}/create`
                             );
                           }
                         }}

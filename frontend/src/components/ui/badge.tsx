@@ -19,6 +19,10 @@ const badgeVariants = cva(
           "rounded-xl gap-1 px-1 border border-zinc-900/20 dark:border-zinc-100/30",
           " bg-green-100 text-zinc-700 dark:bg-green-500/15 dark:text-zinc-100"
         ),
+        dull: cn(
+          "rounded-xl gap-1 px-1 border border-zinc-900/20 dark:border-zinc-100/30",
+          " bg-zinc-100 text-zinc-700 dark:bg-zinc-500/15 dark:text-zinc-100"
+        ),
       },
     },
     defaultVariants: {

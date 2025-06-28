@@ -91,17 +91,30 @@ export function formatDateISO(isoString: string) {
   const day = parts.find((p) => p.type === "day")?.value;
   const month = parts.find((p) => p.type === "month")?.value;
   const year = parts.find((p) => p.type === "year")?.value;
-  const hour = parts.find((p) => p.type === "hour")?.value;
-  const minute = parts.find((p) => p.type === "minute")?.value;
-  const dayPeriod = parts
-    .find((p) => p.type === "dayPeriod")
-    ?.value.toLowerCase();
 
-  if (day && month && year && hour && minute && dayPeriod) {
-    return `${day} ${month}, ${year} . ${hour}:${minute}${dayPeriod}`;
+  if (day && month && year) {
+    return `${day} ${month} ${year}`;
   } else {
     return isoString;
   }
+}
+
+export function getTimeAgo(updatedAt: string): string {
+  const updatedDate = new Date(updatedAt);
+  const now = new Date();
+
+  const diffInMs = now.getTime() - updatedDate.getTime();
+  const diffInSeconds = Math.floor(diffInMs / 1000);
+
+  const seconds = diffInSeconds;
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  if (seconds < 60) return `${seconds}s ago`;
+  if (minutes < 60) return `${minutes} min ago`;
+  if (hours < 24) return `${hours} hr${hours > 1 ? "s" : ""} ago`;
+  return `${days} day${days > 1 ? "s" : ""} ago`;
 }
 
 export function wait<T>(fn: () => T, delay = 500 as number): Promise<T> {
