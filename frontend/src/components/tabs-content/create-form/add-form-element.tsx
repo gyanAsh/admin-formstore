@@ -22,8 +22,6 @@ import {
   Copy,
   Edit,
   EllipsisVertical,
-  FilesIcon,
-  FilmIcon,
   GalleryHorizontalEnd,
   GripVertical,
   Plus,
@@ -120,10 +118,8 @@ export const AddFormElement = () => {
               size={16}
               aria-hidden="true"
             />
-            <span className="max-lg:text-xs">Welcome</span>
-            <span className="max-lg:hidden max-lg:text-xs -translate-x-1">
-              Page
-            </span>
+            <span className="text-xs">Welcome</span>
+            <span className="max-lg:hidden text-xs -translate-x-1">Page</span>
           </Button>
           <Button
             className="rounded-none shadow-none first:rounded-s-md last:rounded-e-md focus-visible:z-10"
@@ -134,10 +130,8 @@ export const AddFormElement = () => {
               size={16}
               aria-hidden="true"
             />
-            <span className="max-lg:text-xs">End</span>
-            <span className="max-lg:hidden max-lg:text-xs -translate-x-1">
-              Page
-            </span>
+            <span className="text-xs">End</span>
+            <span className="max-lg:hidden text-xs -translate-x-1">Page</span>
           </Button>
         </div>
         <Separator orientation="vertical" />

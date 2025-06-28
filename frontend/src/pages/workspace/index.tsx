@@ -226,14 +226,14 @@ export default function Workspace() {
                     /> */}
 
                     <section className="grid grid-cols-1">
-                      <div className=" text-nowrap text-zinc-800 p-1.5 flex justify-between gap-1.5 text-sm items-end leading-6">
+                      <div className=" text-nowrap text-zinc-800 dark:text-zinc-100 p-1.5 flex justify-between gap-1.5 text-sm items-end leading-6">
                         <h2 className="font-medium">Response Collected</h2>
-                        <p className="text-lg font-semibold">---</p>
+                        <p className="font-semibold">---</p>
                       </div>
                       <Separator />
-                      <div className=" text-nowrap text-zinc-800 p-1.5 flex justify-between gap-1.5 text-sm items-end leading-6">
+                      <div className=" text-nowrap text-zinc-800 dark:text-zinc-100 p-1.5 flex justify-between gap-1.5 text-sm items-end leading-6">
                         <h2 className="font-medium">Last Updated</h2>
-                        <p className="text-lg font-semibold">
+                        <p className="font-semibold">
                           {getTimeAgo(form.updated_at)}
                         </p>
                       </div>
