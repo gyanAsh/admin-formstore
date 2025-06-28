@@ -46,7 +46,7 @@ func parseFormDataPublished(rows []db.GetFormDataPublicRow) PublishedFormData {
 	return formData
 }
 
-func (s *Service) publishedFormDataHandler(w http.ResponseWriter, r *http.Request) {
+func (s *Service) PublishedFormDataHandler(w http.ResponseWriter, r *http.Request) {
 	formID, err := strconv.Atoi(r.PathValue("form_id"))
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)

@@ -86,7 +86,7 @@ func parseFormDataAndElements(rows []db.GetFormDataAndElementsRow) FormData {
 	return formData
 }
 
-func (s *Service) formsHandler(w http.ResponseWriter, r *http.Request) {
+func (s *Service) FormsHandler(w http.ResponseWriter, r *http.Request) {
 	userID, err := s.authenticate(r)
 	if err != nil {
 		log.Println(err)
@@ -163,7 +163,7 @@ func (s *Service) formsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (s *Service) formCreateHandler(w http.ResponseWriter, r *http.Request) {
+func (s *Service) FormCreateHandler(w http.ResponseWriter, r *http.Request) {
 	userID, err := s.authenticate(r)
 	if err != nil {
 		log.Println(err)
@@ -237,7 +237,7 @@ func (s *Service) formCreateHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (s *Service) formDataHandler(w http.ResponseWriter, r *http.Request) {
+func (s *Service) FormDataHandler(w http.ResponseWriter, r *http.Request) {
 	userID, err := s.authenticate(r)
 	if err != nil {
 		log.Println(err)
@@ -273,7 +273,7 @@ func (s *Service) formDataHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (s *Service) formDeleteHandler(w http.ResponseWriter, r *http.Request) {
+func (s *Service) FormDeleteHandler(w http.ResponseWriter, r *http.Request) {
 	userID, err := s.authenticate(r)
 	if err != nil {
 		log.Println(err)
@@ -308,7 +308,7 @@ func (s *Service) formDeleteHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (s *Service) formUpdateHandler(w http.ResponseWriter, r *http.Request) {
+func (s *Service) FormUpdateHandler(w http.ResponseWriter, r *http.Request) {
 	userID, err := s.authenticate(r)
 	if err != nil {
 		log.Println(err)

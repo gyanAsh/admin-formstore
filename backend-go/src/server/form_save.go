@@ -38,7 +38,7 @@ func parseFormElementRowsBatched(form PublishFormReq) ([]db.AddFormElementsBatch
 
 // The save function also uses the PublishFormReq object as the same data is
 // being saved
-func (s *Service) formSaveHandler(w http.ResponseWriter, r *http.Request) {
+func (s *Service) FormSaveHandler(w http.ResponseWriter, r *http.Request) {
 	userID, err := s.authenticate(r)
 	if err != nil {
 		log.Println(fmt.Errorf("authentication: %v", err))

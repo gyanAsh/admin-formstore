@@ -81,7 +81,7 @@ func validatePublishFormReq(form PublishFormReq) (string, error) {
 	return "", nil
 }
 
-func (s *Service) formPublishHandler(w http.ResponseWriter, r *http.Request) {
+func (s *Service) FormPublishHandler(w http.ResponseWriter, r *http.Request) {
 	userID, err := s.authenticate(r)
 	if err != nil {
 		log.Println(err)

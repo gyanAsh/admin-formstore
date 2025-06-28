@@ -8,7 +8,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func (s *Service) loginHandler(w http.ResponseWriter, r *http.Request) {
+func (s *Service) LoginHandler(w http.ResponseWriter, r *http.Request) {
 	var user User
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		log.Println(err)
@@ -85,7 +85,7 @@ func (s *Service) loginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (s *Service) verifyUserHandler(w http.ResponseWriter, r *http.Request) {
+func (s *Service) VerifyUserHandler(w http.ResponseWriter, r *http.Request) {
 	userID, err := s.authenticate(r)
 	if err != nil {
 		log.Println(err)

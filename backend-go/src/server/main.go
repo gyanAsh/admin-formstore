@@ -17,14 +17,14 @@ type Service struct {
 	JwtSecret []byte
 }
 
-func LoggingMiddleware(next http.Handler) http.Handler {
+func loggingMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		log.Println(r.Method, r.URL)
 		next.ServeHTTP(w, r)
 	})
 }
 
-func (s *Service) rootHandler(w http.ResponseWriter, r *http.Request) {
+func (s *Service) RootHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("the server is running"))
 }
 
@@ -54,26 +54,26 @@ func HttpServiceStart() error {
 
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("GET /", s.rootHandler)
-	mux.HandleFunc("GET /api/workspaces", s.workspacesHandler)
-	mux.HandleFunc("GET /api/workspace/{workspace_id}", s.formsHandler)
-	mux.HandleFunc("GET /api/form/{form_id}", s.formDataHandler)
-	mux.HandleFunc("GET /api/published/form/{form_id}", s.publishedFormDataHandler)
+	mux.HandleFunc("GET /", s.RootHandler)
+	mux.HandleFunc("GET /api/workspaces", s.WorkspacesHandler)
+	mux.HandleFunc("GET /api/workspace/{workspace_id}", s.FormsHandler)
+	mux.HandleFunc("GET /api/form/{form_id}", s.FormDataHandler)
+	mux.HandleFunc("GET /api/published/form/{form_id}", s.PublishedFormDataHandler)
 
-	mux.HandleFunc("POST /api/workspace", s.workspaceCreateHandler)
-	mux.HandleFunc("POST /api/form", s.formCreateHandler)
-	mux.HandleFunc("POST /api/verify", s.verifyUserHandler)
-	mux.HandleFunc("POST /api/login", s.loginHandler)
-	mux.HandleFunc("POST /api/signup", s.signupHandler)
-	mux.HandleFunc("POST /api/form/publish", s.formPublishHandler)
-	mux.HandleFunc("POST /api/form/save", s.formSaveHandler)
+	mux.HandleFunc("POST /api/workspace", s.WorkspaceCreateHandler)
+	mux.HandleFunc("POST /api/form", s.FormCreateHandler)
+	mux.HandleFunc("POST /api/verify", s.VerifyUserHandler)
+	mux.HandleFunc("POST /api/login", s.LoginHandler)
+	mux.HandleFunc("POST /api/signup", s.SignupHandler)
+	mux.HandleFunc("POST /api/form/publish", s.FormPublishHandler)
+	mux.HandleFunc("POST /api/form/save", s.FormSaveHandler)
 
-	mux.HandleFunc("PUT /api/workspace", s.workspaceUpdateHandler)
-	mux.HandleFunc("PUT /api/form", s.formUpdateHandler)
+	mux.HandleFunc("PUT /api/workspace", s.WorkspaceUpdateHandler)
+	mux.HandleFunc("PUT /api/form", s.FormUpdateHandler)
 
-	mux.HandleFunc("DELETE /api/workspace/{workspace_id}", s.workspaceDeleteHandler)
-	mux.HandleFunc("DELETE /api/form/{form_id}", s.formDeleteHandler)
+	mux.HandleFunc("DELETE /api/workspace/{workspace_id}", s.WorkspaceDeleteHandler)
+	mux.HandleFunc("DELETE /api/form/{form_id}", s.FormDeleteHandler)
 
 	log.Println("running on: http://localhost:4000")
-	return http.ListenAndServe(":4000", LoggingMiddleware(mux))
+	return http.ListenAndServe(":4000", loggingMiddleware(mux))
 }

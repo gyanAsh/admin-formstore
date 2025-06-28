@@ -41,7 +41,7 @@ func parseRowsToWorkspaces(rows []db.GetWorkspacesForUserRow, userID string) []W
 	return workspaces
 }
 
-func (s *Service) workspacesHandler(w http.ResponseWriter, r *http.Request) {
+func (s *Service) WorkspacesHandler(w http.ResponseWriter, r *http.Request) {
 	userID, err := s.authenticate(r)
 	if err != nil {
 		log.Println(err)
@@ -71,7 +71,7 @@ func (s *Service) workspacesHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (s *Service) workspaceCreateHandler(w http.ResponseWriter, r *http.Request) {
+func (s *Service) WorkspaceCreateHandler(w http.ResponseWriter, r *http.Request) {
 	userID, err := s.authenticate(r)
 	if err != nil {
 		log.Println(err)
@@ -114,7 +114,7 @@ func (s *Service) workspaceCreateHandler(w http.ResponseWriter, r *http.Request)
 	}
 }
 
-func (s *Service) workspaceUpdateHandler(w http.ResponseWriter, r *http.Request) {
+func (s *Service) WorkspaceUpdateHandler(w http.ResponseWriter, r *http.Request) {
 	userID, err := s.authenticate(r)
 	if err != nil {
 		log.Println(err)
@@ -171,7 +171,7 @@ func (s *Service) workspaceUpdateHandler(w http.ResponseWriter, r *http.Request)
 	}
 }
 
-func (s *Service) workspaceDeleteHandler(w http.ResponseWriter, r *http.Request) {
+func (s *Service) WorkspaceDeleteHandler(w http.ResponseWriter, r *http.Request) {
 	userID, err := s.authenticate(r)
 	if err != nil {
 		log.Println(err)
