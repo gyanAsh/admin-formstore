@@ -53,7 +53,7 @@ export default function PublishFormButton({ formId }: { formId: number }) {
           className="group"
         >
           <Button className="text-sm font-semibold text-white rounded-lg">
-            <SendHorizontal className="group-hover:-rotate-45 group-hover:scale-105 ease-in-out duration-255" />
+            <SendHorizontal className="group-hover:-rotate-45 group-hover:scale-105 ease-initial duration-250" />
             Publish
             <span className="sr-only">Publish Form</span>
           </Button>

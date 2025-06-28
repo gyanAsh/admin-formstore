@@ -85,6 +85,46 @@ const PreviewFormPage = ({
     [elements.length]
   );
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const activeElement = document.activeElement as HTMLElement;
+
+      // Skip if focused on input, textarea or contenteditable
+      if (
+        activeElement.tagName === "INPUT" ||
+        activeElement.tagName === "TEXTAREA" ||
+        activeElement.isContentEditable
+      ) {
+        return;
+      }
+
+      if (event.key === "ArrowLeft") {
+        const prevBtn = document.getElementById(
+          "goPrevForm"
+        ) as HTMLButtonElement;
+        if (!!prevBtn) {
+          prevBtn.focus();
+          prevBtn.click();
+        }
+      } else if (event.key === "ArrowRight") {
+        const nextBtn = document.getElementById(
+          "goNextForm"
+        ) as HTMLButtonElement;
+        if (!!nextBtn) {
+          nextBtn.focus();
+          nextBtn.click();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    // Cleanup on unmount
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   const progressPercentage = useMemo(() => {
     if (elements.length === 0) return 0;
     return ((currentSection + 1) / elements.length) * 100;
@@ -123,25 +163,27 @@ const PreviewFormPage = ({
           </div>
 
           {/* Navigation Buttons */}
-          <div className="text-sm absolute flex items-center border-zinc-200 bg-black text-white p-2 rounded-3xl bottom-4 right-4 space-x-2">
+          <div className="text-sm absolute flex items-center border-zinc-200 bg-black text-white p-1.5 rounded-[6px] bottom-4 right-4 space-x-2">
             <div className={cn("flex items-center space-x-0.5")}>
               <FormNavBtn
+                id="goPrevForm"
                 onClick={() => paginate("prev")}
                 disabled={currentSection === 0}
                 className="p-0.5 rounded-l-lg"
               >
-                <ChevronLeft className="size-5.5 text-zinc-900" />
+                <ChevronLeft className="size-5 text-gray-50" />
               </FormNavBtn>
               <FormNavBtn
+                id="goNextForm"
                 onClick={() => paginate("next")}
                 disabled={currentSection === elements.length - 1}
                 className="p-0.5 rounded-r-lg"
               >
-                <ChevronRight className="size-5.5 text-zinc-900" />
+                <ChevronRight className="size-5 text-gray-50" />
               </FormNavBtn>
             </div>
 
-            <h2 className="ml-0.5 text-base">
+            <h2 className="ml-0.5 text-sm">
               Made with <b>Formstore</b>
             </h2>
           </div>
@@ -188,7 +230,7 @@ const FormNavBtn = ({
   return (
     <button
       className={cn(
-        "p-1 rounded not-disabled:hover:scale-105 not-disabled:active:scale-95 duration-100 not-disabled:cursor-pointer bg-gray-300 disabled:opacity-50",
+        "p-1 rounded not-disabled:hover:scale-105 not-disabled:active:scale-95 duration-100 not-disabled:cursor-pointer bg-gray-500/75 disabled:opacity-50",
         className
       )}
       {...props}
