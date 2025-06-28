@@ -56,7 +56,6 @@ const AuthWrapper = ({ children }: Props) => {
 
   useEffect(() => {
     if (
-      token &&
       !hasVerified.current &&
       !["/login"].some((e) => pathname.startsWith(e))
     ) {
