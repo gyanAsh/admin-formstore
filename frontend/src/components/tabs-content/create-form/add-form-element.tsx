@@ -22,6 +22,9 @@ import {
   Copy,
   Edit,
   EllipsisVertical,
+  FilesIcon,
+  FilmIcon,
+  GalleryHorizontalEnd,
   GripVertical,
   Plus,
   Repeat,
@@ -71,6 +74,7 @@ import {
   getDefaultLabelTitle,
   getDefaultValidations,
 } from "@/store/forms/values";
+import { Separator } from "@/components/ui/separator";
 
 export const AddFormElement = () => {
   const { formId } = useParams();
@@ -105,7 +109,38 @@ export const AddFormElement = () => {
 
   return (
     <div className="flex flex-col gap-3.5">
-      <section className="flex items-center gap-3.5 my-2.5">
+      <section className="flex justify-end items-center h-9 gap-1.5 my-2.5">
+        <div className="inline-flex -space-x-px rounded-md shadow-xs rtl:space-x-reverse">
+          <Button
+            className="rounded-none shadow-none first:rounded-s-md last:rounded-e-md focus-visible:z-10"
+            variant="outline"
+          >
+            <GalleryHorizontalEnd
+              className="-ms-1 opacity-60 rotate-180"
+              size={16}
+              aria-hidden="true"
+            />
+            <span className="max-lg:text-xs">Welcome</span>
+            <span className="max-lg:hidden max-lg:text-xs -translate-x-1">
+              Page
+            </span>
+          </Button>
+          <Button
+            className="rounded-none shadow-none first:rounded-s-md last:rounded-e-md focus-visible:z-10"
+            variant="outline"
+          >
+            <GalleryHorizontalEnd
+              className="-ms-1 opacity-60"
+              size={16}
+              aria-hidden="true"
+            />
+            <span className="max-lg:text-xs">End</span>
+            <span className="max-lg:hidden max-lg:text-xs -translate-x-1">
+              Page
+            </span>
+          </Button>
+        </div>
+        <Separator orientation="vertical" />
         <Dialog
           open={addElementModalState}
           onOpenChange={SetAddElementModalState}
@@ -161,7 +196,7 @@ export const AddFormElement = () => {
                           {
                             "bg-gray-300/30 dark:bg-gray-500/10":
                               !!e?.isPremium,
-                          },
+                          }
                         )}
                       >
                         <div
@@ -187,7 +222,7 @@ export const AddFormElement = () => {
                             },
                             {
                               " opacity-65 ": !!e?.isPremium,
-                            },
+                            }
                           )}
                         >
                           <e.icon />
@@ -203,7 +238,7 @@ export const AddFormElement = () => {
                         <Sparkles
                           className={cn(
                             "absolute right-2 text-yellow-400/80 dark:text-yellow-600 fill-yellow-400/25 dark:fill-yellow-400/45",
-                            { hidden: !e?.isPremium },
+                            { hidden: !e?.isPremium }
                           )}
                         />
                       </Button>
@@ -243,7 +278,7 @@ const DndElementItem = ({ id, order, children, className, required }: any) => {
       style={style}
       className={cn(
         "flex flex-row items-center gap-4 p-0 border border-gray-300 dark:border-gray-500 mb-1",
-        " bg-zinc-50 dark:bg-slate-900/55 hover:ring-ring hover:ring relative",
+        " bg-zinc-50 dark:bg-slate-900/55 hover:ring-ring hover:ring relative"
       )}
     >
       {/* Drag Handle */}
@@ -254,7 +289,7 @@ const DndElementItem = ({ id, order, children, className, required }: any) => {
           {...listeners}
           className={cn(
             "cursor-grab active:cursor-grabbing p-1 bg-muted-foreground/15 rounded-md text-muted-foreground",
-            "flex items-center gap-1 text-sm px-2",
+            "flex items-center gap-1 text-sm px-2"
           )}
         >
           <p className="text-secondary-foreground">{order}</p>
@@ -264,7 +299,7 @@ const DndElementItem = ({ id, order, children, className, required }: any) => {
       <div
         className={cn(
           "absolute top-0 left-4 -translate-y-1/2 text-white dark:text-black font-bold bg-primary px-1.5 py-0.5 rounded-[6px] text-[11px] flex items-center gap-1",
-          { hidden: !required },
+          { hidden: !required }
         )}
       >
         Required <Asterisk strokeWidth={3} className="size-2.5" />
@@ -392,7 +427,7 @@ const DndKitContainer = ({
                           {
                             " bg-yellow-100 dark:bg-yellow-500/15 ":
                               item.badge?.color === "yellow",
-                          },
+                          }
                         )}
                       >
                         <Circle
@@ -413,7 +448,7 @@ const DndKitContainer = ({
                             {
                               "fill-yellow-400 dark:fill-yellow-500":
                                 item.badge?.color === "yellow",
-                            },
+                            }
                           )}
                           strokeWidth={0}
                         />
@@ -671,7 +706,7 @@ const DndKitContainer = ({
                                                       {
                                                         "bg-gray-300/30 dark:bg-gray-500/10":
                                                           !!e?.isPremium,
-                                                      },
+                                                      }
                                                     )}
                                                   >
                                                     <div
@@ -703,7 +738,7 @@ const DndKitContainer = ({
                                                         {
                                                           " opacity-65 ":
                                                             !!e?.isPremium,
-                                                        },
+                                                        }
                                                       )}
                                                     >
                                                       <e.icon className="max-sm:size-4 size-5" />
@@ -714,7 +749,7 @@ const DndKitContainer = ({
                                                         {
                                                           " opacity-65 ":
                                                             !!e?.isPremium,
-                                                        },
+                                                        }
                                                       )}
                                                     >
                                                       {e.title}
@@ -725,7 +760,7 @@ const DndKitContainer = ({
                                                         "size-3 absolute right-2 text-yellow-400/80 dark:text-yellow-600 fill-yellow-400/25 dark:fill-yellow-400/45",
                                                         {
                                                           hidden: !e?.isPremium,
-                                                        },
+                                                        }
                                                       )}
                                                     />
                                                   </DropdownMenuItem>
@@ -787,7 +822,7 @@ const DndKitContainer = ({
       className={cn(
         "border-[1.5px] border-dashed min-h-[48dvh] rounded-4xl cursor-pointer ",
         " flex flex-col gap-2 items-center justify-center p-6 ",
-        "group scale-97 active:scale-95 dark:hover:bg-gray-800 transition-all duration-200 ease-in-out ",
+        "group scale-97 active:scale-95 dark:hover:bg-gray-800 transition-all duration-200 ease-in-out "
       )}
       onClick={() => emptyElementListFunction()}
     >
@@ -799,7 +834,7 @@ const DndKitContainer = ({
           "h-12 lg:h-15 w-full max-md:max-w-80 md:w-100 lg:w-150",
           "translate-y-8 lg:translate-y-10 scale-85",
           "group-hover:translate-y-0 group-hover:scale-100",
-          "transition-all ease-in-out duration-100",
+          "transition-all ease-in-out duration-100"
         )}
       >
         <div className="flex items-center gap-2 rounded-md lg:rounded-sm bg-pink-200/85 px-1 group-hover:!bg-transparent text-transparent not-dark:group-hover:text-pink-300 group-hover:text-pink-200/85 transition-all ease-in-out duration-100">
@@ -814,12 +849,12 @@ const DndKitContainer = ({
           "h-12 lg:h-15 w-full max-md:max-w-80 md:w-100 lg:w-150",
           "lg:translate-y-0 scale-95",
           "group-hover:translate-y-0 group-hover:scale-100",
-          "transition-all ease-in-out duration-100",
+          "transition-all ease-in-out duration-100"
         )}
       >
         <div className="flex items-center gap-2 rounded-md lg:rounded-sm bg-blue-200/85 px-1 group-hover:!bg-transparent text-transparent not-dark:group-hover:text-blue-300 group-hover:text-blue-200/85 transition-all ease-in-out duration-100">
           <GripVertical />{" "}
-          <h2 className="font-semibold text-xl">Click and Get Started!</h2>
+          <h2 className="font-semibold text-xl">Click to Get Started!</h2>
         </div>
       </div>
       <div
@@ -830,12 +865,11 @@ const DndKitContainer = ({
           "h-12 lg:h-15 w-full max-md:max-w-80 md:w-100 lg:w-150",
           "-translate-y-8 lg:-translate-y-10",
           "group-hover:translate-y-0 group-hover:scale-100",
-          "transition-all ease-in-out duration-100",
+          "transition-all ease-in-out duration-100"
         )}
       >
         <div className="flex items-center gap-2 rounded-md lg:rounded-sm bg-yellow-200/85 px-1 group-hover:!bg-transparent text-transparent not-dark:group-hover:text-yellow-300 group-hover:text-yellow-200/85 transition-all ease-in-out duration-100">
-          <GripVertical />{" "}
-          <h2 className="font-semibold text-xl">Why wait?</h2>{" "}
+          <GripVertical /> <h2 className="font-semibold text-xl">Why wait?</h2>{" "}
         </div>
       </div>
       <div className="grid gap-1 place-items-center">

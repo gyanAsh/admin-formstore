@@ -20,6 +20,7 @@ import { FormElements, Forms } from "@/store/forms/form-elements.types";
 import SaveFormButton from "@/components/layout/dashboard/SaveFormButton";
 import { getBadgeValue } from "@/store/forms/values";
 import RefreshFormButton from "@/components/layout/dashboard/RefreshFormButton";
+import { Separator } from "@/components/ui/separator";
 
 type ApiFormData = {
   form: {
@@ -93,11 +94,11 @@ export default function CreateForm() {
           Authorization: `Bearer ${getAuthToken()}`,
         },
       });
-      const data = await res.json() as ApiFormData;
+      const data = (await res.json()) as ApiFormData;
 
       try {
         updateForm(parseFormDataFromApi(data));
-      } catch(err) {
+      } catch (err) {
         console.error("failed to parse form api data with error:", err);
       }
       return data;
@@ -113,7 +114,7 @@ export default function CreateForm() {
           {/* top-navbar */}
           <section
             className={cn(
-              "sticky top-0 z-10 flex max-sm:flex-col max-sm:gap-2.5 sm:items-center sm:justify-between p-2.5 w-full bg-inherit pt-3.5 sm:py-3.5",
+              "sticky top-0 z-10 flex max-sm:flex-col max-sm:gap-2.5 sm:items-center sm:justify-between p-2.5 w-full bg-inherit pt-3.5 sm:py-3.5"
             )}
           >
             <div className="flex items-center sm:justify-between space-x-3">
@@ -155,7 +156,7 @@ export default function CreateForm() {
               </section>
             ) : !form_hasError ? (
               <div className="flex flex-col h-full px-2 gap-4">
-                <section className="flex items-end justify-between w-full">
+                <section className="flex max-sm:flex-col min-sm:items-end gap-2 justify-between w-full">
                   <div className="flex flex-col">
                     <h2 className="font-semibold text-zinc-500 dark:text-zinc-100/75">
                       Create Form
@@ -164,9 +165,10 @@ export default function CreateForm() {
                       {formData?.form?.title || "Current Form"}
                     </h2>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex max-sm:justify-end gap-2 h-9">
                     <RefreshFormButton />
                     <SaveFormButton formId={parseInt(String(formId))} />
+                    <Separator orientation="vertical" />
                     <PublishFormButton formId={parseInt(String(formId))} />
                   </div>
                 </section>
@@ -203,7 +205,7 @@ function FormTabs() {
               className={cn(
                 "relative py-3 px-3.5 w-fit cursor-pointer font-bold",
 
-                item === selectedTab ? "" : "text-muted-foreground",
+                item === selectedTab ? "" : "text-muted-foreground"
               )}
             >
               {item.title}

@@ -12,7 +12,7 @@ export default function RefreshFormButton() {
       variant={"outline"}
       effect={"scale"}
     >
-      <ListRestart />
+      <ListRestart className="opacity-60" />
       <span className="max-lg:hidden">Refresh</span>
     </Button>
   );

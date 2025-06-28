@@ -42,7 +42,7 @@ export default function SaveFormButton({ formId }: { formId: number }) {
         saveForm();
       }}
     >
-      <Save />
+      <Save className="opacity-60" />
       <span className="max-lg:hidden">Save</span>
     </Button>
   );
