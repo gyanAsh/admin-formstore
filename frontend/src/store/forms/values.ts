@@ -145,13 +145,13 @@ export function getDefaultLabelTitle(fieldType: string): string {
 }
 
 export function getBadgeValue(fieldValue: string): FormElementType["badge"] {
-  if (["email", "url"].some((e) => e === fieldValue)) {
+  if ([FormFields.email, FormFields.url].some((e) => e === fieldValue)) {
     return { value: fieldValue, color: "pink" };
-  } else if (["consent"].some((e) => e === fieldValue)) {
+  } else if ([FormFields.consent].some((e) => e === fieldValue)) {
     return { value: fieldValue, color: "blue" };
-  } else if (["rating"].some((e) => e === fieldValue)) {
+  } else if ([FormFields.rating].some((e) => e === fieldValue)) {
     return { value: fieldValue, color: "green" };
-  } else if (["text"].some((e) => e === fieldValue)) {
+  } else if ([FormFields.text].some((e) => e === fieldValue)) {
     return { value: fieldValue, color: "yellow" };
   } else {
     return { value: "new", color: "yellow" };
