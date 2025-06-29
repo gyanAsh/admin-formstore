@@ -1,5 +1,5 @@
 import { persistentAtom } from "@nanostores/persistent";
-import { FormElements, Forms } from "./form-elements.types";
+import { FormElements, FormFields, Forms } from "./form-elements.types";
 import { atom, computed } from "nanostores";
 import { defaultDesignState } from "./formV1Design";
 
@@ -9,7 +9,7 @@ export const $all_forms = persistentAtom<Forms[]>(
   {
     encode: JSON.stringify,
     decode: JSON.parse,
-  },
+  }
 );
 
 let defaultCurrentForm: Forms = {
@@ -23,11 +23,11 @@ let defaultCurrentForm: Forms = {
 // Selected workspace and form ID : these IDs should not be persisted cos it'll cause wrong form to show when user previews mulitple-froms
 export const selectedWorkspaceId = atom<string | undefined>(
   // "selected-workspace-id",
-  undefined,
+  undefined
 );
 export const selectedFormId = atom<string | undefined>(
   // "selected-form-id",
-  undefined,
+  undefined
 );
 
 // Computed store to get current form
@@ -37,24 +37,24 @@ export const $current_form = computed(
     if (!workspaceId || !formId) return defaultCurrentForm;
     return (
       allForms.find(
-        (form) => form.workspaceId === workspaceId && form.id === formId,
+        (form) => form.workspaceId === workspaceId && form.id === formId
       ) || defaultCurrentForm
     );
-  },
+  }
 );
 export const $get_design_label = computed($current_form, (e) => e.design.label);
 
 export const $get_design_description = computed(
   $current_form,
-  (e) => e.design.description,
+  (e) => e.design.description
 );
 export const $get_design_element = computed(
   $current_form,
-  (e) => e.design.element,
+  (e) => e.design.element
 );
 export const $get_design_layout = computed(
   $current_form,
-  (e) => e.design.layout,
+  (e) => e.design.layout
 );
 
 // ------------------- Actions-------------------
@@ -80,7 +80,7 @@ export function updateForm(newForm: Forms) {
             return newForm;
           }
           return fr;
-        }),
+        })
       );
     }
   } else {
@@ -103,7 +103,7 @@ export function setFormElements(formId: string, newElements: FormElements[]) {
         };
       }
       return form;
-    }),
+    })
   );
 }
 
@@ -111,8 +111,43 @@ export function addFormElement(formId: string, newElement: FormElements) {
   $all_forms.set(
     $all_forms.get().map((form) => {
       if (form.id === formId) {
+        let updatedElements: FormElements[] = [];
+
+        if (form.elements && form.elements.length > 0) {
+          const exitIndex = form.elements.findIndex(
+            (el) => el.field === FormFields.exit
+          );
+
+          if (exitIndex !== -1) {
+            updatedElements = [
+              ...form.elements.slice(0, exitIndex),
+              newElement,
+              ...form.elements.slice(exitIndex),
+            ];
+          } else {
+            updatedElements = [...form.elements, newElement];
+          }
+        } else {
+          updatedElements = [newElement];
+        }
+
+        return {
+          ...form,
+          updatedAt: new Date(),
+          elements: updatedElements,
+        };
+      }
+      return form;
+    })
+  );
+}
+
+export function addWelcomeScreen(formId: string, newElement: FormElements) {
+  $all_forms.set(
+    $all_forms.get().map((form) => {
+      if (form.id === formId) {
         const updatedElements = form.elements
-          ? [...form.elements, newElement]
+          ? [newElement, ...form.elements]
           : [newElement];
         return {
           ...form,
@@ -121,12 +156,13 @@ export function addFormElement(formId: string, newElement: FormElements) {
         };
       }
       return form;
-    }),
+    })
   );
 }
+
 export function updateFormElement(
   formId: string,
-  updatedElement: FormElements,
+  updatedElement: FormElements
 ) {
   $all_forms.set(
     $all_forms.get().map((form) => {
@@ -135,12 +171,12 @@ export function updateFormElement(
           ...form,
           updatedAt: new Date(),
           elements: form.elements?.map((e) =>
-            e.id === updatedElement.id ? updatedElement : e,
+            e.id === updatedElement.id ? updatedElement : e
           ),
         };
       }
       return form;
-    }),
+    })
   );
 }
 
@@ -155,11 +191,11 @@ export function removeFormElement(formId: string, elementId: string) {
         };
       }
       return form;
-    }),
+    })
   );
 }
 
 export function getForm(formId: number): Forms {
-  const forms = $all_forms.get().filter(x => x.id == String(formId));
-  return {...forms[0]};
+  const forms = $all_forms.get().filter((x) => x.id == String(formId));
+  return { ...forms[0] };
 }

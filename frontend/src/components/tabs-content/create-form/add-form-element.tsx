@@ -22,8 +22,8 @@ import {
   Copy,
   Edit,
   EllipsisVertical,
-  GalleryHorizontalEnd,
   GripVertical,
+  Pin,
   Plus,
   Repeat,
   Sparkles,
@@ -43,11 +43,15 @@ import { Card } from "../../ui/card";
 import {
   $all_forms,
   addFormElement,
+  addWelcomeScreen,
   removeFormElement,
   setFormElements,
 } from "@/store/forms/form-elements";
 import { useParams } from "react-router";
-import { FormElements as FormElementsType } from "@/store/forms/form-elements.types";
+import {
+  FormElements as FormElementsType,
+  FormFields,
+} from "@/store/forms/form-elements.types";
 import { useStore } from "@nanostores/react";
 import { Badge } from "../../ui/badge";
 import { AnimatePresence } from "motion/react";
@@ -72,7 +76,6 @@ import {
   getDefaultLabelTitle,
   getDefaultValidations,
 } from "@/store/forms/values";
-import { Separator } from "@/components/ui/separator";
 
 export const AddFormElement = () => {
   const { formId } = useParams();
@@ -88,6 +91,7 @@ export const AddFormElement = () => {
       });
       return;
     }
+
     let element: FormElementsType = {
       id: generateMicroId(6),
       field: value,
@@ -102,39 +106,14 @@ export const AddFormElement = () => {
       validations: getDefaultValidations(value),
     };
 
-    if (formId) addFormElement(formId, element);
+    if (formId && value !== FormFields.welcome) addFormElement(formId, element);
+    else if (formId && value === FormFields.welcome)
+      addWelcomeScreen(formId, element);
   };
 
   return (
     <div className="flex flex-col gap-3.5">
       <section className="flex justify-end items-center h-9 gap-1.5 my-2.5">
-        <div className="inline-flex -space-x-px rounded-md shadow-xs rtl:space-x-reverse">
-          <Button
-            className="rounded-none shadow-none first:rounded-s-md last:rounded-e-md focus-visible:z-10"
-            variant="outline"
-          >
-            <GalleryHorizontalEnd
-              className="-ms-1 opacity-60 rotate-180"
-              size={16}
-              aria-hidden="true"
-            />
-            <span className="text-xs">Welcome</span>
-            <span className="max-lg:hidden text-xs -translate-x-1">Page</span>
-          </Button>
-          <Button
-            className="rounded-none shadow-none first:rounded-s-md last:rounded-e-md focus-visible:z-10"
-            variant="outline"
-          >
-            <GalleryHorizontalEnd
-              className="-ms-1 opacity-60"
-              size={16}
-              aria-hidden="true"
-            />
-            <span className="text-xs">End</span>
-            <span className="max-lg:hidden text-xs -translate-x-1">Page</span>
-          </Button>
-        </div>
-        <Separator orientation="vertical" />
         <Dialog
           open={addElementModalState}
           onOpenChange={SetAddElementModalState}
@@ -188,6 +167,10 @@ export const AddFormElement = () => {
                               el.color === "yellow",
                           },
                           {
+                            " hover:bg-gray-200/20 hover:dark:bg-gray-500/10 ":
+                              el.color === "gray",
+                          },
+                          {
                             "bg-gray-300/30 dark:bg-gray-500/10":
                               !!e?.isPremium,
                           }
@@ -215,11 +198,19 @@ export const AddFormElement = () => {
                                 el.color === "yellow",
                             },
                             {
+                              "bg-gray-200/95 dark:bg-gray-500/45":
+                                el.color === "gray",
+                            },
+                            {
                               " opacity-65 ": !!e?.isPremium,
                             }
                           )}
                         >
-                          <e.icon />
+                          <e.icon
+                            className={cn({
+                              "rotate-180": e.value === FormFields.welcome,
+                            })}
+                          />
                         </div>
                         <h2
                           className={cn("text-zinc-600 dark:text-zinc-300", {
@@ -251,7 +242,14 @@ export const AddFormElement = () => {
   );
 };
 
-const DndElementItem = ({ id, order, children, className, required }: any) => {
+const DndElementItem = ({
+  id,
+  order,
+  removeDND,
+  children,
+  className,
+  required,
+}: any) => {
   const {
     attributes,
     listeners,
@@ -259,12 +257,25 @@ const DndElementItem = ({ id, order, children, className, required }: any) => {
     setActivatorNodeRef,
     transform,
     transition,
-  } = useSortable({ id });
+  } = !removeDND
+    ? useSortable({ id })
+    : {
+        attributes: {},
+        listeners: {},
+        setNodeRef: () => {},
+        setActivatorNodeRef: () => {},
+        transform: null,
+        transition: undefined,
+      };
 
-  const style = {
-    transform: `translate3d(${transform?.x || 0}px, ${transform?.y || 0}px, 0)`,
-    transition,
-  };
+  const style = !removeDND
+    ? {
+        transform: `translate3d(${transform?.x || 0}px, ${
+          transform?.y || 0
+        }px, 0)`,
+        transition,
+      }
+    : undefined;
 
   return (
     <Card
@@ -277,18 +288,30 @@ const DndElementItem = ({ id, order, children, className, required }: any) => {
     >
       {/* Drag Handle */}
       <div className="py-4 pl-4">
-        <div
-          ref={setActivatorNodeRef}
-          {...attributes}
-          {...listeners}
-          className={cn(
-            "cursor-grab active:cursor-grabbing p-1 bg-muted-foreground/15 rounded-md text-muted-foreground",
-            "flex items-center gap-1 text-sm px-2"
-          )}
-        >
-          <p className="text-secondary-foreground">{order}</p>
-          <GripVertical className="size-3" strokeWidth={2} />
-        </div>
+        {!removeDND ? (
+          <div
+            ref={setActivatorNodeRef}
+            {...attributes}
+            {...listeners}
+            className={cn(
+              "cursor-grab active:cursor-grabbing p-1 bg-muted-foreground/15 rounded-md text-muted-foreground",
+              "flex items-center gap-1 text-sm px-2"
+            )}
+          >
+            <p className="text-secondary-foreground">{order}</p>
+            <GripVertical className="size-3" strokeWidth={2} />
+          </div>
+        ) : (
+          <div
+            className={cn(
+              "p-1 bg-muted-foreground/15 cursor-default rounded-md text-muted-foreground",
+              "flex items-center gap-1 text-sm px-2"
+            )}
+          >
+            <p className="text-secondary-foreground">{order}</p>
+            <Pin className="size-3" strokeWidth={2} />
+          </div>
+        )}
       </div>
       <div
         className={cn(
@@ -360,6 +383,9 @@ const DndKitContainer = ({
               >
                 <DndElementItem
                   order={idx + 1}
+                  removeDND={[FormFields.welcome, FormFields.exit].some(
+                    (e) => e === item.field
+                  )}
                   id={item.id}
                   className={"flex items-center justify-between"}
                   required={item.required}
@@ -421,6 +447,10 @@ const DndKitContainer = ({
                           {
                             " bg-yellow-100 dark:bg-yellow-500/15 ":
                               item.badge?.color === "yellow",
+                          },
+                          {
+                            " bg-gray-100 dark:bg-gray-500/15 ":
+                              item.badge?.color === "gray",
                           }
                         )}
                       >
@@ -442,6 +472,10 @@ const DndKitContainer = ({
                             {
                               "fill-yellow-400 dark:fill-yellow-500":
                                 item.badge?.color === "yellow",
+                            },
+                            {
+                              "fill-gray-400 dark:fill-gray-500":
+                                item.badge?.color === "gray",
                             }
                           )}
                           strokeWidth={0}
@@ -698,6 +732,10 @@ const DndKitContainer = ({
                                                           el.color === "yellow",
                                                       },
                                                       {
+                                                        "hover:bg-gray-200/20 hover:dark:bg-gray-500/10":
+                                                          el.color === "gray",
+                                                      },
+                                                      {
                                                         "bg-gray-300/30 dark:bg-gray-500/10":
                                                           !!e?.isPremium,
                                                       }
@@ -728,6 +766,10 @@ const DndKitContainer = ({
                                                           "bg-yellow-200/95 dark:bg-yellow-500/45":
                                                             el.color ===
                                                             "yellow",
+                                                        },
+                                                        {
+                                                          "bg-gray-200/95 dark:bg-gray-500/45":
+                                                            el.color === "gray",
                                                         },
                                                         {
                                                           " opacity-65 ":

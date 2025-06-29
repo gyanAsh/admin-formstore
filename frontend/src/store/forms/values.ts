@@ -24,6 +24,7 @@ import {
   Play,
   SquareCheck,
   Table,
+  GalleryHorizontalEnd,
 } from "lucide-react";
 
 import {
@@ -123,6 +124,24 @@ export const FormElements = [
       { title: "Video", icon: Play, isPremium: true },
     ],
   },
+  {
+    name: "Others",
+    color: "gray",
+    items: [
+      {
+        title: "Welcome Screen",
+        value: FormFields.welcome,
+        icon: GalleryHorizontalEnd,
+        isPremium: false,
+      },
+      {
+        title: "Exit Screen",
+        value: FormFields.exit,
+        icon: GalleryHorizontalEnd,
+        isPremium: false,
+      },
+    ],
+  },
 ];
 
 export function getDefaultLabelTitle(fieldType: string): string {
@@ -139,6 +158,10 @@ export function getDefaultLabelTitle(fieldType: string): string {
       return "I accept...";
     case FormFields.rating:
       return "Rate...";
+    case FormFields.welcome:
+      return "Welcome!👋 We're glad you're here.";
+    case FormFields.exit:
+      return "You're all set! 🎉Thanks for taking the time to complete the form.";
     default:
       return "Unknown Field";
   }
@@ -153,8 +176,12 @@ export function getBadgeValue(fieldValue: string): FormElementType["badge"] {
     return { value: fieldValue, color: "green" };
   } else if ([FormFields.text].some((e) => e === fieldValue)) {
     return { value: fieldValue, color: "yellow" };
+  } else if (
+    [FormFields.welcome, FormFields.exit].some((e) => e === fieldValue)
+  ) {
+    return { value: fieldValue, color: "gray" };
   } else {
-    return { value: "new", color: "yellow" };
+    return { value: "new", color: "gray" };
   }
 }
 

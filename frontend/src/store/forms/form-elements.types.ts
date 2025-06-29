@@ -28,6 +28,8 @@ export type FormElements = {
 };
 
 export enum FormFields {
+  welcome = "welcome",
+  exit = "exit",
   url = "website",
   consent = "consent",
   multiselect = "multiselect",

@@ -78,6 +78,10 @@ export const FromElementDialogContent = memo(
                 {
                   " bg-yellow-100 dark:bg-yellow-500/15 ":
                     stateElement.badge?.color === "yellow",
+                },
+                {
+                  " bg-gray-100 dark:bg-gray-500/15 ":
+                    stateElement.badge?.color === "gray",
                 }
               )}
             >
@@ -142,7 +146,7 @@ export const FromElementDialogContent = memo(
             />
           </div> */}
         </div>
-        {stateElement.badge?.value === FormFields.text && (
+        {stateElement.field === FormFields.text && (
           <div className="flex flex-col space-y-4">
             <TextValidations
               validations={stateElement.validations as TextValidation}
@@ -150,7 +154,7 @@ export const FromElementDialogContent = memo(
             />
           </div>
         )}
-        {stateElement.badge?.value === FormFields.consent && (
+        {stateElement.field === FormFields.consent && (
           <div className="flex flex-col space-y-4">
             <ConsentValidations
               validations={stateElement.validations as ConsentValidation}
@@ -158,7 +162,7 @@ export const FromElementDialogContent = memo(
             />
           </div>
         )}
-        {stateElement.badge?.value === FormFields.url && (
+        {stateElement.field === FormFields.url && (
           <div className="flex flex-col space-y-4">
             <URLValidations
               validations={stateElement.validations as UrlValidation}
@@ -166,7 +170,7 @@ export const FromElementDialogContent = memo(
             />
           </div>
         )}
-        {stateElement.badge?.value === FormFields.email && (
+        {stateElement.field === FormFields.email && (
           <div className="flex flex-col space-y-4">
             <EmailValidations
               validations={stateElement.validations as EmailValidation}
@@ -174,7 +178,7 @@ export const FromElementDialogContent = memo(
             />
           </div>
         )}
-        {stateElement.badge?.value === FormFields.rating && (
+        {stateElement.field === FormFields.rating && (
           <div className="flex flex-col space-y-4">
             <RatingValidations
               validations={stateElement.validations as RatingValidation}
@@ -182,14 +186,18 @@ export const FromElementDialogContent = memo(
             />
           </div>
         )}
-        <div className="flex flex-col w-fit space-y-4">
-          <RequiredToggle
-            state={stateElement.required}
-            onClick={() =>
-              setStateElement((e) => ({ ...e, required: !e.required }))
-            }
-          />
-        </div>
+        {![FormFields.welcome, FormFields.exit].some(
+          (e) => e === stateElement.field
+        ) && (
+          <div className="flex flex-col w-fit space-y-4">
+            <RequiredToggle
+              state={stateElement.required}
+              onClick={() =>
+                setStateElement((e) => ({ ...e, required: !e.required }))
+              }
+            />
+          </div>
+        )}
         <DialogFooter className="sm:justify-start mt-3 space-x-2">
           <DialogClose asChild>
             <Button
