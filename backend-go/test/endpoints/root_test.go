@@ -39,6 +39,7 @@ func TestMain(m *testing.M) {
 		JwtSecret: []byte(jwtSecret),
 	}
 
+	m.Run()
 }
 
 func TestGetRoot(t *testing.T) {
@@ -51,7 +52,7 @@ func TestGetRoot(t *testing.T) {
 	resp := w.Result()
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatalf("TestGetRoot: %v", err)
+		t.Fatalf("TestGetRoot: %v", err)
 	}
 	assert.Equal(string(body), "the server is running")
 }
