@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router";
 
 import { AnimatePresence, motion } from "motion/react";
-// import { Button } from "@/components/ui/button";
+import { FormTypes } from "@/pages/v1/types/elements.types";
 import { ChevronLeft, ChevronRight, Info } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -26,11 +26,16 @@ import type {
   RatingValidation,
   TextValidation,
   UrlValidation,
+  WelcomeValidation,
 } from "./types/elements.types";
 import { FormBackground } from "./component/background";
 import { useFormV1Store } from "./state/design";
 import { useQuery } from "@tanstack/react-query";
 import { fetchForm } from "./endpoint";
+import {
+  FormExitScreen,
+  FormWelcomeScreen,
+} from "./component/elements/screens";
 
 const variants = {
   enter: (direction: "prev" | "next") => ({
@@ -256,31 +261,38 @@ const FormPage = ({
       </DetailsContainer>
 
       <InputContainer>
-        {element.type === "email" ? (
+        {element.type === FormTypes.email ? (
           <FormEmail
             email={element.properties as EmailValidation}
             goNextFunction={goNextFunction}
           />
-        ) : element.type === "consent" ? (
+        ) : element.type === FormTypes.consent ? (
           <FormConsent
             consent={element.properties as ConsentValidation}
             goNextFunction={goNextFunction}
           />
-        ) : element.type === "rating" ? (
+        ) : element.type === FormTypes.rating ? (
           <FormRating
             rating={element.properties as RatingValidation}
             goNextFunction={goNextFunction}
           />
-        ) : element.type === "text" ? (
+        ) : element.type === FormTypes.text ? (
           <FormText
             text={element.properties as TextValidation}
             goNextFunction={goNextFunction}
           />
-        ) : element.type === "website" ? (
+        ) : element.type === FormTypes.url ? (
           <FormWebsite
             url={element.properties as UrlValidation}
             goNextFunction={goNextFunction}
           />
+        ) : element.type === FormTypes.welcome ? (
+          <FormWelcomeScreen
+            goNextFunction={goNextFunction}
+            welcome={element.properties as WelcomeValidation}
+          />
+        ) : element.type === FormTypes.exit ? (
+          <FormExitScreen goNextFunction={goNextFunction} />
         ) : (
           <p>{element.type}</p>
         )}

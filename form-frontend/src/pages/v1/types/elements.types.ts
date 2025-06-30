@@ -10,13 +10,28 @@ export interface Forms {
 
 export type FormElements = {
   seq_number?: number;
-  type: string;
+  type: Partial<FormTypes>;
+  // type:  FormTypes;
   label: string;
   description: string;
   required?: boolean;
   properties?: ValidatonTypes;
 };
 
+export enum FormTypes {
+  welcome = "welcome",
+  exit = "exit",
+  url = "website",
+  consent = "consent",
+  multiselect = "multiselect",
+  dropdown = "dropdown",
+  ranking = "ranking",
+  rating = "rating",
+  date = "date",
+  text = "text",
+  phone = "phone",
+  email = "email",
+}
 export type RatingKey =
   | "star"
   | "heart"
@@ -40,7 +55,8 @@ export type ValidatonTypes =
   | ConsentValidation
   | UrlValidation
   | TextValidation
-  | RatingValidation;
+  | RatingValidation
+  | WelcomeValidation;
 
 // Specific validation rules for each field type
 export interface EmailValidation {
@@ -65,4 +81,8 @@ export interface TextValidation {
   placeholder: string; //Add text here
   minLength: number; //1
   maxLength: number; //150
+}
+
+export interface WelcomeValidation {
+  btnText: string; //https://
 }

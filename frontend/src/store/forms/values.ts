@@ -38,6 +38,7 @@ import {
   TextValidation,
   UrlValidation,
   ValidatonTypes,
+  WelcomeValidation,
 } from "./form-elements.types";
 
 export const RatingValues: Record<RatingKey, RatingValue> = {
@@ -213,6 +214,10 @@ export function getDefaultValidations(
         iconLength: 5,
         ratingIcon: "star",
       } as RatingValidation;
+    case FormFields.welcome:
+      return {
+        btnText: "Get Started",
+      } as WelcomeValidation;
     default:
       undefined;
   }

@@ -52,6 +52,7 @@ export const useFormV1Store = create<FormStore>()(
             value:
               "radial-gradient(at 64.60129310344827% 44.79166666666667%, #ccf62c 0px, transparent 50%),radial-gradient(at 77% 4%, #98c74e 0px, transparent 50%),radial-gradient(at 0% 94.09722169240315%, #60a261 0px, transparent 50%),radial-gradient(at 100% 100%, #357a5b 0px, transparent 50%),radial-gradient(at 100% 7.5%, #417505 0px, transparent 50%),#ccf62c",
           },
+          textAlign: "center",
         },
       },
       setFormState: (state) => set({ ...state }),

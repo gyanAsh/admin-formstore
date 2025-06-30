@@ -14,9 +14,11 @@ import {
   ConsentValidation,
   EmailValidation,
   FormElements,
+  FormFields,
   RatingValidation,
   TextValidation,
   UrlValidation,
+  WelcomeValidation,
 } from "@/store/forms/form-elements.types";
 import { FormBackground } from "@/components/forms/v1/background";
 import { FormCard, InputContainer } from "@/components/forms/v1/card";
@@ -32,6 +34,10 @@ import { FormConsent } from "@/components/forms/v1/elements/consent";
 import { FormRating } from "@/components/forms/v1/elements/rating";
 import { FormText } from "@/components/forms/v1/elements/text";
 import { FormWebsite } from "@/components/forms/v1/elements/website";
+import {
+  FormExitScreen,
+  FormWelcomeScreen,
+} from "@/components/forms/v1/elements/screens";
 const variants = {
   enter: (direction: "prev" | "next") => ({
     x: direction === "prev" ? -100 : 100,
@@ -266,31 +272,38 @@ const FormPage = ({
       </DetailsContainer>
 
       <InputContainer>
-        {element.field === "email" ? (
+        {element.field === FormFields.email ? (
           <FormEmail
             email={element.validations as EmailValidation}
             goNextFunction={goNextFunction}
           />
-        ) : element.field === "consent" ? (
+        ) : element.field === FormFields.consent ? (
           <FormConsent
             consent={element.validations as ConsentValidation}
             goNextFunction={goNextFunction}
           />
-        ) : element.field === "rating" ? (
+        ) : element.field === FormFields.rating ? (
           <FormRating
             rating={element.validations as RatingValidation}
             goNextFunction={goNextFunction}
           />
-        ) : element.field === "text" ? (
+        ) : element.field === FormFields.text ? (
           <FormText
             text={element.validations as TextValidation}
             goNextFunction={goNextFunction}
           />
-        ) : element.field === "website" ? (
+        ) : element.field === FormFields.url ? (
           <FormWebsite
             url={element.validations as UrlValidation}
             goNextFunction={goNextFunction}
           />
+        ) : element.field === FormFields.welcome ? (
+          <FormWelcomeScreen
+            goNextFunction={goNextFunction}
+            welcome={element.validations as WelcomeValidation}
+          />
+        ) : element.field === FormFields.exit ? (
+          <FormExitScreen goNextFunction={goNextFunction} />
         ) : (
           <p>{element.field}</p>
         )}

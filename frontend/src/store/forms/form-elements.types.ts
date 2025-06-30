@@ -65,7 +65,8 @@ export type ValidatonTypes =
   | ConsentValidation
   | UrlValidation
   | TextValidation
-  | RatingValidation;
+  | RatingValidation
+  | WelcomeValidation;
 
 // Specific validation rules for each field type
 export interface EmailValidation {
@@ -90,4 +91,8 @@ export interface TextValidation {
   placeholder: string; //Add text here
   minLength: number; //1
   maxLength: number; //150
+}
+
+export interface WelcomeValidation {
+  btnText: string; //https://
 }

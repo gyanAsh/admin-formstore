@@ -20,6 +20,7 @@ import {
   RatingValidation,
   TextValidation,
   UrlValidation,
+  WelcomeValidation,
 } from "@/store/forms/form-elements.types";
 import {
   Button as AriaButton,
@@ -146,6 +147,14 @@ export const FromElementDialogContent = memo(
             />
           </div> */}
         </div>
+        {stateElement.field === FormFields.welcome && (
+          <div className="flex flex-col space-y-4">
+            <WelcomeValidations
+              validations={stateElement.validations as WelcomeValidation}
+              setState={setStateElement}
+            />
+          </div>
+        )}
         {stateElement.field === FormFields.text && (
           <div className="flex flex-col space-y-4">
             <TextValidations
@@ -428,6 +437,36 @@ const URLValidations = ({
               ...e.validations,
               placeholder: val.target.value,
             } as UrlValidation,
+          }))
+        }
+      />
+    </div>
+  );
+};
+
+const WelcomeValidations = ({
+  validations,
+  setState,
+}: {
+  validations?: WelcomeValidation;
+  setState: React.Dispatch<React.SetStateAction<FormElements>>;
+}) => {
+  return (
+    <div className="grid flex-1 gap-2">
+      <Label htmlFor="welcome-placeholder">CTA Text :</Label>
+      <Input
+        id="welcome-placeholder"
+        type="text"
+        className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
+        placeholder={validations?.btnText}
+        value={validations?.btnText}
+        onChange={(val) =>
+          setState((e) => ({
+            ...e,
+            validations: {
+              ...e.validations,
+              btnText: val.target.value,
+            } as WelcomeValidation,
           }))
         }
       />
