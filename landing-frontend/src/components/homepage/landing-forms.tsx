@@ -131,7 +131,7 @@ const LandingForms = () => {
   const boxRef = React.useRef(null);
   const isBottomVisible = useBottomVisible(boxRef);
 
-  const [currentIndex, setCurrentIndex] = React.useState(0);
+  const [currentIndex, setCurrentIndex] = React.useState(1);
   const setDesign = useDesignStore((state) => state.setDesign);
 
   React.useEffect(() => {
@@ -317,7 +317,7 @@ const FormLabel = memo(() => {
       [line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] tracking-[var(--letter-space)]"
       style={style}
     >
-      Be the First to Build Forms That Feel Human
+      Be the First to Build Forms — That Feel Human
     </h2>
   );
 });
@@ -342,10 +342,8 @@ const FormDescription = memo(() => {
       [line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] tracking-[var(--letter-space)]"
       style={style}
     >
-      We’re putting the final touches on something beautiful. <br /> Join the
-      waitlist to get early access to FormStore — where forms feel less like
-      chores and more like conversations. You’ll be the first to try it, shape
-      it, and maybe even fall in love with it.
+      Join the waitlist to get early access to Formstore — where forms feel less
+      like chores and more like conversations.
     </p>
   );
 });
@@ -366,7 +364,6 @@ const FormInput = memo(() => {
         : "100%",
   };
   const [email, setEmail] = React.useState("");
-  console.count("out");
 
   const validate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
