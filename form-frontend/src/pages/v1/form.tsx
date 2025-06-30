@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { FormTypes } from "@/pages/v1/types/elements.types";
 import { ChevronLeft, ChevronRight, Info } from "lucide-react";
 
-import { cn } from "@/lib/utils";
+import { cn, delay } from "@/lib/utils";
 import { FormEmail } from "./component/elements/email";
 import { FormConsent } from "./component/elements/consent";
 import { FormRating } from "./component/elements/rating";
@@ -36,6 +36,7 @@ import {
   FormExitScreen,
   FormWelcomeScreen,
 } from "./component/elements/screens";
+import { GridAnimate, TextFade } from "./component/animated";
 
 const variants = {
   enter: (direction: "prev" | "next") => ({
@@ -76,6 +77,7 @@ const PreviewFormPage = ({
           design: data.form.design,
         };
         setFormState(formData);
+        await delay(2000);
         return data;
       } catch (err) {
         console.error(err);
@@ -148,7 +150,31 @@ const PreviewFormPage = ({
   }, [currentSection, elements.length]);
 
   const currentElement = elements[currentSection];
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <section
+        className={cn(
+          "h-[100dvh] w-full flex items-center justify-center",
+          className
+        )}
+        {...props}
+      >
+        <FormBackground className="h-full w-full">
+          <TextFade
+            direction="down"
+            className="pt-0 pb-5 flex-col flex justify-center items-center space-y-0 w-full h-full gap-4"
+          >
+            <h2 className="text-lg text-center tracking-tighter">
+              Made with{" "}
+              <b>
+                <i>The</i>&nbsp; Formstore
+              </b>
+            </h2>
+            <GridAnimate className="size-16" />
+          </TextFade>
+        </FormBackground>
+      </section>
+    );
   else if (isError) return <div>Error: {(error as Error).message}</div>;
   else if (elements.length > 0)
     return (
