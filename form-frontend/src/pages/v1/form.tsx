@@ -260,7 +260,7 @@ const FormPage = ({
         <FormDescription>{element.description}</FormDescription>
       </DetailsContainer>
 
-      <InputContainer>
+      <InputContainer hidden={[FormTypes.exit].some((e) => e === element.type)}>
         {element.type === FormTypes.email ? (
           <FormEmail
             email={element.properties as EmailValidation}
