@@ -124,3 +124,5 @@ export function wait<T>(fn: () => T, delay = 500 as number): Promise<T> {
     }, delay);
   });
 }
+export const delay = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));

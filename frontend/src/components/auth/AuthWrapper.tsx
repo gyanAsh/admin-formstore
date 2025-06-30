@@ -1,6 +1,5 @@
 // components/AuthWrapper.tsx
-import { getAuthToken } from "@/lib/utils";
-import EmptyHome from "@/pages/home/emptyhome";
+import { delay, getAuthToken } from "@/lib/utils";
 import { $userLoginData } from "@/store/user";
 import { useMutation } from "@tanstack/react-query";
 import * as motion from "motion/react-client";
@@ -16,13 +15,11 @@ const AuthWrapper = ({ children }: Props) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const hasVerified = useRef(false);
-  const verifying = useRef(false);
 
   const token = getAuthToken();
 
   const verifyUserMutation = useMutation({
     mutationFn: async () => {
-      verifying.current = true;
       const res = await fetch("/api/verify", {
         method: "POST",
         headers: {
@@ -36,11 +33,11 @@ const AuthWrapper = ({ children }: Props) => {
           throw new Error(`${res.status} : ${res.statusText}`);
         else throw new Error(res.statusText);
       }
+      await delay(2000);
       const data = await res.json();
       return data;
     },
     onSuccess: (data) => {
-      verifying.current = false;
       $userLoginData.set(data);
       if (["/"].some((e) => pathname === e)) {
         toast.success("User verified.");
@@ -48,7 +45,6 @@ const AuthWrapper = ({ children }: Props) => {
       } else navigate(pathname);
     },
     onError: (error: any) => {
-      verifying.current = false;
       console.error({ error });
       navigate("/login");
     },
@@ -65,17 +61,6 @@ const AuthWrapper = ({ children }: Props) => {
     }
   }, [token]);
 
-  if (!!verifying.current)
-    return (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.25 }}
-      >
-        <EmptyHome />
-      </motion.div>
-    );
   return (
     <motion.div
       initial={{ opacity: 0 }}
