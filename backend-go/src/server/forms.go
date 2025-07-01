@@ -51,7 +51,7 @@ func parseFormDataAndElements(rows []db.GetFormDataAndElementsRow) FormData {
 			form.UpdatedAt = row.UpdatedAt.Time
 			form.Status = string(row.Status)
 			if err := json.Unmarshal(row.Design, &form.Design); err != nil {
-				log.Println(fmt.Errorf("form desgin json:  %v", err))
+				log.Println(fmt.Errorf("form desgin json: %v", err))
 			}
 			workspace.ID = int64(row.ID_2)
 			workspace.Name = row.Name
