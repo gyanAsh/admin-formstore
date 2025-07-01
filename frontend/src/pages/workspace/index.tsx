@@ -270,7 +270,7 @@ export default function Workspace() {
                         >
                           {form.status == "published"
                             ? "View Analytics"
-                            : "View Form"}
+                            : "Edit Form"}
                         </motion.div>
                       </Button>
                       <FormOptions formId={form.id} formTitle={form.title} />

@@ -17,14 +17,12 @@ interface GridAnimateProps extends React.SVGAttributes<SVGSVGElement> {
   width?: number;
   height?: number;
   strokeWidth?: number;
-  stroke?: string;
 }
 
 const GridAnimate = ({
   width = 28,
   height = 28,
   strokeWidth = 2,
-  stroke = "#000000",
   ...props
 }: GridAnimateProps) => {
   const controls = useAnimation();
@@ -75,7 +73,7 @@ const GridAnimate = ({
         height={height}
         viewBox="0 0 24 24"
         fill="none"
-        stroke={stroke}
+        stroke={"currentColor"}
         strokeWidth={strokeWidth}
         strokeLinecap="round"
         strokeLinejoin="round"

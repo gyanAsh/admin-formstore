@@ -43,10 +43,10 @@ export default function AnalyticsPage() {
   const workspaceId = parseInt(String(parmas.workspaceId));
 
   const form = {
-    title: "form title"
+    title: "form title",
   };
   const workspace = {
-    name: "workspace name"
+    name: "workspace name",
   };
   return (
     <main className="flex grow w-full flex-col items-center justify-center md:p-2 ">
@@ -54,7 +54,7 @@ export default function AnalyticsPage() {
         {/* top-navbar */}
         <section
           className={cn(
-            "sticky top-0 z-10 flex max-sm:flex-col max-sm:gap-2.5 sm:items-center sm:justify-between p-2.5 w-full bg-inherit pt-3.5 sm:py-3.5",
+            "sticky top-0 z-10 flex max-sm:flex-col max-sm:gap-2.5 sm:items-center sm:justify-between p-2.5 w-full bg-inherit pt-3.5 sm:py-3.5"
           )}
         >
           <div className="flex items-center sm:justify-between space-x-3">
@@ -67,8 +67,7 @@ export default function AnalyticsPage() {
                   path: "/dashboard",
                 },
                 {
-                  name:
-                    workspace.name || `Workspace: ID${workspaceId}`,
+                  name: workspace.name || `Workspace: ID${workspaceId}`,
                   path: `/dashboard/${workspaceId}`,
                 },
               ]}
@@ -86,30 +85,23 @@ export default function AnalyticsPage() {
           </div>
         </section>
         <section className="grow gap-3">
-          <section className="flex flex-col gap-3 m-4">
-            <Skeleton className="w-[120px] h-[40px]" />
-            <Skeleton className="w-full h-[55px]" />
-            <Skeleton className="w-full h-[55px]" />
-          </section>
           <div>
-            <div>
-              <h1 className="text-xl font-bold">
-                Survey of tool and technologies used in the working on small
-                organizations
-              </h1>
-              <div>Jan 20th 2025</div>
-              <div>total sumbission count: 1245</div>
-            </div>
-            <Button className="bg-primary px-4 py-1 dark:text-white font-bold uppercase">
-              download csv
-            </Button>
-
-            <SubmissionTable />
-
-            <Button className="bg-red-400 px-4 py-1 dark:text-white font-bold uppercase">
-              close
-            </Button>
+            <h1 className="text-xl font-bold">
+              Survey of tool and technologies used in the working on small
+              organizations
+            </h1>
+            <div>Jan 20th 2025</div>
+            <div>total sumbission count: 1245</div>
           </div>
+          <Button className="bg-primary px-4 py-1 dark:text-white font-bold uppercase">
+            download csv
+          </Button>
+
+          <SubmissionTable />
+
+          <Button className="bg-red-400 px-4 py-1 dark:text-white font-bold uppercase">
+            close
+          </Button>
         </section>
       </Card>
     </main>
