@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useLocation, useParams } from "react-router";
 
 import { AnimatePresence, motion } from "motion/react";
 import { FormTypes } from "@/pages/v1/types/elements.types";
@@ -275,8 +275,110 @@ const FormPage = ({
   goNextFunction: Function;
   element: FormElements;
 }) => {
+  const { pathname } = useLocation();
+  let isPreview = pathname.includes("preview");
+  const elContianer = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    let el = elContianer.current;
+    if (!isPreview || !el) return;
+
+    let canRun = true;
+    let touchStartY = 0;
+    let scrollNextCount = 0,
+      scrollPrevCount = 0;
+
+    const runThrottled = (callback: () => void) => {
+      if (!canRun) return;
+      canRun = false;
+      callback();
+      setTimeout(() => {
+        canRun = true;
+      }, 1000); // throttle duration
+    };
+
+    const goPrev = () => {
+      scrollPrevCount++;
+      if (scrollPrevCount >= 1) {
+        scrollPrevCount = 0;
+
+        const prevBtn = document.getElementById(
+          "goPrevForm"
+        ) as HTMLButtonElement;
+        let isAtTop = el.scrollTop <= 2;
+
+        if (prevBtn && isAtTop) {
+          prevBtn.focus();
+          prevBtn.click();
+        }
+      }
+    };
+
+    const goNext = () => {
+      scrollNextCount++;
+      if (scrollNextCount >= 1) {
+        scrollNextCount = 0;
+
+        const nextBtn = document.getElementById(
+          "goNextForm"
+        ) as HTMLButtonElement;
+        let isAtBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 2;
+
+        if (nextBtn && isAtBottom) {
+          nextBtn.focus();
+          nextBtn.click();
+        }
+      }
+    };
+
+    const onWheel = (event: WheelEvent) => {
+      // Scroll down triggers next
+      if (event.deltaY > 40) {
+        runThrottled(() => goNext());
+        // Scroll up triggers previous
+      } else if (event.deltaY < -40) {
+        runThrottled(() => goPrev());
+      }
+    };
+
+    const onTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const onTouchEnd = (e: TouchEvent) => {
+      const touchEndY = e.changedTouches[0].clientY;
+      const deltaY = touchStartY - touchEndY;
+
+      // Swipe down to go to the previous slide
+      if (deltaY < -40) {
+        runThrottled(() => goPrev());
+        // Swipe up to go to the next slide
+      } else if (deltaY > 40) {
+        runThrottled(() => goNext());
+      }
+    };
+
+    const timeoutId = setTimeout(() => {
+      elContianer.current?.addEventListener("wheel", onWheel, {
+        passive: true,
+      });
+      elContianer.current?.addEventListener("touchstart", onTouchStart, {
+        passive: true,
+      });
+      elContianer.current?.addEventListener("touchend", onTouchEnd, {
+        passive: true,
+      });
+    }, 1000); // wait 1s before enabling
+
+    return () => {
+      clearTimeout(timeoutId);
+      elContianer.current?.removeEventListener("wheel", onWheel);
+      elContianer.current?.removeEventListener("touchstart", onTouchStart);
+      elContianer.current?.removeEventListener("touchend", onTouchEnd);
+    };
+  }, [isPreview]);
   return (
     <FormCard
+      ref={elContianer}
       className={cn(
         "overflow-y-scroll py-16 md:py-9 @container",
         formCardClassName
