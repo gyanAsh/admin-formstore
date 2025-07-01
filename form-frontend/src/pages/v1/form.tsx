@@ -167,7 +167,8 @@ const PreviewFormPage = ({
             <h2 className="text-lg text-center tracking-tighter">
               Made with{" "}
               <b>
-                <i>The</i>&nbsp; Formstore
+                <i className="font-['Playfair_Display','serif']">The</i>&nbsp;
+                Formstore
               </b>
             </h2>
             <GridAnimate className="size-16" />

@@ -268,7 +268,9 @@ export default function Workspace() {
                           }}
                           whileTap={{ scale: 0.89 }}
                         >
-                          View Form
+                          {form.status == "published"
+                            ? "View Analytics"
+                            : "View Form"}
                         </motion.div>
                       </Button>
                       <FormOptions formId={form.id} formTitle={form.title} />

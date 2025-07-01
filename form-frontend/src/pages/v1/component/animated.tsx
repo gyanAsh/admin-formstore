@@ -130,7 +130,6 @@ function TextFade({
   const ref = React.useRef(null);
   const isInView = useInView(ref, { once: true });
   const style: Record<string, string> & React.CSSProperties = {
-    "--family": design.family,
     "--text-color": design.color,
   };
   return (
@@ -147,10 +146,7 @@ function TextFade({
           },
         },
       }}
-      className={cn(
-        "[font-family:var(--family)] [color:var(--text-color)]",
-        className
-      )}
+      className={cn("[color:var(--text-color)]", className)}
       style={style}
     >
       {React.Children.map(children, (child) =>
