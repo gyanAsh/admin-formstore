@@ -16,7 +16,7 @@ type User struct {
 	Password string `json:"password,omitempty"`
 }
 
-func (s *Service) signupHandler(w http.ResponseWriter, r *http.Request) {
+func (s *Service) SignupHandler(w http.ResponseWriter, r *http.Request) {
 	var user User
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		log.Println(err)

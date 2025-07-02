@@ -49,7 +49,7 @@ func queryUsers(conn *pgx.Conn) ([]UserRow, InputAction, error) {
 			count := 0
 			for action == InputActionNone && count < 3 {
 				if count > 0 {
-					fmt.Println("invalid answer: %v\ntry again...%v/3", answer, count)
+					fmt.Printf("invalid answer: %v\ntry again...%v/3\n", answer, count)
 				}
 				fmt.Println("User list contains password that are hashed. Do you still wish to continue you can (S)kip (S/Y) / (O)verride / (A)bort (A/N)?.\nRecommended: (S)kip and manually fix/delete incorrect values.")
 				fmt.Scanf("%s", &answer)
@@ -65,7 +65,7 @@ func queryUsers(conn *pgx.Conn) ([]UserRow, InputAction, error) {
 				count += 1
 			}
 			if count >= 3 {
-				fmt.Println("invalid answer: %v\ntry again...%v/3", answer, count)
+				fmt.Printf("invalid answer: %v\ntry again...%v/3", answer, count)
 				action = InputActionAbort
 			}
 			if action == InputActionAbort {
@@ -99,7 +99,7 @@ func updatePasswords(conn *pgx.Conn, users []UserRow) error {
 		}
 		_, err = tx.Exec(context.Background(), `UPDATE users SET password = $1 WHERE ID = $2`, string(hashedPassword), user.ID)
 		if err != nil {
-			log.Println(fmt.Errorf("update failed:", err))
+			log.Println(fmt.Errorf("update failed: %v", err))
 		}
 	}
 	if err = tx.Commit(context.Background()); err != nil {
