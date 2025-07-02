@@ -54,3 +54,11 @@ func TestConvertUUIDStringToBin(t *testing.T) {
 	ref := [16]byte{201, 176, 170, 193, 241, 132, 67, 157, 160, 157, 100, 192, 177, 205, 100, 75}
 	assert.Equal(data, ref)
 }
+
+func FuzzConvertUUIDStringToBin(f *testing.F) {
+	f.Fuzz(func(t *testing.T, data string) {
+		if _, err := convertUUIDStringToBin(data); err != nil {
+			t.Fatalf("fuzz convert uuid string to bin: %v for data: %v", err, data)
+		}
+	})
+}
