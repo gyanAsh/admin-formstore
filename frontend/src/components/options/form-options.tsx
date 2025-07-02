@@ -9,10 +9,7 @@ import {
 import * as motion from "motion/react-client";
 import { PopoverContent } from "@/components/ui/popover";
 import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { RenameFormDialog } from "./form-dialogs/form-rename-dialog";
 import { DeleteFormsDialog } from "./form-dialogs/form-delete-dialog";
@@ -73,7 +70,7 @@ export const FormPopoverContentOptions = ({
       <PopoverContent
         className={cn(
           "min-w-[142px] w-fit",
-          "space-y-0.5 rounded-lg font-semibold text-zinc-700 dark:text-zinc-300 p-2",
+          "space-y-0.5 rounded-lg font-semibold text-zinc-700 dark:text-zinc-300 p-2"
         )}
         side="left"
         align="end"
@@ -111,13 +108,13 @@ export const FormPopoverContentOptions = ({
               }}
               data-destructive={option.destructive}
               className={cn(
-                "hover:bg-accent hover:text-zinc-900! hover:dark:text-zinc-100!",
+                "hover:bg-accent hover:text-zinc-900 hover:dark:text-zinc-100",
                 "relative flex cursor-default items-center gap-2",
                 "px-2 py-1.5 text-sm outline-hidden select-none",
                 "rounded-lg space-x-1 min-w-[142px]",
                 "data-[destructive=true]:bg-destructive data-[destructive=true]:focus:bg-destructive/10 ",
                 "dark:data-[destructive=true]:focus:bg-destructive/40",
-                "data-[destructive=true]:focus:text-destructive ",
+                "data-[destructive=true]:focus:text-destructive data-[destructive=true]:hover:text-white "
               )}
             >
               <option.icon
