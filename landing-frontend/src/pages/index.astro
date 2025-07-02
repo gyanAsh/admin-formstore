@@ -241,7 +241,7 @@ const pageTitle = "TheFormstore: Create & Design Beautiful Forms";
         <br />
 
         <div
-          class="grid grid-cols-10 place-items-center gap-3 py-2 border-b-2 border-dashed"
+          class="grid grid-cols-10 place-items-center gap-3 py-2 border-b-[1.5px] border-zinc-500/60"
         >
           <Plus strokeWidth={3} />
           <p class="text-xl text-start col-span-9">
@@ -250,7 +250,7 @@ const pageTitle = "TheFormstore: Create & Design Beautiful Forms";
           </p>
         </div>
         <div
-          class="grid grid-cols-10 place-items-center gap-3 py-2 border-b-2 border-dashed"
+          class="grid grid-cols-10 place-items-center gap-3 py-2 border-b-[1.5px] border-zinc-500/60"
         >
           <Plus strokeWidth={3} />
           <p class="text-xl text-start col-span-9">
@@ -271,7 +271,7 @@ const pageTitle = "TheFormstore: Create & Design Beautiful Forms";
 
     <div
       class={cn(
-        "grid place-items-center h-full content-center mt-9 py-9 bg-lm text-zinc-900 px-4 md:px-10 lg:px-16",
+        "grid place-items-center h-full content-center mt-9 py-9 text-zinc-900 px-4 md:px-10 lg:px-16 ",
         "bg-gradient-to-t from-[#d8f999]/60 via-[#d8f999]/50 to-[#ff9d76]/0"
       )}
     >
@@ -280,63 +280,71 @@ const pageTitle = "TheFormstore: Create & Design Beautiful Forms";
       >Markdown is also supported...</a
     > -->
       <div
-        class="text-2xl md:text-3xl lg:text-4xl md:px-4 max-w-3xl font-medium text-center leading-14 flex items-center gap-2 text-clip"
-      >
-        How <img
-          src="/formstore-logo-light.svg"
-          class="size-6 mix-blend-luminosity"
-        />
-        Formstore Works
-      </div>
-      <div
-        class="text-4xl px-2 md:px-4 max-w-3xl font-['Playfair_Display','serif'] font-medium text-center leading-8 mb-4 flex items-center gap-2 text-clip"
-      >
-        Run a Survey in 3 Easy Steps
-      </div>
-      <div class="text-zinc-800 font-semibold text-lg">
-        Just click, style, and launch.
-      </div>
-
-      <div
-        class="grid grid-cols-1 lg:grid-cols-3 max-w-4xl gap-6 lg:gap-3 mt-12 m-10"
+        class="grid md:grid-cols-2 place-items-center h-full content-center w-full md:max-w-[80dvw] gap-8 md:gap-6 lg:gap-4"
       >
         <section
-          class="hover:shadow-2xl cursor-default duration-150 ease-in-out relative flex flex-col gap-3 px-4 md:px-5 py-4 place-items-start border-[1px] border-zinc-200 bg-gradient-to-tr from-white to-pink-100 rounded-3xl"
+          class="px-2 md:px-4 grid max-md:place-items-center max-md:text-center gap-5 md:gap-4"
         >
-          <h2 class="font-semibold font-['Playfair_Display','serif'] text-2xl">
-            <span class="font-medium text-zinc-700">Step 1 :</span><br />
-            Add Your Questions
-          </h2>
-          <p class="leading-5.5 text-lg text-start">
-            Choose from text fields, ratings, checkboxes — whatever fits your
-            story.
-          </p>
+          <div
+            class="text-4xl lg:text-6xl 2xl:text-7xl font-['Playfair_Display','serif'] font-medium leading-6 lg:leading-14 flex max-md:justify-center flex-wrap gap-2 text-clip"
+          >
+            How
+            <div class="flex items-center gap-2">
+              <img
+                src="/formstore-logo-light.svg"
+                class="size-8 lg:size-12 2xl:size-14 mix-blend-luminosity"
+              />
+              Formstore
+            </div> Works
+          </div>
+          <div
+            class="text-base md:text-lg lg:text-xl mb-4 flex items-center gap-2 text-clip"
+          >
+            Formstore makes it effortless to create surveys, lead forms,
+            feedback collectors, and more — all without writing a single line of
+            code. Just describe what you need, and our smart form builder
+            instantly generates a conversational, branded form ready to share.
+          </div>
         </section>
 
-        <section
-          class="hover:shadow-2xl cursor-default duration-150 ease-in-out relative flex flex-col gap-3 px-4 md:px-5 py-4 place-items-start border-[1px] border-zinc-200 bg-gradient-to-tr from-white to-purple-100 rounded-3xl"
+        <div
+          class="grid grid-cols-1 divide-y-[1.5px] divide-zinc-500/60 gap-6 lg:gap-3"
         >
-          <h2 class="font-semibold font-['Playfair_Display','serif'] text-2xl">
-            <span class="font-medium text-zinc-700">Step 2 :</span><br />
-            Select a Design
-          </h2>
-          <p class="leading-5.5 text-lg text-start">
-            Match your mood or brand with beautiful, ready-made themes.
-          </p>
-        </section>
+          <section class="pb-6 grid gap-1.5">
+            <h2
+              class="font-semibold font-['Playfair_Display','serif'] text-2xl"
+            >
+              Add Your Questions
+            </h2>
+            <p class="leading-5.5 text-lg text-start">
+              Choose from text fields, ratings, checkboxes — whatever fits your
+              story.
+            </p>
+          </section>
 
-        <section
-          class="hover:shadow-2xl cursor-default duration-150 ease-in-out relative flex flex-col gap-3 px-4 md:px-5 py-4 place-items-start border-[1px] border-zinc-200 bg-gradient-to-tr from-white to-blue-100 rounded-3xl"
-        >
-          <h2 class="font-semibold font-['Playfair_Display','serif'] text-2xl">
-            <span class="font-medium text-zinc-700">Step 3 :</span><br />
-            Hit Publish
-          </h2>
-          <p class="leading-5.5 text-lg text-start">
-            Your form goes live instantly. Share the link, and watch the
-            responses roll in.
-          </p>
-        </section>
+          <section class="pb-6 grid gap-1.5">
+            <h2
+              class="font-semibold font-['Playfair_Display','serif'] text-2xl"
+            >
+              Select a Design
+            </h2>
+            <p class="leading-5.5 text-lg text-start">
+              Match your mood or brand with beautiful, ready-made themes.
+            </p>
+          </section>
+
+          <section class="pb-6 grid gap-1.5">
+            <h2
+              class="font-semibold font-['Playfair_Display','serif'] text-2xl"
+            >
+              Hit Publish
+            </h2>
+            <p class="leading-5.5 text-lg text-start">
+              Your form goes live instantly. Share the link, and watch the
+              responses roll in.
+            </p>
+          </section>
+        </div>
       </div>
     </div>
   </main>
