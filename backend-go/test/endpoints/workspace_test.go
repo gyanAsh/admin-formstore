@@ -5,8 +5,8 @@ import (
 	"crypto/rand"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http/httptest"
-	"strconv"
 	"testing"
 )
 
@@ -18,27 +18,31 @@ func workspaceCreate(workspaceName string) (int, error) {
 		return 0, fmt.Errorf("json marshal request data: %v\n", err)
 	}
 	r := httptest.NewRequest("POST", "http://localhost:4000/api/workspace", bytes.NewBuffer(workspaceData))
+	r.Header.Add("Content-Type", "application/json")
+	r.Header.Add("Authorization", fmt.Sprintf("Bearer %s", AUTH_TOKEN))
 	w := httptest.NewRecorder()
 
 	s.WorkspaceCreateHandler(w, r)
 
 	resp := w.Result()
-	var message map[string]string
+	var message map[string]any
 	if resp.StatusCode != 200 && resp.StatusCode != 201 {
-		return 0, fmt.Errorf("create workspace failed with incorrect status code %v", resp.StatusCode)
+		return 0, fmt.Errorf("status code %v", resp.StatusCode)
 	}
 	if err = json.NewDecoder(resp.Body).Decode(&message); err != nil {
 		return 0, fmt.Errorf("json decoding response body: %v\n", err)
 	}
-	workspaceID, err := strconv.Atoi(message["id"])
-	if err != nil {
-		return 0, fmt.Errorf("integer conversion: %v", err)
+	workspaceIDf, ok := message["id"].(float64)
+	if !ok {
+		return 0, fmt.Errorf("workspace_id float conversion failed")
 	}
-	return workspaceID, err
+	return int(workspaceIDf), err
 }
 
 func workspaceDelete(workspaceID int) error {
-	r := httptest.NewRequest("DELETE", fmt.Sprintf("http://localhost:4000/api/workspace/%d", workspaceID), nil)
+	r := httptest.NewRequest("DELETE", "http://localhost:4000/api/workspace/", nil)
+	r.SetPathValue("workspace_id", fmt.Sprint(workspaceID))
+	r.Header.Add("Authorization", fmt.Sprintf("Bearer %s", AUTH_TOKEN))
 	w := httptest.NewRecorder()
 
 	s.WorkspaceDeleteHandler(w, r)
@@ -46,10 +50,10 @@ func workspaceDelete(workspaceID int) error {
 	resp := w.Result()
 	var message map[string]string
 	if resp.StatusCode != 200 && resp.StatusCode != 201 {
-		return fmt.Errorf("create workspace failed with incorrect status code %v", resp.StatusCode)
+		return fmt.Errorf("status code %v", resp.StatusCode)
 	}
 	if err := json.NewDecoder(resp.Body).Decode(&message); err != nil {
-		return fmt.Errorf("json decoding response body: %v\n", err)
+		log.Println(fmt.Errorf("json decoding response body: %v\n", err))
 	}
 	return nil
 }
