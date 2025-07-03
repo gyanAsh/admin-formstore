@@ -6,6 +6,7 @@ import (
 	"crypto/rand"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"net/http/httptest"
 	"testing"
@@ -66,7 +67,7 @@ func workspaceDbCreate(workspaceName string) (int, error) {
 	if err := row.Scan(&workspaceID); err != nil {
 		return 0, fmt.Errorf("workspace insert value: %v", err)
 	}
-	return 0, nil
+	return workspaceID, nil
 }
 
 func workspaceDbDelete(workspaceID int) error {
@@ -77,15 +78,49 @@ func workspaceDbDelete(workspaceID int) error {
 	return nil
 }
 
+func workspaceApiUpdate(workspaceID int, workspaceName string) error {
+	workspacedat, err := json.Marshal(map[string]any{
+		"id":   workspaceID,
+		"name": workspaceName,
+	})
+	if err != nil {
+		return fmt.Errorf("workspace data marshal: %v", err)
+	}
+	log.Println(string(workspacedat))
+	r := httptest.NewRequest("PUT", "http://localhost:4000/api/workspace", bytes.NewBuffer(workspacedat))
+	r.Header.Add("Content-Type", "application/json")
+	r.Header.Add("Authorization", fmt.Sprintf("Bearer %s", AUTH_TOKEN))
+	w := httptest.NewRecorder()
+
+	s.WorkspaceUpdateHandler(w, r)
+
+	resp := w.Result()
+	if resp.StatusCode != 200 && resp.StatusCode != 201 {
+		var message map[string]any
+		if err := json.NewDecoder(resp.Body).Decode(&message); err != nil {
+			log.Println(err)
+			dat, err := io.ReadAll(resp.Body)
+			if err != nil {
+				log.Println(err)
+			}
+			log.Println(dat)
+		} else {
+			log.Println(message)
+		}
+		return fmt.Errorf("status code %v", resp.StatusCode)
+	}
+	return nil
+}
+
 func TestWorkspaceCreate(t *testing.T) {
 	workspaceName := rand.Text()[:12]
 	workspaceID, err := workspaceApiCreate(workspaceName)
 	if err != nil {
-		t.Fatalf("workspace api create: %v", err)
+		t.Fatalf("workspace api create: %v\n", err)
 	}
 
 	if err = workspaceDbDelete(workspaceID); err != nil {
-		t.Fatalf("workspace db delete: %v", err)
+		t.Fatalf("workspace db delete: %v\n", err)
 	}
 }
 
@@ -93,10 +128,35 @@ func TestWorkspaceDelete(t *testing.T) {
 	workspaceName := rand.Text()[:12]
 	workspaceID, err := workspaceDbCreate(workspaceName)
 	if err != nil {
-		t.Fatalf("workspace db create: %v", err)
+		t.Fatalf("workspace db create: %v\n", err)
+	}
+
+	if workspaceID == 0 {
+		t.Fatal("workspace db create: workspace id is zero")
 	}
 
 	if err := workspaceApiDelete(workspaceID); err != nil {
-		t.Fatalf("workspace api delete: %v", err)
+		t.Fatalf("workspace api delete: %v\n", err)
+	}
+}
+
+func TestWorkspaceUpdate(t *testing.T) {
+	workspaceName := rand.Text()[:12]
+	workspaceID, err := workspaceDbCreate(workspaceName)
+	if err != nil {
+		t.Fatalf("workspace db create: %v\n", err)
+	}
+
+	if workspaceID == 0 {
+		t.Fatal("workspace db create: workspace id is zero")
+	}
+
+	workspaceName2 := rand.Text()[:16]
+	if err := workspaceApiUpdate(workspaceID, workspaceName2); err != nil {
+		t.Fatalf("workspace api update: %v\n", err)
+	}
+
+	if err := workspaceDbDelete(workspaceID); err != nil {
+		t.Fatalf("workspace db delete: %v\n", err)
 	}
 }
