@@ -2,6 +2,7 @@ package endpoints
 
 import (
 	"bytes"
+	"context"
 	"crypto/rand"
 	"encoding/json"
 	"fmt"
@@ -10,7 +11,7 @@ import (
 	"testing"
 )
 
-func workspaceCreate(workspaceName string) (int, error) {
+func workspaceApiCreate(workspaceName string) (int, error) {
 	workspaceData, err := json.Marshal(map[string]string{
 		"name": workspaceName,
 	})
@@ -39,7 +40,7 @@ func workspaceCreate(workspaceName string) (int, error) {
 	return int(workspaceIDf), err
 }
 
-func workspaceDelete(workspaceID int) error {
+func workspaceApiDelete(workspaceID int) error {
 	r := httptest.NewRequest("DELETE", "http://localhost:4000/api/workspace/", nil)
 	r.SetPathValue("workspace_id", fmt.Sprint(workspaceID))
 	r.Header.Add("Authorization", fmt.Sprintf("Bearer %s", AUTH_TOKEN))
@@ -58,14 +59,22 @@ func workspaceDelete(workspaceID int) error {
 	return nil
 }
 
+func workspaceDbDelete(workspaceID int) error {
+	if _, err := s.Conn.Exec(context.Background(), `DELETE FROM workspaces
+	WHERE id = $1`, workspaceID); err != nil {
+		return fmt.Errorf("workspace object delete exec: %v", err)
+	}
+	return nil
+}
+
 func TestWorkspaceCreate(t *testing.T) {
 	workspaceName := rand.Text()[:12]
-	workspaceID, err := workspaceCreate(workspaceName)
+	workspaceID, err := workspaceApiCreate(workspaceName)
 	if err != nil {
 		t.Fatalf("workspace create: %v", err)
 	}
 
-	if err = workspaceDelete(workspaceID); err != nil {
+	if err = workspaceDbDelete(workspaceID); err != nil {
 		t.Fatalf("workspace delete: %v", err)
 	}
 }
