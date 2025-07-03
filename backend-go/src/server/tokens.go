@@ -32,7 +32,7 @@ func generateAuthToken(userID string, signedSecret []byte) (string, error) {
 	return tokenString, nil
 }
 
-func parseAuthToken(tokenString string, signedSecret []byte) (string, error) {
+func ParseAuthToken(tokenString string, signedSecret []byte) (string, error) {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		return signedSecret, nil
 	}, jwt.WithValidMethods([]string{jwt.SigningMethodHS256.Alg()}))

@@ -19,5 +19,5 @@ func (s *Service) authenticate(r *http.Request) (string, error) {
 		log.Println(authorizationHeader)
 		return "", fmt.Errorf("failed to authenticate with Error: failed to parse bearer token Bearer keyword not found within %s", authorizationHeader)
 	}
-	return parseAuthToken(tokenString, s.JwtSecret)
+	return ParseAuthToken(tokenString, s.JwtSecret)
 }

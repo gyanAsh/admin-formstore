@@ -59,6 +59,15 @@ func workspaceApiDelete(workspaceID int) error {
 	return nil
 }
 
+func workspaceDbCreate(workspaceName string) error {
+	_, err := s.Conn.Exec(context.Background(), `INSERT INTO workspaces
+		(name, user_id) VALUES ($1, $2)`, workspaceName, USER_ID)
+	if err != nil {
+		return fmt.Errorf("workspace insert value: %v", err)
+	}
+	return nil
+}
+
 func workspaceDbDelete(workspaceID int) error {
 	if _, err := s.Conn.Exec(context.Background(), `DELETE FROM workspaces
 	WHERE id = $1`, workspaceID); err != nil {
@@ -71,10 +80,10 @@ func TestWorkspaceCreate(t *testing.T) {
 	workspaceName := rand.Text()[:12]
 	workspaceID, err := workspaceApiCreate(workspaceName)
 	if err != nil {
-		t.Fatalf("workspace create: %v", err)
+		t.Fatalf("workspace api create: %v", err)
 	}
 
 	if err = workspaceDbDelete(workspaceID); err != nil {
-		t.Fatalf("workspace delete: %v", err)
+		t.Fatalf("workspace db delete: %v", err)
 	}
 }

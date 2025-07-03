@@ -18,11 +18,12 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"local.formstore.admin/db"
-	apiserver "local.formstore.admin/src/server"
+	"local.formstore.admin/src/server"
 )
 
-var s apiserver.Service
+var s server.Service
 var AUTH_TOKEN string
+var USER_ID string
 
 type UserDat struct {
 	Username string `json:"username,omitempty"`
@@ -148,7 +149,7 @@ func TestMain(m *testing.M) {
 	}
 
 	dbQueries := db.New(pool)
-	s = apiserver.Service{
+	s = server.Service{
 		Queries:   dbQueries,
 		Conn:      pool,
 		JwtSecret: []byte(jwtSecret),
@@ -182,6 +183,13 @@ func TestMain(m *testing.M) {
 		log.Println("AUTH_TOKEN is empty")
 		os.Exit(1)
 	}
+
+	userID, err := server.ParseAuthToken(AUTH_TOKEN, s.JwtSecret)
+	if err != nil {
+		log.Printf("parse auth token failed: %v", err)
+		os.Exit(1)
+	}
+	USER_ID = userID
 
 	exitCode := m.Run()
 	os.Exit(exitCode)
