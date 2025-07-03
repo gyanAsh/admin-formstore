@@ -75,16 +75,17 @@ export const FormElementPreview = () => {
                     Description
                   </CardDescription>
                 </div>
-                <div className="flex flex-col items-center gap-3 min-sm:absolute min-sm:right-2 min-sm:pl-2 justify-center h-full min-sm:bg-inherit">
+                <div className="flex flex-col items-center sm:items-end gap-2 min-sm:absolute min-sm:right-2 min-sm:pl-2 justify-center h-full">
                   <div className="w-full bg-inherit ">
                     <CardName design={design.description}>
                       {design.themeName}
                     </CardName>
                   </div>
-                  <Button
-                    variant={"black"}
-                    effect={"scale"}
-                    className="border group border-zinc-400"
+
+                  <CardBtn
+                    elDesign={design.element}
+                    className="flex  items-center gap-2 group"
+                    design={design.label}
                     onClick={() => {
                       $set_design_label(design.label);
                       $set_design_description(design.description);
@@ -93,13 +94,10 @@ export const FormElementPreview = () => {
                     }}
                   >
                     <span> Set Design</span>
-                    <span
-                      // className="bg-white text-black dark:bg-black dark:text-white rounded p-0.5"
-                      className=" group-hover:translate-x-2 duration-200 ease-in-out"
-                    >
+                    <span className=" group-hover:translate-x-1.5 duration-200 ease-in-out">
                       <ArrowRight />
                     </span>
-                  </Button>
+                  </CardBtn>
                 </div>
               </CardBackground>
             );
@@ -177,9 +175,9 @@ const CardLabel = ({
   design: LabelDesign;
 }) => {
   const style: Record<string, string> & React.CSSProperties = {
-    "--size": design.size,
-    "--md-size": maxMdTextSize[design.size],
-    "--sm-size": maxSmTextSize[design.size],
+    "--size": "30px",
+    "--md-size": maxMdTextSize["30px"],
+    "--sm-size": maxSmTextSize["30px"],
     "--family": design.family,
     "--weight": design.weight,
     "--text-color": design.color,
@@ -210,10 +208,10 @@ const CardDescription = ({
   design: DescriptionDesign;
 }) => {
   const style: Record<string, string> & React.CSSProperties = {
-    "--size": design.size,
-    "--md-size": maxMdTextSize[design.size],
-    "--sm-size": maxSmTextSize[design.size],
-    "--line-height": textSizeLineHeight[design.size],
+    "--size": "20px",
+    "--md-size": maxMdTextSize["20px"],
+    "--sm-size": maxSmTextSize["20px"],
+    "--line-height": textSizeLineHeight["20px"],
     "--family": design.family,
     "--weight": design.weight,
     "--text-color": design.color,
@@ -262,6 +260,44 @@ const CardName = ({
         className
       )}
       style={style}
+      {...props}
+    />
+  );
+};
+
+export const CardBtn = ({
+  elDesign,
+  design,
+  className,
+  ...props
+}: React.ComponentProps<"button"> & {
+  elDesign: any;
+  design: any;
+}) => {
+  const elStyle: Record<string, string> & React.CSSProperties = {
+    "--family": design.family,
+    "--text-color": elDesign.textColor,
+    "--bg-color": elDesign.bgColor,
+    "--border-color": elDesign.borderColor,
+    "--transparant":
+      elDesign.variant === "glass"
+        ? "20%"
+        : elDesign.variant === "outline"
+        ? "0%"
+        : "100%",
+  };
+  return (
+    <button
+      className={cn(
+        " w-fit",
+        " px-2.5 py-2 cursor-pointer",
+        " hover:contrast-75 hover:scale-[1.02] active:scale-95 duration-200 transition-colors",
+
+        "rounded-full text-[var(--text-color)] [font-family:var(--family)] bg-[var(--bg-color)]/[var(--transparant)] border-2 border-[var(--border-color)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)]/[var(--transparant)]",
+        { " backdrop-blur-[1px]": elDesign.variant === "glass" },
+        className
+      )}
+      style={elStyle}
       {...props}
     />
   );
