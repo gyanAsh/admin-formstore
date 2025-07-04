@@ -14,6 +14,8 @@ import (
 type FormElementTypes string
 
 const (
+	FormElementTypesWelcome     FormElementTypes = "welcome"
+	FormElementTypesExit        FormElementTypes = "exit"
 	FormElementTypesWebsite     FormElementTypes = "website"
 	FormElementTypesConsent     FormElementTypes = "consent"
 	FormElementTypesMultiselect FormElementTypes = "multiselect"
@@ -107,8 +109,8 @@ func (ns NullFormStatusType) Value() (driver.Value, error) {
 type Form struct {
 	ID          int32
 	Title       string
-	CreatedAt   pgtype.Timestamp
-	UpdatedAt   pgtype.Timestamp
+	CreatedAt   pgtype.Timestamptz
+	UpdatedAt   pgtype.Timestamptz
 	WorkspaceID int32
 	Status      FormStatusType
 	Design      []byte
@@ -120,8 +122,8 @@ type FormElement struct {
 	Label       pgtype.Text
 	Required    bool
 	Description pgtype.Text
-	CreatedAt   pgtype.Timestamp
-	UpdatedAt   pgtype.Timestamp
+	CreatedAt   pgtype.Timestamptz
+	UpdatedAt   pgtype.Timestamptz
 	FormID      int32
 	Properties  []byte
 }
@@ -136,8 +138,8 @@ type User struct {
 type Workspace struct {
 	ID        int32
 	Name      string
-	CreatedAt pgtype.Timestamp
-	UpdatedAt pgtype.Timestamp
-	DeletedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamptz
+	UpdatedAt pgtype.Timestamptz
+	DeletedAt pgtype.Timestamptz
 	UserID    pgtype.UUID
 }

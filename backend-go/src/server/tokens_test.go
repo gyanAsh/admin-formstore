@@ -9,7 +9,7 @@ func TestCreateAndParseToken(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	parsedUserID, err := parseAuthToken(tokenString, signedSecret)
+	parsedUserID, err := ParseAuthToken(tokenString, signedSecret)
 	if err != nil {
 		t.Fatal(err)
 	}

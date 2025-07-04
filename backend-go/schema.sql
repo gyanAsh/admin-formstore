@@ -38,6 +38,8 @@ CREATE TABLE IF NOT EXISTS forms (
 );
 
 CREATE TYPE form_element_types AS ENUM (
+	'welcome',
+	'exit',
 	'website',
 	'consent',
 	'multiselect',

@@ -2,6 +2,7 @@ package server
 
 import (
 	"log"
+	"os"
 	"testing"
 )
 
