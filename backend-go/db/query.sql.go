@@ -89,14 +89,14 @@ type GetFormDataAndElementsParams struct {
 type GetFormDataAndElementsRow struct {
 	ID          int32
 	Title       string
-	CreatedAt   pgtype.Timestamp
-	UpdatedAt   pgtype.Timestamp
+	CreatedAt   pgtype.Timestamptz
+	UpdatedAt   pgtype.Timestamptz
 	Status      FormStatusType
 	Design      []byte
 	ID_2        int32
 	Name        string
-	CreatedAt_2 pgtype.Timestamp
-	UpdatedAt_2 pgtype.Timestamp
+	CreatedAt_2 pgtype.Timestamptz
+	UpdatedAt_2 pgtype.Timestamptz
 	UserID      pgtype.UUID
 	SeqNumber   pgtype.Int4
 	Type        NullFormElementTypes
@@ -175,16 +175,16 @@ AND
 type GetFormDataPublicRow struct {
 	ID          int32
 	Title       string
-	CreatedAt   pgtype.Timestamp
-	UpdatedAt   pgtype.Timestamp
+	CreatedAt   pgtype.Timestamptz
+	UpdatedAt   pgtype.Timestamptz
 	Status      FormStatusType
 	Design      []byte
 	Type        FormElementTypes
 	SeqNumber   int32
 	Label       pgtype.Text
 	Description pgtype.Text
-	CreatedAt_2 pgtype.Timestamp
-	UpdatedAt_2 pgtype.Timestamp
+	CreatedAt_2 pgtype.Timestamptz
+	UpdatedAt_2 pgtype.Timestamptz
 	Properties  []byte
 	Required    bool
 }
@@ -287,8 +287,8 @@ SELECT ID, name, created_at, updated_at FROM workspaces WHERE user_id = $1
 type GetWorkspacesForUserRow struct {
 	ID        int32
 	Name      string
-	CreatedAt pgtype.Timestamp
-	UpdatedAt pgtype.Timestamp
+	CreatedAt pgtype.Timestamptz
+	UpdatedAt pgtype.Timestamptz
 }
 
 func (q *Queries) GetWorkspacesForUser(ctx context.Context, userID pgtype.UUID) ([]GetWorkspacesForUserRow, error) {
