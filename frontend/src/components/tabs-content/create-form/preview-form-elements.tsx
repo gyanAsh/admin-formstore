@@ -19,7 +19,6 @@ import {
   SolidValueType,
   textSizeLineHeight,
 } from "@/store/forms/formV1Design";
-import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/components/ui/sidebar";
 
 export const FormElementPreview = () => {
@@ -69,7 +68,7 @@ export const FormElementPreview = () => {
                   bgImageValue: design.layout.bgImageValue,
                 }}
               >
-                <div className="flex flex-col items-center justify-center">
+                <div className="flex flex-col items-center sm:items-start justify-center">
                   <CardLabel design={design.label}>Label</CardLabel>
                   <CardDescription design={design.description}>
                     Description

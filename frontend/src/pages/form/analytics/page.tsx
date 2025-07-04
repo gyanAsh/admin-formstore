@@ -5,26 +5,12 @@ import BreadCrumbs from "@/components/bread-crumbs";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { useParams } from "react-router";
-import React, { useState, useMemo } from "react";
-import {
-  Table,
-  TableHeader,
-  TableBody,
-  Column,
-  Row,
-  Cell,
-  ColumnResizer,
-  Group,
-  type SortDescriptor,
-  type ColumnProps,
-  type RowProps,
-  type CellProps,
-  ResizableTableContainer,
-} from "react-aria-components"; // Assuming these are from react-aria-components
-import { ArrowUpIcon, UnfoldHorizontal } from "lucide-react";
-import { useSidebar } from "@/components/ui/sidebar";
-import { Stock, stocks } from "./data";
-import { Button } from "@/components/ui/button";
+import * as motion from "motion/react-client";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useState } from "react";
+import { AnimatePresence } from "motion/react";
+import { OverviewAnalysis } from "./overview-analysis";
+import { SubmissionsAnalysis } from "./submissions-analysis";
 
 export default function AnalyticsPage() {
   const parmas = useParams();
@@ -74,161 +60,94 @@ export default function AnalyticsPage() {
             />
           </div>
         </section>
-        <section className="grow flex flex-col gap-2">
-          <div>
-            <h1 className="text-xl font-bold">
-              Survey of tool and technologies used in the working on small
-              organizations
-            </h1>
-            <div>Jan 20th 2025</div>
-            <div>total sumbission count: 1245</div>
-          </div>
-          <Button className=" w-fit bg-primary px-4 py-1 dark:text-white font-bold uppercase">
-            download csv
-          </Button>
-
-          <StockTableExample />
+        <section className="grow gap-3">
+          {false && "form_isLoading" ? (
+            <section className="flex flex-col gap-3 m-4">
+              <Skeleton className="w-[120px] h-[40px]" />
+              <Skeleton className="w-full h-[55px]" />
+              <Skeleton className="w-full h-[55px]" />
+            </section>
+          ) : true && "form_hasError" ? (
+            <div className="flex flex-col h-full px-2 gap-4">
+              <section className="flex max-sm:flex-col min-sm:items-end gap-2 justify-between w-full">
+                <div className="flex flex-col">
+                  <h2 className="font-semibold text-zinc-500 dark:text-zinc-100/75">
+                    Analytics
+                  </h2>
+                  <h2 className="text-3xl font-bold">{"Current Form Name"}</h2>
+                </div>
+                {/* <div className="flex max-sm:justify-end gap-2 h-9">s</div> */}
+              </section>
+              <AnalysisTabs />
+            </div>
+          ) : (
+            <div className="w-full h-full flex flex-col items-center justify-center">
+              <div className="text-red-600 font-bold text-4xl">Error</div>
+              <div>
+                Something went wrong while fetching your forms. Please try again
+                later
+              </div>
+            </div>
+          )}
         </section>
       </Card>
     </main>
   );
 }
 
-function StockTableExample() {
-  let [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
-    column: "symbol",
-    direction: "ascending",
-  });
-
-  // Type the `stocks` array based on the `Stock` interface
-  let sortedItems = useMemo<Stock[]>(() => {
-    // Ensure `stocks` is typed as `Stock[]` if not already.
-    // The `sort` method is safe to use with `localeCompare` for string comparisons.
-    return [...stocks].sort((a, b) => {
-      // Create a shallow copy to avoid mutating the original array
-      let first = a[sortDescriptor.column as keyof Stock]; // Assert the column as a key of Stock
-      let second = b[sortDescriptor.column as keyof Stock]; // Assert the column as a key of Stock
-
-      // Handle potential non-string types if your data allows.
-      // For now, assuming all sortable columns are strings or can be stringified for localeCompare.
-      let cmp = String(first).localeCompare(String(second));
-
-      if (sortDescriptor.direction === "descending") {
-        cmp *= -1;
-      }
-      return cmp;
-    });
-  }, [sortDescriptor]);
-  const { open: desktopOpen, isMobile } = useSidebar();
-  let open = desktopOpen && !isMobile;
+function AnalysisTabs() {
+  const [selectedTab, setSelectedTab] = useState(tabs[0]);
 
   return (
-    <ResizableTableContainer
-      className={cn(
-        "max-h-[calc(100dvh_-_116px)]  border h-full w-full overflow-auto scroll-pt-[2.321rem] relative bg-white dark:bg-slate-900 rounded-lg shadow-sm text-gray-600 dark:text-gray-50",
-        { "w-[calc(100dvw_-_290px)]": open }
-      )}
-    >
-      <Table
-        aria-label="Stocks"
-        selectionMode="multiple"
-        selectionBehavior="replace"
-        sortDescriptor={sortDescriptor}
-        onSortChange={setSortDescriptor}
-        className="border-separate border-spacing-0"
-      >
-        <TableHeader>
-          <StockColumn id="symbol" allowsSorting>
-            Symbol
-          </StockColumn>
-          <StockColumn id="name" isRowHeader allowsSorting defaultWidth="2fr">
-            Name
-          </StockColumn>
-          <StockColumn id="marketCap" allowsSorting>
-            Market Cap
-          </StockColumn>
-          <StockColumn id="sector" allowsSorting>
-            Sector
-          </StockColumn>
-          <StockColumn id="industry" allowsSorting defaultWidth="2fr">
-            Industry
-          </StockColumn>
-        </TableHeader>
-        <TableBody items={sortedItems}>
-          {(
-            item: Stock // Explicitly type `item` as Stock
-          ) => (
-            <StockRow>
-              <StockCell>
-                <span className="font-mono bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-sm px-1 group-selected:bg-slate-700 group-selected:border-slate-800">
-                  ${item.symbol}
-                </span>
-              </StockCell>
-              <StockCell className="font-semibold">{item.name}</StockCell>
-              <StockCell>{item.marketCap}</StockCell>
-              <StockCell>{item.sector}</StockCell>
-              <StockCell>{item.industry}</StockCell>
-            </StockRow>
-          )}
-        </TableBody>
-      </Table>
-    </ResizableTableContainer>
-  );
-}
+    <div className="w-full grow h-full flex flex-col m-[1px]">
+      <nav>
+        <ul className="flex gap-0.5 border-b-[1.5px]">
+          {tabs.map((item) => (
+            <motion.li
+              key={item.id}
+              initial={false}
+              onClick={() => setSelectedTab(item)}
+              className={cn(
+                "relative py-3 px-3.5 w-fit cursor-pointer font-bold",
 
-// Ensure ColumnProps is imported from 'react-aria-components'
-function StockColumn(props: ColumnProps & { children: React.ReactNode }) {
-  return (
-    <Column
-      {...props}
-      className="sticky top-0 p-0 border-b border-slate-300 bg-slate-200 dark:bg-slate-900 font-bold text-left cursor-default first:rounded-tl-lg last:rounded-tr-lg whitespace-nowrap outline-hidden"
-    >
-      {({ allowsSorting, sortDirection }) => (
-        <div className="flex items-center pl-4 py-1">
-          <Group
-            role="presentation"
-            tabIndex={-1}
-            className="flex flex-1 items-center overflow-hidden outline-hidden rounded-sm focus-visible:ring-2 ring-slate-600"
+                item === selectedTab ? "" : "text-muted-foreground"
+              )}
+            >
+              {item.title}
+              {item.id === selectedTab.id ? (
+                <motion.div
+                  className="absolute -bottom-[1px] left-0 right-0 h-1 rounded-t-2xl bg-primary"
+                  layoutId="underline"
+                  id="underline"
+                />
+              ) : null}
+            </motion.li>
+          ))}
+        </ul>
+      </nav>
+      <main className="flex flex-col grow">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={selectedTab ? selectedTab.id : "empty"}
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -10, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="grow mt-3"
           >
-            <span className="flex-1 truncate">{props.children}</span>
-            {allowsSorting && (
-              <span
-                className={`ml-1 w-4 h-4 flex items-center justify-center transition ${
-                  sortDirection === "descending" ? "rotate-180" : ""
-                }`}
-              >
-                {sortDirection && <ArrowUpIcon width={8} height={10} />}
-              </span>
-            )}
-          </Group>
-          <ColumnResizer className="cursor-col-resize resizing:bg-slate-800 resizing:w-[2px] resizing:pl-[7px] grid">
-            <UnfoldHorizontal className="size-4" />
-          </ColumnResizer>
-        </div>
-      )}
-    </Column>
+            {selectedTab.code === "overview" ? (
+              <OverviewAnalysis />
+            ) : selectedTab.code === "submissions" ? (
+              <SubmissionsAnalysis />
+            ) : null}
+          </motion.div>
+        </AnimatePresence>
+      </main>
+    </div>
   );
 }
 
-// Ensure RowProps is imported from 'react-aria-components'
-function StockRow(props: RowProps<Stock>) {
-  // Type the RowProps with your Stock interface
-  return (
-    <Row
-      {...props}
-      className="even:bg-slate-100 divide-x border-b even:dark:bg-slate-800 selected:bg-slate-600 selected:text-white cursor-default group outline-hidden focus-visible:outline-2 focus-visible:outline-slate-600 focus-visible:-outline-offset-4 selected:focus-visible:outline-white"
-    />
-  );
-}
-
-// Ensure CellProps is imported from 'react-aria-components'
-function StockCell(props: CellProps) {
-  return (
-    <Cell
-      {...props}
-      className={`px-4 py-2 truncate ${
-        props.className || ""
-      } focus-visible:outline-2 focus-visible:outline-slate-600 focus-visible:-outline-offset-4 group-selected:focus-visible:outline-white`}
-    />
-  );
-}
+const tabs = [
+  { id: 1, title: "Overview", code: "overview" },
+  { id: 2, title: "Submissions", code: "submissions" },
+];
