@@ -56,8 +56,8 @@ const pageTitle = "TheFormstore: Create & Design Beautiful Forms";
     </nav>
     <section
       class={cn(
-        "flex flex-col items-center justify-center gap-4 min-h-[600px] md:min-h-[450px] xl:min-h-[65vh] 2xl:min-h-[60vh] pt-4 px-4",
-        "bg-gradient-to-t from-[#51eaea]/5 via-[#ffdbc5]/20 to-[#ff9d76]/20"
+        "flex flex-col items-center justify-center gap-4 min-h-[500px] lg:min-h-[65vh] pt-4 px-4",
+        "bg-gradient-to-t from-neutral-200/5 via-neutral-200/20 to-neutral-200/50"
       )}
     >
       <div class="flex flex-col items-center gap-1">
@@ -75,15 +75,14 @@ const pageTitle = "TheFormstore: Create & Design Beautiful Forms";
         </h1>
       </div>
       <h2
-        class="text-4xl md:px-4 max-w-3xl text-center font-['Playfair_Display','serif'] leading-14 text-clip"
+        class="text-4xl lg:text-5xl 2xl:text-7xl md:px-4 max-w-3xl 2xl:max-w-4xl text-center font-['Playfair_Display','serif'] leading-14 lg:leading-18 2xl:leading-26 text-clip"
       >
-        <span class="text-pink-500 bg-pink-200 rounded-4xl px-3 py-0.5"
-          >Build</span
+        <span class="text-pink-600/85 bg-pink-200 rounded-full px-3">Build</span
         > Forms. <span
-          class="text-purple-500 bg-purple-200 rounded-4xl px-3 py-0.5"
+          class="text-purple-600/85 bg-purple-200 rounded-full px-3"
           >Collect</span
         > Responses. <span
-          class="text-blue-500 bg-blue-200 rounded-4xl px-3 py-0.5"
+          class="text-blue-600/85 bg-blue-200 rounded-full px-3"
           >Understand</span
         > People.
       </h2>
@@ -97,7 +96,7 @@ const pageTitle = "TheFormstore: Create & Design Beautiful Forms";
       > — in seconds
      </h2> -->
 
-      <div class="text-xl leading-9 text-center">
+      <div class="text-xl 2xl:text-2xl leading-9 text-center">
         <span class="relative inline-block w-fit">
           <AnimateSvg
             width="100%"
@@ -195,7 +194,7 @@ const pageTitle = "TheFormstore: Create & Design Beautiful Forms";
       width="100%"
       height="100%"
       viewBox="0 0 250 100"
-      className="absolute -top-260 sm:-top-240 md:-top-150 -left-50 md:-left-80 -rotate-125 blur-2xl -z-[5] stroke-orange-500 md:stroke-orange-200 lg:stroke-orange-200"
+      className="absolute hidden -top-200 sm:-top-240 md:-top-150 -left-50 md:-left-80 -rotate-125 blur-2xl -z-[5] stroke-purple-200"
       path="M 223.00 10.00 C 92.00 21.01, 121.00 126.01, 10.00 179.00"
       strokeWidth={26}
       strokeColor="inherit"
@@ -212,7 +211,7 @@ const pageTitle = "TheFormstore: Create & Design Beautiful Forms";
       width="100%"
       height="100%"
       viewBox="0 0 250 100"
-      className="absolute translate-y-15 top-40 md:top-45 left-20 -rotate-15 rotate-y-180 blur-2xl -z-[5] stroke-lime-500 md:stroke-lime-200"
+      className="absolute hidden translate-y-15 top-40 md:top-45 left-20 -rotate-15 rotate-y-180 blur-2xl -z-[5] stroke-lime-500 md:stroke-lime-200"
       path="M 223.00 10.00 C 92.00 21.01, 121.00 126.01, 10.00 179.00"
       strokeWidth={26}
       strokeColor="inherit"
@@ -225,7 +224,7 @@ const pageTitle = "TheFormstore: Create & Design Beautiful Forms";
       client:load
     />
 
-    <div class="flex items-center justify-center text-center w-full">
+    <!-- <div class="flex items-center justify-center text-center w-full">
       <section
         class="flex flex-col items-center mt-9 py-9 max-w-3xl bg-zinc-200/55 rounded-4xl mx-2 md:mx-8 p-8"
       >
@@ -267,12 +266,12 @@ const pageTitle = "TheFormstore: Create & Design Beautiful Forms";
           valued.
         </p>
       </section>
-    </div>
+    </div> -->
 
     <div
       class={cn(
-        "grid place-items-center h-full content-center mt-9 py-9 text-zinc-900 px-4 md:px-10 lg:px-16 ",
-        "bg-gradient-to-t from-[#d8f999]/60 via-[#d8f999]/50 to-[#ff9d76]/0"
+        "grid place-items-center h-full content-center mt-9 py-12 text-zinc-900 px-4 md:px-10 lg:px-16 "
+        // "bg-gradient-to-t from-amber-200/50 via-amber-200/30 to-amber-200/0"
       )}
     >
       <!-- <Button>Tailwind Button in Astro!</Button>
@@ -282,23 +281,21 @@ const pageTitle = "TheFormstore: Create & Design Beautiful Forms";
       <div
         class="grid md:grid-cols-2 place-items-center h-full content-center w-full md:max-w-[80dvw] gap-8 md:gap-6 lg:gap-4"
       >
-        <section
-          class="px-2 md:px-4 grid max-md:place-items-center max-md:text-center gap-5 md:gap-4"
-        >
+        <section class="px-2 md:px-4 grid max-md:max-w-[610px] gap-5 md:gap-4">
           <div
-            class="text-4xl lg:text-6xl 2xl:text-7xl font-['Playfair_Display','serif'] font-medium leading-6 lg:leading-14 flex max-md:justify-center flex-wrap gap-2 text-clip"
+            class="text-4xl lg:text-6xl 2xl:text-7xl font-['Playfair_Display','serif'] font-medium leading-6 lg:leading-14 flex flex-wrap gap-2 text-clip"
           >
             How
             <div class="flex items-center gap-2">
               <img
                 src="/formstore-logo-light.svg"
-                class="size-8 lg:size-12 2xl:size-14 mix-blend-luminosity"
+                class="size-8 lg:size-12 2xl:size-14 smix-blend-luminosity"
               />
               Formstore
             </div> Works
           </div>
           <div
-            class="text-base md:text-lg lg:text-xl mb-4 flex items-center gap-2 text-clip"
+            class="text-lg lg:text-xl mb-4 flex items-center gap-2 text-clip"
           >
             Formstore makes it effortless to create surveys, lead forms,
             feedback collectors, and more — all without writing a single line of
@@ -310,7 +307,7 @@ const pageTitle = "TheFormstore: Create & Design Beautiful Forms";
         <div
           class="grid grid-cols-1 divide-y-[1.5px] divide-zinc-500/60 gap-6 lg:gap-3"
         >
-          <section class="pb-6 grid gap-1.5">
+          <section class="pb-6 px-2 grid gap-1.5">
             <h2
               class="font-semibold font-['Playfair_Display','serif'] text-2xl"
             >
@@ -322,7 +319,7 @@ const pageTitle = "TheFormstore: Create & Design Beautiful Forms";
             </p>
           </section>
 
-          <section class="pb-6 grid gap-1.5">
+          <section class="pb-6 px-2 grid gap-1.5">
             <h2
               class="font-semibold font-['Playfair_Display','serif'] text-2xl"
             >
@@ -333,7 +330,7 @@ const pageTitle = "TheFormstore: Create & Design Beautiful Forms";
             </p>
           </section>
 
-          <section class="pb-6 grid gap-1.5">
+          <section class="pb-6 px-2 grid gap-1.5">
             <h2
               class="font-semibold font-['Playfair_Display','serif'] text-2xl"
             >
@@ -346,6 +343,87 @@ const pageTitle = "TheFormstore: Create & Design Beautiful Forms";
           </section>
         </div>
       </div>
+    </div>
+
+    <!-- <div
+      class={cn(
+        "grid place-items-center h-full content-center py-12 text-zinc-900 px-4 md:px-10 lg:px-16 gap-12",
+        "bg-gradient-to-b from-neutral-300/50 via-neutral-300/30 to-neutral-300/0"
+      )}
+    >
+      <h2
+        class="font-['Playfair_Display','serif'] text-2xl md:text-3xl lg:text-4xl"
+      >
+        Forms That Make People Feel Special ✨
+      </h2>
+      <div
+        class="flex items-center justify-center h-full content-center w-full max-md:max-w-[610px] gap-8 md:gap-6 lg:gap-4"
+      >
+        <section
+          class="h-55 border w-full max-w-xl bg-orange-400 text-white p-6 rounded-4xl relative"
+        >
+          <img
+            src="/user-icon.png"
+            alt="fun_user_icon"
+            class="absolute right-2.5 top-2.5 size-20"
+          />
+          asdfasdf
+        </section>
+        <section
+          class="h-55 border w-full max-w-xl bg-slate-950 text-gray-300 p-6 rounded-4xl relative"
+        >
+          <img
+            src="/design-icon.png"
+            alt="abstract_design_icon"
+            class="absolute right-2.5 top-2.5 size-20"
+          />
+
+          asdfasdf
+        </section>
+      </div>
+    </div> -->
+
+    <div
+      class={cn(
+        "grid place-items-center h-full content-center pt-2 md:pt-12 pb-16 text-zinc-900 px-4 md:px-10 lg:px-16 gap-12"
+        // "bg-gradient-to-b from-amber-200/50 via-amber-200/30 to-amber-200/0"
+      )}
+    >
+      <section class="flex flex-col items-start px-2 w-full md:max-w-[80dvw]">
+        <h2
+          class="font-['Playfair_Display','serif'] font-bold text-zinc-700 text-2xl md:text-3xl lg:text-4xl"
+        >
+          Forms That Make People Feel Special
+        </h2>
+
+        <br />
+
+        <div
+          class="flex items-center gap-3 py-3 border-b-[1.5px] border-zinc-500/60"
+        >
+          <Plus strokeWidth={3} className="" />
+          <p class="text-lg lg:text-xl text-start">
+            Your users aren’t just clicks. They’re humans. And your form should
+            feel like a conversation, not a chore.
+          </p>
+        </div>
+        <div
+          class="flex items-center gap-3 py-3 border-b-[1.5px] border-zinc-500/60"
+        >
+          <Plus strokeWidth={3} className="" />
+          <p class="text-lg lg:text-xl text-start">
+            With FormStore’s beautifully crafted designs, every survey feels
+            personal. Every question feels thoughtful. Every submission feels
+            appreciated.
+          </p>
+        </div>
+
+        <br />
+        <br />
+        <p class="text-lg italic w-full text-center">
+          Because when your forms look and feel great — your users feel valued.
+        </p>
+      </section>
     </div>
   </main>
 </MainLayout>
