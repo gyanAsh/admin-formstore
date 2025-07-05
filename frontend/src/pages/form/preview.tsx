@@ -170,23 +170,23 @@ const PreviewFormPage = ({
           </div>
 
           {/* Navigation Buttons */}
-          <div className="text-sm absolute flex items-center border-zinc-200 bg-black text-white p-1.5 rounded-[6px] bottom-4 right-4 space-x-2">
-            <div className={cn("flex items-center space-x-0.5")}>
+          <div className="text-sm absolute flex items-center border-zinc-200 bg-neutral-900 text-zinc-200 p-1.5 rounded-full bottom-4 right-4 space-x-2">
+            <div className={cn("flex items-center")}>
               <FormNavBtn
                 id="goPrevForm"
                 onClick={() => paginate("prev")}
                 disabled={currentSection === 0}
-                className="p-0.5 rounded-l-lg"
+                className="rounded-full bg-zinc-200 text-neutral-900 border-zinc-500 rounded-r-none"
               >
-                <ChevronLeft className="size-5 text-gray-50" />
+                <ChevronLeft strokeWidth={3} className="size-5" />
               </FormNavBtn>
               <FormNavBtn
                 id="goNextForm"
                 onClick={() => paginate("next")}
                 disabled={currentSection === elements.length - 1}
-                className="p-0.5 rounded-r-lg"
+                className="rounded-full bg-zinc-200 text-neutral-900 border-zinc-500 rounded-l-none"
               >
-                <ChevronRight className="size-5 text-gray-50" />
+                <ChevronRight strokeWidth={3} className="size-5" />
               </FormNavBtn>
             </div>
 
