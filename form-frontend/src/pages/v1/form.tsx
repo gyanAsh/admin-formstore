@@ -27,6 +27,7 @@ import type {
   TextValidation,
   UrlValidation,
   WelcomeValidation,
+  YesNoValidation,
 } from "./types/elements.types";
 import { FormBackground } from "./component/background";
 import { useFormV1Store } from "./state/design";
@@ -37,6 +38,7 @@ import {
   FormWelcomeScreen,
 } from "./component/elements/screens";
 import { GridAnimate, TextFade } from "./component/animated";
+import { FormYesNo } from "./component/elements/yes-no";
 
 const variants = {
   enter: (direction: "prev" | "next") => ({
@@ -398,6 +400,11 @@ const FormPage = ({
         ) : element.type === FormTypes.consent ? (
           <FormConsent
             consent={element.properties as ConsentValidation}
+            goNextFunction={goNextFunction}
+          />
+        ) : element.type === FormTypes.yesno ? (
+          <FormYesNo
+            yesno={element.properties as YesNoValidation}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.rating ? (

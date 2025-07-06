@@ -21,6 +21,7 @@ import {
   TextValidation,
   UrlValidation,
   WelcomeValidation,
+  YesNoValidation,
 } from "@/store/forms/form-elements.types";
 import {
   Button as AriaButton,
@@ -167,6 +168,14 @@ export const FromElementDialogContent = memo(
           <div className="flex flex-col space-y-4">
             <ConsentValidations
               validations={stateElement.validations as ConsentValidation}
+              setState={setStateElement}
+            />
+          </div>
+        )}
+        {stateElement.field === FormFields.yesno && (
+          <div className="flex flex-col space-y-4">
+            <YesNoValidations
+              validations={stateElement.validations as YesNoValidation}
               setState={setStateElement}
             />
           </div>
@@ -373,7 +382,7 @@ const ConsentValidations = ({
   return (
     <div className="flex items-center space-x-4">
       <div className="grid flex-1 gap-2">
-        <Label htmlFor="accept-text">Accept Button Text :</Label>
+        <Label htmlFor="accept-text">Concent Button Text :</Label>
         <Input
           id="accept-text"
           type="text"
@@ -391,21 +400,53 @@ const ConsentValidations = ({
           }
         />
       </div>
+    </div>
+  );
+};
+
+const YesNoValidations = ({
+  validations,
+  setState,
+}: {
+  validations: YesNoValidation;
+  setState: React.Dispatch<React.SetStateAction<FormElements>>;
+}) => {
+  return (
+    <div className="flex items-center space-x-4">
       <div className="grid flex-1 gap-2">
-        <Label htmlFor="reject-text">Reject Button Text :</Label>
+        <Label htmlFor="accept-text">No Button Text :</Label>
         <Input
-          id="reject-text"
+          id="accept-text"
           type="text"
           className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
-          placeholder="Your reject text here."
-          value={validations?.rejectBtnText}
+          placeholder="Your accept text here."
+          value={validations.noBtnText}
           onChange={(val) =>
             setState((e) => ({
               ...e,
               validations: {
                 ...e.validations,
-                rejectBtnText: val.target.value,
-              } as ConsentValidation,
+                noBtnText: val.target.value,
+              } as YesNoValidation,
+            }))
+          }
+        />
+      </div>
+      <div className="grid flex-1 gap-2">
+        <Label htmlFor="reject-text">Yes Button Text :</Label>
+        <Input
+          id="reject-text"
+          type="text"
+          className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
+          placeholder="Your reject text here."
+          value={validations.yesBtnText}
+          onChange={(val) =>
+            setState((e) => ({
+              ...e,
+              validations: {
+                ...e.validations,
+                yesBtnText: val.target.value,
+              } as YesNoValidation,
             }))
           }
         />

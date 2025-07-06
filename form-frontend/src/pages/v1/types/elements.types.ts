@@ -31,6 +31,7 @@ export enum FormTypes {
   text = "text",
   phone = "phone",
   email = "email",
+  yesno = "yes no",
 }
 export type RatingKey =
   | "star"
@@ -56,7 +57,8 @@ export type ValidatonTypes =
   | UrlValidation
   | TextValidation
   | RatingValidation
-  | WelcomeValidation;
+  | WelcomeValidation
+  | YesNoValidation;
 
 // Specific validation rules for each field type
 export interface EmailValidation {
@@ -69,7 +71,11 @@ export interface UrlValidation {
 
 export interface ConsentValidation {
   acceptBtnText: string; //I accept
-  rejectBtnText: string; //I don't accept
+}
+
+export interface YesNoValidation {
+  yesBtnText: string; //Yes
+  noBtnText: string; //No
 }
 
 export interface RatingValidation {

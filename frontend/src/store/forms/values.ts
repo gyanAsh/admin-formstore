@@ -39,6 +39,7 @@ import {
   UrlValidation,
   ValidatonTypes,
   WelcomeValidation,
+  YesNoValidation,
 } from "./form-elements.types";
 
 export const RatingValues: Record<RatingKey, RatingValue> = {
@@ -82,7 +83,12 @@ export const FormElements = [
     items: [
       { title: "Multiple Choice", icon: LayoutList, isPremium: true },
       { title: "Dropdown", icon: ChevronDown, isPremium: true },
-      { title: "Yes/No", icon: CircleCheck, isPremium: true },
+      {
+        title: "Yes/No",
+        icon: CircleCheck,
+        isPremium: false,
+        value: FormFields.yesno,
+      },
       {
         title: "Concent",
         value: FormFields.consent,
@@ -158,6 +164,8 @@ export function getDefaultLabelTitle(fieldType: string): string {
       return "I accept...";
     case FormFields.rating:
       return "Rate...";
+    case FormFields.yesno:
+      return "Yes or No...";
     case FormFields.welcome:
       return "Welcome!👋 We're glad you're here.";
     case FormFields.exit:
@@ -168,20 +176,25 @@ export function getDefaultLabelTitle(fieldType: string): string {
 }
 
 export function getBadgeValue(fieldValue: string): FormElementType["badge"] {
-  if ([FormFields.email, FormFields.url].some((e) => e === fieldValue)) {
-    return { value: fieldValue, color: "pink" };
-  } else if ([FormFields.consent].some((e) => e === fieldValue)) {
-    return { value: fieldValue, color: "blue" };
-  } else if ([FormFields.rating].some((e) => e === fieldValue)) {
-    return { value: fieldValue, color: "green" };
-  } else if ([FormFields.text].some((e) => e === fieldValue)) {
-    return { value: fieldValue, color: "yellow" };
-  } else if (
-    [FormFields.welcome, FormFields.exit].some((e) => e === fieldValue)
-  ) {
-    return { value: fieldValue, color: "gray" };
-  } else {
-    return { value: "new", color: "gray" };
+  switch (fieldValue) {
+    case FormFields.email:
+      return { value: "Email", color: "pink" };
+    case FormFields.url:
+      return { value: "Website", color: "pink" };
+    case FormFields.consent:
+      return { value: "Consent", color: "blue" };
+    case FormFields.yesno:
+      return { value: "Yes/No", color: "blue" };
+    case FormFields.rating:
+      return { value: "Rating", color: "green" };
+    case FormFields.text:
+      return { value: "Text", color: "yellow" };
+    case FormFields.welcome:
+      return { value: "Welcome", color: "gray" };
+    case FormFields.exit:
+      return { value: "Exit", color: "gray" };
+    default:
+      return { value: "new", color: "gray" };
   }
 }
 
@@ -206,8 +219,12 @@ export function getDefaultValidations(
     case FormFields.consent:
       return {
         acceptBtnText: "I accept",
-        rejectBtnText: "I don't accept",
       } as ConsentValidation;
+    case FormFields.yesno:
+      return {
+        yesBtnText: "Yes",
+        noBtnText: "No",
+      } as YesNoValidation;
     case FormFields.rating:
       return {
         iconLength: 5,

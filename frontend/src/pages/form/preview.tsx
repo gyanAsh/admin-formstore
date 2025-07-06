@@ -19,6 +19,7 @@ import {
   TextValidation,
   UrlValidation,
   WelcomeValidation,
+  YesNoValidation,
 } from "@/store/forms/form-elements.types";
 import { FormBackground } from "@/components/forms/v1/background";
 import { FormCard, InputContainer } from "@/components/forms/v1/card";
@@ -38,6 +39,7 @@ import {
   FormExitScreen,
   FormWelcomeScreen,
 } from "@/components/forms/v1/elements/screens";
+import { FormYesNo } from "@/components/forms/v1/elements/yes-no";
 const variants = {
   enter: (direction: "prev" | "next") => ({
     x: direction === "prev" ? -100 : 100,
@@ -385,6 +387,11 @@ const FormPage = ({
         ) : element.field === FormFields.consent ? (
           <FormConsent
             consent={element.validations as ConsentValidation}
+            goNextFunction={goNextFunction}
+          />
+        ) : element.field === FormFields.yesno ? (
+          <FormYesNo
+            yesno={element.validations as YesNoValidation}
             goNextFunction={goNextFunction}
           />
         ) : element.field === FormFields.rating ? (
