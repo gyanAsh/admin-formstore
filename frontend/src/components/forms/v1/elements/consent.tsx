@@ -1,7 +1,8 @@
 import { cn } from "@/lib/utils";
 import { ConsentValidation } from "@/store/forms/form-elements.types";
 import { FormButton } from "../button";
-import React from "react";
+import React, { useState } from "react";
+import AnimatedCheckbox from "../checkbox";
 
 export const FormConsent = ({
   consent,
@@ -10,6 +11,7 @@ export const FormConsent = ({
   consent: ConsentValidation;
   goNextFunction: Function;
 }) => {
+  const [checked, setChecked] = useState(false);
   const validate = () => {
     goNextFunction();
   };
@@ -33,13 +35,17 @@ export const FormConsent = ({
 
   return (
     <section className={cn(" max-w-150 flex flex-col gap-2.5 grow")}>
-      <div className="grid md:grid-cols-2 place-items-center gap-5">
-        <FormButton className="w-full" onClick={validate}>
-          {consent.rejectBtnText}
-        </FormButton>
-        <FormButton className="w-full" onClick={validate}>
-          {consent.acceptBtnText}
-        </FormButton>
+      <div className="grid place-items-center gap-5">
+        <div className="w-fit flex items-center gap-5 relative">
+          <AnimatedCheckbox
+            className="-translate-x-[calc(100%_+_10px)] absolute"
+            checked={checked}
+            onClick={() => setChecked((e) => !e)}
+          />
+          <FormButton className="w-full" onClick={validate}>
+            {consent.acceptBtnText}
+          </FormButton>
+        </div>
       </div>
     </section>
   );

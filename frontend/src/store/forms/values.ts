@@ -89,7 +89,6 @@ export const FormElements = [
         icon: SquareCheck,
         isPremium: false,
       },
-      { title: "Checkbox", icon: Link2, isPremium: true },
     ],
   },
   {
