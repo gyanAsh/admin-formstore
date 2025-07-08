@@ -48,7 +48,7 @@ func formApiCreate(workspace_id int, title string) error {
 func formDbDelete() {
 }
 
-func TestCreateForm(t *testing.T) {
+func TestFormCreate(t *testing.T) {
 	workspaceName := rand.Text()[:12]
 	workspaceID, err := workspaceDbCreate(workspaceName)
 	if err != nil {
