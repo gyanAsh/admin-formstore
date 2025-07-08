@@ -18,6 +18,7 @@ import {
   EmailValidation,
   FormElements,
   FormFields,
+  MultiSelectValidation,
   RatingValidation,
   SingleSelectValidation,
   TextValidation,
@@ -186,6 +187,14 @@ export const FromElementDialogContent = memo(
           <div className="flex flex-col space-y-4">
             <SingleSelectValidations
               validations={stateElement.validations as SingleSelectValidation}
+              setState={setStateElement}
+            />
+          </div>
+        )}
+        {stateElement.field === FormFields.multiselect && (
+          <div className="flex flex-col space-y-4">
+            <MultiSelectValidations
+              validations={stateElement.validations as MultiSelectValidation}
               setState={setStateElement}
             />
           </div>
@@ -468,6 +477,94 @@ const YesNoValidations = ({
             }))
           }
         />
+      </div>
+    </div>
+  );
+};
+
+const MultiSelectValidations = ({
+  validations,
+  setState,
+}: {
+  validations?: MultiSelectValidation;
+  setState: React.Dispatch<React.SetStateAction<FormElements>>;
+}) => {
+  return (
+    <div className="grid flex-1 space-y-4">
+      <div className="grid flex-1 gap-2">
+        {validations?.options.map((e, idx) => {
+          return (
+            <div key={e.id ?? idx} className="flex items-end gap-2">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor={`dropdown-option-${idx}`}>
+                  Options {idx + 1}:
+                </Label>
+                <Textarea
+                  id={`dropdown-option-${idx}`}
+                  className={cn(
+                    "hover:border-ring hover:ring-ring/50 hover:ring-1 duration-200 ",
+                    " focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+                    "field-sizing-content max-h-29.5 min-h-0 resize-none py-1.75 shadow-sm"
+                  )}
+                  placeholder="Your accept text here."
+                  value={e.text}
+                  onChange={(val) =>
+                    setState((prev) => ({
+                      ...prev,
+                      validations: {
+                        ...prev.validations,
+                        options: validations.options.map((opt, i) =>
+                          i === idx ? { ...opt, text: val.target.value } : opt
+                        ),
+                      } as MultiSelectValidation,
+                    }))
+                  }
+                />
+              </div>
+
+              <Button
+                variant={"destructive"}
+                onClick={() => {
+                  setState((prev) => ({
+                    ...prev,
+                    validations: {
+                      ...prev.validations,
+                      options: validations.options.filter(
+                        (option) => option.id !== e.id
+                      ),
+                    } as MultiSelectValidation,
+                  }));
+                }}
+              >
+                <Trash2 />
+              </Button>
+            </div>
+          );
+        })}
+      </div>
+      <div className="grid flex-1 gap-2">
+        <Button
+          onClick={() => {
+            setState((prev) => {
+              const prevOptions = validations?.options || [];
+              const newOption = {
+                id: generateMicroId(),
+                text: `Option ${prevOptions.length + 1}`,
+              };
+
+              return {
+                ...prev,
+                validations: {
+                  ...prev.validations,
+                  options: [...prevOptions, newOption],
+                } as MultiSelectValidation,
+              };
+            });
+          }}
+          className="w-fit"
+        >
+          Add New Option
+        </Button>
       </div>
     </div>
   );

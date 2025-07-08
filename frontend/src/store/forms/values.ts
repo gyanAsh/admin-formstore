@@ -33,6 +33,7 @@ import {
   EmailValidation,
   FormElements as FormElementType,
   FormFields,
+  MultiSelectValidation,
   RatingKey,
   RatingValidation,
   RatingValue,
@@ -84,7 +85,12 @@ export const FormElements = [
     name: "Choice",
     color: "blue",
     items: [
-      { title: "Multiple Select", icon: LayoutList, isPremium: true },
+      {
+        title: "Multiple Select",
+        icon: LayoutList,
+        isPremium: false,
+        value: FormFields.multiselect,
+      },
       // {
       //   title: "Dropdown",
       //   icon: ChevronDown,
@@ -181,7 +187,9 @@ export function getDefaultLabelTitle(fieldType: string): string {
     case FormFields.yesno:
       return "Yes or No...";
     case FormFields.singleSelect:
-      return "Select Single Option...";
+      return "Select Single...";
+    case FormFields.multiselect:
+      return "Select Multi...";
     case FormFields.dropdown:
       return "Dropdown...";
     case FormFields.welcome:
@@ -205,6 +213,8 @@ export function getBadgeValue(fieldValue: string): FormElementType["badge"] {
       return { value: "Yes/No", color: "blue" };
     case FormFields.singleSelect:
       return { value: "Single Select", color: "blue" };
+    case FormFields.multiselect:
+      return { value: "Multi Select", color: "blue" };
     case FormFields.dropdown:
       return { value: "Dropdown", color: "blue" };
     case FormFields.rating:
@@ -256,6 +266,10 @@ export function getDefaultValidations(
       return {
         options: [{ id: generateMicroId(), text: "Option 1" }],
       } as SingleSelectValidation;
+    case FormFields.multiselect:
+      return {
+        options: [{ id: generateMicroId(), text: "Option 1" }],
+      } as MultiSelectValidation;
     case FormFields.rating:
       return {
         iconLength: 5,

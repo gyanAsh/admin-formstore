@@ -60,7 +60,8 @@ export type ValidatonTypes =
   | RatingValidation
   | WelcomeValidation
   | YesNoValidation
-  | SingleSelectValidation;
+  | SingleSelectValidation
+  | MultiSelectValidation;
 
 // Specific validation rules for each field type
 export interface EmailValidation {
@@ -81,6 +82,13 @@ export interface YesNoValidation {
 }
 
 export interface SingleSelectValidation {
+  options: {
+    id: string;
+    text: string;
+  }[];
+}
+
+export interface MultiSelectValidation {
   options: {
     id: string;
     text: string;

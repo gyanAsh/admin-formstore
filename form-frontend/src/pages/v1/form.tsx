@@ -23,6 +23,7 @@ import type {
   EmailValidation,
   FormElements,
   Forms,
+  MultiSelectValidation,
   RatingValidation,
   SingleSelectValidation,
   TextValidation,
@@ -41,6 +42,7 @@ import {
 import { GridAnimate, TextFade } from "./component/animated";
 import { FormYesNo } from "./component/elements/yes-no";
 import { FormSingleSelect } from "./component/elements/single-select";
+import { FormMultiSelect } from "./component/elements/multi-select";
 
 const variants = {
   enter: (direction: "prev" | "next") => ({
@@ -422,6 +424,11 @@ const FormPage = ({
         ) : element.type === FormTypes.singleSelect ? (
           <FormSingleSelect
             singleSelect={element.properties as SingleSelectValidation}
+            goNextFunction={goNextFunction}
+          />
+        ) : element.type === FormTypes.multiselect ? (
+          <FormMultiSelect
+            multiSelect={element.properties as MultiSelectValidation}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.url ? (
