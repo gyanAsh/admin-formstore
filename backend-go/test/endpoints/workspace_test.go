@@ -55,6 +55,7 @@ func workspaceApiDelete(workspaceID int) error {
 		return fmt.Errorf("status code %v", resp.StatusCode)
 	}
 	if err := json.NewDecoder(resp.Body).Decode(&message); err != nil {
+		// add a io reader log here i.e. for body type string
 		log.Println(fmt.Errorf("json decoding response body: %v\n", err))
 	}
 	return nil
@@ -86,7 +87,6 @@ func workspaceApiUpdate(workspaceID int, workspaceName string) error {
 	if err != nil {
 		return fmt.Errorf("workspace data marshal: %v", err)
 	}
-	log.Println(string(workspacedat))
 	r := httptest.NewRequest("PUT", "http://localhost:4000/api/workspace", bytes.NewBuffer(workspacedat))
 	r.Header.Add("Content-Type", "application/json")
 	r.Header.Add("Authorization", fmt.Sprintf("Bearer %s", AUTH_TOKEN))
