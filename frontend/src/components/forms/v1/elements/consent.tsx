@@ -35,17 +35,16 @@ export const FormConsent = ({
 
   return (
     <section className={cn(" max-w-150 flex flex-col gap-2.5 grow")}>
-      <div className="grid place-items-center gap-5">
-        <div className="w-fit flex items-center gap-5 relative">
+      <div className="flex justify-end gap-5">
+        <div className="w-fit flex items-center gap-5">
           <AnimatedCheckbox
-            className="-translate-x-[calc(100%_+_10px)] absolute"
             checked={checked}
             onClick={() => setChecked((e) => !e)}
           />
-          <FormButton className="w-full" onClick={validate}>
-            {consent.acceptBtnText}
-          </FormButton>
         </div>
+        <FormButton className="" onClick={validate}>
+          {consent.acceptBtnText}
+        </FormButton>
       </div>
     </section>
   );

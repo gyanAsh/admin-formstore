@@ -10,7 +10,6 @@ import {
   X,
   Pizza,
   AlignLeft,
-  ChevronDown,
   CircleCheck,
   CircleUser,
   FileText,
@@ -25,6 +24,7 @@ import {
   SquareCheck,
   Table,
   GalleryHorizontalEnd,
+  List,
 } from "lucide-react";
 
 import {
@@ -36,6 +36,7 @@ import {
   RatingKey,
   RatingValidation,
   RatingValue,
+  SingleSelectValidation,
   TextValidation,
   UrlValidation,
   ValidatonTypes,
@@ -83,13 +84,19 @@ export const FormElements = [
     name: "Choice",
     color: "blue",
     items: [
-      { title: "Multiple Choice", icon: LayoutList, isPremium: true },
+      { title: "Multiple Select", icon: LayoutList, isPremium: true },
       // {
       //   title: "Dropdown",
       //   icon: ChevronDown,
       //   isPremium: false,
       //   value: FormFields.dropdown,
       // },
+      {
+        title: "Single Select",
+        icon: List,
+        isPremium: false,
+        value: FormFields.singleSelect,
+      },
       {
         title: "Yes/No",
         icon: CircleCheck,
@@ -173,6 +180,8 @@ export function getDefaultLabelTitle(fieldType: string): string {
       return "Rate...";
     case FormFields.yesno:
       return "Yes or No...";
+    case FormFields.singleSelect:
+      return "Select Single Option...";
     case FormFields.dropdown:
       return "Dropdown...";
     case FormFields.welcome:
@@ -194,6 +203,8 @@ export function getBadgeValue(fieldValue: string): FormElementType["badge"] {
       return { value: "Consent", color: "blue" };
     case FormFields.yesno:
       return { value: "Yes/No", color: "blue" };
+    case FormFields.singleSelect:
+      return { value: "Single Select", color: "blue" };
     case FormFields.dropdown:
       return { value: "Dropdown", color: "blue" };
     case FormFields.rating:
@@ -241,6 +252,10 @@ export function getDefaultValidations(
         defaultText: "Select the options..",
         dropdownOptions: [{ id: generateMicroId(), text: "Option 1" }],
       } as DropdownValidation;
+    case FormFields.singleSelect:
+      return {
+        options: [{ id: generateMicroId(), text: "Option 1" }],
+      } as SingleSelectValidation;
     case FormFields.rating:
       return {
         iconLength: 5,

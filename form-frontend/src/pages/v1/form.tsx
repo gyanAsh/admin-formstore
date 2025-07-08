@@ -24,6 +24,7 @@ import type {
   FormElements,
   Forms,
   RatingValidation,
+  SingleSelectValidation,
   TextValidation,
   UrlValidation,
   WelcomeValidation,
@@ -39,6 +40,7 @@ import {
 } from "./component/elements/screens";
 import { GridAnimate, TextFade } from "./component/animated";
 import { FormYesNo } from "./component/elements/yes-no";
+import { FormSingleSelect } from "./component/elements/single-select";
 
 const variants = {
   enter: (direction: "prev" | "next") => ({
@@ -415,6 +417,11 @@ const FormPage = ({
         ) : element.type === FormTypes.text ? (
           <FormText
             text={element.properties as TextValidation}
+            goNextFunction={goNextFunction}
+          />
+        ) : element.type === FormTypes.singleSelect ? (
+          <FormSingleSelect
+            singleSelect={element.properties as SingleSelectValidation}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.url ? (

@@ -34,6 +34,7 @@ export enum FormFields {
   consent = "consent",
   multiselect = "multiselect",
   dropdown = "dropdown",
+  singleSelect = "singleSelect",
   ranking = "ranking",
   rating = "rating",
   date = "date",
@@ -69,7 +70,8 @@ export type ValidatonTypes =
   | RatingValidation
   | WelcomeValidation
   | YesNoValidation
-  | DropdownValidation;
+  | DropdownValidation
+  | SingleSelectValidation;
 
 // Specific validation rules for each field type
 export interface EmailValidation {
@@ -87,6 +89,13 @@ export interface ConsentValidation {
 export interface DropdownValidation {
   defaultText: string;
   dropdownOptions: {
+    id: string;
+    text: string;
+  }[];
+}
+
+export interface SingleSelectValidation {
+  options: {
     id: string;
     text: string;
   }[];

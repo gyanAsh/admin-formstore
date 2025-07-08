@@ -29,7 +29,7 @@ export default function AnimatedCheckbox({
   return (
     <div
       className={cn(
-        "w-fit",
+        "w-fit relative",
         " px-2.5 md:px-3 py-2.5 md:py-3 cursor-pointer size-12 aspect-square flex items-center justify-center",
         " hover:contrast-75 active:scale-95 duration-200 transition-colors",
         "rounded text-[var(--text-color)] [font-family:var(--family)] text-lg bg-[var(--bg-color)]/[var(--transparant)] border-2 border-[var(--border-color)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)]/[var(--transparant)]",
