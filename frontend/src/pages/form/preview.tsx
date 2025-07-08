@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   ConsentValidation,
+  DropdownValidation,
   EmailValidation,
   FormElements,
   FormFields,
@@ -40,6 +41,7 @@ import {
   FormWelcomeScreen,
 } from "@/components/forms/v1/elements/screens";
 import { FormYesNo } from "@/components/forms/v1/elements/yes-no";
+import { FormDropdown } from "@/components/forms/v1/elements/dropdown";
 const variants = {
   enter: (direction: "prev" | "next") => ({
     x: direction === "prev" ? -100 : 100,
@@ -387,6 +389,11 @@ const FormPage = ({
         ) : element.field === FormFields.consent ? (
           <FormConsent
             consent={element.validations as ConsentValidation}
+            goNextFunction={goNextFunction}
+          />
+        ) : element.field === FormFields.dropdown ? (
+          <FormDropdown
+            dropdown={element.validations as DropdownValidation}
             goNextFunction={goNextFunction}
           />
         ) : element.field === FormFields.yesno ? (

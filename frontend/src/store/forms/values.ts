@@ -29,6 +29,7 @@ import {
 
 import {
   ConsentValidation,
+  DropdownValidation,
   EmailValidation,
   FormElements as FormElementType,
   FormFields,
@@ -41,6 +42,7 @@ import {
   WelcomeValidation,
   YesNoValidation,
 } from "./form-elements.types";
+import { generateMicroId } from "@/lib/utils";
 
 export const RatingValues: Record<RatingKey, RatingValue> = {
   star: { value: "star", name: "Start", icon: Star },
@@ -82,7 +84,12 @@ export const FormElements = [
     color: "blue",
     items: [
       { title: "Multiple Choice", icon: LayoutList, isPremium: true },
-      { title: "Dropdown", icon: ChevronDown, isPremium: true },
+      // {
+      //   title: "Dropdown",
+      //   icon: ChevronDown,
+      //   isPremium: false,
+      //   value: FormFields.dropdown,
+      // },
       {
         title: "Yes/No",
         icon: CircleCheck,
@@ -166,6 +173,8 @@ export function getDefaultLabelTitle(fieldType: string): string {
       return "Rate...";
     case FormFields.yesno:
       return "Yes or No...";
+    case FormFields.dropdown:
+      return "Dropdown...";
     case FormFields.welcome:
       return "Welcome!👋 We're glad you're here.";
     case FormFields.exit:
@@ -185,6 +194,8 @@ export function getBadgeValue(fieldValue: string): FormElementType["badge"] {
       return { value: "Consent", color: "blue" };
     case FormFields.yesno:
       return { value: "Yes/No", color: "blue" };
+    case FormFields.dropdown:
+      return { value: "Dropdown", color: "blue" };
     case FormFields.rating:
       return { value: "Rating", color: "green" };
     case FormFields.text:
@@ -225,6 +236,11 @@ export function getDefaultValidations(
         yesBtnText: "Yes",
         noBtnText: "No",
       } as YesNoValidation;
+    case FormFields.dropdown:
+      return {
+        defaultText: "Select the options..",
+        dropdownOptions: [{ id: generateMicroId(), text: "Option 1" }],
+      } as DropdownValidation;
     case FormFields.rating:
       return {
         iconLength: 5,

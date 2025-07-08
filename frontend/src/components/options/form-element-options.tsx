@@ -1,4 +1,4 @@
-import { Dot, MinusIcon, PlusIcon } from "lucide-react";
+import { Dot, MinusIcon, PlusIcon, Trash2 } from "lucide-react";
 import { Button } from "../ui/button";
 import {
   DialogClose,
@@ -11,9 +11,10 @@ import {
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { memo, useState } from "react";
-import { cn } from "@/lib/utils";
+import { cn, generateMicroId } from "@/lib/utils";
 import {
   ConsentValidation,
+  DropdownValidation,
   EmailValidation,
   FormElements,
   FormFields,
@@ -168,6 +169,14 @@ export const FromElementDialogContent = memo(
           <div className="flex flex-col space-y-4">
             <ConsentValidations
               validations={stateElement.validations as ConsentValidation}
+              setState={setStateElement}
+            />
+          </div>
+        )}
+        {stateElement.field === FormFields.dropdown && (
+          <div className="flex flex-col space-y-4">
+            <DropdownValidations
+              validations={stateElement.validations as DropdownValidation}
               setState={setStateElement}
             />
           </div>
@@ -450,6 +459,114 @@ const YesNoValidations = ({
             }))
           }
         />
+      </div>
+    </div>
+  );
+};
+
+const DropdownValidations = ({
+  validations,
+  setState,
+}: {
+  validations?: DropdownValidation;
+  setState: React.Dispatch<React.SetStateAction<FormElements>>;
+}) => {
+  return (
+    <div className="grid flex-1 space-y-4">
+      <div className="grid flex-1 gap-2">
+        <Label htmlFor="default-text">Default Text :</Label>
+        <Input
+          id="default-text"
+          type="text"
+          className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
+          placeholder="Your accept text here."
+          value={validations?.defaultText}
+          onChange={(val) =>
+            setState((e) => ({
+              ...e,
+              validations: {
+                ...e.validations,
+                defaultText: val.target.value,
+              } as DropdownValidation,
+            }))
+          }
+        />
+      </div>
+      <div className="grid flex-1 gap-2">
+        {validations?.dropdownOptions.map((e, idx) => {
+          return (
+            <div key={e.id ?? idx} className="flex items-end gap-2">
+              <div className="grid flex-1 gap-2">
+                <Label htmlFor={`dropdown-option-${idx}`}>
+                  Options {idx + 1}:
+                </Label>
+                <Textarea
+                  id={`dropdown-option-${idx}`}
+                  className={cn(
+                    "hover:border-ring hover:ring-ring/50 hover:ring-1 duration-200 ",
+                    " focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+                    "field-sizing-content max-h-29.5 min-h-0 resize-none py-1.75 shadow-sm"
+                  )}
+                  placeholder="Your accept text here."
+                  value={e.text}
+                  onChange={(val) =>
+                    setState((prev) => ({
+                      ...prev,
+                      validations: {
+                        ...prev.validations,
+                        dropdownOptions: validations.dropdownOptions.map(
+                          (opt, i) =>
+                            i === idx ? { ...opt, text: val.target.value } : opt
+                        ),
+                      } as DropdownValidation,
+                    }))
+                  }
+                />
+              </div>
+
+              <Button
+                variant={"destructive"}
+                onClick={() => {
+                  setState((prev) => ({
+                    ...prev,
+                    validations: {
+                      ...prev.validations,
+                      dropdownOptions: validations.dropdownOptions.filter(
+                        (option) => option.id !== e.id
+                      ),
+                    } as DropdownValidation,
+                  }));
+                }}
+              >
+                <Trash2 />
+              </Button>
+            </div>
+          );
+        })}
+      </div>
+      <div className="grid flex-1 gap-2">
+        <Button
+          onClick={() => {
+            setState((prev) => {
+              const prevOptions = validations?.dropdownOptions || [];
+              const newOption = {
+                id: generateMicroId(),
+                text: `Option ${prevOptions.length + 1}`,
+              };
+
+              return {
+                ...prev,
+                validations: {
+                  ...prev.validations,
+                  dropdownOptions: [...prevOptions, newOption],
+                } as DropdownValidation,
+              };
+            });
+          }}
+          className="w-fit"
+        >
+          Add New Option
+        </Button>
       </div>
     </div>
   );

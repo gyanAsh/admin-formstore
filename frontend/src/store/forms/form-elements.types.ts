@@ -68,7 +68,8 @@ export type ValidatonTypes =
   | TextValidation
   | RatingValidation
   | WelcomeValidation
-  | YesNoValidation;
+  | YesNoValidation
+  | DropdownValidation;
 
 // Specific validation rules for each field type
 export interface EmailValidation {
@@ -81,6 +82,14 @@ export interface UrlValidation {
 
 export interface ConsentValidation {
   acceptBtnText: string; //I accept
+}
+
+export interface DropdownValidation {
+  defaultText: string;
+  dropdownOptions: {
+    id: string;
+    text: string;
+  }[];
 }
 
 export interface YesNoValidation {
