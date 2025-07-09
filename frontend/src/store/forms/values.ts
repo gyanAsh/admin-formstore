@@ -121,7 +121,12 @@ export const FormElements = [
     name: "Rating & Ranking",
     color: "green",
     items: [
-      { title: "Net Promoter Score®", icon: Gauge, isPremium: true },
+      {
+        title: "Net Promoter Score®",
+        icon: Gauge,
+        isPremium: false,
+        value: FormFields.nps,
+      },
       {
         title: "Rating",
         value: FormFields.rating,
@@ -190,6 +195,8 @@ export function getDefaultLabelTitle(fieldType: string): string {
       return "Select Single...";
     case FormFields.multiselect:
       return "Select Multi...";
+    case FormFields.nps:
+      return "Net Promoter Score...";
     case FormFields.dropdown:
       return "Dropdown...";
     case FormFields.welcome:
@@ -219,6 +226,8 @@ export function getBadgeValue(fieldValue: string): FormElementType["badge"] {
       return { value: "Dropdown", color: "blue" };
     case FormFields.rating:
       return { value: "Rating", color: "green" };
+    case FormFields.nps:
+      return { value: "Net Promoter Score", color: "green" };
     case FormFields.text:
       return { value: "Text", color: "yellow" };
     case FormFields.welcome:
@@ -270,6 +279,8 @@ export function getDefaultValidations(
       return {
         options: [{ id: generateMicroId(), text: "Option 1" }],
       } as MultiSelectValidation;
+    case FormFields.nps:
+      return undefined;
     case FormFields.rating:
       return {
         iconLength: 5,

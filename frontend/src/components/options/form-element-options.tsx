@@ -183,6 +183,13 @@ export const FromElementDialogContent = memo(
             />
           </div>
         )}
+        {/* {stateElement.field === FormFields.nps && (
+          <div className="flex flex-col space-y-4">
+            <NPSValidations
+               setState={setStateElement}
+            />
+          </div>
+        )} */}
         {stateElement.field === FormFields.singleSelect && (
           <div className="flex flex-col space-y-4">
             <SingleSelectValidations

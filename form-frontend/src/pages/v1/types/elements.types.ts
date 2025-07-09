@@ -21,6 +21,7 @@ export type FormElements = {
 export enum FormTypes {
   welcome = "welcome",
   exit = "exit",
+  nps = "nps",
   url = "website",
   consent = "consent",
   multiselect = "multiselect",

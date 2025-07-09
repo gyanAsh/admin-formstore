@@ -31,6 +31,7 @@ export enum FormFields {
   welcome = "welcome",
   exit = "exit",
   url = "website",
+  nps = "nps",
   consent = "consent",
   multiselect = "multiselect",
   dropdown = "dropdown",

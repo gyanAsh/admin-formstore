@@ -43,6 +43,7 @@ import { GridAnimate, TextFade } from "./component/animated";
 import { FormYesNo } from "./component/elements/yes-no";
 import { FormSingleSelect } from "./component/elements/single-select";
 import { FormMultiSelect } from "./component/elements/multi-select";
+import { FormNPS } from "./component/elements/nps";
 
 const variants = {
   enter: (direction: "prev" | "next") => ({
@@ -416,6 +417,8 @@ const FormPage = ({
             rating={element.properties as RatingValidation}
             goNextFunction={goNextFunction}
           />
+        ) : element.type === FormTypes.nps ? (
+          <FormNPS goNextFunction={goNextFunction} />
         ) : element.type === FormTypes.text ? (
           <FormText
             text={element.properties as TextValidation}

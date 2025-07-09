@@ -46,6 +46,7 @@ import { FormYesNo } from "@/components/forms/v1/elements/yes-no";
 import { FormDropdown } from "@/components/forms/v1/elements/dropdown";
 import { FormSingleSelect } from "@/components/forms/v1/elements/single-select";
 import { FormMultiSelect } from "@/components/forms/v1/elements/multi-select";
+import { FormNPS } from "@/components/forms/v1/elements/nps";
 const variants = {
   enter: (direction: "prev" | "next") => ({
     x: direction === "prev" ? -100 : 100,
@@ -405,6 +406,8 @@ const FormPage = ({
             singleSelect={element.validations as SingleSelectValidation}
             goNextFunction={goNextFunction}
           />
+        ) : element.field === FormFields.nps ? (
+          <FormNPS goNextFunction={goNextFunction} />
         ) : element.field === FormFields.multiselect ? (
           <FormMultiSelect
             multiSelect={element.validations as MultiSelectValidation}
