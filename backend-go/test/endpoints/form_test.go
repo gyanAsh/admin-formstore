@@ -2,6 +2,7 @@ package endpoints
 
 import (
 	"bytes"
+	"context"
 	"crypto/rand"
 	"encoding/json"
 	"fmt"
@@ -45,7 +46,22 @@ func formApiCreate(workspace_id int, title string) error {
 	return nil
 }
 
-func formDbDelete() {
+func formDbDelete(formID int) error {
+	if _, err := s.Conn.Exec(context.Background(), `DELETE FROM forms
+	WHERE ID = $1`, formID); err != nil {
+		return fmt.Errorf("db delete query failed: %v", err)
+	}
+	return nil
+}
+
+func formDbCreate(workspaceID int, formTitle string) (int, error) {
+	row := s.Conn.QueryRow(context.Background(), `INSERT INTO forms
+		(title, workspace_id) VALUES ($1, $2) RETURNING ID`, formTitle, workspaceID)
+	var formID int
+	if err := row.Scan(&formID); err != nil {
+		return 0, fmt.Errorf("db insert query failed: %v", err)
+	}
+	return formID, nil
 }
 
 func TestFormCreate(t *testing.T) {
@@ -63,5 +79,52 @@ func TestFormCreate(t *testing.T) {
 	formTitle := rand.Text()[:12]
 	if err := formApiCreate(workspaceID, formTitle); err != nil {
 		t.Fatal(fmt.Errorf("form api create: %v", err))
+	}
+}
+
+func formApiDelete(formID int) error {
+	r := httptest.NewRequest("DELETE", "http://localhost:4000/api/form", nil)
+	r.Header.Add("Authorization", fmt.Sprintf("Bearer %s", AUTH_TOKEN))
+	r.SetPathValue("form_id", fmt.Sprint(formID))
+	w := httptest.NewRecorder()
+
+	resp := w.Result()
+	if resp.StatusCode != 200 {
+		var message map[string]any
+		if err := json.NewDecoder(resp.Body).Decode(&message); err != nil {
+			log.Println(fmt.Errorf("json decoding: %v", err))
+			if data, err := io.ReadAll(resp.Body); err != nil {
+				log.Println(fmt.Errorf("text decoding: %v", err))
+				log.Println("no body found")
+			} else {
+				log.Println("message data: ", string(data))
+			}
+		} else {
+			log.Println("message data: ", message)
+		}
+		return fmt.Errorf("invalid status code = %d\n", resp.StatusCode)
+	}
+	return nil
+}
+
+func TestFormDelete(t *testing.T) {
+	workspaceName := rand.Text()[:12]
+	workspaceID, err := workspaceDbCreate(workspaceName)
+	if err != nil {
+		t.Fatal(fmt.Errorf("workspace db create: %v", err))
+	}
+	defer func(workspaceID int) {
+		if err := workspaceDbDelete(workspaceID); err != nil {
+			t.Fatal(fmt.Errorf("workspace delete: %v", err))
+		}
+	}(workspaceID)
+
+	formTitle := rand.Text()[:12]
+	formID, err := formDbCreate(workspaceID, formTitle)
+	if err != nil {
+		log.Println(fmt.Errorf("form db create: %v", err))
+	}
+	if err := formApiDelete(formID); err != nil {
+		log.Println(fmt.Errorf("form api delete: %v", err))
 	}
 }
