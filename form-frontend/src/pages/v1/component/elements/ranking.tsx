@@ -109,7 +109,7 @@ export const FormRanking = ({
               <span className="flex text-nowrap items-center justify-between text-center font-bold !size-6">
                 {rank !== -1 ? rank + 1 : `--`} &bull;
               </span>
-              <h2 className="grow">{e.text}</h2>
+              <h2 className="grow group-hover:font-semibold ">{e.text}</h2>
               {rank !== -1 && (
                 <div className="flex gap-1">
                   <button
@@ -118,9 +118,15 @@ export const FormRanking = ({
                       moveUp(e.text);
                     }}
                     disabled={isTop}
-                    className="border p-0.5 active:scale-95 duration-200 bg-[var(--bg-color)]/[var(--transparant)] border-[var(--border-color)] text-[var(--text-color)] rounded-md cursor-pointer group disabled:opacity-50"
+                    className={cn(
+                      "border p-0.5 active:scale-95 duration-100 bg-[var(--bg-color)]/[var(--transparant)] border-[var(--border-color)]",
+                      " text-[var(--text-color)] rounded-md cursor-pointer not-disabled:group/btn not-disabled:hover:contrast-150 disabled:opacity-50"
+                    )}
                   >
-                    <ChevronUp className="group-hover:scale-105" />
+                    <ChevronUp
+                      className="group-hover/btn:scale-105 group-hover/btn:stroke-3 stroke-2 size-5"
+                      strokeWidth={"inherit"}
+                    />
                   </button>
                   <button
                     onClick={(event) => {
@@ -128,9 +134,15 @@ export const FormRanking = ({
                       moveDown(e.text);
                     }}
                     disabled={isBottom}
-                    className="border p-0.5 active:scale-95 duration-200 bg-[var(--bg-color)]/[var(--transparant)] border-[var(--border-color)] text-[var(--text-color)] rounded-md cursor-pointer group disabled:opacity-50"
+                    className={cn(
+                      "border p-0.5 active:scale-95 duration-100 bg-[var(--bg-color)]/[var(--transparant)] border-[var(--border-color)]",
+                      " text-[var(--text-color)] rounded-md cursor-pointer not-disabled:group/btn not-disabled:hover:contrast-150 disabled:opacity-50"
+                    )}
                   >
-                    <ChevronDown className="group-hover:scale-105" />
+                    <ChevronDown
+                      className="group-hover/btn:scale-105 group-hover/btn:stroke-3 stroke-2 size-5"
+                      strokeWidth={"inherit"}
+                    />
                   </button>
                 </div>
               )}
@@ -170,7 +182,7 @@ const Options = ({
       className={cn(
         "w-full text-start whitespace-pre-line",
         " px-2.5 md:px-3 py-2.5 md:py-3 cursor-pointer",
-        "group duration-200 hover:font-bold transition-colors",
+        "group duration-100 transition-colors",
 
         "rounded-[25px] md:rounded-[28px] text-[var(--text-color)] [font-family:var(--family)] text-lg bg-[var(--bg-color)]/[var(--transparant)]",
         "border-2 border-[var(--border-color)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)]/[var(--transparant)]",
@@ -179,8 +191,6 @@ const Options = ({
       )}
       style={elStyle}
       {...props}
-    >
-      {children}
-    </button>
+    />
   );
 };

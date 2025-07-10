@@ -24,6 +24,7 @@ import type {
   FormElements,
   Forms,
   MultiSelectValidation,
+  RankingValidation,
   RatingValidation,
   SingleSelectValidation,
   TextValidation,
@@ -44,6 +45,7 @@ import { FormYesNo } from "./component/elements/yes-no";
 import { FormSingleSelect } from "./component/elements/single-select";
 import { FormMultiSelect } from "./component/elements/multi-select";
 import { FormNPS } from "./component/elements/nps";
+import { FormRanking } from "./component/elements/ranking";
 
 const variants = {
   enter: (direction: "prev" | "next") => ({
@@ -410,6 +412,11 @@ const FormPage = ({
         ) : element.type === FormTypes.yesno ? (
           <FormYesNo
             yesno={element.properties as YesNoValidation}
+            goNextFunction={goNextFunction}
+          />
+        ) : element.type === FormTypes.ranking ? (
+          <FormRanking
+            ranking={element.properties as RankingValidation}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.rating ? (
