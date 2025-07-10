@@ -92,7 +92,7 @@ const NPSContainer = ({
       <div
         className={cn(
           "flex items-center justify-between w-full rounded-full px-4",
-          "text-[var(--text-color)] [font-family:var(--family)] text-lg"
+          "text-[var(--text-color)] [font-family:var(--family)] text-base md:text-lg"
         )}
         style={textStyle}
       >

@@ -103,6 +103,12 @@ export interface SingleSelectValidation {
   }[];
 }
 
+export interface RankingValidation {
+  options: {
+    id: string;
+    text: string;
+  }[];
+}
 export interface MultiSelectValidation {
   options: {
     id: string;

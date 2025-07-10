@@ -34,6 +34,7 @@ import {
   FormElements as FormElementType,
   FormFields,
   MultiSelectValidation,
+  RankingValidation,
   RatingKey,
   RatingValidation,
   RatingValue,
@@ -136,7 +137,8 @@ export const FormElements = [
       {
         title: "Ranking",
         icon: ListOrdered,
-        isPremium: true,
+        isPremium: false,
+        value: FormFields.ranking,
       },
       { title: "Matrix", icon: Table, isPremium: true },
     ],
@@ -197,6 +199,8 @@ export function getDefaultLabelTitle(fieldType: string): string {
       return "Select Multi...";
     case FormFields.nps:
       return "Net Promoter Score...";
+    case FormFields.ranking:
+      return "Ranking...";
     case FormFields.dropdown:
       return "Dropdown...";
     case FormFields.welcome:
@@ -228,6 +232,8 @@ export function getBadgeValue(fieldValue: string): FormElementType["badge"] {
       return { value: "Rating", color: "green" };
     case FormFields.nps:
       return { value: "Net Promoter Score", color: "green" };
+    case FormFields.ranking:
+      return { value: "Ranking", color: "green" };
     case FormFields.text:
       return { value: "Text", color: "yellow" };
     case FormFields.welcome:
@@ -281,6 +287,10 @@ export function getDefaultValidations(
       } as MultiSelectValidation;
     case FormFields.nps:
       return undefined;
+    case FormFields.ranking:
+      return {
+        options: [{ id: generateMicroId(), text: "Option 1" }],
+      } as RankingValidation;
     case FormFields.rating:
       return {
         iconLength: 5,

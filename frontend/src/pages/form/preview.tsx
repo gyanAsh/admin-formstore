@@ -17,6 +17,7 @@ import {
   FormElements,
   FormFields,
   MultiSelectValidation,
+  RankingValidation,
   RatingValidation,
   SingleSelectValidation,
   TextValidation,
@@ -47,6 +48,7 @@ import { FormDropdown } from "@/components/forms/v1/elements/dropdown";
 import { FormSingleSelect } from "@/components/forms/v1/elements/single-select";
 import { FormMultiSelect } from "@/components/forms/v1/elements/multi-select";
 import { FormNPS } from "@/components/forms/v1/elements/nps";
+import { FormRanking } from "@/components/forms/v1/elements/ranking";
 const variants = {
   enter: (direction: "prev" | "next") => ({
     x: direction === "prev" ? -100 : 100,
@@ -246,7 +248,7 @@ const FormNavBtn = ({
   return (
     <button
       className={cn(
-        "p-1 rounded not-disabled:hover:scale-105 not-disabled:active:scale-95 duration-100 not-disabled:cursor-pointer bg-gray-500/75 disabled:opacity-50",
+        "p-1 rounded not-disabled:active:scale-95 duration-100 not-disabled:cursor-pointer bg-gray-500/75 disabled:opacity-50",
         className
       )}
       {...props}
@@ -408,6 +410,11 @@ const FormPage = ({
           />
         ) : element.field === FormFields.nps ? (
           <FormNPS goNextFunction={goNextFunction} />
+        ) : element.field === FormFields.ranking ? (
+          <FormRanking
+            ranking={element.validations as RankingValidation}
+            goNextFunction={goNextFunction}
+          />
         ) : element.field === FormFields.multiselect ? (
           <FormMultiSelect
             multiSelect={element.validations as MultiSelectValidation}

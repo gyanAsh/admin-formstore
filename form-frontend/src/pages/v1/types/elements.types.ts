@@ -96,6 +96,13 @@ export interface MultiSelectValidation {
   }[];
 }
 
+export interface RankingValidation {
+  options: {
+    id: string;
+    text: string;
+  }[];
+}
+
 export interface RatingValidation {
   iconLength: 5; //5
   ratingIcon: RatingKey; //star
