@@ -16,6 +16,7 @@ import {
   EmailValidation,
   FormElements,
   FormFields,
+  LongTextValidation,
   MultiSelectValidation,
   RankingValidation,
   RatingValidation,
@@ -49,6 +50,7 @@ import { FormSingleSelect } from "@/components/forms/v1/elements/single-select";
 import { FormMultiSelect } from "@/components/forms/v1/elements/multi-select";
 import { FormNPS } from "@/components/forms/v1/elements/nps";
 import { FormRanking } from "@/components/forms/v1/elements/ranking";
+import { FormLongText } from "@/components/forms/v1/elements/long-text";
 const variants = {
   enter: (direction: "prev" | "next") => ({
     x: direction === "prev" ? -100 : 100,
@@ -433,6 +435,11 @@ const FormPage = ({
         ) : element.field === FormFields.text ? (
           <FormText
             text={element.validations as TextValidation}
+            goNextFunction={goNextFunction}
+          />
+        ) : element.field === FormFields.long_text ? (
+          <FormLongText
+            long_text={element.validations as LongTextValidation}
             goNextFunction={goNextFunction}
           />
         ) : element.field === FormFields.url ? (

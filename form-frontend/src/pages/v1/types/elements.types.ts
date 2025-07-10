@@ -31,6 +31,7 @@ export enum FormTypes {
   rating = "rating",
   date = "date",
   text = "text",
+  long_text = "long_text",
   phone = "phone",
   email = "email",
   yesno = "yes no",
@@ -109,6 +110,12 @@ export interface RatingValidation {
 }
 
 export interface TextValidation {
+  placeholder: string; //Add text here
+  minLength: number; //1
+  maxLength: number; //150
+}
+
+export interface LongTextValidation {
   placeholder: string; //Add text here
   minLength: number; //1
   maxLength: number; //150

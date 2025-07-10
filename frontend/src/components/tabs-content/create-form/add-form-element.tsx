@@ -143,6 +143,7 @@ export const AddFormElement = () => {
                         effect={"small_scale"}
                         value={e?.value || ""}
                         onClick={() => elementClick({ item: e })}
+                        disabled={!!e.isPremium}
                         className={cn(
                           "relative flex justify-start items-center overflow-hidden not-hover:p-[4px] group hover:border !border-inherit/5 transition-all duration-95",
                           {

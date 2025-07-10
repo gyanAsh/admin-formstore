@@ -23,6 +23,7 @@ import type {
   EmailValidation,
   FormElements,
   Forms,
+  LongTextValidation,
   MultiSelectValidation,
   RankingValidation,
   RatingValidation,
@@ -46,6 +47,7 @@ import { FormSingleSelect } from "./component/elements/single-select";
 import { FormMultiSelect } from "./component/elements/multi-select";
 import { FormNPS } from "./component/elements/nps";
 import { FormRanking } from "./component/elements/ranking";
+import { FormLongText } from "./component/elements/long-text";
 
 const variants = {
   enter: (direction: "prev" | "next") => ({
@@ -429,6 +431,11 @@ const FormPage = ({
         ) : element.type === FormTypes.text ? (
           <FormText
             text={element.properties as TextValidation}
+            goNextFunction={goNextFunction}
+          />
+        ) : element.type === FormTypes.long_text ? (
+          <FormLongText
+            long_text={element.properties as LongTextValidation}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.singleSelect ? (

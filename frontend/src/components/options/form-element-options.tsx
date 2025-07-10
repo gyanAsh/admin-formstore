@@ -18,6 +18,7 @@ import {
   EmailValidation,
   FormElements,
   FormFields,
+  LongTextValidation,
   MultiSelectValidation,
   RankingValidation,
   RatingValidation,
@@ -44,7 +45,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { RatingValues, smallTextLimits } from "@/store/forms/values";
+import {
+  largeTextLimits,
+  RatingValues,
+  smallTextLimits,
+} from "@/store/forms/values";
 
 export const FromElementDialogContent = memo(
   ({
@@ -164,6 +169,14 @@ export const FromElementDialogContent = memo(
           <div className="flex flex-col space-y-4">
             <TextValidations
               validations={stateElement.validations as TextValidation}
+              setState={setStateElement}
+            />
+          </div>
+        )}
+        {stateElement.field === FormFields.long_text && (
+          <div className="flex flex-col space-y-4">
+            <LongTextValidations
+              validations={stateElement.validations as LongTextValidation}
               setState={setStateElement}
             />
           </div>
@@ -415,6 +428,109 @@ const TextValidations = ({
   );
 };
 
+const LongTextValidations = ({
+  validations,
+  setState,
+}: {
+  validations?: LongTextValidation;
+  setState: React.Dispatch<React.SetStateAction<FormElements>>;
+}) => {
+  return (
+    <>
+      <div className="grid flex-1 gap-2">
+        <Label htmlFor="url-placeholder">Placeholder :</Label>
+        <Input
+          id="url-placeholder"
+          type="text"
+          className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
+          placeholder={validations?.placeholder}
+          value={validations?.placeholder}
+          onChange={(val) =>
+            setState((e) => ({
+              ...e,
+              validations: {
+                ...e.validations,
+                placeholder: val.target.value,
+              } as UrlValidation,
+            }))
+          }
+        />
+      </div>
+      <div className="grid grid-cols-2 gap-2.5">
+        <NumberField
+          value={validations?.minLength}
+          minValue={largeTextLimits.hardMinValue}
+          maxValue={validations?.maxLength}
+          onChange={(val) => {
+            setState((e) => ({
+              ...e,
+              validations: {
+                ...e.validations,
+                minLength: val,
+              } as TextValidation,
+            }));
+          }}
+        >
+          <div className="*:not-first:mt-2">
+            <AriaLabel className="text-foreground text-sm font-medium">
+              Min characters
+            </AriaLabel>
+            <Group className="border-input data-focus-within:border-ring data-focus-within:ring-ring/50 data-focus-within:has-aria-invalid:ring-destructive/20 dark:data-focus-within:has-aria-invalid:ring-destructive/40 data-focus-within:has-aria-invalid:border-destructive relative inline-flex h-9 w-full items-center overflow-hidden rounded-md border text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none data-disabled:opacity-50 data-focus-within:ring-[3px]">
+              <AriaButton
+                slot="decrement"
+                className="border-input rounded-none bg-background text-muted-foreground/80 hover:bg-accent hover:text-foreground -ms-px flex aspect-square h-[inherit] items-center justify-center rounded-s-md border text-sm transition-[color,box-shadow] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <MinusIcon size={16} aria-hidden="true" />
+              </AriaButton>
+              <AriaInput className="bg-background rounded-none text-foreground w-full grow px-3 py-2 text-center tabular-nums" />
+              <AriaButton
+                slot="increment"
+                className="border-input rounded-none bg-background text-muted-foreground/80 hover:bg-accent hover:text-foreground -me-px flex aspect-square h-[inherit] items-center justify-center rounded-e-md border text-sm transition-[color,box-shadow] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <PlusIcon size={16} aria-hidden="true" />
+              </AriaButton>
+            </Group>
+          </div>
+        </NumberField>
+        <NumberField
+          value={validations?.maxLength}
+          minValue={validations?.minLength}
+          maxValue={largeTextLimits.hardMaxValue}
+          onChange={(val) => {
+            setState((e) => ({
+              ...e,
+              validations: {
+                ...e.validations,
+                maxLength: val,
+              } as TextValidation,
+            }));
+          }}
+        >
+          <div className="*:not-first:mt-2">
+            <AriaLabel className="text-foreground text-sm font-medium">
+              Max characters
+            </AriaLabel>
+            <Group className="border-input data-focus-within:border-ring data-focus-within:ring-ring/50 data-focus-within:has-aria-invalid:ring-destructive/20 dark:data-focus-within:has-aria-invalid:ring-destructive/40 data-focus-within:has-aria-invalid:border-destructive relative inline-flex h-9 w-full items-center overflow-hidden rounded-md border text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none data-disabled:opacity-50 data-focus-within:ring-[3px]">
+              <AriaButton
+                slot="decrement"
+                className="border-input rounded-none bg-background text-muted-foreground/80 hover:bg-accent hover:text-foreground -ms-px flex aspect-square h-[inherit] items-center justify-center rounded-s-md border text-sm transition-[color,box-shadow] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <MinusIcon size={16} aria-hidden="true" />
+              </AriaButton>
+              <AriaInput className="bg-background rounded-none text-foreground w-full grow px-3 py-2 text-center tabular-nums" />
+              <AriaButton
+                slot="increment"
+                className="border-input rounded-none bg-background text-muted-foreground/80 hover:bg-accent hover:text-foreground -me-px flex aspect-square h-[inherit] items-center justify-center rounded-e-md border text-sm transition-[color,box-shadow] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <PlusIcon size={16} aria-hidden="true" />
+              </AriaButton>
+            </Group>
+          </div>
+        </NumberField>
+      </div>
+    </>
+  );
+};
 const ConsentValidations = ({
   validations,
   setState,

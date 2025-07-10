@@ -147,7 +147,12 @@ export const FormElements = [
     name: "Text & Video",
     color: "yellow",
     items: [
-      { title: "Long Text", icon: FileText, isPremium: true },
+      {
+        title: "Paragraph Text",
+        icon: FileText,
+        isPremium: false,
+        value: FormFields.long_text,
+      },
       {
         title: "Short Text",
         value: FormFields.text,
@@ -187,6 +192,8 @@ export function getDefaultLabelTitle(fieldType: string): string {
       return "Phone Number...";
     case FormFields.text:
       return "Write...";
+    case FormFields.long_text:
+      return "Write Paragraph...";
     case FormFields.consent:
       return "I accept...";
     case FormFields.rating:
@@ -236,6 +243,8 @@ export function getBadgeValue(fieldValue: string): FormElementType["badge"] {
       return { value: "Ranking", color: "green" };
     case FormFields.text:
       return { value: "Text", color: "yellow" };
+    case FormFields.text:
+      return { value: "Paragraph Text", color: "yellow" };
     case FormFields.welcome:
       return { value: "Welcome", color: "gray" };
     case FormFields.exit:
@@ -261,6 +270,12 @@ export function getDefaultValidations(
       return {
         minLength: 1,
         maxLength: 150,
+        placeholder: "Add your text here...",
+      } as TextValidation;
+    case FormFields.long_text:
+      return {
+        minLength: 1,
+        maxLength: 1000,
         placeholder: "Add your text here...",
       } as TextValidation;
     case FormFields.consent:
@@ -308,4 +323,9 @@ export function getDefaultValidations(
 export const smallTextLimits = {
   hardMinValue: 1,
   hardMaxValue: 255,
+};
+
+export const largeTextLimits = {
+  hardMinValue: 1,
+  hardMaxValue: 3000,
 };

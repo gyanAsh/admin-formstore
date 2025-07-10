@@ -40,6 +40,7 @@ export enum FormFields {
   rating = "rating",
   date = "date",
   text = "text",
+  long_text = "long_text",
   phone = "phone",
   email = "email",
   yesno = "yesno",
@@ -130,6 +131,11 @@ export interface TextValidation {
   placeholder: string; //Add text here
   minLength: number; //1
   maxLength: number; //150
+}
+export interface LongTextValidation {
+  placeholder: string; //Add text here
+  minLength: number; //1
+  maxLength: number; //300
 }
 
 export interface WelcomeValidation {
