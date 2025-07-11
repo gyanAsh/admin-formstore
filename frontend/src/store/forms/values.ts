@@ -25,6 +25,9 @@ import {
   Table,
   GalleryHorizontalEnd,
   List,
+  LucideIcon,
+  Handshake,
+  ChevronDown,
 } from "lucide-react";
 
 import {
@@ -328,4 +331,90 @@ export const smallTextLimits = {
 export const largeTextLimits = {
   hardMinValue: 1,
   hardMaxValue: 3000,
+};
+
+export const FormElementIcon: Record<
+  FormFields,
+  {
+    title: string;
+    icon?: LucideIcon;
+    color: "pink" | "blue" | "green" | "yellow" | "gray";
+  }
+> = {
+  [FormFields.email]: {
+    title: "Email",
+    icon: Mail,
+    color: "pink",
+  },
+  [FormFields.phone]: {
+    title: "Phone",
+    icon: Phone,
+    color: "pink",
+  },
+
+  [FormFields.text]: {
+    title: "Text",
+    icon: AlignLeft,
+    color: "yellow",
+  },
+  [FormFields.long_text]: {
+    title: "Paragraph Text",
+    icon: FileText,
+    color: "yellow",
+  },
+  [FormFields.dropdown]: {
+    title: "Dropdown",
+    icon: ChevronDown,
+    color: "blue",
+  },
+  [FormFields.multiselect]: {
+    title: "Multi-select",
+    icon: LayoutList,
+    color: "blue",
+  },
+  [FormFields.singleSelect]: {
+    title: "Single Select",
+    icon: List,
+    color: "blue",
+  },
+  [FormFields.ranking]: {
+    title: "Ranking",
+    icon: ListOrdered,
+    color: "green",
+  },
+  [FormFields.rating]: {
+    title: "Rating",
+    icon: Star,
+    color: "green",
+  },
+  [FormFields.url]: {
+    title: "Website URL",
+    icon: Link2,
+    color: "pink",
+  },
+  [FormFields.consent]: {
+    title: "Consent",
+    icon: Handshake,
+    color: "green",
+  },
+  [FormFields.nps]: {
+    title: "Net Promoter Score",
+    icon: Gauge,
+    color: "green",
+  },
+  [FormFields.yesno]: {
+    title: "Yes / No",
+    icon: CircleCheck,
+    color: "blue",
+  },
+  [FormFields.welcome]: {
+    title: "",
+    icon: undefined,
+    color: "gray",
+  },
+  [FormFields.exit]: {
+    title: "",
+    icon: undefined,
+    color: "gray",
+  },
 };

@@ -21,20 +21,19 @@ export type FormElements = {
 export enum FormTypes {
   welcome = "welcome",
   exit = "exit",
-  nps = "nps",
   url = "website",
+  nps = "nps",
   consent = "consent",
   multiselect = "multiselect",
-  singleSelect = "singleSelect",
   dropdown = "dropdown",
+  singleSelect = "singleSelect",
   ranking = "ranking",
   rating = "rating",
-  date = "date",
   text = "text",
   long_text = "long_text",
   phone = "phone",
   email = "email",
-  yesno = "yes no",
+  yesno = "yesno",
 }
 export type RatingKey =
   | "star"

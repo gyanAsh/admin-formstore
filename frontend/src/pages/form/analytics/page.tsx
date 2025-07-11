@@ -148,6 +148,6 @@ function AnalysisTabs() {
 }
 
 const tabs = [
-  { id: 1, title: "Overview", code: "overview" },
+  // { id: 1, title: "Overview", code: "overview" },
   { id: 2, title: "Submissions", code: "submissions" },
 ];

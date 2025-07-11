@@ -38,7 +38,6 @@ export enum FormFields {
   singleSelect = "singleSelect",
   ranking = "ranking",
   rating = "rating",
-  date = "date",
   text = "text",
   long_text = "long_text",
   phone = "phone",
