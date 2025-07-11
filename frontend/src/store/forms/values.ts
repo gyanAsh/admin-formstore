@@ -243,7 +243,7 @@ export function getBadgeValue(fieldValue: string): FormElementType["badge"] {
       return { value: "Ranking", color: "green" };
     case FormFields.text:
       return { value: "Text", color: "yellow" };
-    case FormFields.text:
+    case FormFields.long_text:
       return { value: "Paragraph Text", color: "yellow" };
     case FormFields.welcome:
       return { value: "Welcome", color: "gray" };

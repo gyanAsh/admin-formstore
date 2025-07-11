@@ -223,7 +223,7 @@ export const AddFormElement = () => {
 
                         <Sparkles
                           className={cn(
-                            "absolute right-2 text-yellow-400/80 dark:text-yellow-600 fill-yellow-400/25 dark:fill-yellow-400/45",
+                            "absolute right-2 text-yellow-500 dark:text-yellow-300 fill-yellow-400/85 dark:fill-yellow-400/80",
                             { hidden: !e?.isPremium }
                           )}
                         />
