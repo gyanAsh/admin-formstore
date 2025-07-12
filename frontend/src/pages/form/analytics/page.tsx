@@ -11,6 +11,7 @@ import { useState } from "react";
 import { AnimatePresence } from "motion/react";
 import { OverviewAnalysis } from "./overview-analysis";
 import { SubmissionsAnalysis } from "./submissions-analysis";
+import { Button } from "@/components/ui/button";
 
 export default function AnalyticsPage() {
   const parmas = useParams();
@@ -76,7 +77,9 @@ export default function AnalyticsPage() {
                   </h2>
                   <h2 className="text-3xl font-bold">{"Current Form Name"}</h2>
                 </div>
-                {/* <div className="flex max-sm:justify-end gap-2 h-9">s</div> */}
+                <div className="flex max-sm:justify-end gap-2 h-9">
+                  <Button effect={"scale"}>Download CSV</Button>
+                </div>
               </section>
               <AnalysisTabs />
             </div>

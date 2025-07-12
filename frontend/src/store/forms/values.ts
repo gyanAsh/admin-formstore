@@ -337,7 +337,7 @@ export const FormElementIcon: Record<
   FormFields,
   {
     title: string;
-    icon?: LucideIcon;
+    icon: LucideIcon;
     color: "pink" | "blue" | "green" | "yellow" | "gray";
   }
 > = {
@@ -409,12 +409,12 @@ export const FormElementIcon: Record<
   },
   [FormFields.welcome]: {
     title: "",
-    icon: undefined,
+    icon: GalleryHorizontalEnd,
     color: "gray",
   },
   [FormFields.exit]: {
     title: "",
-    icon: undefined,
+    icon: GalleryHorizontalEnd,
     color: "gray",
   },
 };
