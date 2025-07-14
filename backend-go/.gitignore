@@ -1,3 +1,5 @@
 .env
+.env.*
 todo.personal.md
 .todo.txt
+main
