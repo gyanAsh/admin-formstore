@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -33,6 +34,9 @@ func HttpServiceStart() error {
 		log.Fatal(err)
 	}
 	log.Printf("environment: %v\n", os.Getenv("ENVIRONMENT"))
+	if os.Getenv("ENVIRONMENT") == "" {
+		log.Fatal(fmt.Errorf("enviroment is required, possible values: [DEV, PROD]"))
+	}
 	pool, err := pgxpool.New(context.Background(), os.Getenv("DATABASE_URL"))
 	if err != nil {
 		log.Fatal(err)
