@@ -3,7 +3,7 @@ FROM ubuntu:latest
 WORKDIR /app
 
 COPY ./main .
-COPY ./.env .
+COPY ./.env.local .
 
 EXPOSE 4000
 
