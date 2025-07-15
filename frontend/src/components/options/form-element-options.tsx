@@ -20,6 +20,7 @@ import {
   FormFields,
   LongTextValidation,
   MultiSelectValidation,
+  PhoneValidation,
   RankingValidation,
   RatingValidation,
   SingleSelectValidation,
@@ -244,6 +245,14 @@ export const FromElementDialogContent = memo(
             />
           </div>
         )}
+        {stateElement.field === FormFields.phone && (
+          <div className="flex flex-col space-y-4">
+            <PhoneValidations
+              validations={stateElement.validations as PhoneValidation}
+              setState={setStateElement}
+            />
+          </div>
+        )}
         {stateElement.field === FormFields.email && (
           <div className="flex flex-col space-y-4">
             <EmailValidations
@@ -334,9 +343,9 @@ const TextValidations = ({
   return (
     <>
       <div className="grid flex-1 gap-2">
-        <Label htmlFor="url-placeholder">Placeholder :</Label>
+        <Label htmlFor="text-placeholder">Placeholder :</Label>
         <Input
-          id="url-placeholder"
+          id="text-placeholder"
           type="text"
           className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
           placeholder={validations?.placeholder}
@@ -347,7 +356,7 @@ const TextValidations = ({
               validations: {
                 ...e.validations,
                 placeholder: val.target.value,
-              } as UrlValidation,
+              } as TextValidation,
             }))
           }
         />
@@ -438,9 +447,9 @@ const LongTextValidations = ({
   return (
     <>
       <div className="grid flex-1 gap-2">
-        <Label htmlFor="url-placeholder">Placeholder :</Label>
+        <Label htmlFor="long-text-placeholder">Placeholder :</Label>
         <Input
-          id="url-placeholder"
+          id="long-text-placeholder"
           type="text"
           className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
           placeholder={validations?.placeholder}
@@ -451,7 +460,7 @@ const LongTextValidations = ({
               validations: {
                 ...e.validations,
                 placeholder: val.target.value,
-              } as UrlValidation,
+              } as LongTextValidation,
             }))
           }
         />
@@ -467,7 +476,7 @@ const LongTextValidations = ({
               validations: {
                 ...e.validations,
                 minLength: val,
-              } as TextValidation,
+              } as LongTextValidation,
             }));
           }}
         >
@@ -502,7 +511,7 @@ const LongTextValidations = ({
               validations: {
                 ...e.validations,
                 maxLength: val,
-              } as TextValidation,
+              } as LongTextValidation,
             }));
           }}
         >
@@ -1007,6 +1016,35 @@ const URLValidations = ({
               ...e.validations,
               placeholder: val.target.value,
             } as UrlValidation,
+          }))
+        }
+      />
+    </div>
+  );
+};
+const PhoneValidations = ({
+  validations,
+  setState,
+}: {
+  validations?: PhoneValidation;
+  setState: React.Dispatch<React.SetStateAction<FormElements>>;
+}) => {
+  return (
+    <div className="grid flex-1 gap-2">
+      <Label htmlFor="phone-placeholder">Placeholder :</Label>
+      <Input
+        id="phone-placeholder"
+        type="text"
+        className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
+        placeholder={validations?.placeholder}
+        value={validations?.placeholder}
+        onChange={(val) =>
+          setState((e) => ({
+            ...e,
+            validations: {
+              ...e.validations,
+              placeholder: val.target.value,
+            } as PhoneValidation,
           }))
         }
       />

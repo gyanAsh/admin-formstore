@@ -37,6 +37,7 @@ import {
   FormElements as FormElementType,
   FormFields,
   MultiSelectValidation,
+  PhoneValidation,
   RankingValidation,
   RatingKey,
   RatingValidation,
@@ -76,7 +77,12 @@ export const FormElements = [
         isPremium: false,
       },
       { title: "Address", icon: MapPinned, isPremium: true },
-      { title: "Phone", icon: Phone, isPremium: true },
+      {
+        title: "Phone/Number",
+        icon: Phone,
+        isPremium: false,
+        value: FormFields.phone,
+      },
       {
         title: "Website",
         value: FormFields.url,
@@ -192,7 +198,7 @@ export function getDefaultLabelTitle(fieldType: string): string {
     case FormFields.url:
       return "Website's Link...";
     case FormFields.phone:
-      return "Phone Number...";
+      return "Phone/Number...";
     case FormFields.text:
       return "Write...";
     case FormFields.long_text:
@@ -232,6 +238,8 @@ export function getBadgeValue(fieldValue: string): FormElementType["badge"] {
       return { value: "Consent", color: "blue" };
     case FormFields.yesno:
       return { value: "Yes/No", color: "blue" };
+    case FormFields.phone:
+      return { value: "Phone/Number", color: "blue" };
     case FormFields.singleSelect:
       return { value: "Single Select", color: "blue" };
     case FormFields.multiselect:
@@ -269,6 +277,10 @@ export function getDefaultValidations(
       return {
         placeholder: "https://",
       } as UrlValidation;
+    case FormFields.phone:
+      return {
+        placeholder: "+1234567890",
+      } as PhoneValidation;
     case FormFields.text:
       return {
         minLength: 1,

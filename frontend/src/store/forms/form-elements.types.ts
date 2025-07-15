@@ -73,7 +73,8 @@ export type ValidatonTypes =
   | YesNoValidation
   | DropdownValidation
   | SingleSelectValidation
-  | MultiSelectValidation;
+  | MultiSelectValidation
+  | PhoneValidation;
 
 // Specific validation rules for each field type
 export interface EmailValidation {
@@ -82,6 +83,10 @@ export interface EmailValidation {
 
 export interface UrlValidation {
   placeholder: string; //https://
+}
+
+export interface PhoneValidation {
+  placeholder: string; //+12345678
 }
 
 export interface ConsentValidation {

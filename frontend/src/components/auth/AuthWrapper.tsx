@@ -55,7 +55,6 @@ const AuthWrapper = ({ children }: Props) => {
       !hasVerified.current &&
       !["/login"].some((e) => pathname.startsWith(e))
     ) {
-      console.log({ run: "once" });
       hasVerified.current = true;
       verifyUserMutation.mutate(); // fire once
     }
