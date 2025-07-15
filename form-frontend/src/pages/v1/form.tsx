@@ -408,12 +408,12 @@ const FormPage = ({
             email={element.properties as EmailValidation}
             goNextFunction={goNextFunction}
           />
-        ) : element.type === FormTypes.consent ? (
+        ) : element.type === FormTypes.phone ? (
           <FormPhone
             phone={element.properties as PhoneValidation}
             goNextFunction={goNextFunction}
           />
-        ) : element.type === FormTypes.phone ? (
+        ) : element.type === FormTypes.consent ? (
           <FormConsent
             consent={element.properties as ConsentValidation}
             goNextFunction={goNextFunction}
