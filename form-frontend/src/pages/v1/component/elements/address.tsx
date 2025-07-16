@@ -25,6 +25,7 @@ export const FormAddress = ({
 
   const elStyle: Record<string, string> & React.CSSProperties = {
     "--family": design.family,
+    "--label-text-color": design.color,
     "--text-color": elDesign.textColor,
     "--bg-color": elDesign.bgColor,
     "--border-color": elDesign.borderColor,
@@ -50,7 +51,8 @@ export const FormAddress = ({
       <label
         htmlFor="line1-element"
         className={cn({
-          "after:content-['*'] after:ml-1.5": !!address.line1.required,
+          "after:content-['*'] after:ml-1.5 text-[var(--label-text-color)]":
+            !!address.line1.required,
         })}
       >
         {address.line1.label}
@@ -74,7 +76,8 @@ export const FormAddress = ({
       <label
         htmlFor="line2-element"
         className={cn({
-          "after:content-['*'] after:ml-1.5": !!address.line2.required,
+          "after:content-['*'] after:ml-1.5 text-[var(--label-text-color)]":
+            !!address.line2.required,
         })}
       >
         {address.line2.label}
@@ -98,7 +101,8 @@ export const FormAddress = ({
       <label
         htmlFor="city-element"
         className={cn({
-          "after:content-['*'] after:ml-1.5": !!address.city.required,
+          "after:content-['*'] after:ml-1.5 text-[var(--label-text-color)]":
+            !!address.city.required,
         })}
       >
         {address.city.label}
@@ -122,7 +126,8 @@ export const FormAddress = ({
       <label
         htmlFor="state-element"
         className={cn({
-          "after:content-['*'] after:ml-1.5": !!address.state.required,
+          "after:content-['*'] after:ml-1.5 text-[var(--label-text-color)]":
+            !!address.state.required,
         })}
       >
         {address.state.label}
@@ -148,7 +153,8 @@ export const FormAddress = ({
           <label
             htmlFor="zip-element"
             className={cn({
-              "after:content-['*'] after:ml-1.5": !!address.zip.required,
+              "after:content-['*'] after:ml-1.5 text-[var(--label-text-color)]":
+                !!address.zip.required,
             })}
           >
             {address.zip.label}
@@ -174,7 +180,8 @@ export const FormAddress = ({
           <label
             htmlFor="country-element"
             className={cn({
-              "after:content-['*'] after:ml-1.5": !!address.country.required,
+              "after:content-['*'] after:ml-1.5 text-[var(--label-text-color)]":
+                !!address.country.required,
             })}
           >
             {address.country.label}

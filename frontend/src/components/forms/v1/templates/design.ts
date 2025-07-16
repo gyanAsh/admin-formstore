@@ -116,7 +116,7 @@ export const designTemplate: Tempate[] = [
         imageUrl: "",
       },
       bgCustomValue: {
-        value: `radial-gradient(at 28% 24%, #f3d1f4 0px, transparent 50%), radial-gradient(at 24% 39%, #f5fcc1 0px, transparent 50%), radial-gradient(at 100% 56%, #bae5e5 0px, transparent 50%), radial-gradient(at 16% 49%, #98d6ea 0px, transparent 50%), #f3d1f4`,
+        value: `radial-gradient(at 28% 24%, #f3d1f4 0px, transparent 50%), radial-gradient(at 100% 56%, #bae5e5 0px, transparent 100%), radial-gradient(at 16% 49%, #98d6ea 0px, transparent 50%), #f3d1f4`,
       },
     },
   },

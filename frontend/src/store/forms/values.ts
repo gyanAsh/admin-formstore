@@ -20,7 +20,6 @@ import {
   Mail,
   MapPinned,
   Phone,
-  Play,
   SquareCheck,
   Table,
   GalleryHorizontalEnd,
