@@ -25,12 +25,18 @@ export interface ElementDesign {
   bgColor: string;
   borderColor: string;
 }
-
+export interface ButtonDesign {
+  variant: "solid" | "outline" | "glass";
+  textColor: string;
+  bgColor: string;
+  borderColor: string;
+}
 // Define the overall state interface for the design properties
 export interface DesignState {
   label: LabelDesign;
   description: DescriptionDesign;
   element: ElementDesign;
+  button: ButtonDesign;
   layout: LayoutDesign;
 }
 
@@ -177,6 +183,12 @@ export const defaultDesignState: DesignState = {
     letter_spacing: "0em",
   },
   element: {
+    variant: "glass",
+    textColor: "#ffffffff",
+    bgColor: "#f2f7fcff",
+    borderColor: "#ffffffff",
+  },
+  button: {
     variant: "glass",
     textColor: "#ffffffff",
     bgColor: "#f2f7fcff",

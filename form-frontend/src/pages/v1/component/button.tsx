@@ -5,19 +5,22 @@ export const FormButton = ({
   className,
   ...props
 }: React.ComponentProps<"button">) => {
-  const { element: elDesign, label: design } = useFormV1Store(
-    (state) => state.design
-  );
+  const {
+    element: elDesign,
+    button: btnDesign,
+    label: design,
+  } = useFormV1Store((state) => state.design);
 
+  const buttonDesign = btnDesign || elDesign;
   const elStyle: Record<string, string> & React.CSSProperties = {
     "--family": design.family,
-    "--text-color": elDesign.textColor,
-    "--bg-color": elDesign.bgColor,
-    "--border-color": elDesign.borderColor,
+    "--text-color": buttonDesign.textColor,
+    "--bg-color": buttonDesign.bgColor,
+    "--border-color": buttonDesign.borderColor,
     "--transparant":
-      elDesign.variant === "glass"
+      buttonDesign.variant === "glass"
         ? "20%"
-        : elDesign.variant === "outline"
+        : buttonDesign.variant === "outline"
         ? "0%"
         : "100%",
   };

@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import {
+  $get_design_button,
   $get_design_element,
   $get_design_label,
 } from "@/store/forms/form-elements";
@@ -10,17 +11,19 @@ export const FormButton = ({
   ...props
 }: React.ComponentProps<"button">) => {
   const elDesign = useStore($get_design_element);
+  const btnDesign = useStore($get_design_button);
   const design = useStore($get_design_label);
 
+  const buttonDesign = btnDesign || elDesign;
   const elStyle: Record<string, string> & React.CSSProperties = {
     "--family": design.family,
-    "--text-color": elDesign.textColor,
-    "--bg-color": elDesign.bgColor,
-    "--border-color": elDesign.borderColor,
+    "--text-color": buttonDesign.textColor,
+    "--bg-color": buttonDesign.bgColor,
+    "--border-color": buttonDesign.borderColor,
     "--transparant":
-      elDesign.variant === "glass"
+      buttonDesign.variant === "glass"
         ? "20%"
-        : elDesign.variant === "outline"
+        : buttonDesign.variant === "outline"
         ? "0%"
         : "100%",
   };

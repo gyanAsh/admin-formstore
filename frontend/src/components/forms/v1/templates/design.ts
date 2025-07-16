@@ -26,6 +26,12 @@ export const designTemplate: Tempate[] = [
       bgColor: "#fce7c7ff",
       borderColor: "#d0021bff",
     },
+    button: {
+      variant: "solid",
+      textColor: "#d0021bff",
+      bgColor: "#fce7c7ff",
+      borderColor: "#d0021bff",
+    },
     layout: {
       textAlign: "left",
       spread: true,
@@ -44,6 +50,14 @@ export const designTemplate: Tempate[] = [
   },
   {
     themeName: "Black Plex Serif",
+    label: {
+      color: "#f2f7fcff",
+      family: '"IBM Plex Serif", serif',
+      italics: false,
+      letter_spacing: "0.025em",
+      size: "60px",
+      weight: "bold",
+    },
     description: {
       color: "#f2f7fcff",
       family: '"IBM Plex Serif", serif',
@@ -58,13 +72,11 @@ export const designTemplate: Tempate[] = [
       textColor: "#000000ff",
       variant: "solid",
     },
-    label: {
-      color: "#f2f7fcff",
-      family: '"IBM Plex Serif", serif',
-      italics: false,
-      letter_spacing: "0.025em",
-      size: "60px",
-      weight: "bold",
+    button: {
+      bgColor: "#ffffffff",
+      borderColor: "#ffffffff",
+      textColor: "#000000ff",
+      variant: "solid",
     },
     layout: {
       textAlign: "center",
@@ -106,6 +118,12 @@ export const designTemplate: Tempate[] = [
       bgColor: "#f3d1f4",
       borderColor: "#000000cf",
     },
+    button: {
+      variant: "solid",
+      textColor: "#000000cf",
+      bgColor: "#f3d1f4",
+      borderColor: "#000000cf",
+    },
     layout: {
       textAlign: "left",
       spread: true,
@@ -118,6 +136,53 @@ export const designTemplate: Tempate[] = [
       bgCustomValue: {
         value: `radial-gradient(at 28% 24%, #f3d1f4 0px, transparent 50%), radial-gradient(at 100% 56%, #bae5e5 0px, transparent 100%), radial-gradient(at 16% 49%, #98d6ea 0px, transparent 50%), #f3d1f4`,
       },
+    },
+  },
+  {
+    themeName: "Jimini's Project",
+    description: {
+      color: "#1451e2ff",
+      family: '"Roboto", sans-serif',
+      italics: false,
+      letter_spacing: "-0.025em",
+      size: "20px",
+      weight: "light",
+    },
+    element: {
+      bgColor: "#f2f0ed66",
+      borderColor: "#1451e281",
+      textColor: "#1451e2ff",
+      variant: "solid",
+    },
+    label: {
+      color: "#1451e2ff",
+      family: '"Roboto", sans-serif',
+      italics: false,
+      letter_spacing: "0.025em",
+      size: "48px",
+      weight: "light",
+    },
+    layout: {
+      bgCustomValue: {
+        value:
+          "radial-gradient(at 28% 24%, #f3d1f4 0px, transparent 50%), radial-gradient(at 100% 56%, #bae5e5 0px, transparent 100%), radial-gradient(at 16% 49%, #98d6ea 0px, transparent 50%), #f3d1f4",
+      },
+      bgImageValue: {
+        imageUrl: "",
+      },
+      bgSolidValue: {
+        color: "#f9ffadff",
+      },
+      bgType: "solid",
+      elementSpacing: "12px",
+      spread: true,
+      textAlign: "left",
+    },
+    button: {
+      bgColor: "#1451e2ff",
+      textColor: "#f9ffadff",
+      borderColor: "#1451e2ff",
+      variant: "solid",
     },
   },
 ];

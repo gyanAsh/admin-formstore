@@ -32,11 +32,19 @@ export interface ElementDesign {
   borderColor: string;
 }
 
+export interface ButtonDesign {
+  variant: "solid" | "outline" | "glass";
+  textColor: string;
+  bgColor: string;
+  borderColor: string;
+}
+
 // Define the overall state interface for the design properties
 export interface DesignState {
   label: LabelDesign;
   description: DescriptionDesign;
   element: ElementDesign;
+  button: ButtonDesign;
   layout: LayoutDesign;
 }
 
@@ -188,6 +196,12 @@ export const defaultDesignState: DesignState = {
     bgColor: "#f2f7fcff",
     borderColor: "#ffffffff",
   },
+  button: {
+    variant: "glass",
+    textColor: "#ffffffff",
+    bgColor: "#f2f7fcff",
+    borderColor: "#ffffffff",
+  },
   layout: {
     elementSpacing: "12px",
     bgType: "image",
@@ -283,6 +297,30 @@ export function $set_design_element(newElementDesign: Partial<ElementDesign>) {
   $all_forms.set(updatedForms);
 }
 
+export function $set_design_button(newElementDesign: Partial<ButtonDesign>) {
+  const forms = $all_forms.get();
+  const workspaceId = selectedWorkspaceId.get();
+  const formId = selectedFormId.get();
+
+  const updatedForms = forms.map((form) => {
+    if (form.workspaceId === workspaceId && form.id === formId) {
+      return {
+        ...form,
+        design: {
+          ...form.design,
+          button: {
+            ...form.design.button,
+            ...newElementDesign,
+          },
+        },
+        updatedAt: new Date(),
+      };
+    }
+    return form;
+  });
+
+  $all_forms.set(updatedForms);
+}
 // ------------------------------------Layout-----------------------------------------
 
 export interface LayoutDesign {

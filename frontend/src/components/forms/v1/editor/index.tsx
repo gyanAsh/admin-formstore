@@ -38,15 +38,18 @@ import {
   FlipHorizontal2,
   Italic,
   LayoutDashboard,
+  MousePointerClick,
   SquareDashedMousePointer,
 } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
+  $set_design_button,
   $set_design_description,
   $set_design_element,
   $set_design_label,
   $set_design_layout,
   bgTypes,
+  ButtonDesign,
   DescriptionDesign,
   ElementDesign,
   LabelDesign,
@@ -59,6 +62,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
+  $get_design_button,
   $get_design_description,
   $get_design_element,
   $get_design_label,
@@ -75,6 +79,16 @@ import {
 } from "@/components/ui/dialog";
 import UploadImage from "./upload-image";
 const FormEditorOption = () => {
+  const setBtnDesign = $set_design_button;
+  const btnDesign = useStore($get_design_button);
+  const elDesign = useStore($get_design_element);
+
+  useEffect(() => {
+    if (!!elDesign && !btnDesign) {
+      setBtnDesign({ ...elDesign });
+    }
+  }, []);
+
   return (
     <>
       <section className="relative">
@@ -142,6 +156,28 @@ const FormEditorOption = () => {
               className="w-85 cursor-pointer rounded-3xl p-5 shadow-2xl"
             >
               <ElementDesignContent />
+            </MenubarContent>
+          </MenubarMenu>
+          <Separator orientation="vertical" className="bg-muted-foreground" />
+          <MenubarMenu>
+            <Tooltip>
+              <MenubarTrigger
+                asChild
+                className="rounded-none text-zinc-300 overflow-hidden"
+              >
+                <TooltipTrigger>
+                  <MousePointerClick className="size-7 scale-80" />
+                </TooltipTrigger>
+              </MenubarTrigger>
+              <TooltipContent>
+                <p>Button</p>
+              </TooltipContent>
+            </Tooltip>
+            <MenubarContent
+              align="center"
+              className="w-85 cursor-pointer rounded-3xl p-5 shadow-2xl"
+            >
+              <ButtonDesignContent />
             </MenubarContent>
           </MenubarMenu>
           <Separator orientation="vertical" className="bg-muted-foreground" />
@@ -373,6 +409,107 @@ const ElementDesignContent = () => {
               value={design.variant as ElementDesign["variant"]}
               onValueChange={(e) =>
                 setDesign({ variant: e as ElementDesign["variant"] })
+              }
+              className="inline-flex w-full"
+              type="single"
+            >
+              <ToggleGroupItem
+                className="data-[state=on]:bg-zinc-900 bg-background grow dark:data-[state=on]:bg-zinc-200 data-[state=on]:text-white dark:data-[state=on]:text-zinc-900"
+                value="solid"
+              >
+                Solid
+              </ToggleGroupItem>
+              <ToggleGroupItem
+                className="data-[state=on]:bg-zinc-900 bg-background grow dark:data-[state=on]:bg-zinc-200 data-[state=on]:text-white dark:data-[state=on]:text-zinc-900"
+                value="glass"
+              >
+                Glass
+              </ToggleGroupItem>
+              <ToggleGroupItem
+                className="data-[state=on]:bg-zinc-900 bg-background grow dark:data-[state=on]:bg-zinc-200 data-[state=on]:text-white dark:data-[state=on]:text-zinc-900"
+                value="outline"
+              >
+                Outline
+              </ToggleGroupItem>
+            </ToggleGroup>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="textColor">Text Color</Label>
+          <ColorPicker
+            hex={textColor}
+            setHex={(val) => {
+              setTextColor(val);
+            }}
+            id="textColor"
+          />
+        </div>
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="bgColor">Background Color</Label>
+          <ColorPicker
+            hex={bgColor}
+            setHex={(val) => {
+              setBgColor(val);
+            }}
+            id="bgColor"
+          />
+        </div>
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="borderColor">Border Color</Label>
+          <ColorPicker
+            hex={borderColor}
+            setHex={(val) => {
+              setBorderColor(val);
+            }}
+            id="borderColor"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ButtonDesignContent = () => {
+  const setDesign = $set_design_button;
+  const btnDesign = useStore($get_design_button);
+  const elDesign = useStore($get_design_element);
+  const design: ButtonDesign = btnDesign || elDesign;
+
+  const [textColor, setTextColor] = useState(design.textColor);
+
+  const [bgColor, setBgColor] = useState(design.bgColor);
+  const [borderColor, setBorderColor] = useState(design.borderColor);
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (textColor !== design.textColor) setDesign({ textColor: textColor });
+      if (bgColor !== design.bgColor) setDesign({ bgColor: bgColor });
+      if (borderColor !== design.borderColor)
+        setDesign({ borderColor: borderColor });
+    }, 500);
+
+    return () => clearTimeout(timeout); // cancel previous write
+  }, [textColor, bgColor, borderColor]);
+  return (
+    <div className="grid gap-4">
+      <div className="space-y-2">
+        <h4 className="leading-none font-medium">Elements</h4>
+        <p className="text-muted-foreground text-sm">
+          Set the styles for the elements.
+        </p>
+      </div>
+      <div className="grid gap-2 md:gap-4 lg:gap-5">
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="element-style">Style</Label>
+          <div
+            className=" col-span-2 flex items-center gap-1"
+            id="element-style"
+          >
+            <ToggleGroup
+              variant="outline"
+              value={design.variant as ButtonDesign["variant"]}
+              onValueChange={(e) =>
+                setDesign({ variant: e as ButtonDesign["variant"] })
               }
               className="inline-flex w-full"
               type="single"

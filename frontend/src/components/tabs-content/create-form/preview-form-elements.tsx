@@ -5,6 +5,7 @@ import FormEditorOption from "@/components/forms/v1/editor";
 import { designTemplate } from "@/components/forms/v1/templates/design";
 import { cn } from "@/lib/utils";
 import {
+  $set_design_button,
   $set_design_description,
   $set_design_element,
   $set_design_label,
@@ -90,6 +91,7 @@ export const FormElementPreview = () => {
                       $set_design_description(design.description);
                       $set_design_element(design.element);
                       $set_design_layout(design.layout);
+                      $set_design_button(design.button);
                     }}
                   >
                     <span> Set Design</span>

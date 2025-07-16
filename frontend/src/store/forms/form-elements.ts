@@ -52,6 +52,10 @@ export const $get_design_element = computed(
   $current_form,
   (e) => e.design.element
 );
+export const $get_design_button = computed(
+  $current_form,
+  (e) => e.design.button
+);
 export const $get_design_layout = computed(
   $current_form,
   (e) => e.design.layout
