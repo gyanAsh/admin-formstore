@@ -28,6 +28,7 @@ import {
   LucideIcon,
   Handshake,
   ChevronDown,
+  Hash,
 } from "lucide-react";
 
 import {
@@ -37,6 +38,7 @@ import {
   FormElements as FormElementType,
   FormFields,
   MultiSelectValidation,
+  NumberValidation,
   PhoneValidation,
   RankingValidation,
   RatingKey,
@@ -168,6 +170,12 @@ export const FormElements = [
         icon: AlignLeft,
         isPremium: false,
       },
+      {
+        title: "Number",
+        value: FormFields.number,
+        icon: Hash,
+        isPremium: false,
+      },
       { title: "Video", icon: Play, isPremium: true },
     ],
   },
@@ -205,6 +213,8 @@ export function getDefaultLabelTitle(fieldType: string): string {
       return "Write Paragraph...";
     case FormFields.consent:
       return "I accept...";
+    case FormFields.number:
+      return "Number...";
     case FormFields.rating:
       return "Rate...";
     case FormFields.yesno:
@@ -256,6 +266,8 @@ export function getBadgeValue(fieldValue: string): FormElementType["badge"] {
       return { value: "Text", color: "yellow" };
     case FormFields.long_text:
       return { value: "Paragraph Text", color: "yellow" };
+    case FormFields.number:
+      return { value: "Number", color: "yellow" };
     case FormFields.welcome:
       return { value: "Welcome", color: "gray" };
     case FormFields.exit:
@@ -279,8 +291,12 @@ export function getDefaultValidations(
       } as UrlValidation;
     case FormFields.phone:
       return {
-        placeholder: "+1234567890",
+        placeholder: "+1 234 567 890",
       } as PhoneValidation;
+    case FormFields.number:
+      return {
+        placeholder: "42",
+      } as NumberValidation;
     case FormFields.text:
       return {
         minLength: 1,
@@ -357,6 +373,11 @@ export const FormElementIcon: Record<
     title: "Email",
     icon: Mail,
     color: "pink",
+  },
+  [FormFields.number]: {
+    title: "Number",
+    icon: Hash,
+    color: "yellow",
   },
   [FormFields.phone]: {
     title: "Phone",

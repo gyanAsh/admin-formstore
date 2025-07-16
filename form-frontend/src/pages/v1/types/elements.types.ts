@@ -22,6 +22,7 @@ export enum FormTypes {
   welcome = "welcome",
   exit = "exit",
   url = "website",
+  number = "number",
   nps = "nps",
   consent = "consent",
   multiselect = "multiselect",
@@ -63,7 +64,8 @@ export type ValidatonTypes =
   | YesNoValidation
   | SingleSelectValidation
   | MultiSelectValidation
-  | PhoneValidation;
+  | PhoneValidation
+  | NumberValidation;
 
 // Specific validation rules for each field type
 export interface EmailValidation {
@@ -77,6 +79,11 @@ export interface UrlValidation {
 export interface PhoneValidation {
   placeholder: string; //+12345678
 }
+
+export interface NumberValidation {
+  placeholder: string; //42
+}
+
 export interface ConsentValidation {
   acceptBtnText: string; //I accept
 }

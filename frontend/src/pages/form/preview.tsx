@@ -18,6 +18,7 @@ import {
   FormFields,
   LongTextValidation,
   MultiSelectValidation,
+  NumberValidation,
   PhoneValidation,
   RankingValidation,
   RatingValidation,
@@ -53,6 +54,7 @@ import { FormNPS } from "@/components/forms/v1/elements/nps";
 import { FormRanking } from "@/components/forms/v1/elements/ranking";
 import { FormLongText } from "@/components/forms/v1/elements/long-text";
 import { FormPhone } from "@/components/forms/v1/elements/phone";
+import { FormNumber } from "@/components/forms/v1/elements/number";
 const variants = {
   enter: (direction: "prev" | "next") => ({
     x: direction === "prev" ? -100 : 100,
@@ -417,6 +419,11 @@ const FormPage = ({
         ) : element.field === FormFields.ranking ? (
           <FormRanking
             ranking={element.validations as RankingValidation}
+            goNextFunction={goNextFunction}
+          />
+        ) : element.field === FormFields.number ? (
+          <FormNumber
+            number={element.validations as NumberValidation}
             goNextFunction={goNextFunction}
           />
         ) : element.field === FormFields.phone ? (

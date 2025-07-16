@@ -20,6 +20,7 @@ import {
   FormFields,
   LongTextValidation,
   MultiSelectValidation,
+  NumberValidation,
   PhoneValidation,
   RankingValidation,
   RatingValidation,
@@ -249,6 +250,14 @@ export const FromElementDialogContent = memo(
           <div className="flex flex-col space-y-4">
             <PhoneValidations
               validations={stateElement.validations as PhoneValidation}
+              setState={setStateElement}
+            />
+          </div>
+        )}
+        {stateElement.field === FormFields.number && (
+          <div className="flex flex-col space-y-4">
+            <NumberValidations
+              validations={stateElement.validations as NumberValidation}
               setState={setStateElement}
             />
           </div>
@@ -1045,6 +1054,35 @@ const PhoneValidations = ({
               ...e.validations,
               placeholder: val.target.value,
             } as PhoneValidation,
+          }))
+        }
+      />
+    </div>
+  );
+};
+const NumberValidations = ({
+  validations,
+  setState,
+}: {
+  validations?: NumberValidation;
+  setState: React.Dispatch<React.SetStateAction<FormElements>>;
+}) => {
+  return (
+    <div className="grid flex-1 gap-2">
+      <Label htmlFor="number-placeholder">Placeholder :</Label>
+      <Input
+        id="number-placeholder"
+        type="text"
+        className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
+        placeholder={validations?.placeholder}
+        value={validations?.placeholder}
+        onChange={(val) =>
+          setState((e) => ({
+            ...e,
+            validations: {
+              ...e.validations,
+              placeholder: val.target.value,
+            } as NumberValidation,
           }))
         }
       />

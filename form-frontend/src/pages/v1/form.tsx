@@ -25,6 +25,7 @@ import type {
   Forms,
   LongTextValidation,
   MultiSelectValidation,
+  NumberValidation,
   PhoneValidation,
   RankingValidation,
   RatingValidation,
@@ -50,6 +51,7 @@ import { FormNPS } from "./component/elements/nps";
 import { FormRanking } from "./component/elements/ranking";
 import { FormLongText } from "./component/elements/long-text";
 import { FormPhone } from "./component/elements/phone";
+import { FormNumber } from "./component/elements/number";
 
 const variants = {
   enter: (direction: "prev" | "next") => ({
@@ -411,6 +413,11 @@ const FormPage = ({
         ) : element.type === FormTypes.phone ? (
           <FormPhone
             phone={element.properties as PhoneValidation}
+            goNextFunction={goNextFunction}
+          />
+        ) : element.type === FormTypes.number ? (
+          <FormNumber
+            number={element.properties as NumberValidation}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.consent ? (
