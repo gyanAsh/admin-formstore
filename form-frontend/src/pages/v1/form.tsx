@@ -402,7 +402,13 @@ const FormPage = ({
       )}
     >
       <DetailsContainer>
-        <FormLabel>{element.label}</FormLabel>
+        <FormLabel
+          className={cn({
+            "after:content-['*'] after:ml-1.5": !!element.required,
+          })}
+        >
+          {element.label}
+        </FormLabel>
         <FormDescription>{element.description}</FormDescription>
       </DetailsContainer>
 

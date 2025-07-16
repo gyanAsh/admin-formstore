@@ -46,16 +46,19 @@ export const FormAddress = ({
   return (
     <section
       className={cn(
-        " max-w-150 flex flex-col gap-2.5 grow text-[var(--text-color)] [font-family:var(--family)] "
+        " max-w-150 flex flex-col gap-2.5 sm:gap-3.5 grow text-[var(--text-color)] [font-family:var(--family)] "
       )}
       style={elStyle}
     >
       <Label
         htmlFor="line1-element"
-        className={cn({
-          "after:content-['*'] after:ml-1.5 text-[var(--label-text-color)]":
-            !!address.line1.required,
-        })}
+        className={cn(
+          " text-base md:text-lg text-[var(--label-text-color)]",
+          {
+            "after:content-['*'] after:ml-1.5": !!address.line1.required,
+          },
+          { hidden: !address.line1.show }
+        )}
       >
         {address.line1.label}
       </Label>
@@ -77,10 +80,13 @@ export const FormAddress = ({
       />
       <Label
         htmlFor="line2-element"
-        className={cn({
-          "after:content-['*'] after:ml-1.5 text-[var(--label-text-color)]":
-            !!address.line2.required,
-        })}
+        className={cn(
+          " text-base md:text-lg text-[var(--label-text-color)]",
+          {
+            "after:content-['*'] after:ml-1.5": !!address.line2.required,
+          },
+          { hidden: !address.line2.show }
+        )}
       >
         {address.line2.label}
       </Label>
@@ -102,10 +108,13 @@ export const FormAddress = ({
       />
       <Label
         htmlFor="city-element"
-        className={cn({
-          "after:content-['*'] after:ml-1.5 text-[var(--label-text-color)]":
-            !!address.city.required,
-        })}
+        className={cn(
+          " text-base md:text-lg text-[var(--label-text-color)]",
+          {
+            "after:content-['*'] after:ml-1.5": !!address.city.required,
+          },
+          { hidden: !address.city.show }
+        )}
       >
         {address.city.label}
       </Label>
@@ -127,10 +136,13 @@ export const FormAddress = ({
       />
       <Label
         htmlFor="state-element"
-        className={cn({
-          "after:content-['*'] after:ml-1.5 text-[var(--label-text-color)]":
-            !!address.state.required,
-        })}
+        className={cn(
+          " text-base md:text-lg text-[var(--label-text-color)]",
+          {
+            "after:content-['*'] after:ml-1.5": !!address.state.required,
+          },
+          { hidden: !address.state.show }
+        )}
       >
         {address.state.label}
       </Label>
@@ -150,14 +162,17 @@ export const FormAddress = ({
           setInputState(e.target.value);
         }}
       />
-      <div className="grid sm:grid-cols-2 gap-2.5">
-        <div className="flex flex-col gap-2.5">
+      <div className="grid sm:grid-cols-2 gap-2.5 sm:gap-3.5">
+        <div className="flex flex-col  gap-2.5 sm:gap-3.5">
           <Label
             htmlFor="zip-element"
-            className={cn({
-              "after:content-['*'] after:ml-1.5 text-[var(--label-text-color)]":
-                !!address.zip.required,
-            })}
+            className={cn(
+              " text-base md:text-lg text-[var(--label-text-color)]",
+              {
+                "after:content-['*'] after:ml-1.5": !!address.zip.required,
+              },
+              { hidden: !address.zip.show }
+            )}
           >
             {address.zip.label}
           </Label>
@@ -181,10 +196,13 @@ export const FormAddress = ({
         <div className="flex flex-col gap-2.5">
           <Label
             htmlFor="country-element"
-            className={cn({
-              "after:content-['*'] after:ml-1.5 text-[var(--label-text-color)]":
-                !!address.country.required,
-            })}
+            className={cn(
+              " text-base md:text-lg text-[var(--label-text-color)]",
+              {
+                "after:content-['*'] after:ml-1.5": !!address.country.required,
+              },
+              { hidden: !address.country.show }
+            )}
           >
             {address.country.label}
           </Label>
