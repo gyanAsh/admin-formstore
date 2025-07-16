@@ -12,7 +12,9 @@ import {
 } from "@/store/forms/form-elements";
 import { toast } from "sonner";
 
-const phoneSchema = z.number({ message: "Please enter a valid number" });
+const phoneSchema = z
+  .string()
+  .min(3, { message: "Please enter a valid number" });
 
 export const FormPhone = ({
   phone,
@@ -52,7 +54,7 @@ export const FormPhone = ({
   return (
     <section className={cn(" max-w-150 flex flex-col gap-2.5 grow")}>
       <Input
-        type="number"
+        type="string"
         id="phone-element"
         className={cn(
           "w-full border-2 py-2 md:py-3 px-3 md:px-4.5 text-lg md:text-xl",

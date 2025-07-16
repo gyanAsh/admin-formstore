@@ -78,7 +78,7 @@ export const FormElements = [
       },
       { title: "Address", icon: MapPinned, isPremium: true },
       {
-        title: "Phone/Number",
+        title: "Phone",
         icon: Phone,
         isPremium: false,
         value: FormFields.phone,
@@ -198,7 +198,7 @@ export function getDefaultLabelTitle(fieldType: string): string {
     case FormFields.url:
       return "Website's Link...";
     case FormFields.phone:
-      return "Phone/Number...";
+      return "Phone...";
     case FormFields.text:
       return "Write...";
     case FormFields.long_text:
@@ -239,7 +239,7 @@ export function getBadgeValue(fieldValue: string): FormElementType["badge"] {
     case FormFields.yesno:
       return { value: "Yes/No", color: "blue" };
     case FormFields.phone:
-      return { value: "Phone/Number", color: "blue" };
+      return { value: "Phone", color: "blue" };
     case FormFields.singleSelect:
       return { value: "Single Select", color: "blue" };
     case FormFields.multiselect:
