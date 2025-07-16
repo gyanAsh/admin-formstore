@@ -35,7 +35,7 @@ func HttpServiceStart() error {
 	}
 	log.Printf("environment: %v\n", os.Getenv("ENVIRONMENT"))
 	if os.Getenv("ENVIRONMENT") == "" {
-		log.Fatal(fmt.Errorf("enviroment is required, possible values: [DEV, PROD]"))
+		log.Fatal(fmt.Errorf("ENVIRONMENT is required, possible values: [DEV, PROD]"))
 	}
 	pool, err := pgxpool.New(context.Background(), os.Getenv("DATABASE_URL"))
 	if err != nil {
