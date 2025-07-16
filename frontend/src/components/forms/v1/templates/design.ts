@@ -3,7 +3,7 @@ import { DesignState } from "@/store/forms/formV1Design";
 type Tempate = DesignState & { themeName: string };
 export const designTemplate: Tempate[] = [
   {
-    themeName: "Red Playfair - Wide",
+    themeName: "Red Playfair",
     label: {
       size: "48px",
       family: '"Playfair Display", serif',
@@ -27,10 +27,10 @@ export const designTemplate: Tempate[] = [
       borderColor: "#d0021bff",
     },
     button: {
-      variant: "solid",
-      textColor: "#d0021bff",
-      bgColor: "#fce7c7ff",
+      bgColor: "#d0021bff",
+      textColor: "#f5dcb3ff",
       borderColor: "#d0021bff",
+      variant: "solid",
     },
     layout: {
       textAlign: "left",
@@ -49,7 +49,7 @@ export const designTemplate: Tempate[] = [
     },
   },
   {
-    themeName: "Black Plex Serif",
+    themeName: "Black Plex",
     label: {
       color: "#f2f7fcff",
       family: '"IBM Plex Serif", serif',
@@ -95,7 +95,7 @@ export const designTemplate: Tempate[] = [
     },
   },
   {
-    themeName: "Candy Cal Gradient",
+    themeName: "Candy Gradient",
     label: {
       size: "48px",
       family: '"Cal Sans", sans-serif',

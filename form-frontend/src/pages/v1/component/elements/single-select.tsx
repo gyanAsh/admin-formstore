@@ -83,10 +83,10 @@ const Options = ({ className, ...props }: React.ComponentProps<"button">) => {
       className={cn(
         "w-full text-start whitespace-pre-line",
         " px-2.5 md:px-3 py-2.5 md:py-3 cursor-pointer",
-        "group duration-200 hover:font-bold transition-all",
+        "group duration-200 transition-all",
 
         " text-[var(--text-color)] hover:text-[var(--btn-text-color)] aria-[selected=true]:text-[var(--btn-text-color)]",
-        " bg-[var(--bg-color)]/[var(--transparant)] hover:brightness-170 hover:contrast-170 hover:bg-[var(--btn-bg-color)]/[var(--transparant)] aria-[selected=true]:bg-[var(--btn-bg-color)]/[var(--transparant)]",
+        " bg-[var(--bg-color)]/[var(--transparant)] hover:opacity-70 hover:bg-[var(--btn-bg-color)]/[var(--transparant)] aria-[selected=true]:bg-[var(--btn-bg-color)]/[var(--transparant)]",
         "rounded-full [font-family:var(--family)] text-lg",
         "border-2 border-[var(--border-color)]",
         { " backdrop-blur-[1px]": elDesign.variant === "glass" },
