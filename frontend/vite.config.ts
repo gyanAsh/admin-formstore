@@ -11,7 +11,6 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  base: "https://admin.the-formstore.com/",
   server: {
     proxy: {
       "/api": {
