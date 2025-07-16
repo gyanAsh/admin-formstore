@@ -61,8 +61,14 @@ const NPSContainer = ({
     "--text-color": elDesign.textColor,
     "--bg-color": elDesign.bgColor,
     "--border-color": elDesign.borderColor,
-    "--btn-bg-color": btnDesign?.bgColor || "black",
-    "--btn-text-color": btnDesign?.textColor || "white",
+    "--btn-bg-color":
+      btnDesign?.bgColor !== elDesign.bgColor
+        ? btnDesign?.bgColor || "black"
+        : "black",
+    "--btn-text-color":
+      btnDesign?.textColor !== elDesign.textColor
+        ? btnDesign?.textColor || "white"
+        : "white",
     "--transparant":
       elDesign.variant === "glass"
         ? "20%"
