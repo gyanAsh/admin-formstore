@@ -3,6 +3,7 @@ import { FormButton } from "../button";
 
 import { useStore } from "@nanostores/react";
 import {
+  $get_design_button,
   $get_design_element,
   $get_design_label,
 } from "@/store/forms/form-elements";
@@ -22,12 +23,12 @@ export const FormNPS = ({ goNextFunction }: { goNextFunction: Function }) => {
             <div
               key={idx}
               className={cn(
-                "grid place-items-center aspect-6/8 md:aspect-square col-span-1 text-xl  first:hover:rounded-l-full last:hover:rounded-r-full transition-all duration-200 ease-out",
+                "grid place-items-center aspect-6/8 md:aspect-square col-span-1 text-lg sm:text-xl first:hover:rounded-l-full last:hover:rounded-r-full transition-all duration-200 ease-out",
                 {
-                  "hover:text-3xl hover:bg-black hover:text-white":
+                  " hover:text-xl sm:hover:text-3xl hover:bg-[var(--btn-bg-color)] hover:text-[var(--btn-text-color)]":
                     selected === null,
                 },
-                { " text-3xl bg-black text-white": selected === e }
+                { " text-xl sm:text-3xl bg-black text-white": selected === e }
               )}
               onClick={async () => {
                 setSelected(e);
@@ -52,6 +53,7 @@ const NPSContainer = ({
   ...props
 }: React.ComponentProps<"div">) => {
   const elDesign = useStore($get_design_element);
+  const btnDesign = useStore($get_design_button);
   const design = useStore($get_design_label);
 
   const elStyle: Record<string, string> & React.CSSProperties = {
@@ -59,6 +61,8 @@ const NPSContainer = ({
     "--text-color": elDesign.textColor,
     "--bg-color": elDesign.bgColor,
     "--border-color": elDesign.borderColor,
+    "--btn-bg-color": btnDesign?.bgColor || "black",
+    "--btn-text-color": btnDesign?.textColor || "white",
     "--transparant":
       elDesign.variant === "glass"
         ? "20%"
