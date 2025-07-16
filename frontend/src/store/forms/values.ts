@@ -32,6 +32,7 @@ import {
 } from "lucide-react";
 
 import {
+  AddressValidation,
   ConsentValidation,
   DropdownValidation,
   EmailValidation,
@@ -78,7 +79,12 @@ export const FormElements = [
         icon: Mail,
         isPremium: false,
       },
-      { title: "Address", icon: MapPinned, isPremium: true },
+      {
+        title: "Address",
+        icon: MapPinned,
+        isPremium: false,
+        value: FormFields.address,
+      },
       {
         title: "Phone",
         icon: Phone,
@@ -155,7 +161,7 @@ export const FormElements = [
     ],
   },
   {
-    name: "Text & Video",
+    name: "Text & Number",
     color: "yellow",
     items: [
       {
@@ -176,7 +182,7 @@ export const FormElements = [
         icon: Hash,
         isPremium: false,
       },
-      { title: "Video", icon: Play, isPremium: true },
+      // { title: "Video", icon: Play, isPremium: true },
     ],
   },
   {
@@ -209,6 +215,8 @@ export function getDefaultLabelTitle(fieldType: string): string {
       return "Phone...";
     case FormFields.text:
       return "Write...";
+    case FormFields.address:
+      return "Address...";
     case FormFields.long_text:
       return "Write Paragraph...";
     case FormFields.consent:
@@ -244,6 +252,8 @@ export function getBadgeValue(fieldValue: string): FormElementType["badge"] {
       return { value: "Email", color: "pink" };
     case FormFields.url:
       return { value: "Website", color: "pink" };
+    case FormFields.address:
+      return { value: "Address", color: "pink" };
     case FormFields.consent:
       return { value: "Consent", color: "blue" };
     case FormFields.yesno:
@@ -309,6 +319,45 @@ export function getDefaultValidations(
         maxLength: 1000,
         placeholder: "Add your text here...",
       } as TextValidation;
+    case FormFields.address:
+      return {
+        line1: {
+          placeholder: "Enter your Address Line 1",
+          show: true,
+          required: true,
+          label: "Address Line 1",
+        },
+        line2: {
+          placeholder: "Enter your Address Line 2",
+          show: true,
+          required: true,
+          label: "Address Line 2",
+        },
+        city: {
+          placeholder: "Enter your City Address",
+          show: true,
+          required: true,
+          label: "City",
+        },
+        state: {
+          placeholder: "Enter your State Address",
+          show: true,
+          required: true,
+          label: "State",
+        },
+        zip: {
+          placeholder: "Enter your Address' Zip Code",
+          show: true,
+          required: true,
+          label: "Zip Code",
+        },
+        country: {
+          placeholder: "Enter your Country",
+          show: true,
+          required: true,
+          label: "Country",
+        },
+      } as AddressValidation;
     case FormFields.consent:
       return {
         acceptBtnText: "I accept",
@@ -372,6 +421,11 @@ export const FormElementIcon: Record<
   [FormFields.email]: {
     title: "Email",
     icon: Mail,
+    color: "pink",
+  },
+  [FormFields.address]: {
+    title: "Address",
+    icon: MapPinned,
     color: "pink",
   },
   [FormFields.number]: {

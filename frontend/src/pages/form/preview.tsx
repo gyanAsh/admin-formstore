@@ -11,6 +11,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
+  AddressValidation,
   ConsentValidation,
   DropdownValidation,
   EmailValidation,
@@ -55,6 +56,7 @@ import { FormRanking } from "@/components/forms/v1/elements/ranking";
 import { FormLongText } from "@/components/forms/v1/elements/long-text";
 import { FormPhone } from "@/components/forms/v1/elements/phone";
 import { FormNumber } from "@/components/forms/v1/elements/number";
+import { FormAddress } from "@/components/forms/v1/elements/address";
 const variants = {
   enter: (direction: "prev" | "next") => ({
     x: direction === "prev" ? -100 : 100,
@@ -397,6 +399,11 @@ const FormPage = ({
         {element.field === FormFields.email ? (
           <FormEmail
             email={element.validations as EmailValidation}
+            goNextFunction={goNextFunction}
+          />
+        ) : element.field === FormFields.address ? (
+          <FormAddress
+            address={element.validations as AddressValidation}
             goNextFunction={goNextFunction}
           />
         ) : element.field === FormFields.consent ? (

@@ -13,6 +13,7 @@ import { Label } from "../ui/label";
 import { memo, useState } from "react";
 import { cn, generateMicroId } from "@/lib/utils";
 import {
+  AddressValidation,
   ConsentValidation,
   DropdownValidation,
   EmailValidation,
@@ -262,6 +263,14 @@ export const FromElementDialogContent = memo(
             />
           </div>
         )}
+        {stateElement.field === FormFields.address && (
+          <div className="flex flex-col space-y-4">
+            <AddressValidations
+              validations={stateElement.validations as AddressValidation}
+              setState={setStateElement}
+            />
+          </div>
+        )}
         {stateElement.field === FormFields.email && (
           <div className="flex flex-col space-y-4">
             <EmailValidations
@@ -322,19 +331,23 @@ export const FromElementDialogContent = memo(
   }
 );
 function RequiredToggle({
+  label = "Set Field as Required",
+  id = "required",
   state,
   onClick,
 }: {
+  label?: string;
+  id?: string;
   state: boolean;
-  onClick: () => void;
+  onClick: (checked: boolean) => void;
 }) {
   return (
     <div className="flex items-center gap-2.5">
-      <Label htmlFor="required" className="cursor-pointer">
-        Set Field as Required :
+      <Label htmlFor={id} className="cursor-pointer">
+        {label} :
       </Label>
       <Switch
-        id="required"
+        id={id}
         className="scale-85 cursor-pointer"
         checked={state}
         onCheckedChange={onClick}
@@ -1090,6 +1103,593 @@ const NumberValidations = ({
   );
 };
 
+const AddressValidations = ({
+  validations,
+  setState,
+}: {
+  validations?: AddressValidation;
+  setState: React.Dispatch<React.SetStateAction<FormElements>>;
+}) => {
+  return (
+    <section className="divide-y divide-dashed">
+      {/* line 1 */}
+      <div className="grid flex-1 gap-2 py-6">
+        <div className="flex items-center justify-between gap-2">
+          <Label
+            className={cn("font-semibold text-base", {
+              "after:content-['*'] after:ml-1.5": !!validations?.line1.required,
+            })}
+          >
+            {validations?.line1.label}:
+          </Label>
+          <div className="flex items-center gap-2">
+            <RequiredToggle
+              label="Show"
+              id="show"
+              state={!!validations?.line1.show}
+              onClick={(checked: boolean) =>
+                setState((e) => ({
+                  ...e,
+                  validations: {
+                    ...e.validations,
+                    line1: {
+                      ...((e.validations as AddressValidation)?.line1 ?? {}),
+                      show: checked,
+                    },
+                  } as AddressValidation,
+                }))
+              }
+            />
+            <RequiredToggle
+              label="Required"
+              state={!!validations?.line1.required}
+              id="address-field-required"
+              onClick={(checked: boolean) =>
+                setState((e) => ({
+                  ...e,
+                  validations: {
+                    ...e.validations,
+                    line1: {
+                      ...((e.validations as AddressValidation)?.line1 ?? {}),
+                      required: checked,
+                    },
+                  } as AddressValidation,
+                }))
+              }
+            />
+          </div>
+        </div>
+        <div className="grid sm:grid-cols-2 gap-2.5">
+          <div className="grid gap-2.5">
+            <Label htmlFor="line1-placeholder">Placeholder :</Label>
+            <Input
+              id="line1-placeholder"
+              type="text"
+              className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
+              placeholder={validations?.line1.placeholder}
+              value={validations?.line1.placeholder}
+              onChange={(val) =>
+                setState((e) => ({
+                  ...e,
+                  validations: {
+                    ...e.validations,
+                    line1: {
+                      ...((e.validations as AddressValidation)?.line1 ?? {}),
+                      placeholder: val.target.value,
+                    },
+                  } as AddressValidation,
+                }))
+              }
+            />
+          </div>
+
+          <div className="grid gap-2.5">
+            <Label htmlFor="line1-label">Label :</Label>
+            <Input
+              id="line1-label"
+              type="text"
+              className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
+              placeholder={validations?.line1.label}
+              value={validations?.line1.label}
+              onChange={(val) =>
+                setState((e) => ({
+                  ...e,
+                  validations: {
+                    ...e.validations,
+                    line1: {
+                      ...((e.validations as AddressValidation)?.line1 ?? {}),
+                      label: val.target.value,
+                    },
+                  } as AddressValidation,
+                }))
+              }
+            />
+          </div>
+        </div>
+      </div>
+      {/* line 2 */}
+      <div className="grid flex-1 gap-2 py-6">
+        <div className="flex items-center justify-between gap-2">
+          <Label
+            className={cn("font-semibold text-base", {
+              "after:content-['*'] after:ml-1.5": !!validations?.line2.required,
+            })}
+          >
+            {validations?.line2.label}:
+          </Label>
+          <div className="flex items-center gap-2">
+            <RequiredToggle
+              label="Show"
+              id="show"
+              state={!!validations?.line2.show}
+              onClick={(checked: boolean) =>
+                setState((e) => ({
+                  ...e,
+                  validations: {
+                    ...e.validations,
+                    line2: {
+                      ...((e.validations as AddressValidation)?.line2 ?? {}),
+                      show: checked,
+                    },
+                  } as AddressValidation,
+                }))
+              }
+            />
+            <RequiredToggle
+              label="Required"
+              state={!!validations?.line2.required}
+              id="address-field-required"
+              onClick={(checked: boolean) =>
+                setState((e) => ({
+                  ...e,
+                  validations: {
+                    ...e.validations,
+                    line2: {
+                      ...((e.validations as AddressValidation)?.line2 ?? {}),
+                      required: checked,
+                    },
+                  } as AddressValidation,
+                }))
+              }
+            />
+          </div>
+        </div>
+        <div className="grid sm:grid-cols-2 gap-2.5">
+          <div className="grid gap-2.5">
+            <Label htmlFor="line2-placeholder">Placeholder :</Label>
+            <Input
+              id="line2-placeholder"
+              type="text"
+              className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
+              placeholder={validations?.line2.placeholder}
+              value={validations?.line2.placeholder}
+              onChange={(val) =>
+                setState((e) => ({
+                  ...e,
+                  validations: {
+                    ...e.validations,
+                    line2: {
+                      ...((e.validations as AddressValidation)?.line2 ?? {}),
+                      placeholder: val.target.value,
+                    },
+                  } as AddressValidation,
+                }))
+              }
+            />
+          </div>
+
+          <div className="grid gap-2.5">
+            <Label htmlFor="line2-label">Label :</Label>
+            <Input
+              id="line2-label"
+              type="text"
+              className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
+              placeholder={validations?.line2.label}
+              value={validations?.line2.label}
+              onChange={(val) =>
+                setState((e) => ({
+                  ...e,
+                  validations: {
+                    ...e.validations,
+                    line2: {
+                      ...((e.validations as AddressValidation)?.line2 ?? {}),
+                      label: val.target.value,
+                    },
+                  } as AddressValidation,
+                }))
+              }
+            />
+          </div>
+        </div>
+      </div>
+      {/* city */}
+      <div className="grid flex-1 gap-2 py-6">
+        <div className="flex items-center justify-between gap-2">
+          <Label
+            className={cn("font-semibold text-base", {
+              "after:content-['*'] after:ml-1.5": !!validations?.city.required,
+            })}
+          >
+            {" "}
+            {validations?.city.label}:
+          </Label>
+          <div className="flex items-center gap-2">
+            <RequiredToggle
+              label="Show"
+              id="show"
+              state={!!validations?.city.show}
+              onClick={(checked: boolean) =>
+                setState((e) => ({
+                  ...e,
+                  validations: {
+                    ...e.validations,
+                    city: {
+                      ...((e.validations as AddressValidation)?.city ?? {}),
+                      show: checked,
+                    },
+                  } as AddressValidation,
+                }))
+              }
+            />
+            <RequiredToggle
+              label="Required"
+              state={!!validations?.city.required}
+              id="address-field-required"
+              onClick={(checked: boolean) =>
+                setState((e) => ({
+                  ...e,
+                  validations: {
+                    ...e.validations,
+                    city: {
+                      ...((e.validations as AddressValidation)?.city ?? {}),
+                      required: checked,
+                    },
+                  } as AddressValidation,
+                }))
+              }
+            />
+          </div>
+        </div>
+        <div className="grid sm:grid-cols-2 gap-2.5">
+          <div className="grid gap-2.5">
+            <Label htmlFor="city-placeholder">Placeholder :</Label>
+            <Input
+              id="city-placeholder"
+              type="text"
+              className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
+              placeholder={validations?.city.placeholder}
+              value={validations?.city.placeholder}
+              onChange={(val) =>
+                setState((e) => ({
+                  ...e,
+                  validations: {
+                    ...e.validations,
+                    city: {
+                      ...((e.validations as AddressValidation)?.city ?? {}),
+                      placeholder: val.target.value,
+                    },
+                  } as AddressValidation,
+                }))
+              }
+            />
+          </div>
+
+          <div className="grid gap-2.5">
+            <Label htmlFor="city-label">Label :</Label>
+            <Input
+              id="city-label"
+              type="text"
+              className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
+              placeholder={validations?.city.label}
+              value={validations?.city.label}
+              onChange={(val) =>
+                setState((e) => ({
+                  ...e,
+                  validations: {
+                    ...e.validations,
+                    city: {
+                      ...((e.validations as AddressValidation)?.city ?? {}),
+                      label: val.target.value,
+                    },
+                  } as AddressValidation,
+                }))
+              }
+            />
+          </div>
+        </div>
+      </div>
+      {/* state */}
+      <div className="grid flex-1 gap-2 py-6">
+        <div className="flex items-center justify-between gap-2">
+          <Label
+            className={cn("font-semibold text-base", {
+              "after:content-['*'] after:ml-1.5": !!validations?.state.required,
+            })}
+          >
+            {" "}
+            {validations?.state.label}:
+          </Label>
+          <div className="flex items-center gap-2">
+            <RequiredToggle
+              label="Show"
+              id="show"
+              state={!!validations?.state.show}
+              onClick={(checked: boolean) =>
+                setState((e) => ({
+                  ...e,
+                  validations: {
+                    ...e.validations,
+                    state: {
+                      ...((e.validations as AddressValidation)?.state ?? {}),
+                      show: checked,
+                    },
+                  } as AddressValidation,
+                }))
+              }
+            />
+            <RequiredToggle
+              label="Required"
+              state={!!validations?.state.required}
+              id="address-field-required"
+              onClick={(checked: boolean) =>
+                setState((e) => ({
+                  ...e,
+                  validations: {
+                    ...e.validations,
+                    state: {
+                      ...((e.validations as AddressValidation)?.state ?? {}),
+                      required: checked,
+                    },
+                  } as AddressValidation,
+                }))
+              }
+            />
+          </div>
+        </div>
+        <div className="grid sm:grid-cols-2 gap-2.5">
+          <div className="grid gap-2.5">
+            <Label htmlFor="state-placeholder">Placeholder :</Label>
+            <Input
+              id="state-placeholder"
+              type="text"
+              className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
+              placeholder={validations?.state.placeholder}
+              value={validations?.state.placeholder}
+              onChange={(val) =>
+                setState((e) => ({
+                  ...e,
+                  validations: {
+                    ...e.validations,
+                    state: {
+                      ...((e.validations as AddressValidation)?.state ?? {}),
+                      placeholder: val.target.value,
+                    },
+                  } as AddressValidation,
+                }))
+              }
+            />
+          </div>
+
+          <div className="grid gap-2.5">
+            <Label htmlFor="state-label">Label :</Label>
+            <Input
+              id="state-label"
+              type="text"
+              className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
+              placeholder={validations?.state.label}
+              value={validations?.state.label}
+              onChange={(val) =>
+                setState((e) => ({
+                  ...e,
+                  validations: {
+                    ...e.validations,
+                    state: {
+                      ...((e.validations as AddressValidation)?.state ?? {}),
+                      label: val.target.value,
+                    },
+                  } as AddressValidation,
+                }))
+              }
+            />
+          </div>
+        </div>
+      </div>
+      {/* zip */}
+      <div className="grid flex-1 gap-2 py-6">
+        <div className="flex items-center justify-between gap-2">
+          <Label
+            className={cn("font-semibold text-base", {
+              "after:content-['*'] after:ml-1.5": !!validations?.zip.required,
+            })}
+          >
+            {" "}
+            {validations?.zip.label}:
+          </Label>
+          <div className="flex items-center gap-2">
+            <RequiredToggle
+              label="Show"
+              id="show"
+              state={!!validations?.zip.show}
+              onClick={(checked: boolean) =>
+                setState((e) => ({
+                  ...e,
+                  validations: {
+                    ...e.validations,
+                    zip: {
+                      ...((e.validations as AddressValidation)?.zip ?? {}),
+                      show: checked,
+                    },
+                  } as AddressValidation,
+                }))
+              }
+            />
+            <RequiredToggle
+              label="Required"
+              state={!!validations?.zip.required}
+              id="address-field-required"
+              onClick={(checked: boolean) =>
+                setState((e) => ({
+                  ...e,
+                  validations: {
+                    ...e.validations,
+                    zip: {
+                      ...((e.validations as AddressValidation)?.zip ?? {}),
+                      required: checked,
+                    },
+                  } as AddressValidation,
+                }))
+              }
+            />
+          </div>
+        </div>
+        <div className="grid sm:grid-cols-2 gap-2.5">
+          <div className="grid gap-2.5">
+            <Label htmlFor="zip-placeholder">Placeholder :</Label>
+            <Input
+              id="zip-placeholder"
+              type="text"
+              className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
+              placeholder={validations?.zip.placeholder}
+              value={validations?.zip.placeholder}
+              onChange={(val) =>
+                setState((e) => ({
+                  ...e,
+                  validations: {
+                    ...e.validations,
+                    zip: {
+                      ...((e.validations as AddressValidation)?.zip ?? {}),
+                      placeholder: val.target.value,
+                    },
+                  } as AddressValidation,
+                }))
+              }
+            />
+          </div>
+
+          <div className="grid gap-2.5">
+            <Label htmlFor="zip-label">Label :</Label>
+            <Input
+              id="zip-label"
+              type="text"
+              className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
+              placeholder={validations?.zip.label}
+              value={validations?.zip.label}
+              onChange={(val) =>
+                setState((e) => ({
+                  ...e,
+                  validations: {
+                    ...e.validations,
+                    zip: {
+                      ...((e.validations as AddressValidation)?.zip ?? {}),
+                      label: val.target.value,
+                    },
+                  } as AddressValidation,
+                }))
+              }
+            />
+          </div>
+        </div>
+      </div>
+      {/* country */}
+      <div className="grid flex-1 gap-2 py-6">
+        <div className="flex items-center justify-between gap-2">
+          <Label
+            className={cn("font-semibold text-base", {
+              "after:content-['*'] after:ml-1.5":
+                !!validations?.country.required,
+            })}
+          >
+            {" "}
+            {validations?.country.label}:
+          </Label>
+          <div className="flex items-center gap-2">
+            <RequiredToggle
+              label="Show"
+              id="show"
+              state={!!validations?.country.show}
+              onClick={(checked: boolean) =>
+                setState((e) => ({
+                  ...e,
+                  validations: {
+                    ...e.validations,
+                    country: {
+                      ...((e.validations as AddressValidation)?.country ?? {}),
+                      show: checked,
+                    },
+                  } as AddressValidation,
+                }))
+              }
+            />
+            <RequiredToggle
+              label="Required"
+              state={!!validations?.country.required}
+              id="address-field-required"
+              onClick={(checked: boolean) =>
+                setState((e) => ({
+                  ...e,
+                  validations: {
+                    ...e.validations,
+                    country: {
+                      ...((e.validations as AddressValidation)?.country ?? {}),
+                      required: checked,
+                    },
+                  } as AddressValidation,
+                }))
+              }
+            />
+          </div>
+        </div>
+        <div className="grid sm:grid-cols-2 gap-2.5">
+          <div className="grid gap-2.5">
+            <Label htmlFor="country-placeholder">Placeholder :</Label>
+            <Input
+              id="country-placeholder"
+              type="text"
+              className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
+              placeholder={validations?.country.placeholder}
+              value={validations?.country.placeholder}
+              onChange={(val) =>
+                setState((e) => ({
+                  ...e,
+                  validations: {
+                    ...e.validations,
+                    country: {
+                      ...((e.validations as AddressValidation)?.country ?? {}),
+                      placeholder: val.target.value,
+                    },
+                  } as AddressValidation,
+                }))
+              }
+            />
+          </div>
+
+          <div className="grid gap-2.5">
+            <Label htmlFor="country-label">Label :</Label>
+            <Input
+              id="country-label"
+              type="text"
+              className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
+              placeholder={validations?.country.label}
+              value={validations?.country.label}
+              onChange={(val) =>
+                setState((e) => ({
+                  ...e,
+                  validations: {
+                    ...e.validations,
+                    country: {
+                      ...((e.validations as AddressValidation)?.country ?? {}),
+                      label: val.target.value,
+                    },
+                  } as AddressValidation,
+                }))
+              }
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
 const WelcomeValidations = ({
   validations,
   setState,

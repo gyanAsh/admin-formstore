@@ -19,6 +19,7 @@ import {
   FormLabel,
 } from "./component/details";
 import type {
+  AddressValidation,
   ConsentValidation,
   EmailValidation,
   FormElements,
@@ -52,6 +53,7 @@ import { FormRanking } from "./component/elements/ranking";
 import { FormLongText } from "./component/elements/long-text";
 import { FormPhone } from "./component/elements/phone";
 import { FormNumber } from "./component/elements/number";
+import { FormAddress } from "./component/elements/address";
 
 const variants = {
   enter: (direction: "prev" | "next") => ({
@@ -423,6 +425,11 @@ const FormPage = ({
         ) : element.type === FormTypes.consent ? (
           <FormConsent
             consent={element.properties as ConsentValidation}
+            goNextFunction={goNextFunction}
+          />
+        ) : element.type === FormTypes.address ? (
+          <FormAddress
+            address={element.properties as AddressValidation}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.yesno ? (

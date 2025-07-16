@@ -24,6 +24,7 @@ export enum FormTypes {
   url = "website",
   number = "number",
   nps = "nps",
+  address = "address",
   consent = "consent",
   multiselect = "multiselect",
   dropdown = "dropdown",
@@ -65,7 +66,8 @@ export type ValidatonTypes =
   | SingleSelectValidation
   | MultiSelectValidation
   | PhoneValidation
-  | NumberValidation;
+  | NumberValidation
+  | AddressValidation;
 
 // Specific validation rules for each field type
 export interface EmailValidation {
@@ -88,6 +90,44 @@ export interface ConsentValidation {
   acceptBtnText: string; //I accept
 }
 
+export interface AddressValidation {
+  line1: {
+    placeholder: string;
+    show: boolean;
+    required: boolean;
+    label: string;
+  };
+  line2: {
+    placeholder: string;
+    show: boolean;
+    required: boolean;
+    label: string;
+  };
+  city: {
+    placeholder: string;
+    show: boolean;
+    required: boolean;
+    label: string;
+  };
+  state: {
+    placeholder: string;
+    show: boolean;
+    required: boolean;
+    label: string;
+  };
+  zip: {
+    placeholder: string;
+    show: boolean;
+    required: boolean;
+    label: string;
+  };
+  country: {
+    placeholder: string;
+    show: boolean;
+    required: boolean;
+    label: string;
+  };
+}
 export interface YesNoValidation {
   yesBtnText: string; //Yes
   noBtnText: string; //No
