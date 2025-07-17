@@ -30,9 +30,10 @@ export const FormElementPreview = () => {
       <section className="relative">
         <PreviewFormPage
           className="h-[80dvh] rounded-4xl overflow-hidden"
-          formCardClassName="sm:scale-90 md:scale-75  lg:scale-80 xl:scale-85"
+          // formCardClassName="sm:scale-90 md:scale-75  lg:scale-80 xl:scale-85"
         />
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
+        {/* <div className="absolute -bottom-10 left-1/2 -translate-x-1/2"> */}
+        <div className="w-full flex items-center justify-center mt-6">
           <FormEditorOption />
         </div>
 

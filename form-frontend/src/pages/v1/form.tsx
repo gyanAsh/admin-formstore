@@ -430,7 +430,10 @@ const FormPage = ({
   return (
     <FormCard
       ref={elContianer}
-      className={cn("overflow-y-scroll py-16 @container", formCardClassName)}
+      className={cn(
+        "overflow-y-auto py-18 md:py-16 @container",
+        formCardClassName
+      )}
     >
       <DetailsContainer>
         <FormLabel

@@ -129,7 +129,7 @@ export const designTemplate: Tempate[] = [
       spread: true,
       elementSpacing: "4px",
       bgType: "custom",
-      bgSolidValue: { color: "#00a1559f" },
+      bgSolidValue: { color: "" },
       bgImageValue: {
         imageUrl: "",
       },
