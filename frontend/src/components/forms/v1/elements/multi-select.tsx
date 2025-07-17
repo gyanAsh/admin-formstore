@@ -4,6 +4,7 @@ import { FormButton } from "../button";
 
 import { useStore } from "@nanostores/react";
 import {
+  $get_design_button,
   $get_design_element,
   $get_design_label,
 } from "@/store/forms/form-elements";
@@ -45,6 +46,7 @@ export const FormMultiSelect = ({
           return (
             <Options
               key={e.id ?? idx}
+              aria-selected={selected.has(e.id)}
               className="flex items-center gap-2"
               onClick={() => toggleSelect(e.id)}
             >
@@ -72,6 +74,7 @@ export const FormMultiSelect = ({
 
 const Options = ({ className, ...props }: React.ComponentProps<"button">) => {
   const elDesign = useStore($get_design_element);
+  const btnDesign = useStore($get_design_button);
   const design = useStore($get_design_label);
 
   const elStyle: Record<string, string> & React.CSSProperties = {
@@ -79,6 +82,18 @@ const Options = ({ className, ...props }: React.ComponentProps<"button">) => {
     "--text-color": elDesign.textColor,
     "--bg-color": elDesign.bgColor,
     "--border-color": elDesign.borderColor,
+    "--btn-bg-color":
+      btnDesign?.bgColor !== elDesign.bgColor
+        ? btnDesign?.bgColor || "black"
+        : "black",
+    "--btn-text-color":
+      btnDesign?.textColor !== elDesign.textColor
+        ? btnDesign?.textColor || "white"
+        : "white",
+    "--btn-border-color":
+      btnDesign?.borderColor !== elDesign.borderColor
+        ? btnDesign?.borderColor || "white"
+        : "white",
     "--transparant":
       elDesign.variant === "glass"
         ? "20%"
@@ -91,10 +106,13 @@ const Options = ({ className, ...props }: React.ComponentProps<"button">) => {
       className={cn(
         "w-full text-start whitespace-pre-line",
         " px-2.5 md:px-3 py-2.5 md:py-3 cursor-pointer",
-        "group duration-200 hover:font-bold transition-colors",
+        "group duration-200 transition-all",
 
-        "rounded-full text-[var(--text-color)] [font-family:var(--family)] text-lg bg-[var(--bg-color)]/[var(--transparant)]",
-        "border-2 border-[var(--border-color)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)]/[var(--transparant)]",
+        " aria-[selected=false]:hover:opacity-70",
+        " text-[var(--text-color)] hover:text-[var(--btn-text-color)] aria-[selected=true]:text-[var(--btn-text-color)] hover:border-[var(--btn-border-color)]",
+        " bg-[var(--bg-color)]/[var(--transparant)] hover:bg-[var(--btn-bg-color)]/[var(--transparant)] aria-[selected=true]:bg-[var(--btn-bg-color)]/[var(--transparant)]",
+        "rounded-full [font-family:var(--family)] text-lg",
+        "border-2 border-[var(--border-color)]",
         { " backdrop-blur-[1px]": elDesign.variant === "glass" },
         className
       )}

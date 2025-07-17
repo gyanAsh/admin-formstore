@@ -32,7 +32,10 @@ export const FormSingleSelect = ({
               key={e.id ?? idx}
               aria-selected={e.id === selected}
               className="flex items-center gap-2"
-              onClick={() => setSelected(e.id)}
+              onClick={() => {
+                if (e.id !== selected) setSelected(e.id);
+                else setSelected("");
+              }}
             >
               {selected === e.id ? (
                 <CircleCheck
@@ -74,6 +77,10 @@ const Options = ({ className, ...props }: React.ComponentProps<"button">) => {
       btnDesign?.textColor !== elDesign.textColor
         ? btnDesign?.textColor || "white"
         : "white",
+    "--btn-border-color":
+      btnDesign?.borderColor !== elDesign.borderColor
+        ? btnDesign?.borderColor || "white"
+        : "white",
     "--transparant":
       elDesign.variant === "glass"
         ? "20%"
@@ -88,8 +95,9 @@ const Options = ({ className, ...props }: React.ComponentProps<"button">) => {
         " px-2.5 md:px-3 py-2.5 md:py-3 cursor-pointer",
         "group duration-200 transition-all",
 
-        " text-[var(--text-color)] hover:text-[var(--btn-text-color)] aria-[selected=true]:text-[var(--btn-text-color)]",
-        " bg-[var(--bg-color)]/[var(--transparant)] hover:opacity-70 hover:bg-[var(--btn-bg-color)]/[var(--transparant)] aria-[selected=true]:bg-[var(--btn-bg-color)]/[var(--transparant)]",
+        " aria-[selected=false]:hover:opacity-70",
+        " text-[var(--text-color)] hover:text-[var(--btn-text-color)] aria-[selected=true]:text-[var(--btn-text-color)] hover:border-[var(--btn-border-color)]",
+        " bg-[var(--bg-color)]/[var(--transparant)] hover:bg-[var(--btn-bg-color)]/[var(--transparant)] aria-[selected=true]:bg-[var(--btn-bg-color)]/[var(--transparant)]",
         "rounded-full [font-family:var(--family)] text-lg",
         "border-2 border-[var(--border-color)]",
         { " backdrop-blur-[1px]": elDesign.variant === "glass" },
