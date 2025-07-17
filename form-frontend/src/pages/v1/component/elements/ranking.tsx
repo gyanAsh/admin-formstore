@@ -5,6 +5,8 @@ import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import type { RankingValidation } from "../../types/elements.types";
 import { useFormV1Store } from "../../state/design";
+import { AnimatePresence, type HTMLMotionProps } from "motion/react";
+import * as motion from "motion/react-client";
 
 export const FormRanking = ({
   ranking,
@@ -95,60 +97,69 @@ export const FormRanking = ({
   return (
     <section className={cn(" max-w-150 flex flex-col items-end gap-2.5 grow")}>
       <div className="grid w-full gap-3">
-        {optionsList.map((e, idx) => {
-          const rank = selectedRanks.indexOf(e.text);
-          const isTop = rank === 0;
-          const isBottom = rank === selectedRanks.length - 1;
-
-          return (
-            <Options
-              key={e.id ?? idx}
-              className="flex items-center gap-2"
-              onClick={() => handleOptionClick(e.text)}
-            >
-              <span className="flex text-nowrap items-center justify-between text-center font-bold !size-6">
-                {rank !== -1 ? rank + 1 : `--`} &bull;
-              </span>
-              <h2 className="grow group-hover:font-semibold ">{e.text}</h2>
-              {rank !== -1 && (
-                <div className="flex gap-1">
-                  <button
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      moveUp(e.text);
-                    }}
-                    disabled={isTop}
-                    className={cn(
-                      "border p-0.5 active:scale-95 duration-100 bg-[var(--bg-color)]/[var(--transparant)] border-[var(--border-color)]",
-                      " text-[var(--text-color)] rounded-md cursor-pointer not-disabled:group/btn not-disabled:hover:contrast-150 disabled:opacity-50"
-                    )}
-                  >
-                    <ChevronUp
-                      className="group-hover/btn:scale-105 group-hover/btn:stroke-3 stroke-2 size-5"
-                      strokeWidth={"inherit"}
-                    />
-                  </button>
-                  <button
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      moveDown(e.text);
-                    }}
-                    disabled={isBottom}
-                    className={cn(
-                      "border p-0.5 active:scale-95 duration-100 bg-[var(--bg-color)]/[var(--transparant)] border-[var(--border-color)]",
-                      " text-[var(--text-color)] rounded-md cursor-pointer not-disabled:group/btn not-disabled:hover:contrast-150 disabled:opacity-50"
-                    )}
-                  >
-                    <ChevronDown
-                      className="group-hover/btn:scale-105 group-hover/btn:stroke-3 stroke-2 size-5"
-                      strokeWidth={"inherit"}
-                    />
-                  </button>
-                </div>
-              )}
-            </Options>
-          );
-        })}
+        <AnimatePresence>
+          {optionsList.map((e, idx) => {
+            const rank = selectedRanks.indexOf(e.text);
+            const isTop = rank === 0;
+            const isBottom = rank === selectedRanks.length - 1;
+            return (
+              <Options
+                key={e.id ?? idx}
+                id={e.id}
+                aria-selected={rank > -1}
+                className="flex items-center gap-2"
+                onClick={() => handleOptionClick(e.text)}
+              >
+                <span className="flex text-nowrap items-center justify-between font-semibold text-center !size-6">
+                  {rank !== -1 ? rank + 1 : `--`} &bull;
+                </span>
+                <h2 className="grow">{e.text}</h2>
+                {rank !== -1 && (
+                  <div className="flex gap-1">
+                    <button
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        moveUp(e.text);
+                      }}
+                      disabled={isTop}
+                      className={cn(
+                        "border p-0.5 active:scale-95 duration-100",
+                        " bg-[var(--bg-color)]/[var(--transparant)] group-hover:bg-[var(--btn-text-color)]",
+                        " border-[var(--border-color)]",
+                        " text-[var(--text-color)] group-hover:text-[var(--btn-bg-color)] rounded-md cursor-pointer",
+                        " not-disabled:group/btn not-disabled:hover:contrast-150 disabled:opacity-50"
+                      )}
+                    >
+                      <ChevronUp
+                        className="group-hover/btn:scale-105 group-hover/btn:stroke-3 stroke-2 size-5"
+                        strokeWidth={"inherit"}
+                      />
+                    </button>
+                    <button
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        moveDown(e.text);
+                      }}
+                      disabled={isBottom}
+                      className={cn(
+                        "border p-0.5 active:scale-95 duration-100",
+                        " bg-[var(--bg-color)]/[var(--transparant)] group-hover:bg-[var(--btn-text-color)]",
+                        " border-[var(--border-color)]",
+                        " text-[var(--text-color)] group-hover:text-[var(--btn-bg-color)] rounded-md cursor-pointer",
+                        " not-disabled:group/btn not-disabled:hover:contrast-150 disabled:opacity-50"
+                      )}
+                    >
+                      <ChevronDown
+                        className="group-hover/btn:scale-105 group-hover/btn:stroke-3 stroke-2 size-5"
+                        strokeWidth={"inherit"}
+                      />
+                    </button>
+                  </div>
+                )}
+              </Options>
+            );
+          })}
+        </AnimatePresence>
       </div>
 
       <FormButton onClick={validate}>OK</FormButton>
@@ -156,20 +167,30 @@ export const FormRanking = ({
   );
 };
 
-const Options = ({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<"button">) => {
-  const { element: elDesign, label: design } = useFormV1Store(
-    (state) => state.design
-  );
+const Options = ({ className, children, ...props }: HTMLMotionProps<"div">) => {
+  const {
+    element: elDesign,
+    label: design,
+    button: btnDesign,
+  } = useFormV1Store((state) => state.design);
 
   const elStyle: Record<string, string> & React.CSSProperties = {
     "--family": design.family,
     "--text-color": elDesign.textColor,
     "--bg-color": elDesign.bgColor,
     "--border-color": elDesign.borderColor,
+    "--btn-bg-color":
+      btnDesign?.bgColor !== elDesign.bgColor
+        ? btnDesign?.bgColor || "black"
+        : "black",
+    "--btn-text-color":
+      btnDesign?.textColor !== elDesign.textColor
+        ? btnDesign?.textColor || "white"
+        : "white",
+    "--btn-border-color":
+      btnDesign?.borderColor !== elDesign.borderColor
+        ? btnDesign?.borderColor || "white"
+        : "white",
     "--transparant":
       elDesign.variant === "glass"
         ? "20%"
@@ -178,14 +199,24 @@ const Options = ({
         : "100%",
   };
   return (
-    <button
+    <motion.div
+      layout
+      transition={{
+        type: "spring",
+        stiffness: 300,
+        damping: 9,
+        duration: 0.05,
+      }}
       className={cn(
         "w-full text-start whitespace-pre-line",
         " px-2.5 md:px-3 py-2.5 md:py-3 cursor-pointer",
-        "group duration-100 transition-colors",
+        "group transition-all",
 
-        "rounded-[25px] md:rounded-[28px] text-[var(--text-color)] [font-family:var(--family)] text-lg bg-[var(--bg-color)]/[var(--transparant)]",
-        "border-2 border-[var(--border-color)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)]/[var(--transparant)]",
+        " aria-[selected=false]:hover:opacity-50",
+        " text-[var(--text-color)] hover:text-[var(--btn-text-color)] aria-[selected=true]:text-[var(--btn-text-color)] hover:border-[var(--btn-border-color)]",
+        " bg-[var(--bg-color)]/[var(--transparant)] hover:bg-[var(--btn-bg-color)]/[var(--transparant)] aria-[selected=true]:bg-[var(--btn-bg-color)]/[var(--transparant)]",
+        "rounded-full [font-family:var(--family)] text-lg",
+        "border-2 border-[var(--border-color)]",
         { " backdrop-blur-[1px]": elDesign.variant === "glass" },
         className
       )}
