@@ -225,13 +225,18 @@ const PreviewFormPage = ({
           </div>
 
           {/* Navigation Buttons */}
-          <div className="text-sm absolute flex items-center border-zinc-200 bg-neutral-900 text-zinc-200 p-1.5 rounded-full bottom-4 right-4 space-x-2">
-            <div className={cn("flex items-center")}>
+          <div
+            className={cn(
+              "text-sm absolute bg-[var(--bg-color)] w-full flex items-center justify-center text-[var(--label-text-color)] pb-4 pt-1 bottom-0 right-0 space-x-2",
+              { "scale-85": !!formCardClassName }
+            )}
+          >
+            <div className={cn("flex items-center max-md:hidden")}>
               <FormNavBtn
                 id="goPrevForm"
                 onClick={() => paginate("prev")}
                 disabled={currentSection === 0}
-                className="rounded-full bg-zinc-200 text-neutral-900 border-zinc-500 rounded-r-none"
+                className="rounded-full px-2.5 py-1.5 text-[var(--label-text-color)] backdrop-blur-md bg-white/20 border-2 border-r-[1.5px] border-[var(--label-text-color)]/50 rounded-r-none"
               >
                 <ChevronLeft strokeWidth={3} className="size-5" />
               </FormNavBtn>
@@ -239,14 +244,43 @@ const PreviewFormPage = ({
                 id="goNextForm"
                 onClick={() => paginate("next")}
                 disabled={currentSection === elements.length - 1}
-                className="rounded-full bg-zinc-200 text-neutral-900 border-zinc-500 rounded-l-none"
+                className="rounded-full px-2.5 py-1.5 text-[var(--label-text-color)] backdrop-blur-md bg-white/20 border-2 border-l-[1.5px] border-[var(--label-text-color)]/50 rounded-l-none"
               >
                 <ChevronRight strokeWidth={3} className="size-5" />
               </FormNavBtn>
             </div>
-
-            <h2 className="ml-0.5 text-sm">
-              Made with <b>Formstore</b>
+          </div>
+          {/* Water Mark*/}
+          <div
+            className={cn(
+              "text-sm absolute max-md:bg-[var(--bg-color)] flex flex-col items-center justify-end max-md:w-full gap-1.5 text-[var(--label-text-color)] bottom-0 min-md:right-0 p-2 px-4 min-md:p-4 space-x-2",
+              { "scale-85": !!formCardClassName }
+            )}
+          >
+            <div className={cn("flex items-center w-full grow min-md:hidden")}>
+              <FormNavBtn
+                id="goPrevForm"
+                onClick={() => paginate("prev")}
+                disabled={currentSection === 0}
+                className="rounded-full flex items-center justify-center grow py-2 text-[var(--label-text-color)] backdrop-blur-md bg-white/20 border-2 border-r-[1.5px] border-[var(--label-text-color)]/50 rounded-r-none"
+              >
+                <ChevronLeft strokeWidth={3} className="size-5" />
+              </FormNavBtn>
+              <FormNavBtn
+                id="goNextForm"
+                onClick={() => paginate("next")}
+                disabled={currentSection === elements.length - 1}
+                className="rounded-full flex items-center justify-center grow py-2 text-[var(--label-text-color)] backdrop-blur-md bg-white/20 border-2 border-l-[1.5px] border-[var(--label-text-color)]/50 rounded-l-none"
+              >
+                <ChevronRight strokeWidth={3} className="size-5" />
+              </FormNavBtn>
+            </div>
+            <h2 className=" text-sm sm:text-base md:text-lg text-center tracking-tighter">
+              Made with{" "}
+              <b>
+                <i className=" font-['Playfair_Display','serif']">The</i>&nbsp;
+                Formstore
+              </b>
             </h2>
           </div>
         </FormBackground>
@@ -396,10 +430,7 @@ const FormPage = ({
   return (
     <FormCard
       ref={elContianer}
-      className={cn(
-        "overflow-y-scroll py-16 md:py-9 @container",
-        formCardClassName
-      )}
+      className={cn("overflow-y-scroll py-16 @container", formCardClassName)}
     >
       <DetailsContainer>
         <FormLabel

@@ -6,12 +6,15 @@ export const FormBackground = ({
   className,
   ...props
 }: React.ComponentProps<"div">) => {
-  const { layout: design } = useFormV1Store((state) => state.design);
+  const { layout: design, label: labelDesign } = useFormV1Store(
+    (state) => state.design
+  );
 
   const style: Record<string, string> & React.CSSProperties = {
     "--bg-color": design.bgSolidValue?.color || "transparent",
     "--bg-custom": `${design.bgCustomValue?.value}`,
     "--bg-img": `url(${design.bgImageValue?.imageUrl})`,
+    "--label-text-color": labelDesign.color,
   };
 
   return (

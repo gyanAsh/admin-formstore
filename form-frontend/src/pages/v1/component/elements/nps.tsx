@@ -20,10 +20,13 @@ export const FormNPS = ({ goNextFunction }: { goNextFunction: Function }) => {
               className={cn(
                 "grid place-items-center aspect-6/8 md:aspect-square col-span-1 text-lg sm:text-xl first:hover:rounded-l-full last:hover:rounded-r-full transition-all duration-200 ease-out",
                 {
-                  " hover:text-xl sm:hover:text-3xl hover:bg-[var(--btn-bg-color)] hover:text-[var(--btn-text-color)]":
+                  " hover:text-xl sm:hover:text-3xl hover:opacity-70 hover:bg-[var(--btn-bg-color)] hover:text-[var(--btn-text-color)]":
                     selected === null,
                 },
-                { " text-xl sm:text-3xl bg-black text-white": selected === e }
+                {
+                  " text-xl sm:text-3xl bg-[var(--btn-bg-color)] text-[var(--btn-text-color)]":
+                    selected === e,
+                }
               )}
               onClick={async () => {
                 setSelected(e);
