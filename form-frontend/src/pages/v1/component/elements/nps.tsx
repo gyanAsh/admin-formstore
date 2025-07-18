@@ -50,11 +50,14 @@ const NPSContainer = ({
   children,
   ...props
 }: React.ComponentProps<"div">) => {
-  const { element: elDesign, button: btnDesign } = useFormV1Store(
-    (state) => state.design
-  );
+  const {
+    element: elDesign,
+    button: btnDesign,
+    description: desDesign,
+  } = useFormV1Store((state) => state.design);
 
   const elStyle: Record<string, string> & React.CSSProperties = {
+    "--label-text-color": desDesign.color,
     "--text-color": elDesign.textColor,
     "--bg-color": elDesign.bgColor,
     "--border-color": elDesign.borderColor,
@@ -95,7 +98,7 @@ const NPSContainer = ({
       <div
         className={cn(
           "flex items-center justify-between w-full rounded-full px-4",
-          "text-[var(--text-color)] [font-family:var(--input-family)] text-base md:text-lg"
+          "text-[var(--label-text-color)] [font-family:var(--input-family)] text-base md:text-lg"
         )}
       >
         <h3>0 - Not likely at all</h3>

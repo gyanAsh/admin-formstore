@@ -4,6 +4,7 @@ import { FormButton } from "../button";
 import { useStore } from "@nanostores/react";
 import {
   $get_design_button,
+  $get_design_description,
   $get_design_element,
 } from "@/store/forms/form-elements";
 import { useState } from "react";
@@ -55,9 +56,11 @@ const NPSContainer = ({
   ...props
 }: React.ComponentProps<"div">) => {
   const elDesign = useStore($get_design_element);
+  const desDesign = useStore($get_design_description);
   const btnDesign = useStore($get_design_button);
 
   const elStyle: Record<string, string> & React.CSSProperties = {
+    "--label-text-color": desDesign.color,
     "--text-color": elDesign.textColor,
     "--bg-color": elDesign.bgColor,
     "--border-color": elDesign.borderColor,
@@ -98,7 +101,7 @@ const NPSContainer = ({
       <div
         className={cn(
           "flex items-center justify-between w-full rounded-full px-4",
-          "text-[var(--text-color)] [font-family:var(--input-family)] text-base md:text-lg"
+          "text-[var(--label-text-color)] [font-family:var(--input-family)] text-base md:text-lg"
         )}
       >
         <h3>0 - Not likely at all</h3>
