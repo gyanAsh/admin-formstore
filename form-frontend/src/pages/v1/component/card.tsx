@@ -25,6 +25,11 @@ export const InputContainer = ({
   className,
   ...props
 }: React.ComponentProps<"div">) => {
+  const { description: desDesign } = useFormV1Store((state) => state.design);
+  const style: Record<string, string> & React.CSSProperties = {
+    "--input-family": desDesign.family,
+  };
+
   return (
     <div
       className={cn(
@@ -32,6 +37,7 @@ export const InputContainer = ({
         "  px-2 md:px-8 lg:px-16 gap-2.5 md:gap-5.5 ",
         className
       )}
+      style={style}
       {...props}
     />
   );

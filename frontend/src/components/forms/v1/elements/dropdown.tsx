@@ -10,10 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useStore } from "@nanostores/react";
-import {
-  $get_design_element,
-  $get_design_label,
-} from "@/store/forms/form-elements";
+import { $get_design_element } from "@/store/forms/form-elements";
 
 export const FormDropdown = ({
   dropdown,
@@ -27,10 +24,8 @@ export const FormDropdown = ({
   };
 
   const elDesign = useStore($get_design_element);
-  const design = useStore($get_design_label);
 
   const elStyle: Record<string, string> & React.CSSProperties = {
-    "--family": design.family,
     "--text-color": elDesign.textColor,
     "--bg-color": elDesign.bgColor,
     "--border-color": elDesign.borderColor,
@@ -43,12 +38,14 @@ export const FormDropdown = ({
   };
   return (
     <section
-      className={cn(" max-w-150 flex flex-col gap-2.5 grow")}
+      className={cn(
+        " max-w-150  [font-family:var(--input-family)] flex flex-col gap-2.5 grow"
+      )}
       style={elStyle}
     >
       <div className="grid place-items-center gap-5">
         <Select>
-          <SelectTrigger className="w-full whitespace-pre-line border border-red-600 min-h-fit focus:hidden">
+          <SelectTrigger className="w-full  whitespace-pre-line border border-red-600 min-h-fit focus:hidden">
             <SelectValue placeholder={dropdown.defaultText} />
           </SelectTrigger>
           <SelectContent>

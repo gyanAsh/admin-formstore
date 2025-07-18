@@ -6,7 +6,6 @@ import { useStore } from "@nanostores/react";
 import {
   $get_design_button,
   $get_design_element,
-  $get_design_label,
 } from "@/store/forms/form-elements";
 
 export const FormYesNo = ({
@@ -82,10 +81,8 @@ export const FormYesNo = ({
 const Options = ({ className, ...props }: React.ComponentProps<"button">) => {
   const elDesign = useStore($get_design_element);
   const btnDesign = useStore($get_design_button);
-  const design = useStore($get_design_label);
 
   const elStyle: Record<string, string> & React.CSSProperties = {
-    "--family": design.family,
     "--text-color": elDesign.textColor,
     "--bg-color": elDesign.bgColor,
     "--border-color": elDesign.borderColor,
@@ -118,7 +115,7 @@ const Options = ({ className, ...props }: React.ComponentProps<"button">) => {
         " aria-[selected=false]:hover:opacity-70",
         " text-[var(--text-color)] hover:text-[var(--btn-text-color)] aria-[selected=true]:text-[var(--btn-text-color)] hover:border-[var(--btn-border-color)]",
         " bg-[var(--bg-color)]/[var(--transparant)] hover:bg-[var(--btn-bg-color)]/[var(--transparant)] aria-[selected=true]:bg-[var(--btn-bg-color)]/[var(--transparant)]",
-        "rounded-full [font-family:var(--family)] text-lg",
+        "rounded-full [font-family:var(--input-family)] text-lg",
         "border-2 border-[var(--border-color)]",
         { " backdrop-blur-[1px]": elDesign.variant === "glass" },
         className

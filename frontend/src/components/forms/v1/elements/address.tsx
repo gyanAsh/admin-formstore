@@ -5,8 +5,8 @@ import { FormButton } from "../button";
 import { useState } from "react";
 import { useStore } from "@nanostores/react";
 import {
+  $get_design_description,
   $get_design_element,
-  $get_design_label,
 } from "@/store/forms/form-elements";
 
 export const FormAddress = ({
@@ -24,10 +24,9 @@ export const FormAddress = ({
   const [inputCountry, setInputCountry] = useState("");
 
   const elDesign = useStore($get_design_element);
-  const design = useStore($get_design_label);
+  const desDesign = useStore($get_design_description);
   const elStyle: Record<string, string> & React.CSSProperties = {
-    "--family": design.family,
-    "--label-text-color": design.color,
+    "--label-text-color": desDesign.color,
     "--text-color": elDesign.textColor,
     "--bg-color": elDesign.bgColor,
     "--border-color": elDesign.borderColor,
@@ -46,7 +45,7 @@ export const FormAddress = ({
   return (
     <section
       className={cn(
-        " max-w-150 flex flex-col gap-2.5 sm:gap-3.5 grow text-[var(--text-color)] [font-family:var(--family)] "
+        " max-w-150 flex flex-col gap-2.5 sm:gap-3.5 grow text-[var(--text-color)] [font-family:var(--input-family)] "
       )}
       style={elStyle}
     >

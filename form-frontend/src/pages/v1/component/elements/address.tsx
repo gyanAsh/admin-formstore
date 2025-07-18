@@ -19,13 +19,12 @@ export const FormAddress = ({
   const [inputZip, setInputZip] = useState("");
   const [inputCountry, setInputCountry] = useState("");
 
-  const { element: elDesign, label: design } = useFormV1Store(
+  const { element: elDesign, description: desDesign } = useFormV1Store(
     (state) => state.design
   );
 
   const elStyle: Record<string, string> & React.CSSProperties = {
-    "--family": design.family,
-    "--label-text-color": design.color,
+    "--label-text-color": desDesign.color,
     "--text-color": elDesign.textColor,
     "--bg-color": elDesign.bgColor,
     "--border-color": elDesign.borderColor,
@@ -44,7 +43,7 @@ export const FormAddress = ({
   return (
     <section
       className={cn(
-        " max-w-150 flex flex-col gap-2.5 sm:gap-3.5 grow text-[var(--text-color)] [font-family:var(--family)] "
+        " max-w-150 flex flex-col gap-2.5 sm:gap-3.5 grow text-[var(--text-color)] [font-family:var(--input-family)] "
       )}
       style={elStyle}
     >

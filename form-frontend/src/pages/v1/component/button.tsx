@@ -5,15 +5,12 @@ export const FormButton = ({
   className,
   ...props
 }: React.ComponentProps<"button">) => {
-  const {
-    element: elDesign,
-    button: btnDesign,
-    label: design,
-  } = useFormV1Store((state) => state.design);
+  const { element: elDesign, button: btnDesign } = useFormV1Store(
+    (state) => state.design
+  );
 
   const buttonDesign = btnDesign || elDesign;
   const elStyle: Record<string, string> & React.CSSProperties = {
-    "--family": design.family,
     "--text-color": buttonDesign.textColor,
     "--bg-color": buttonDesign.bgColor,
     "--border-color": buttonDesign.borderColor,
@@ -31,7 +28,7 @@ export const FormButton = ({
         " px-2.5 md:px-3 py-2.5 md:py-3 cursor-pointer",
         " hover:contrast-75 hover:scale-[1.02] active:scale-95 duration-200 transition-colors",
 
-        "rounded-full text-[var(--text-color)] [font-family:var(--family)] text-lg bg-[var(--bg-color)]/[var(--transparant)] border-2 border-[var(--border-color)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)]/[var(--transparant)]",
+        "rounded-full text-[var(--text-color)] [font-family:var(--input-family)] text-lg bg-[var(--bg-color)]/[var(--transparant)] border-2 border-[var(--border-color)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)]/[var(--transparant)]",
         { " backdrop-blur-[1px]": elDesign.variant === "glass" },
         className
       )}

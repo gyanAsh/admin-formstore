@@ -5,7 +5,6 @@ import { useStore } from "@nanostores/react";
 import {
   $get_design_button,
   $get_design_element,
-  $get_design_label,
 } from "@/store/forms/form-elements";
 import { useState } from "react";
 
@@ -57,10 +56,8 @@ const NPSContainer = ({
 }: React.ComponentProps<"div">) => {
   const elDesign = useStore($get_design_element);
   const btnDesign = useStore($get_design_button);
-  const design = useStore($get_design_label);
 
   const elStyle: Record<string, string> & React.CSSProperties = {
-    "--family": design.family,
     "--text-color": elDesign.textColor,
     "--bg-color": elDesign.bgColor,
     "--border-color": elDesign.borderColor,
@@ -80,10 +77,6 @@ const NPSContainer = ({
         : "100%",
   };
 
-  const textStyle: Record<string, string> & React.CSSProperties = {
-    "--text-color": design.color,
-    "--family": design.family,
-  };
   return (
     <>
       <div
@@ -92,7 +85,7 @@ const NPSContainer = ({
           "rounded-full cursor-pointer",
           "group duration-200 transition-colors",
 
-          "text-[var(--text-color)] [font-family:var(--family)] text-lg bg-[var(--bg-color)]/[var(--transparant)]",
+          "text-[var(--text-color)] [font-family:var(--input-family)] text-lg bg-[var(--bg-color)]/[var(--transparant)]",
           "border-2 border-[var(--border-color)] divide-x-2 divide-[var(--border-color)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)]/[var(--transparant)]",
           { " backdrop-blur-[1px]": elDesign.variant === "glass" },
           className
@@ -105,9 +98,8 @@ const NPSContainer = ({
       <div
         className={cn(
           "flex items-center justify-between w-full rounded-full px-4",
-          "text-[var(--text-color)] [font-family:var(--family)] text-base md:text-lg"
+          "text-[var(--text-color)] [font-family:var(--input-family)] text-base md:text-lg"
         )}
-        style={textStyle}
       >
         <h3>0 - Not likely at all</h3>
         <h3>10 - Extremely likely</h3>

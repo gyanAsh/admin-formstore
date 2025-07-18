@@ -1,5 +1,8 @@
 import { cn } from "@/lib/utils";
-import { $get_design_layout } from "@/store/forms/form-elements";
+import {
+  $get_design_description,
+  $get_design_layout,
+} from "@/store/forms/form-elements";
 import { useStore } from "@nanostores/react";
 
 export const FormCard = ({
@@ -26,6 +29,11 @@ export const InputContainer = ({
   className,
   ...props
 }: React.ComponentProps<"div">) => {
+  const desDesign = useStore($get_design_description);
+  const style: Record<string, string> & React.CSSProperties = {
+    "--input-family": desDesign.family,
+  };
+
   return (
     <div
       className={cn(
@@ -33,6 +41,7 @@ export const InputContainer = ({
         "  px-2 md:px-8 lg:px-16 gap-2.5 md:gap-5.5 ",
         className
       )}
+      style={style}
       {...props}
     />
   );

@@ -24,12 +24,9 @@ export const FormWebsite = ({
 
   const { ref } = useAutoFocusOnVisible<HTMLInputElement>(0.5);
 
-  const { element: elDesign, label: design } = useFormV1Store(
-    (state) => state.design
-  );
+  const { element: elDesign } = useFormV1Store((state) => state.design);
 
   const elStyle: Record<string, string> & React.CSSProperties = {
-    "--family": design.family,
     "--text-color": elDesign.textColor,
     "--bg-color": elDesign.bgColor,
     "--border-color": elDesign.borderColor,
@@ -58,7 +55,7 @@ export const FormWebsite = ({
         className={cn(
           "w-full border-2 py-2 md:py-3 px-3 md:px-4.5 text-lg md:text-xl",
 
-          "text-[var(--text-color)] [font-family:var(--family)] border-[var(--border-color)]/60 placeholder:text-[var(--text-color)]/65 outline-0 focus:border-[var(--border-color)] w-full h-fit py-2 px-4 text-lg rounded-full font-medium placeholder:italic bg-[var(--bg-color)]/[var(--transparant)]",
+          "text-[var(--text-color)] [font-family:var(--input-family)] border-[var(--border-color)]/60 placeholder:text-[var(--text-color)]/65 outline-0 focus:border-[var(--border-color)] w-full h-fit py-2 px-4 text-lg rounded-full font-medium placeholder:italic bg-[var(--bg-color)]/[var(--transparant)]",
           { " backdrop-blur-xs": elDesign.variant === "glass" }
         )}
         style={elStyle}
