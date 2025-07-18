@@ -71,6 +71,12 @@ export interface TextSize {
   value: "16px" | "20px" | "30px" | "48px" | "60px";
   name: "sm" | "md" | "lg" | "xl" | "xxl";
 }
+export const getFontWeigth: Record<LabelDesign["weight"], number> = {
+  light: 300,
+  normal: 400,
+  medium: 500,
+  bold: 700,
+};
 export const textSizeLineHeight: Record<TextSize["value"], string> = {
   "16px": "calc(1.5 / 1)",
   "20px": "calc(1.75 / 1.25)",

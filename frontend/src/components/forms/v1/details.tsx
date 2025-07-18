@@ -5,6 +5,7 @@ import {
   $get_design_layout,
 } from "@/store/forms/form-elements";
 import {
+  getFontWeigth,
   maxMdTextSize,
   maxSmTextSize,
   textSizeLineHeight,
@@ -18,12 +19,13 @@ export const FormLabel = ({
   const design = useStore($get_design_label);
   const layoutDesign = useStore($get_design_layout);
 
-  const style: Record<string, string> & React.CSSProperties = {
+  const style: Record<string, string | number> & React.CSSProperties = {
     "--size": design.size,
     "--md-size": maxMdTextSize[design.size],
     "--sm-size": maxSmTextSize[design.size],
     "--family": design.family,
     "--weight": design.weight,
+    "--wght-weight": getFontWeigth[design.weight],
     "--text-color": design.color,
     "--italics": design.italics ? "italic" : "normal",
     "--letter-space": design.letter_spacing,
@@ -36,6 +38,8 @@ export const FormLabel = ({
         "whitespace-pre-line [text-align:var(--text-align)]",
         "text-[calc(var(--sm-size))] md:text-[calc(var(--md-size))] lg:text-[calc(var(--size))] [color:var(--text-color)]",
         "[line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] tracking-[var(--letter-space)]",
+        "[font-variation-settings:_'wght'_var(--wght-weight)]",
+
         { " max-w-150 w-full ": layoutDesign.spread === true },
         className
       )}
@@ -51,13 +55,14 @@ export const FormDescription = ({
 }: React.ComponentProps<"div">) => {
   const design = useStore($get_design_description);
   const layoutDesign = useStore($get_design_layout);
-  const style: Record<string, string> & React.CSSProperties = {
+  const style: Record<string, string | number> & React.CSSProperties = {
     "--size": design.size,
     "--md-size": maxMdTextSize[design.size],
     "--sm-size": maxSmTextSize[design.size],
     "--line-height": textSizeLineHeight[design.size],
     "--family": design.family,
     "--weight": design.weight,
+    "--wght-weight": getFontWeigth[design.weight],
     "--text-color": design.color,
     "--italics": design.italics ? "italic" : "normal",
     "--letter-space": design.letter_spacing,
@@ -70,6 +75,8 @@ export const FormDescription = ({
         "whitespace-pre-line [text-align:var(--text-align)]",
         " text-[calc(var(--sm-size))] md:text-[calc(var(--md-size))] lg:text-[calc(var(--size))] [color:var(--text-color)]",
         "[line-height:var(--line-height)] [font-style:var(--italics)] [font-family:var(--family)] font-[var(--weight)] tracking-[var(--letter-space)]",
+        "[font-variation-settings:_'wght'_var(--wght-weight)]",
+
         { " max-w-150 w-full ": layoutDesign.spread === true },
         className
       )}
