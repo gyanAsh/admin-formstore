@@ -127,6 +127,7 @@ export const textSizes: TextSize[] = [
 export interface TextFont {
   value:
     | '"Zodiak-Variable", sans-serif'
+    | '"Pally-Variable", serif'
     | '"Cal Sans", sans-serif'
     | '"IBM Plex Serif", serif'
     | '"Roboto", sans-serif'
@@ -135,6 +136,7 @@ export interface TextFont {
     | '"IBM Plex Sans", sans-serif';
   label:
     | "Zodiak"
+    | "Pally"
     | "Cal Sans"
     | "IBM Plex Serif"
     | "Roboto"
@@ -147,6 +149,10 @@ export const textFonts: TextFont[] = [
   {
     value: '"Zodiak-Variable", sans-serif',
     label: "Zodiak",
+  },
+  {
+    value: '"Pally-Variable", serif',
+    label: "Pally",
   },
   {
     value: '"Cal Sans", sans-serif',
