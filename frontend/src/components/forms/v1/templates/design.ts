@@ -98,7 +98,7 @@ export const designTemplate: Tempate[] = [
     themeName: "Candy Gradient",
     label: {
       size: "48px",
-      family: '"Cal Sans", sans-serif',
+      family: '"IBM Plex Sans", sans-serif',
       color: "#000000cf",
       italics: false,
       weight: "medium",

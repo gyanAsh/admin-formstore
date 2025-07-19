@@ -130,7 +130,6 @@ export interface TextFont {
     | '"Bonny-Variable", serif'
     | '"Expose-Variable", sans-serif'
     | '"Pally-Variable", sans-serif'
-    | '"Cal Sans", sans-serif'
     | '"IBM Plex Serif", serif'
     | '"Roboto", sans-serif'
     | '"Playfair Display", serif'
@@ -141,7 +140,6 @@ export interface TextFont {
     | "Bonny"
     | "Expose"
     | "Pally"
-    | "Cal Sans"
     | "IBM Plex Serif"
     | "Roboto"
     | "Playfair Display"
@@ -177,10 +175,6 @@ export const textFonts: TextFont[] = [
   {
     value: '"Pally-Variable", sans-serif',
     label: "Pally",
-  },
-  {
-    value: '"Cal Sans", sans-serif',
-    label: "Cal Sans",
   },
   {
     value: '"Roboto", sans-serif',
