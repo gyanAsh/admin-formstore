@@ -129,7 +129,7 @@ export interface TextFont {
     | '"Zodiak-Variable", serif'
     | '"Bonny-Variable", serif'
     | '"Expose-Variable", sans-serif'
-    | '"Pally-Variable", serif'
+    | '"Pally-Variable", sans-serif'
     | '"Cal Sans", sans-serif'
     | '"IBM Plex Serif", serif'
     | '"Roboto", sans-serif'
@@ -159,7 +159,7 @@ export const textFonts: TextFont[] = [
     label: "Zodiak",
   },
   {
-    value: '"Pally-Variable", serif',
+    value: '"Pally-Variable", sans-serif',
     label: "Pally",
   },
   {
