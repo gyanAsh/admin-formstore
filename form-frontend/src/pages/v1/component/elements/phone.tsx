@@ -8,9 +8,9 @@ import type { PhoneValidation } from "../../types/elements.types";
 import useAutoFocusOnVisible from "@/hooks/use-autofocus-on-visible";
 import { toast } from "sonner";
 
-const phoneSchema = z
-  .string()
-  .min(3, { message: "Please enter a valid number" });
+const phoneSchema = z.string().regex(/^\+\d+$/, {
+  message: "Must start with '+' followed by digits only",
+});
 
 export const FormPhone = ({
   phone,
@@ -62,7 +62,11 @@ export const FormPhone = ({
         placeholder={phone.placeholder}
         value={inputState}
         onChange={(e) => {
-          setInputState(e.target.value);
+          const value = e.target.value;
+          // Allow only "+", followed by digits
+          if (/^\+?\d*$/.test(value)) {
+            setInputState(value);
+          }
         }}
         onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
           if (e.key === "Enter") {
