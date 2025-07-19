@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./index.css";
 import "./assets/fonts/Zodiak_Complete/Fonts/WEB/css/zodiak.css"; //zodiak fonts
 import "./assets/fonts/Pally_Complete/Fonts/WEB/css/pally.css"; //pally fonts
+import "./assets/fonts/Bonny_Complete/Fonts/WEB/css/bonny.css"; //bonny fonts
 import App from "./App.tsx";
 import { BrowserRouter } from "react-router";
 import { Toaster } from "sonner";
