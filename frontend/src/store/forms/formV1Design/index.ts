@@ -167,10 +167,6 @@ export const textFonts: TextFont[] = [
     label: "Zodiak",
   },
   {
-    value: '"Pally-Variable", sans-serif',
-    label: "Pally",
-  },
-  {
     value: '"Playfair Display", serif',
     label: "Playfair Display",
   },
@@ -185,6 +181,10 @@ export const textFonts: TextFont[] = [
   {
     value: '"Expose-Variable", sans-serif',
     label: "Expose",
+  },
+  {
+    value: '"Pally-Variable", sans-serif',
+    label: "Pally",
   },
   {
     value: '"Cal Sans", sans-serif',
