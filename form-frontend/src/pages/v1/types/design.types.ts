@@ -156,7 +156,7 @@ export const textFonts: TextFont[] = [
   },
   {
     value: '"Expose-Variable", serif',
-    label: "Bonny",
+    label: "Expose",
   },
   {
     value: '"Zodiak-Variable", sans-serif',
