@@ -163,10 +163,6 @@ export const textFonts: TextFont[] = [
     label: "Bonny",
   },
   {
-    value: '"Expose-Variable", sans-serif',
-    label: "Expose",
-  },
-  {
     value: '"Zodiak-Variable", serif',
     label: "Zodiak",
   },
@@ -175,24 +171,28 @@ export const textFonts: TextFont[] = [
     label: "Pally",
   },
   {
-    value: '"Cal Sans", sans-serif',
-    label: "Cal Sans",
-  },
-  {
-    value: '"IBM Plex Serif", serif',
-    label: "IBM Plex Serif",
-  },
-  {
-    value: '"Roboto", sans-serif',
-    label: "Roboto",
-  },
-  {
     value: '"Playfair Display", serif',
     label: "Playfair Display",
   },
   {
     value: '"Lora", serif',
     label: "Lora",
+  },
+  {
+    value: '"IBM Plex Serif", serif',
+    label: "IBM Plex Serif",
+  },
+  {
+    value: '"Expose-Variable", sans-serif',
+    label: "Expose",
+  },
+  {
+    value: '"Cal Sans", sans-serif',
+    label: "Cal Sans",
+  },
+  {
+    value: '"Roboto", sans-serif',
+    label: "Roboto",
   },
 
   {
