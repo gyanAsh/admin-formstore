@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.0",
-    "@astrojs/mdx": "^4.3.0",
+    "@astrojs/mdx": "^4.3.1",
     "@astrojs/react": "^4.3.0",
     "@astrojs/sitemap": "^3.4.1",
     "@origin-space/image-cropper": "^0.1.9",
@@ -28,7 +28,7 @@
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.6",
     "@uiw/react-color": "^2.5.5",
-    "astro": "^5.10.2",
+    "astro": "^5.12.0",
     "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
