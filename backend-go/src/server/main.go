@@ -30,7 +30,7 @@ func (s *Service) RootHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func HttpServiceStart() error {
-	if err := godotenv.Load(".env.local"); err != nil {
+	if err := godotenv.Load(".env.local", ".env"); err != nil {
 		log.Fatal(err)
 	}
 	log.Printf("environment: %v\n", os.Getenv("ENVIRONMENT"))
