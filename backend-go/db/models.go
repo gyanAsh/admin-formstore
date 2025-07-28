@@ -14,18 +14,23 @@ import (
 type FormElementTypes string
 
 const (
-	FormElementTypesWelcome     FormElementTypes = "welcome"
-	FormElementTypesExit        FormElementTypes = "exit"
-	FormElementTypesWebsite     FormElementTypes = "website"
-	FormElementTypesConsent     FormElementTypes = "consent"
-	FormElementTypesMultiselect FormElementTypes = "multiselect"
-	FormElementTypesDropdown    FormElementTypes = "dropdown"
-	FormElementTypesRanking     FormElementTypes = "ranking"
-	FormElementTypesRating      FormElementTypes = "rating"
-	FormElementTypesDate        FormElementTypes = "date"
-	FormElementTypesText        FormElementTypes = "text"
-	FormElementTypesPhone       FormElementTypes = "phone"
-	FormElementTypesEmail       FormElementTypes = "email"
+	FormElementTypesWelcome      FormElementTypes = "welcome"
+	FormElementTypesExit         FormElementTypes = "exit"
+	FormElementTypesWebsite      FormElementTypes = "website"
+	FormElementTypesNumber       FormElementTypes = "number"
+	FormElementTypesAddress      FormElementTypes = "address"
+	FormElementTypesConsent      FormElementTypes = "consent"
+	FormElementTypesMultiselect  FormElementTypes = "multiselect"
+	FormElementTypesSingleselect FormElementTypes = "singleselect"
+	FormElementTypesDropdown     FormElementTypes = "dropdown"
+	FormElementTypesRanking      FormElementTypes = "ranking"
+	FormElementTypesRating       FormElementTypes = "rating"
+	FormElementTypesDate         FormElementTypes = "date"
+	FormElementTypesText         FormElementTypes = "text"
+	FormElementTypesLongtext     FormElementTypes = "longtext"
+	FormElementTypesPhone        FormElementTypes = "phone"
+	FormElementTypesEmail        FormElementTypes = "email"
+	FormElementTypesBoolean      FormElementTypes = "boolean"
 )
 
 func (e *FormElementTypes) Scan(src interface{}) error {
