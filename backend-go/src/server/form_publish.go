@@ -65,16 +65,23 @@ func validatePublishFormReq(form PublishFormReq) (string, error) {
 		if el.Label.Title == "" {
 			return "labels.title", fmt.Errorf("invalid form label title: %q, form element seq number: %v", el.Label.Title, el.SeqNum)
 		}
-		if el.Type != "website" &&
+		if el.Type != "welcome" &&
+			el.Type != "exit" &&
+			el.Type != "website" &&
+			el.Type != "number" &&
+			el.Type != "address" &&
 			el.Type != "consent" &&
 			el.Type != "multiselect" &&
+			el.Type != "singleselect" &&
 			el.Type != "dropdown" &&
 			el.Type != "ranking" &&
 			el.Type != "rating" &&
 			el.Type != "date" &&
 			el.Type != "text" &&
+			el.Type != "longtext" &&
 			el.Type != "phone" &&
-			el.Type != "email" {
+			el.Type != "email" &&
+			el.Type != "boolean" {
 			return "type", fmt.Errorf("invalid form type: %q, form element seq number: %v", el.Type, el.SeqNum)
 		}
 	}
