@@ -32,19 +32,20 @@ export enum FormFields {
   exit = "exit",
   url = "website",
   number = "number",
-  nps = "nps",
+  nps = "nps", // not added to the database
   address = "address",
   consent = "consent",
   multiselect = "multiselect",
   dropdown = "dropdown",
-  singleSelect = "singleSelect",
+  singleSelect = "singleselect",
   ranking = "ranking",
   rating = "rating",
+  date = "date", // not added in the frontend
   text = "text",
-  long_text = "long_text",
+  long_text = "longtext",
   phone = "phone",
   email = "email",
-  yesno = "yesno",
+  yesno = "boolean",
 }
 
 export type RatingKey =

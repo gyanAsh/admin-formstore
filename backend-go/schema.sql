@@ -41,15 +41,20 @@ CREATE TYPE form_element_types AS ENUM (
 	'welcome',
 	'exit',
 	'website',
+	'number',
+	'address',
 	'consent',
 	'multiselect',
+	'singleselect',
 	'dropdown',
 	'ranking',
 	'rating',
 	'date',
 	'text',
+	'longtext',
 	'phone',
-	'email'
+	'email',
+	'boolean'
 );
 
 CREATE TABLE IF NOT EXISTS form_elements (
