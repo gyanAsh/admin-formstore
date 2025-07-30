@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS forms (
 	created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
 	updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
 	workspace_id INTEGER NOT NULL,
+	public_id UUID,
 	status form_status_type NOT NULL DEFAULT 'draft',
 	design JSON,
 	FOREIGN KEY (workspace_id) REFERENCES workspaces(ID) ON DELETE CASCADE

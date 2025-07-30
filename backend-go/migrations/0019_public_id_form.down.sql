@@ -1,0 +1,5 @@
+BEGIN;
+
+ALTER TABLE forms DROP COLUMN public_id;
+
+COMMIT;
