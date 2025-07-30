@@ -27,4 +27,4 @@ CREATE TYPE form_element_types AS ENUM (
 ALTER TABLE form_elements ALTER COLUMN type TYPE form_element_types
 USING type::form_element_types;
 
-ROLLBACK;
+COMMIT;
