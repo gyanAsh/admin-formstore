@@ -163,19 +163,15 @@ func (s *Service) FormPublishHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if _, err = s.Conn.Exec(r.Context(), `UPDATE forms SET status =
-	'published' WHERE ID = $1`, form.FormID); err != nil {
-		log.Println(err)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
+	row = s.Conn.QueryRow(r.Context(), `UPDATE forms
+		SET status = 'published', public_id = uuid_generate_v4()
+		WHERE ID = $1 RETURNING public_id`, form.FormID)
 
-	row = s.Conn.QueryRow(r.Context(), `UPDATE forms SET public_id =
-		uuid_generate_v4() WHERE ID = $1 RETURNING public_id`,
-		form.FormID)
 	var publicID string
-	if err = row.Scan(&publicID); err != nil {
-		log.Println(fmt.Errorf("error setting public id"))
+	row.Scan(&publicID)
+	if err != nil {
+
+		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
