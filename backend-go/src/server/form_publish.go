@@ -170,8 +170,7 @@ func (s *Service) FormPublishHandler(w http.ResponseWriter, r *http.Request) {
 	var publicID string
 	row.Scan(&publicID)
 	if err != nil {
-
-		log.Println(err)
+		log.Println(fmt.Errorf("error form status for public: %v", err))
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
