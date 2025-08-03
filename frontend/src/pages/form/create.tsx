@@ -21,6 +21,7 @@ import SaveFormButton from "@/components/layout/dashboard/SaveFormButton";
 import { getBadgeValue } from "@/store/forms/values";
 import RefreshFormButton from "@/components/layout/dashboard/RefreshFormButton";
 import { Separator } from "@/components/ui/separator";
+import { Blocks, Paintbrush } from "lucide-react";
 
 type ApiFormData = {
   form: {
@@ -203,15 +204,29 @@ function FormTabs() {
               initial={false}
               onClick={() => setSelectedTab(item)}
               className={cn(
-                "relative py-3 px-3.5 w-fit cursor-pointer font-bold",
+                "flex items-center justify-between gap-2 relative py-3 px-3.5 w-fit cursor-pointer font-bold rounded-t-md",
+                {
+                  "zbg-indigo-100 text-indigo-500 ":
+                    item.code === "add_elements",
+                },
+                {
+                  " zbg-pink-100 text-pink-500": item.code === "designs",
+                },
 
-                item === selectedTab ? "" : "text-muted-foreground"
+                item === selectedTab ? "" : "text-zinc-500"
               )}
             >
+              <item.icon className={cn("size-5 stroke-2")} />
               {item.title}
               {item.id === selectedTab.id ? (
                 <motion.div
-                  className="absolute -bottom-[1px] left-0 right-0 h-1 rounded-t-2xl bg-primary"
+                  className={cn(
+                    "absolute -bottom-[1px] left-0 right-0 h-1 rounded-t-2xl",
+                    {
+                      "bg-indigo-500 ": item.code === "add_elements",
+                    },
+                    { " bg-pink-500": item.code === "designs" }
+                  )}
                   layoutId="underline"
                   id="underline"
                 />
@@ -243,6 +258,6 @@ function FormTabs() {
 }
 
 const tabs = [
-  { id: 1, title: "Add Elements", code: "add_elements" },
-  { id: 2, title: "Design Form", code: "designs" },
+  { id: 1, title: "Build", code: "add_elements", icon: Blocks },
+  { id: 2, title: "Design", code: "designs", icon: Paintbrush },
 ];
