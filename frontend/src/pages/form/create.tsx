@@ -206,11 +206,10 @@ function FormTabs() {
               className={cn(
                 "flex items-center justify-between gap-2 relative py-3 px-3.5 w-fit cursor-pointer font-bold rounded-t-md",
                 {
-                  "zbg-indigo-100 text-indigo-500 ":
-                    item.code === "add_elements",
+                  "text-indigo-500 ": item.code === "add_elements",
                 },
                 {
-                  " zbg-pink-100 text-pink-500": item.code === "designs",
+                  "text-pink-500": item.code === "designs",
                 },
 
                 item === selectedTab ? "" : "text-zinc-500"
