@@ -21,6 +21,7 @@ import {
 import type {
   AddressValidation,
   ConsentValidation,
+  DateValidation,
   EmailValidation,
   FormElements,
   Forms,
@@ -54,6 +55,7 @@ import { FormLongText } from "./component/elements/long-text";
 import { FormPhone } from "./component/elements/phone";
 import { FormNumber } from "./component/elements/number";
 import { FormAddress } from "./component/elements/address";
+import { FormDate } from "./component/elements/date";
 
 const variants = {
   enter: (direction: "prev" | "next") => ({
@@ -460,6 +462,11 @@ const FormPage = ({
         ) : element.type === FormTypes.number ? (
           <FormNumber
             number={element.properties as NumberValidation}
+            goNextFunction={goNextFunction}
+          />
+        ) : element.type === FormTypes.date ? (
+          <FormDate
+            number={element.properties as DateValidation}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.consent ? (

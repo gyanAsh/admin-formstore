@@ -79,6 +79,7 @@ export type ValidatonTypes =
   | MultiSelectValidation
   | PhoneValidation
   | NumberValidation
+  | DateValidation
   | AddressValidation;
 
 // Specific validation rules for each field type
@@ -134,6 +135,13 @@ export interface AddressValidation {
 }
 export interface NumberValidation {
   placeholder: string; //42
+}
+
+export interface DateValidation {
+  defaultValue: string; // - yyyy-mm-dd
+  minValue: string; // - yyyy-mm-dd
+  maxValue: string; // - yyyy-mm-dd
+  activateMinMaxRange: boolean; // false
 }
 
 export interface ConsentValidation {

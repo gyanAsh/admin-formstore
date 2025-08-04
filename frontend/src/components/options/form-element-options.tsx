@@ -15,6 +15,7 @@ import { cn, generateMicroId } from "@/lib/utils";
 import {
   AddressValidation,
   ConsentValidation,
+  DateValidation,
   DropdownValidation,
   EmailValidation,
   FormElements,
@@ -259,6 +260,14 @@ export const FromElementDialogContent = memo(
           <div className="flex flex-col space-y-4">
             <NumberValidations
               validations={stateElement.validations as NumberValidation}
+              setState={setStateElement}
+            />
+          </div>
+        )}
+        {stateElement.field === FormFields.date && (
+          <div className="flex flex-col space-y-4">
+            <DateValidations
+              validations={stateElement.validations as DateValidation}
               setState={setStateElement}
             />
           </div>
@@ -1099,6 +1108,114 @@ const NumberValidations = ({
           }))
         }
       />
+    </div>
+  );
+};
+const DateValidations = ({
+  validations,
+  setState,
+}: {
+  validations?: DateValidation;
+  setState: React.Dispatch<React.SetStateAction<FormElements>>;
+}) => {
+  const toYMD = (d: Date) => d.toISOString().slice(0, 10);
+
+  return (
+    <div>
+      <div className="grid flex-1 gap-2">
+        <Label htmlFor="date-placeholder">Default Date :</Label>
+        <Input
+          id="date-placeholder"
+          type="date"
+          className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
+          defaultValue={validations?.defaultValue}
+          value={validations?.defaultValue}
+          onChange={(val) => {
+            const today = validations?.defaultValue
+              ? new Date(validations.defaultValue)
+              : new Date();
+            const millisDay = 24 * 60 * 60 * 1_000; // 86,400,000 ms
+
+            const minValue = toYMD(new Date(today.getTime() - 30 * millisDay)); // 30 days before
+            const maxValue = toYMD(new Date(today.getTime() + 30 * millisDay)); // 30 days after
+
+            setState((e) => ({
+              ...e,
+              validations: {
+                ...e.validations,
+                defaultValue: val.target.value,
+                minValue,
+                maxValue,
+              } as DateValidation,
+            }));
+          }}
+        />
+      </div>
+      <div className="flex items-center my-4 gap-2">
+        <Label htmlFor="active-date-range" className="cursor-pointer">
+          Set Limit to Date:
+        </Label>
+        <Switch
+          id={"active-date-range"}
+          className="scale-85 cursor-pointer"
+          checked={validations?.activateMinMaxRange}
+          onCheckedChange={(val) => {
+            setState((e) => ({
+              ...e,
+              validations: {
+                ...e.validations,
+                activateMinMaxRange: val,
+              } as DateValidation,
+            }));
+          }}
+        />
+      </div>
+      <div
+        className={cn("grid grid-cols-2 gap-2", {
+          "opacity-50": !validations?.activateMinMaxRange,
+        })}
+      >
+        <div className="grid flex-1 gap-2">
+          <Label htmlFor="min-date-placeholder">Min Date :</Label>
+          <Input
+            id="min-date-placeholder"
+            type="date"
+            className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
+            defaultValue={validations?.minValue}
+            value={validations?.minValue}
+            disabled={!validations?.activateMinMaxRange}
+            onChange={(val) =>
+              setState((e) => ({
+                ...e,
+                validations: {
+                  ...e.validations,
+                  minValue: val.target.value,
+                } as DateValidation,
+              }))
+            }
+          />
+        </div>
+        <div className="grid flex-1 gap-2">
+          <Label htmlFor="max-date-placeholder">Max Date :</Label>
+          <Input
+            id="max-date-placeholder"
+            type="date"
+            className="hover:border-ring hover:ring-ring/50 hover:ring-1 border-accent-foreground/40"
+            defaultValue={validations?.maxValue}
+            value={validations?.maxValue}
+            disabled={!validations?.activateMinMaxRange}
+            onChange={(val) =>
+              setState((e) => ({
+                ...e,
+                validations: {
+                  ...e.validations,
+                  maxValue: val.target.value,
+                } as DateValidation,
+              }))
+            }
+          />
+        </div>
+      </div>
     </div>
   );
 };

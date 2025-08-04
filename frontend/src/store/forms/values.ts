@@ -28,11 +28,13 @@ import {
   Handshake,
   ChevronDown,
   Hash,
+  CalendarDays,
 } from "lucide-react";
 
 import {
   AddressValidation,
   ConsentValidation,
+  DateValidation,
   DropdownValidation,
   EmailValidation,
   FormElements as FormElementType,
@@ -160,7 +162,7 @@ export const FormElements = [
     ],
   },
   {
-    name: "Text & Number",
+    name: "Text",
     color: "yellow",
     items: [
       {
@@ -175,12 +177,6 @@ export const FormElements = [
         icon: AlignLeft,
         isPremium: false,
       },
-      {
-        title: "Number",
-        value: FormFields.number,
-        icon: Hash,
-        isPremium: false,
-      },
       // { title: "Video", icon: Play, isPremium: true },
     ],
   },
@@ -188,6 +184,18 @@ export const FormElements = [
     name: "Others",
     color: "gray",
     items: [
+      {
+        title: "Number",
+        value: FormFields.number,
+        icon: Hash,
+        isPremium: false,
+      },
+      {
+        title: "Date",
+        value: FormFields.date,
+        icon: CalendarDays,
+        isPremium: false,
+      },
       {
         title: "Welcome Screen",
         value: FormFields.welcome,
@@ -222,6 +230,8 @@ export function getDefaultLabelTitle(fieldType: string): string {
       return "I accept...";
     case FormFields.number:
       return "Number...";
+    case FormFields.date:
+      return "Date...";
     case FormFields.rating:
       return "Rate...";
     case FormFields.yesno:
@@ -276,7 +286,9 @@ export function getBadgeValue(fieldValue: string): FormElementType["badge"] {
     case FormFields.long_text:
       return { value: "Paragraph Text", color: "yellow" };
     case FormFields.number:
-      return { value: "Number", color: "yellow" };
+      return { value: "Number", color: "gray" };
+    case FormFields.date:
+      return { value: "Date", color: "gray" };
     case FormFields.welcome:
       return { value: "Welcome", color: "gray" };
     case FormFields.exit:
@@ -306,6 +318,22 @@ export function getDefaultValidations(
       return {
         placeholder: "42",
       } as NumberValidation;
+    case FormFields.date: {
+      const today = new Date();
+      const millisDay = 24 * 60 * 60 * 1_000; // 86,400,000 ms
+      const toYMD = (d: Date) => d.toISOString().slice(0, 10);
+
+      const defaultValue = toYMD(today); // today
+      const minValue = toYMD(new Date(today.getTime() - 30 * millisDay)); // 30 days before
+      const maxValue = toYMD(new Date(today.getTime() + 30 * millisDay)); // 30 days after
+
+      return {
+        defaultValue, // e.g. "2025-08-04"
+        minValue, // e.g. "2025-07-05"
+        maxValue, // e.g. "2025-09-03"
+        activateMinMaxRange: false,
+      } as DateValidation;
+    }
     case FormFields.text:
       return {
         minLength: 1,
@@ -430,7 +458,7 @@ export const FormElementIcon: Record<
   [FormFields.number]: {
     title: "Number",
     icon: Hash,
-    color: "yellow",
+    color: "gray",
   },
   [FormFields.phone]: {
     title: "Phone",
@@ -501,6 +529,11 @@ export const FormElementIcon: Record<
   [FormFields.exit]: {
     title: "",
     icon: GalleryHorizontalEnd,
+    color: "gray",
+  },
+  [FormFields.date]: {
+    title: "Date",
+    icon: CalendarDays,
     color: "gray",
   },
 };

@@ -13,6 +13,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   AddressValidation,
   ConsentValidation,
+  DateValidation,
   DropdownValidation,
   EmailValidation,
   FormElements,
@@ -57,6 +58,7 @@ import { FormLongText } from "@/components/forms/v1/elements/long-text";
 import { FormPhone } from "@/components/forms/v1/elements/phone";
 import { FormNumber } from "@/components/forms/v1/elements/number";
 import { FormAddress } from "@/components/forms/v1/elements/address";
+import { FormDate } from "@/components/forms/v1/elements/date";
 const variants = {
   enter: (direction: "prev" | "next") => ({
     x: direction === "prev" ? -100 : 100,
@@ -465,6 +467,11 @@ const FormPage = ({
         ) : element.field === FormFields.number ? (
           <FormNumber
             number={element.validations as NumberValidation}
+            goNextFunction={goNextFunction}
+          />
+        ) : element.field === FormFields.date ? (
+          <FormDate
+            number={element.validations as DateValidation}
             goNextFunction={goNextFunction}
           />
         ) : element.field === FormFields.phone ? (
