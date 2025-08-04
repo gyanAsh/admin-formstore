@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { parseFormDataForApi } from "@/lib/form_parsing";
-import { getAuthToken } from "@/lib/utils";
+import { cn, getAuthToken } from "@/lib/utils";
 import { getForm } from "@/store/forms/form-elements";
 import { Save } from "lucide-react";
 
@@ -29,12 +29,12 @@ export default function SaveFormButton({ formId }: { formId: number }) {
 
   return (
     <Button
-      // className={cn(
-      //   "dark:text-gray-200 text-black bg-color-background border border-primary",
-      //   "px-4 py-1 rounded-lg flex flex-row gap-2 items-center",
-      //   "hover:bg-color-background"
-      // )}
-      className="text-xs"
+      className={cn(
+        "dark:text-gray-200 text-black text-xs bg-color-background border",
+        "px-4 py-1 rounded-lg flex flex-row gap-2 items-center",
+        "hover:bg-color-background"
+      )}
+      // className="text-xs"
       variant={"outline"}
       effect={"scale"}
       onClick={(e) => {
@@ -42,8 +42,8 @@ export default function SaveFormButton({ formId }: { formId: number }) {
         saveForm();
       }}
     >
-      <Save className="opacity-60" />
-      <span className="max-lg:hidden">Save</span>
+      <Save className="opacity-60s" />
+      <span className="max-lg:hidden">Save Progress</span>
     </Button>
   );
 }

@@ -16,7 +16,7 @@ import * as motion from "motion/react-client";
 import { cn, getAuthToken } from "@/lib/utils";
 import { getForm } from "@/store/forms/form-elements";
 import { parseFormDataForApi } from "@/lib/form_parsing";
-import { SendHorizontal } from "lucide-react";
+import { MousePointerClick } from "lucide-react";
 export const createFormSchema = z.object({
   name: z.string().min(2, {
     message: "Form name must be at least 2 characters.",
@@ -53,7 +53,7 @@ export default function PublishFormButton({ formId }: { formId: number }) {
           className="group"
         >
           <Button className="text-sm font-semibold text-white rounded-lg">
-            <SendHorizontal className="group-hover:-rotate-45 group-hover:scale-105 ease-initial duration-250" />
+            <MousePointerClick className="sgroup-hover:-rotate-45 group-hover:scale-105 ease-initial duration-250" />
             Publish
             <span className="sr-only">Publish Form</span>
           </Button>

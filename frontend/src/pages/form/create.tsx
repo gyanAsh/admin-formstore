@@ -206,13 +206,16 @@ function FormTabs() {
               className={cn(
                 "flex items-center justify-between gap-2 relative py-3 px-3.5 w-fit cursor-pointer font-bold rounded-t-md",
                 {
-                  "text-indigo-500 ": item.code === "add_elements",
+                  "text-indigo-500 dark:text-indigo-400 ":
+                    item.code === "add_elements",
                 },
                 {
-                  "text-pink-500": item.code === "designs",
+                  "text-pink-500 dark:text-pink-400": item.code === "designs",
                 },
 
-                item === selectedTab ? "" : "text-zinc-500"
+                item === selectedTab
+                  ? ""
+                  : "text-zinc-500 hover:text-zinc-950 hover:bg-zinc-200/75 dark:text-zinc-300 dark:hover:bg-slate-700 dark:hover:text-white"
               )}
             >
               <item.icon className={cn("size-5 stroke-2")} />
