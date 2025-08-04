@@ -167,7 +167,7 @@ export const FormRanking = ({
   );
 };
 
-const Options = ({ className, children, ...props }: HTMLMotionProps<"div">) => {
+const Options = ({ className, ...props }: HTMLMotionProps<"div">) => {
   const { element: elDesign, button: btnDesign } = useFormV1Store(
     (state) => state.design
   );

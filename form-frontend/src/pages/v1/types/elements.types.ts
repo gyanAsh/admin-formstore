@@ -28,15 +28,15 @@ export enum FormTypes {
   consent = "consent",
   multiselect = "multiselect",
   dropdown = "dropdown",
-  singleSelect = "singleSelect",
+  singleSelect = "singleselect",
   ranking = "ranking",
   rating = "rating",
   text = "text",
   date = "date",
-  long_text = "long_text",
+  long_text = "longtext",
   phone = "phone",
   email = "email",
-  yesno = "yesno",
+  yesno = "boolean",
 }
 export type RatingKey =
   | "star"
