@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"encoding/base64"
 	"fmt"
 	"log"
 	"net/http"
@@ -44,9 +45,13 @@ func HttpServiceStart() error {
 		log.Fatal(err)
 	}
 	defer pool.Close()
-	jwtSecret := os.Getenv("JWT_SECRET")
-	if jwtSecret == "" {
-		log.Fatalf("failed to load JWT_SECRET: %s", jwtSecret)
+	jwtSecretRaw := os.Getenv("JWT_SECRET")
+	if jwtSecretRaw == "" {
+		log.Fatal(fmt.Errorf("JWT_SECRET not found: ", err))
+	}
+	jwtSecret, err := base64.StdEncoding.DecodeString(jwtSecretRaw)
+	if err != nil {
+		log.Fatalf("failed to decoded JWT_SECRET not in based64 format: %s", jwtSecret)
 	}
 
 	dbQueries := db.New(pool)
@@ -54,7 +59,7 @@ func HttpServiceStart() error {
 	s := Service{
 		Queries:   dbQueries,
 		Conn:      pool,
-		JwtSecret: []byte(jwtSecret),
+		JwtSecret: jwtSecret,
 	}
 
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
