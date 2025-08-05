@@ -135,7 +135,7 @@ func signupReq() (UserDat, string, error) {
 func TestMain(m *testing.M) {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
-	if err := godotenv.Load("../../.env"); err != nil {
+	if err := godotenv.Load("../../.env.local"); err != nil {
 		log.Fatal(err)
 	}
 	pool, err := pgxpool.New(context.Background(), os.Getenv("DATABASE_URL"))
