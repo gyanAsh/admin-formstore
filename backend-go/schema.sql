@@ -68,6 +68,6 @@ CREATE TABLE IF NOT EXISTS form_elements (
 	updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
 	form_id INTEGER NOT NULL,
 	properties JSON,
-	FOREIGN KEY (form_id) REFERENCES forms(ID),
+	FOREIGN KEY (form_id) REFERENCES forms(ID) ON DELETE CASCADE,
 	PRIMARY KEY (form_id, seq_number)
 );
