@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"crypto/rand"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -143,16 +144,16 @@ func TestMain(m *testing.M) {
 		log.Fatal(err)
 	}
 	defer pool.Close()
-	jwtSecret := os.Getenv("JWT_SECRET")
-	if jwtSecret == "" {
-		log.Fatalf("failed to load JWT_SECRET: %s", jwtSecret)
+	jwtSecret, err := base64.StdEncoding.DecodeString(os.Getenv("JWT_SECRET"))
+	if err != nil {
+		log.Fatal("failed to load JWT_SECRET with error: ", err)
 	}
 
 	dbQueries := db.New(pool)
 	s = server.Service{
 		Queries:   dbQueries,
 		Conn:      pool,
-		JwtSecret: []byte(jwtSecret),
+		JwtSecret: jwtSecret,
 	}
 
 	if userdat, err := ReadAuthCache(); err != nil {
