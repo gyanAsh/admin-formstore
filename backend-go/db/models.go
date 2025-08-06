@@ -117,6 +117,7 @@ type Form struct {
 	CreatedAt   pgtype.Timestamptz
 	UpdatedAt   pgtype.Timestamptz
 	WorkspaceID int32
+	PublicID    pgtype.UUID
 	Status      FormStatusType
 	Design      []byte
 }

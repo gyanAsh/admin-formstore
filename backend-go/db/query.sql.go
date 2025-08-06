@@ -226,7 +226,7 @@ func (q *Queries) GetFormDataPublic(ctx context.Context, formID int32) ([]GetFor
 }
 
 const getFormsInWorkspace = `-- name: GetFormsInWorkspace :many
-SELECT id, title, created_at, updated_at, workspace_id, status, design FROM forms WHERE workspace_id = $1 ORDER BY forms.updated_at DESC, forms.created_at ASC
+SELECT id, title, created_at, updated_at, workspace_id, public_id, status, design FROM forms WHERE workspace_id = $1 ORDER BY forms.updated_at DESC, forms.created_at ASC
 `
 
 func (q *Queries) GetFormsInWorkspace(ctx context.Context, workspaceID int32) ([]Form, error) {
@@ -244,6 +244,7 @@ func (q *Queries) GetFormsInWorkspace(ctx context.Context, workspaceID int32) ([
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.WorkspaceID,
+			&i.PublicID,
 			&i.Status,
 			&i.Design,
 		); err != nil {
