@@ -12,13 +12,13 @@ import (
 	"testing"
 )
 
-func formApiCreate(workspace_id int, title string) error {
+func formApiCreate(workspace_id int, title string) (int, error) {
 	formData, err := json.Marshal(map[string]any{
 		"workspace_id": workspace_id,
 		"title":        title,
 	})
 	if err != nil {
-		return fmt.Errorf("form data json request object error: %v\n", err)
+		return 0, fmt.Errorf("form data json request object error: %v\n", err)
 	}
 
 	r := httptest.NewRequest("POST", "http://localhost:4000/api/form", bytes.NewBuffer(formData))
@@ -29,21 +29,28 @@ func formApiCreate(workspace_id int, title string) error {
 	s.FormCreateHandler(w, r)
 
 	resp := w.Result()
+	var respBody map[string]any
 	if resp.StatusCode != 200 && resp.StatusCode != 201 {
-		var ret map[string]string
-		if err := json.NewDecoder(resp.Body).Decode(&ret); err != nil {
-			return fmt.Errorf("incorrect status code: %d with body: %v", resp.StatusCode, ret)
+		if err := json.NewDecoder(resp.Body).Decode(&respBody); err != nil {
+			return 0, fmt.Errorf("incorrect status code: %d with body: %v", resp.StatusCode, respBody)
 		} else {
 			log.Println(err)
-			ret2, err := io.ReadAll(resp.Body)
+			respBodyText, err := io.ReadAll(resp.Body)
 			if err != nil {
-				return fmt.Errorf("incorrect status code: %d with body: %v", resp.StatusCode, string(ret2))
+				return 0, fmt.Errorf("incorrect status code: %d with body: %v", resp.StatusCode, string(respBodyText))
 			} else {
-				return fmt.Errorf("incorrect status code: %d with no body", resp.StatusCode)
+				return 0, fmt.Errorf("incorrect status code: %d with no body", resp.StatusCode)
 			}
 		}
 	}
-	return nil
+	if err := json.NewDecoder(resp.Body).Decode(&respBody); err != nil {
+		return 0, fmt.Errorf("json decode after success: %v", err)
+	}
+	if formID_f, ok := respBody["id"].(float64); !ok {
+		return 0, fmt.Errorf("form id not found in response body: %v", respBody)
+	} else {
+		return int(formID_f), nil
+	}
 }
 
 func formDbDelete(formID int) error {
@@ -77,8 +84,11 @@ func TestFormCreate(t *testing.T) {
 	}(workspaceID)
 
 	formTitle := rand.Text()[:12]
-	if err := formApiCreate(workspaceID, formTitle); err != nil {
+	if formID, err := formApiCreate(workspaceID, formTitle); err != nil {
 		t.Fatal(fmt.Errorf("form api create: %v", err))
+		if formID == 0 {
+			t.Fatal("form id is 0")
+		}
 	}
 }
 
