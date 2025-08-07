@@ -23,7 +23,7 @@ func TestPublishForm(t *testing.T) {
 	})(workspaceID)
 
 	formTitle := rand.Text()[:12]
-	formID, err := formDbCreate(workspaceID, formTitle)
+	formID, err := formApiCreate(workspaceID, formTitle)
 	if err != nil {
 		log.Println(fmt.Errorf("form db create: %v", err))
 	}
