@@ -32,7 +32,7 @@ export enum FormFields {
   exit = "exit",
   url = "website",
   number = "number",
-  nps = "nps", // not added to the database
+  nps = "nps", // net promoted score
   address = "address",
   consent = "consent",
   multiselect = "multiselect",
