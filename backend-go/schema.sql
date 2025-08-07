@@ -55,7 +55,8 @@ CREATE TYPE form_element_types AS ENUM (
 	'longtext',
 	'phone',
 	'email',
-	'boolean'
+	'boolean',
+	'nps' -- net promoter score
 );
 
 CREATE TABLE IF NOT EXISTS form_elements (
