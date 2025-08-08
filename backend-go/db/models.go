@@ -31,6 +31,7 @@ const (
 	FormElementTypesPhone        FormElementTypes = "phone"
 	FormElementTypesEmail        FormElementTypes = "email"
 	FormElementTypesBoolean      FormElementTypes = "boolean"
+	FormElementTypesNps          FormElementTypes = "nps"
 )
 
 func (e *FormElementTypes) Scan(src interface{}) error {

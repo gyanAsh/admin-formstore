@@ -74,7 +74,7 @@ INNER JOIN
 ON
 	forms.ID = el.form_id
 WHERE
-	form_id = $1
+	public_id = $1
 AND
 	forms.status = 'published';
 

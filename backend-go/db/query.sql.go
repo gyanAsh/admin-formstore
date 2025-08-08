@@ -167,7 +167,7 @@ INNER JOIN
 ON
 	forms.ID = el.form_id
 WHERE
-	form_id = $1
+	public_id = $1
 AND
 	forms.status = 'published'
 `
@@ -190,8 +190,8 @@ type GetFormDataPublicRow struct {
 }
 
 // the published form cannot contain no element thus inner join
-func (q *Queries) GetFormDataPublic(ctx context.Context, formID int32) ([]GetFormDataPublicRow, error) {
-	rows, err := q.db.Query(ctx, getFormDataPublic, formID)
+func (q *Queries) GetFormDataPublic(ctx context.Context, publicID pgtype.UUID) ([]GetFormDataPublicRow, error) {
+	rows, err := q.db.Query(ctx, getFormDataPublic, publicID)
 	if err != nil {
 		return nil, err
 	}

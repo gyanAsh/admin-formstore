@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strconv"
 
 	"local.formstore.admin/db"
 )
@@ -47,14 +46,14 @@ func parseFormDataPublished(rows []db.GetFormDataPublicRow) PublishedFormData {
 }
 
 func (s *Service) PublishedFormDataHandler(w http.ResponseWriter, r *http.Request) {
-	formID, err := strconv.Atoi(r.PathValue("form_id"))
+	publicID, err := ParsePgUUID(r.PathValue("public_id"))
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("invalid form id"))
 		log.Println(fmt.Errorf("form id error: %v", err))
 		return
 	}
-	rows, err := s.Queries.GetFormDataPublic(r.Context(), int32(formID))
+	rows, err := s.Queries.GetFormDataPublic(r.Context(), publicID)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println(fmt.Errorf("query failed: %v", err))
