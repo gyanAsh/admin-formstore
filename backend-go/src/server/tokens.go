@@ -66,3 +66,17 @@ func convertUUIDStringToBin(uuid_str string) ([16]byte, error) {
 	}
 	return [16]byte(data), nil
 }
+
+func ParsePgUUID(uuid_s string) (pgtype.UUID, error) {
+	uuidBin, err := convertUUIDStringToBin(uuid_s)
+	if err != nil {
+		return pgtype.UUID{
+			Bytes: []byte{},
+			Valid: false,
+		}, err
+	}
+	return pgtype.UUID{
+		Bytes: uuidBin,
+		Valid: true,
+	}, nil
+}
