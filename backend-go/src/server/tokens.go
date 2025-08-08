@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 func checkValidUUID(uuid_str string) error {
@@ -70,10 +71,7 @@ func convertUUIDStringToBin(uuid_str string) ([16]byte, error) {
 func ParsePgUUID(uuid_s string) (pgtype.UUID, error) {
 	uuidBin, err := convertUUIDStringToBin(uuid_s)
 	if err != nil {
-		return pgtype.UUID{
-			Bytes: []byte{},
-			Valid: false,
-		}, err
+		return pgtype.UUID{Valid: false}, err
 	}
 	return pgtype.UUID{
 		Bytes: uuidBin,
