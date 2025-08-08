@@ -42,7 +42,7 @@ func workspaceApiCreate(workspaceName string) (int, error) {
 }
 
 func workspaceApiDelete(workspaceID int) error {
-	r := httptest.NewRequest("DELETE", "http://localhost:4000/api/workspace/", nil)
+	r := httptest.NewRequest("DELETE", "http://localhost:4000/api/workspace/{workspace_id}", nil)
 	r.SetPathValue("workspace_id", fmt.Sprint(workspaceID))
 	r.Header.Add("Authorization", fmt.Sprintf("Bearer %s", AUTH_TOKEN))
 	w := httptest.NewRecorder()

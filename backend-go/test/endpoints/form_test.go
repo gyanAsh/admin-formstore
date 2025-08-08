@@ -93,7 +93,7 @@ func TestFormCreate(t *testing.T) {
 }
 
 func formApiDelete(formID int) error {
-	r := httptest.NewRequest("DELETE", "http://localhost:4000/api/form", nil)
+	r := httptest.NewRequest("DELETE", "http://localhost:4000/api/form/{form_id}", nil)
 	r.Header.Add("Authorization", fmt.Sprintf("Bearer %s", AUTH_TOKEN))
 	r.SetPathValue("form_id", fmt.Sprint(formID))
 	w := httptest.NewRecorder()
