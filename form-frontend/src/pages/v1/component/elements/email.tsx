@@ -1,20 +1,22 @@
 import { cn } from "@/lib/utils";
 import { FormButton } from "../button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 
 import useAutoFocusOnVisible from "@/hooks/use-autofocus-on-visible";
-import type { EmailValidation } from "../../types/elements.types";
+import { FormTypes, type EmailValidation } from "../../types/elements.types";
 import { useFormV1Store } from "../../state/design";
 import { toast } from "sonner";
 
-const emailSchema = z.string().email({ message: "Invalid email address" });
+const emailSchema = z.string().email({ message: "Thats an invalid email." });
 
 export const FormEmail = ({
   email,
+  seq_number,
   goNextFunction,
 }: {
   email: EmailValidation;
+  seq_number: number;
   goNextFunction: Function;
 }) => {
   const [inputState, setInputState] = useState("");
@@ -22,6 +24,10 @@ export const FormEmail = ({
   const { ref } = useAutoFocusOnVisible<HTMLInputElement>(0.5);
 
   const { element: elDesign } = useFormV1Store((state) => state.design);
+  const updateInput = useFormV1Store((state) => state.updateInputState);
+  const getInputBySeqNumber = useFormV1Store(
+    (state) => state.getInputBySeqNumber
+  );
 
   const elStyle: Record<string, string> & React.CSSProperties = {
     "--text-color": elDesign.textColor,
@@ -40,8 +46,23 @@ export const FormEmail = ({
       toast.warning(result.error.errors.at(0)?.message);
       return;
     }
+
+    updateInput({
+      seq_number: seq_number,
+      value: result.data,
+      type: FormTypes.email,
+    });
     goNextFunction();
   };
+
+  useEffect(() => {
+    if (seq_number) {
+      let oldinput = getInputBySeqNumber(seq_number);
+      if (oldinput !== undefined) {
+        setInputState(oldinput.value);
+      }
+    }
+  }, [seq_number]);
 
   return (
     <section className={cn(" max-w-150 flex flex-col gap-2.5 grow")}>

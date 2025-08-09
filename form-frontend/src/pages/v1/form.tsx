@@ -452,6 +452,7 @@ const FormPage = ({
         {element.type === FormTypes.email ? (
           <FormEmail
             email={element.properties as EmailValidation}
+            seq_number={element.seq_number}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.phone ? (
@@ -535,3 +536,7 @@ const FormPage = ({
     </FormCard>
   );
 };
+// {
+//   "message": "form successfull published",
+//   "public_id": "35b0669c-18a2-41d6-9570-8f3e11e264cc"
+// }

@@ -9,13 +9,12 @@ export interface Forms {
 }
 
 export type FormElements = {
-  seq_number?: number;
+  seq_number: number;
   type: Partial<FormTypes>;
-  // type:  FormTypes;
   label: string;
   description: string;
-  required?: boolean;
-  properties?: ValidatonTypes;
+  required: boolean;
+  properties: ValidatonTypes;
 };
 
 export enum FormTypes {
