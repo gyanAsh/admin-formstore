@@ -24,7 +24,7 @@ export const FormEmail = ({
   const { ref } = useAutoFocusOnVisible<HTMLInputElement>(0.5);
 
   const { element: elDesign } = useFormV1Store((state) => state.design);
-  const updateInput = useFormV1Store((state) => state.updateInputState);
+  const updateValue = useFormV1Store((state) => state.updateInputState);
   const getInputBySeqNumber = useFormV1Store(
     (state) => state.getInputBySeqNumber
   );
@@ -47,7 +47,7 @@ export const FormEmail = ({
       return;
     }
 
-    updateInput({
+    updateValue({
       seq_number: seq_number,
       value: result.data,
       type: FormTypes.email,
@@ -56,7 +56,7 @@ export const FormEmail = ({
   };
 
   useEffect(() => {
-    if (seq_number) {
+    if (typeof seq_number === "number") {
       let oldinput = getInputBySeqNumber(seq_number);
       if (oldinput !== undefined) {
         setInputState(oldinput.value);

@@ -1,15 +1,17 @@
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { FormButton } from "../button";
-import { useState } from "react";
-import type { AddressValidation } from "../../types/elements.types";
-
+import { useEffect, useState } from "react";
 import { useFormV1Store } from "../../state/design";
+import { FormTypes, type AddressValidation } from "../../types/elements.types";
 
 export const FormAddress = ({
   address,
+  seq_number,
   goNextFunction,
 }: {
   address: AddressValidation;
+  seq_number: number;
   goNextFunction: Function;
 }) => {
   const [inputLine1, setInputLine1] = useState("");
@@ -21,6 +23,11 @@ export const FormAddress = ({
 
   const { element: elDesign, description: desDesign } = useFormV1Store(
     (state) => state.design
+  );
+  const updateValue = useFormV1Store((state) => state.updateInputState);
+
+  const getInputBySeqNumber = useFormV1Store(
+    (state) => state.getInputBySeqNumber
   );
 
   const elStyle: Record<string, string> & React.CSSProperties = {
@@ -37,9 +44,49 @@ export const FormAddress = ({
   };
 
   const validate = () => {
-    goNextFunction();
+    if (!!address.line1.required && !inputLine1) {
+      toast.warning(`${address.line1.label} field looks empty.`);
+    } else if (!!address.line2.required && !inputLine2) {
+      toast.warning(`${address.line2.label} field looks empty.`);
+    } else if (!!address.city.required && !inputCity) {
+      toast.warning(`${address.city.label} field looks empty.`);
+    } else if (!!address.state.required && !inputState) {
+      toast.warning(`${address.state.label} field looks empty.`);
+    } else if (!!address.zip.required && !inputZip) {
+      toast.warning(`${address.zip.label} field looks empty.`);
+    } else if (!!address.country.required && !inputCountry) {
+      toast.warning(`${address.country.label} field looks empty.`);
+    } else {
+      goNextFunction();
+    }
+    updateValue({
+      seq_number: seq_number,
+      value: {
+        line1: inputLine1,
+        line2: inputLine2,
+        city: inputCity,
+        state: inputState,
+        zip: inputZip,
+        country: inputCountry,
+      },
+      type: FormTypes.address,
+    });
   };
 
+  useEffect(() => {
+    if (typeof seq_number === "number") {
+      let oldinput = getInputBySeqNumber(seq_number);
+      if (oldinput !== undefined) {
+        console.log({ oldinput });
+        setInputLine1(oldinput.value.line1);
+        setInputLine2(oldinput.value.line2);
+        setInputCity(oldinput.value.city);
+        setInputState(oldinput.value.state);
+        setInputZip(oldinput.value.zip);
+        setInputCountry(oldinput.value.country);
+      }
+    }
+  }, [seq_number]);
   return (
     <section
       className={cn(

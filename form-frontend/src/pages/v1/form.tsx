@@ -478,6 +478,7 @@ const FormPage = ({
         ) : element.type === FormTypes.address ? (
           <FormAddress
             address={element.properties as AddressValidation}
+            seq_number={element.seq_number}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.yesno ? (
