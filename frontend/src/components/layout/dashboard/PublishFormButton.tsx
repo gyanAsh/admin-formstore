@@ -52,8 +52,8 @@ export default function PublishFormButton({ formId }: { formId: number }) {
           whileTap={{ scale: 0.95 }}
           className="group"
         >
-          <Button className="text-sm font-semibold text-white rounded-lg">
-            <MousePointerClick className="sgroup-hover:-rotate-45 group-hover:scale-105 ease-initial duration-250" />
+          <Button className="rounded-lg text-sm font-semibold text-white">
+            <MousePointerClick className="sgroup-hover:-rotate-45 duration-250 ease-initial group-hover:scale-105" />
             Publish
             <span className="sr-only">Publish Form</span>
           </Button>
@@ -62,7 +62,7 @@ export default function PublishFormButton({ formId }: { formId: number }) {
       <DialogContent className="rounded-4xl">
         <div className="flex flex-col items-center">
           <DialogHeader className="gap-0">
-            <DialogTitle className="sm:text-center text-lg text-zinc-800 dark:text-zinc-200">
+            <DialogTitle className="text-lg text-zinc-800 sm:text-center dark:text-zinc-200">
               Publish Form
             </DialogTitle>
             <DialogDescription>
@@ -78,7 +78,7 @@ export default function PublishFormButton({ formId }: { formId: number }) {
               effect="small_scale"
               className={cn(
                 "flex-1 rounded-lg text-base",
-                "bg-transparent border border-white-500 text-white-500 hover:text-white-500 ease-in duration-80"
+                "border-white-500 text-white-500 hover:text-white-500 border bg-transparent duration-80 ease-in"
               )}
             >
               Cancel
@@ -88,7 +88,7 @@ export default function PublishFormButton({ formId }: { formId: number }) {
             type="submit"
             effect={"small_scale"}
             className={cn(
-              "flex-1 rounded-lg text-white! text-base  ease-in duration-80",
+              "flex-1 rounded-lg text-base text-white! duration-80 ease-in",
               "bg-primary/85"
             )}
             onClick={publishFormHandler}
