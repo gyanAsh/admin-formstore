@@ -1,12 +1,31 @@
 package server
 
-import "net/http"
+import (
+	"encoding/json"
+	"fmt"
+	"log"
+	"net/http"
+)
 
 func (s *Service) FormAnalyticsDataHandler(w http.ResponseWriter, r *http.Request) {
-	s.Conn.Query(r.Context(), `
+	rows, err := s.Conn.Query(r.Context(), `
+		SELECT ID, data FROM submission_entries
 	`)
-	if err := json.NewDecoder(w).Decode(formAnalyticsData); err != nil {
-		log.Println(fmt.Errorf("failed to write json:", err))
+	if err != nil {
+		log.Println(fmt.Errorf("form analytics database query: %v", err))
+	}
+	var formAnalyticsData []map[string]any
+	for rows.Next() {
+		var sbID int32
+		var sbData string
+		rows.Scan(&sbID, &sbData)
+		formAnalyticsData = append(formAnalyticsData, map[string]any{
+			"id":   sbID,
+			"data": sbData,
+		})
+	}
+	if err := json.NewEncoder(w).Encode(formAnalyticsData); err != nil {
+		log.Println(fmt.Errorf("form analytics failed to write json: %v", err))
 		w.WriteHeader(http.StatusInternalServerError)
 	}
 }
