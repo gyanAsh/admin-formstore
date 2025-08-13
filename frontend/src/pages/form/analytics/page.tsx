@@ -12,6 +12,7 @@ import { AnimatePresence } from "motion/react";
 import { OverviewAnalysis } from "./overview-analysis";
 import { SubmissionsAnalysis } from "./submissions-analysis";
 import { Button } from "@/components/ui/button";
+import { useQuery } from "@tanstack/react-query";
 
 export default function AnalyticsPage() {
   const parmas = useParams();
@@ -25,6 +26,12 @@ export default function AnalyticsPage() {
   const workspace = {
     name: "workspace name",
   };
+
+  const formAnalytics = useQuery({
+    queryKey: ["api-analytics-formid"],
+    queryFn: () => fetch(`/api/analytics/${formId}`).then((res) => res.json()),
+  });
+
   return (
     <main className="flex w-full grow flex-col items-center justify-center md:p-2">
       <Card className="border-sidebar-accent relative flex h-[97.5dvh] w-full grow overflow-y-auto p-[0px_8px_8px_8px] max-md:rounded-none">
@@ -102,7 +109,7 @@ export default function AnalyticsPage() {
                   </Button>
                 </div>
               </section>
-              <AnalysisTabs />
+              <AnalysisTabs submissions={formAnalytics?.data?.submissions} />
             </div>
           ) : (
             <div className="flex h-full w-full flex-col items-center justify-center">
@@ -119,7 +126,7 @@ export default function AnalyticsPage() {
   );
 }
 
-function AnalysisTabs() {
+function AnalysisTabs({submissions}: {submissions: any}) {
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
 
   return (
