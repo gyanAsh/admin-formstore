@@ -40,6 +40,46 @@ func (q *Queries) DeleteFormElements(ctx context.Context, formID int32) error {
 	return err
 }
 
+const getAnalyticsFormSubmissions = `-- name: GetAnalyticsFormSubmissions :many
+SELECT submission_entries.ID, data FROM submission_entries
+INNER JOIN form_submissions ON form_submission_id = form_submissions.ID
+INNER JOIN forms ON form_submissions.form_id = forms.ID
+INNER JOIN workspaces ON forms.workspace_id = workspaces.ID
+INNER JOIN users ON workspaces.user_id = users.ID
+WHERE forms.ID = $1
+AND users.ID = $2
+`
+
+type GetAnalyticsFormSubmissionsParams struct {
+	ID   int32
+	ID_2 pgtype.UUID
+}
+
+type GetAnalyticsFormSubmissionsRow struct {
+	ID   int32
+	Data string
+}
+
+func (q *Queries) GetAnalyticsFormSubmissions(ctx context.Context, arg GetAnalyticsFormSubmissionsParams) ([]GetAnalyticsFormSubmissionsRow, error) {
+	rows, err := q.db.Query(ctx, getAnalyticsFormSubmissions, arg.ID, arg.ID_2)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetAnalyticsFormSubmissionsRow
+	for rows.Next() {
+		var i GetAnalyticsFormSubmissionsRow
+		if err := rows.Scan(&i.ID, &i.Data); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getFormDataAndElements = `-- name: GetFormDataAndElements :many
 SELECT
 	-- form
