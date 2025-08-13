@@ -31,7 +31,7 @@ export default function AnalyticsPage() {
         {/* top-navbar */}
         <section
           className={cn(
-            "sticky top-0 z-10 flex max-sm:flex-col max-sm:gap-2.5 sm:items-center sm:justify-between p-2.5 w-full bg-inherit pt-3.5 sm:py-3.5"
+            "sticky top-0 z-10 flex max-sm:flex-col max-sm:gap-2.5 sm:items-center sm:justify-between p-2.5 w-full bg-inherit pt-3.5 sm:py-3.5",
           )}
         >
           <div className="flex items-center sm:justify-between space-x-3">
@@ -113,7 +113,7 @@ function AnalysisTabs() {
               className={cn(
                 "relative py-3 px-3.5 w-fit cursor-pointer font-bold",
 
-                item === selectedTab ? "" : "text-muted-foreground"
+                item === selectedTab ? "" : "text-muted-foreground",
               )}
             >
               {item.title}
