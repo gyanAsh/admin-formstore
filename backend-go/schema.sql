@@ -87,6 +87,7 @@ CREATE TABLE IF NOT EXISTS submission_entries (
 	ID SERIAL PRIMARY KEY,
 	form_submission_id INTEGER NOT NULL,
 	element_id INTEGER NOT NULL,
+	data VARCHAR NOT NULL,
 	FOREIGN KEY (form_submission_id) REFERENCES form_submissions(ID),
 	FOREIGN KEY (element_id) REFERENCES form_elements(ID)
 );

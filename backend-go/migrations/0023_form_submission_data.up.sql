@@ -1,0 +1,5 @@
+BEGIN;
+
+ALTER TABLE submission_entries ADD COLUMN data VARCHAR NOT NULL;
+
+COMMIT;
