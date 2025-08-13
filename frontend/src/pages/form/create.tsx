@@ -172,7 +172,7 @@ export default function CreateForm() {
                     <Separator orientation="vertical" />
                     <PublishFormButton
                       formId={parseInt(String(formId))}
-                      workspaceId={parseInt(workspaceId)}
+                      workspaceId={parseInt(String(workspaceId))}
                     />
                   </div>
                 </section>
