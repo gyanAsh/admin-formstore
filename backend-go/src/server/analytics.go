@@ -8,9 +8,18 @@ import (
 )
 
 func (s *Service) FormAnalyticsDataHandler(w http.ResponseWriter, r *http.Request) {
+	formID, err := strconv.Atoi(r.PathValue("form_id"))
+	if err != nil {
+		log.Println(fmt.Errorf("form analytics invalid form_id %v error: %v",
+			r.PathValue("form_id"),
+			err,
+		))
+	}
 	rows, err := s.Conn.Query(r.Context(), `
-		SELECT ID, data FROM submission_entries
-	`)
+		SELECT submission_entries.ID, data FROM submission_entries
+		INNER JOIN form_submissions ON form_submission_id = form_submissions.ID
+		WHERE form_id = $1
+	`, formID)
 	if err != nil {
 		log.Println(fmt.Errorf("form analytics database query: %v", err))
 	}
