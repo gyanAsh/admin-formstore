@@ -169,7 +169,7 @@ function AnalysisTabs({submissions}: {submissions: any}) {
             {selectedTab.code === "overview" ? (
               <OverviewAnalysis />
             ) : selectedTab.code === "submissions" ? (
-              <SubmissionsAnalysis />
+              <SubmissionsAnalysis submissions={submissions} />
             ) : null}
           </motion.div>
         </AnimatePresence>
