@@ -148,6 +148,7 @@ type SubmissionEntry struct {
 	ID               int32
 	FormSubmissionID int32
 	ElementID        int32
+	Data             string
 }
 
 type User struct {
