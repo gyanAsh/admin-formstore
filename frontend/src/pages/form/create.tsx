@@ -110,15 +110,15 @@ export default function CreateForm() {
 
   return (
     <>
-      <main className="flex grow w-full flex-col items-center justify-center md:p-2 ">
-        <Card className="flex w-full grow p-[0px_8px_8px_8px] h-[97.5dvh] overflow-y-auto border-sidebar-accent relative max-md:rounded-none">
+      <main className="flex w-full grow flex-col items-center justify-center md:p-2">
+        <Card className="border-sidebar-accent relative flex h-[97.5dvh] w-full grow overflow-y-auto p-[0px_8px_8px_8px] max-md:rounded-none">
           {/* top-navbar */}
           <section
             className={cn(
-              "sticky top-0 z-10 flex max-sm:flex-col max-sm:gap-2.5 sm:items-center sm:justify-between p-2.5 w-full bg-inherit pt-3.5 sm:py-3.5"
+              "sticky top-0 z-10 flex w-full bg-inherit p-2.5 pt-3.5 max-sm:flex-col max-sm:gap-2.5 sm:items-center sm:justify-between sm:py-3.5"
             )}
           >
-            <div className="flex items-center sm:justify-between space-x-3">
+            <div className="flex items-center space-x-3 sm:justify-between">
               <SidebarTriggerButton className="size-9" />
               <BreadCrumbs
                 currentPage={formData?.form?.title || `Form: ID${formId}`}
@@ -137,27 +137,27 @@ export default function CreateForm() {
               />
             </div>
 
-            <div className="flex justify-end items-center sm:justify-between space-x-3">
+            <div className="flex items-center justify-end space-x-3 sm:justify-between">
               <UpgradeFormstore />
 
               <ModeToggle
                 variant="outline"
                 effect={"click"}
-                className="size-9 bg-black text-white dark:bg-white dark:hover:text-white   dark:text-black"
+                className="size-9 bg-black text-white dark:bg-white dark:text-black dark:hover:text-white"
               />
             </div>
           </section>
 
           <section className="grow gap-3">
             {form_isLoading ? (
-              <section className="flex flex-col gap-3 m-4">
-                <Skeleton className="w-[120px] h-[40px]" />
-                <Skeleton className="w-full h-[55px]" />
-                <Skeleton className="w-full h-[55px]" />
+              <section className="m-4 flex flex-col gap-3">
+                <Skeleton className="h-[40px] w-[120px]" />
+                <Skeleton className="h-[55px] w-full" />
+                <Skeleton className="h-[55px] w-full" />
               </section>
             ) : !form_hasError ? (
-              <div className="flex flex-col h-full px-2 gap-4">
-                <section className="flex max-sm:flex-col min-sm:items-end gap-2 justify-between w-full">
+              <div className="flex h-full flex-col gap-4 px-2">
+                <section className="flex w-full justify-between gap-2 max-sm:flex-col min-sm:items-end">
                   <div className="flex flex-col">
                     <h2 className="font-semibold text-zinc-500 dark:text-zinc-100/75">
                       Create Form
@@ -166,7 +166,7 @@ export default function CreateForm() {
                       {formData?.form?.title || "Current Form"}
                     </h2>
                   </div>
-                  <div className="flex max-sm:justify-end gap-2 h-9">
+                  <div className="flex h-9 gap-2 max-sm:justify-end">
                     <RefreshFormButton />
                     <SaveFormButton formId={parseInt(String(formId))} />
                     <Separator orientation="vertical" />
@@ -176,8 +176,8 @@ export default function CreateForm() {
                 <FormTabs />
               </div>
             ) : (
-              <div className="w-full h-full flex flex-col items-center justify-center">
-                <div className="text-red-600 font-bold text-4xl">Error</div>
+              <div className="flex h-full w-full flex-col items-center justify-center">
+                <div className="text-4xl font-bold text-red-600">Error</div>
                 <div>
                   Something went wrong while fetching your forms. Please try
                   again later
@@ -195,7 +195,7 @@ function FormTabs() {
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
 
   return (
-    <div className="w-full grow h-full flex flex-col m-[1px]">
+    <div className="m-[1px] flex h-full w-full grow flex-col">
       <nav>
         <ul className="flex gap-0.5 border-b-[1.5px]">
           {tabs.map((item) => (
@@ -204,9 +204,9 @@ function FormTabs() {
               initial={false}
               onClick={() => setSelectedTab(item)}
               className={cn(
-                "flex items-center justify-between gap-2 relative py-3 px-3.5 w-fit cursor-pointer font-bold rounded-t-md",
+                "relative flex w-fit cursor-pointer items-center justify-between gap-2 rounded-t-md px-3.5 py-3 font-bold",
                 {
-                  "text-indigo-500 dark:text-indigo-400 ":
+                  "text-indigo-500 dark:text-indigo-400":
                     item.code === "add_elements",
                 },
                 {
@@ -215,7 +215,7 @@ function FormTabs() {
 
                 item === selectedTab
                   ? ""
-                  : "text-zinc-500 hover:text-zinc-950 hover:bg-zinc-200/75 dark:text-zinc-300 dark:hover:bg-slate-700 dark:hover:text-white"
+                  : "text-zinc-500 hover:bg-zinc-200/75 hover:text-zinc-950 dark:text-zinc-300 dark:hover:bg-slate-700 dark:hover:text-white"
               )}
             >
               <item.icon className={cn("size-5 stroke-2")} />
@@ -223,11 +223,11 @@ function FormTabs() {
               {item.id === selectedTab.id ? (
                 <motion.div
                   className={cn(
-                    "absolute -bottom-[1px] left-0 right-0 h-1 rounded-t-2xl",
+                    "absolute right-0 -bottom-[1px] left-0 h-1 rounded-t-2xl",
                     {
-                      "bg-indigo-500 ": item.code === "add_elements",
+                      "bg-indigo-500": item.code === "add_elements",
                     },
-                    { " bg-pink-500": item.code === "designs" }
+                    { "bg-pink-500": item.code === "designs" }
                   )}
                   layoutId="underline"
                   id="underline"
@@ -237,7 +237,7 @@ function FormTabs() {
           ))}
         </ul>
       </nav>
-      <main className="flex flex-col grow">
+      <main className="flex grow flex-col">
         <AnimatePresence mode="wait">
           <motion.div
             key={selectedTab ? selectedTab.id : "empty"}
@@ -245,7 +245,7 @@ function FormTabs() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -10, opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="grow mt-3"
+            className="mt-3 grow"
           >
             {selectedTab.code === "add_elements" ? (
               <AddFormElement />
