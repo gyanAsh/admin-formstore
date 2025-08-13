@@ -3,7 +3,7 @@ import ModeToggle from "@/components/theme-toggle";
 import UpgradeFormstore from "@/components/upgrade-premium";
 import BreadCrumbs from "@/components/bread-crumbs";
 import { Card } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import { cn, getAuthToken } from "@/lib/utils";
 import { useParams } from "react-router";
 import * as motion from "motion/react-client";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -29,7 +29,11 @@ export default function AnalyticsPage() {
 
   const formAnalytics = useQuery({
     queryKey: ["api-analytics-formid"],
-    queryFn: () => fetch(`/api/analytics/${formId}`).then((res) => res.json()),
+    queryFn: () => fetch(`/api/analytics/${formId}`, {
+      headers: {
+        'Authorization': `Bearer ${getAuthToken()}`
+      }
+    }).then((res) => res.json()),
   });
 
   return (
