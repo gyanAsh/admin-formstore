@@ -104,9 +104,6 @@ export default function AnalyticsPage() {
                       navigator.clipboard.writeText(
                         "https://forms.the-formstore.com/form/cf2dd4d7-5ee3-4aef-af9a-69e4666683c6"
                       );
-                      console.log(
-                        "text copied - https://forms.the-formstore.com/form/cf2dd4d7-5ee3-4aef-af9a-69e4666683c6"
-                      );
                     }}
                   >
                     copy
