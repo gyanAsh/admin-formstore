@@ -6,5 +6,7 @@ ALTER TABLE form_elements DROP COLUMN ID;
 
 ALTER TABLE form_elements ADD CONSTRAINT form_elements_pkey PRIMARY KEY (form_id, seq_number);
 
-DROP TABLE form_submissions;
 DROP TABLE submission_entries;
+DROP TABLE form_submissions;
+
+COMMIT;
