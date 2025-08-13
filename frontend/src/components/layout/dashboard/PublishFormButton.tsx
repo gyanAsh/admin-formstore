@@ -17,15 +17,23 @@ import { cn, getAuthToken } from "@/lib/utils";
 import { getForm } from "@/store/forms/form-elements";
 import { parseFormDataForApi } from "@/lib/form_parsing";
 import { MousePointerClick } from "lucide-react";
+import { useNavigate } from "react-router";
 export const createFormSchema = z.object({
   name: z.string().min(2, {
     message: "Form name must be at least 2 characters.",
   }),
 });
 
-export default function PublishFormButton({ formId }: { formId: number }) {
+export default function PublishFormButton({
+  formId,
+  workspaceId,
+}: {
+  formId: number;
+  workspaceId: number;
+}) {
   const [openDialog, setOpenDialog] = useState(false);
   const formData = getForm(formId);
+  const navigate = useNavigate();
 
   async function publishFormHandler() {
     const res = await fetch(`/api/form/publish`, {
@@ -39,6 +47,7 @@ export default function PublishFormButton({ formId }: { formId: number }) {
     const data = await res.json();
     console.log(data);
     setOpenDialog(false);
+    navigate(`/dashboard/${workspaceId}/${formId}/analytics`);
   }
 
   return (

@@ -170,7 +170,10 @@ export default function CreateForm() {
                     <RefreshFormButton />
                     <SaveFormButton formId={parseInt(String(formId))} />
                     <Separator orientation="vertical" />
-                    <PublishFormButton formId={parseInt(String(formId))} />
+                    <PublishFormButton
+                      formId={parseInt(String(formId))}
+                      workspaceId={parseInt(workspaceId)}
+                    />
                   </div>
                 </section>
                 <FormTabs />
