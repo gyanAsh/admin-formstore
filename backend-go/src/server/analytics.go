@@ -16,7 +16,7 @@ type Submission struct {
 }
 
 func parseSubmission(dataDB []db.GetAnalyticsFormSubmissionsRow) []Submission {
-	var data []Submission
+	var data []Submission = []Submission{}
 	for _, x := range dataDB {
 		data = append(data, Submission {
 			ID: x.ID,
