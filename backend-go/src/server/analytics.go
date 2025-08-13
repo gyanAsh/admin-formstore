@@ -14,17 +14,19 @@ func (s *Service) FormAnalyticsDataHandler(w http.ResponseWriter, r *http.Reques
 	if err != nil {
 		log.Println(fmt.Errorf("form analytics database query: %v", err))
 	}
-	var formAnalyticsData []map[string]any
+	var submissions []map[string]any
 	for rows.Next() {
 		var sbID int32
 		var sbData string
 		rows.Scan(&sbID, &sbData)
-		formAnalyticsData = append(formAnalyticsData, map[string]any{
+		submissions = append(submissions, map[string]any{
 			"id":   sbID,
 			"data": sbData,
 		})
 	}
-	if err := json.NewEncoder(w).Encode(formAnalyticsData); err != nil {
+	if err := json.NewEncoder(w).Encode(map[string]any{
+		"submissions": submissions,
+	}); err != nil {
 		log.Println(fmt.Errorf("form analytics failed to write json: %v", err))
 		w.WriteHeader(http.StatusInternalServerError)
 	}
