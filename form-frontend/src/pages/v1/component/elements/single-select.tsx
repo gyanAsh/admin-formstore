@@ -1,23 +1,44 @@
 import { cn } from "@/lib/utils";
 import { FormButton } from "../button";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Circle, CircleCheck } from "lucide-react";
 import { useFormV1Store } from "../../state/design";
-import type { SingleSelectValidation } from "../../types/elements.types";
+import {
+  FormTypes,
+  type SingleSelectValidation,
+} from "../../types/elements.types";
 
 export const FormSingleSelect = ({
   singleSelect,
+  seq_number,
   goNextFunction,
 }: {
   singleSelect: SingleSelectValidation;
+  seq_number: number;
   goNextFunction: Function;
 }) => {
   const [selected, setSelected] = useState("");
+  const updateValue = useFormV1Store((state) => state.updateInputState);
+  const getInputBySeqNumber = useFormV1Store(
+    (state) => state.getInputBySeqNumber
+  );
   const validate = () => {
+    updateValue({
+      seq_number: seq_number,
+      value: selected,
+      type: FormTypes.singleSelect,
+    });
     goNextFunction();
   };
-
+  useEffect(() => {
+    if (typeof seq_number === "number") {
+      let oldinput = getInputBySeqNumber(seq_number);
+      if (oldinput !== undefined) {
+        setSelected(oldinput.value);
+      }
+    }
+  }, [seq_number]);
   return (
     <section className={cn(" max-w-150 flex flex-col items-end gap-2.5 grow")}>
       <div className="grid w-full gap-3">

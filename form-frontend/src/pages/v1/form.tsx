@@ -512,6 +512,7 @@ const FormPage = ({
         ) : element.type === FormTypes.singleSelect ? (
           <FormSingleSelect
             singleSelect={element.properties as SingleSelectValidation}
+            seq_number={element.seq_number}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.multiselect ? (
