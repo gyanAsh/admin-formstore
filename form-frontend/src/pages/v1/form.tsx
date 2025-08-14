@@ -497,6 +497,7 @@ const FormPage = ({
         ) : element.type === FormTypes.rating ? (
           <FormRating
             rating={element.properties as RatingValidation}
+            seq_number={element.seq_number}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.nps ? (
