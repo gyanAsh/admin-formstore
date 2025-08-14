@@ -458,6 +458,7 @@ const FormPage = ({
         ) : element.type === FormTypes.phone ? (
           <FormPhone
             phone={element.properties as PhoneValidation}
+            seq_number={element.seq_number}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.number ? (
