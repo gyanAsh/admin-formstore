@@ -485,6 +485,7 @@ const FormPage = ({
         ) : element.type === FormTypes.yesno ? (
           <FormYesNo
             yesno={element.properties as YesNoValidation}
+            seq_number={element.seq_number}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.ranking ? (

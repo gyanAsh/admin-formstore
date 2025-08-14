@@ -1,31 +1,41 @@
 import { cn, delay } from "@/lib/utils";
 // import { FormButton } from "../button";
-import type { YesNoValidation } from "../../types/elements.types";
-import React, { useState } from "react";
+import { FormTypes, type YesNoValidation } from "../../types/elements.types";
+import React, { useEffect, useState } from "react";
 import { useFormV1Store } from "../../state/design";
 
 export const FormYesNo = ({
   yesno,
+  seq_number,
   goNextFunction,
 }: {
   yesno: YesNoValidation;
+  seq_number: number;
+
   goNextFunction: Function;
 }) => {
   const [selected, setSelected] = useState("");
-
-  const validate = async () => {
+  const updateValue = useFormV1Store((state) => state.updateInputState);
+  const getInputBySeqNumber = useFormV1Store(
+    (state) => state.getInputBySeqNumber
+  );
+  const validate = async (val: "yes" | "no") => {
+    setSelected(val);
     await delay(1000);
+    updateValue({
+      seq_number: seq_number,
+      value: val,
+      type: FormTypes.singleSelect,
+    });
     goNextFunction();
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key == "y") {
-        setSelected("yes");
-        validate();
+        validate("yes");
       } else if (event.key == "n") {
-        setSelected("no");
-        validate();
+        validate("no");
       }
     };
 
@@ -36,6 +46,15 @@ export const FormYesNo = ({
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [validate]);
+  useEffect(() => {
+    if (typeof seq_number === "number") {
+      let oldinput = getInputBySeqNumber(seq_number);
+      if (oldinput !== undefined) {
+        setSelected(oldinput.value);
+      }
+    }
+  }, [seq_number]);
+  console.log({ selected });
   return (
     <section className={cn(" max-w-150 flex flex-col gap-2.5 grow")}>
       <div className="grid md:grid-cols-2 place-items-center gap-5">
@@ -50,8 +69,7 @@ export const FormYesNo = ({
           className="flex items-center justify-center gap-2"
           onClick={() => {
             if ("no" !== selected) {
-              setSelected("no");
-              validate();
+              validate("no");
             } else setSelected("");
           }}
         >
@@ -62,8 +80,7 @@ export const FormYesNo = ({
           className="flex items-center justify-center gap-2"
           onClick={() => {
             if ("yes" !== selected) {
-              setSelected("yes");
-              validate();
+              validate("yes");
             } else setSelected("");
           }}
         >
