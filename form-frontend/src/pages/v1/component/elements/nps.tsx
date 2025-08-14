@@ -1,14 +1,41 @@
 import { cn, delay } from "@/lib/utils";
 import { FormButton } from "../button";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormV1Store } from "../../state/design";
+import { FormTypes } from "../../types/elements.types";
 
-export const FormNPS = ({ goNextFunction }: { goNextFunction: Function }) => {
+export const FormNPS = ({
+  seq_number,
+  goNextFunction,
+}: {
+  seq_number: number;
+  goNextFunction: Function;
+}) => {
   const [selected, setSelected] = useState<number | null>(null);
+  const updateValue = useFormV1Store((state) => state.updateInputState);
+  const getInputBySeqNumber = useFormV1Store(
+    (state) => state.getInputBySeqNumber
+  );
   const validate = () => {
+    console.log({ selected });
+    updateValue({
+      seq_number: seq_number,
+      value: selected,
+      type: FormTypes.nps,
+    });
     goNextFunction();
   };
+
+  useEffect(() => {
+    if (typeof seq_number === "number") {
+      let oldinput = getInputBySeqNumber(seq_number);
+
+      if (oldinput !== undefined) {
+        setSelected(oldinput.value);
+      }
+    }
+  }, [seq_number]);
 
   return (
     <section className={cn(" max-w-150 flex flex-col items-end gap-4.5 grow")}>
@@ -30,8 +57,6 @@ export const FormNPS = ({ goNextFunction }: { goNextFunction: Function }) => {
               )}
               onClick={async () => {
                 setSelected(e);
-                await delay(200);
-                validate();
               }}
             >
               {e}

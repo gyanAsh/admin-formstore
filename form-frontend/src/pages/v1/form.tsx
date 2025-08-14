@@ -500,7 +500,10 @@ const FormPage = ({
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.nps ? (
-          <FormNPS goNextFunction={goNextFunction} />
+          <FormNPS
+            goNextFunction={goNextFunction}
+            seq_number={element.seq_number}
+          />
         ) : element.type === FormTypes.text ? (
           <FormText
             text={element.properties as TextValidation}
