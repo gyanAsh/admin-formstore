@@ -517,6 +517,7 @@ const FormPage = ({
         ) : element.type === FormTypes.multiselect ? (
           <FormMultiSelect
             multiSelect={element.properties as MultiSelectValidation}
+            seq_number={element.seq_number}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.url ? (

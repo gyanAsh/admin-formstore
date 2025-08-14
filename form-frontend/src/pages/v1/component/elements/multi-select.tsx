@@ -1,17 +1,26 @@
 import { cn } from "@/lib/utils";
 import { FormButton } from "../button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Square, SquareCheck } from "lucide-react";
 import { useFormV1Store } from "../../state/design";
-import type { MultiSelectValidation } from "../../types/elements.types";
+import {
+  FormTypes,
+  type MultiSelectValidation,
+} from "../../types/elements.types";
 
 export const FormMultiSelect = ({
   multiSelect,
+  seq_number,
   goNextFunction,
 }: {
   multiSelect: MultiSelectValidation;
+  seq_number: number;
   goNextFunction: Function;
 }) => {
+  const updateValue = useFormV1Store((state) => state.updateInputState);
+  const getInputBySeqNumber = useFormV1Store(
+    (state) => state.getInputBySeqNumber
+  );
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const toggleSelect = (id: string) => {
     setSelected((prev) => {
@@ -29,9 +38,24 @@ export const FormMultiSelect = ({
     let selectedOptions = multiSelect.options.filter((option) =>
       selected.has(option.id)
     );
-    console.log({ selectedOptions });
+    updateValue({
+      seq_number: seq_number,
+      value: selectedOptions,
+      type: FormTypes.phone,
+    });
     goNextFunction();
   };
+  useEffect(() => {
+    if (typeof seq_number === "number") {
+      let oldinput = getInputBySeqNumber(seq_number);
+      if (oldinput !== undefined) {
+        const idSet = new Set<string>(
+          oldinput.value.map((item: { id: string }) => item.id)
+        );
+        setSelected(idSet);
+      }
+    }
+  }, [seq_number]);
 
   return (
     <section className={cn(" max-w-150 flex flex-col items-end gap-2.5 grow")}>
