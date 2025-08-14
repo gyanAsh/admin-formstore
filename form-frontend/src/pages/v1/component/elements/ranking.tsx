@@ -1,18 +1,20 @@
 import { cn } from "@/lib/utils";
 import { FormButton } from "../button";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import type { RankingValidation } from "../../types/elements.types";
+import { FormTypes, type RankingValidation } from "../../types/elements.types";
 import { useFormV1Store } from "../../state/design";
 import { AnimatePresence, type HTMLMotionProps } from "motion/react";
 import * as motion from "motion/react-client";
 
 export const FormRanking = ({
   ranking,
+  seq_number,
   goNextFunction,
 }: {
   ranking: RankingValidation;
+  seq_number: number;
   goNextFunction: Function;
 }) => {
   const [optionsList, setOptionList] = useState<RankingValidation["options"]>(
@@ -20,7 +22,10 @@ export const FormRanking = ({
   );
 
   const [selectedRanks, setSelectedRanks] = useState<string[]>([]);
-
+  const updateValue = useFormV1Store((state) => state.updateInputState);
+  const getInputBySeqNumber = useFormV1Store(
+    (state) => state.getInputBySeqNumber
+  );
   const handleOptionClick = (option_text: string) => {
     setSelectedRanks((prevRanks) => {
       let newRanks: string[];
@@ -91,9 +96,23 @@ export const FormRanking = ({
   };
 
   const validate = () => {
+    updateValue({
+      seq_number: seq_number,
+      value: { optionsList, selectedRanks },
+      type: FormTypes.ranking,
+    });
     goNextFunction();
   };
 
+  useEffect(() => {
+    if (typeof seq_number === "number") {
+      let oldinput = getInputBySeqNumber(seq_number);
+      if (oldinput !== undefined) {
+        setSelectedRanks(oldinput.value.selectedRanks);
+        setOptionList(oldinput.value.optionsList);
+      }
+    }
+  }, [seq_number]);
   return (
     <section className={cn(" max-w-150 flex flex-col items-end gap-2.5 grow")}>
       <div className="grid w-full gap-3">
