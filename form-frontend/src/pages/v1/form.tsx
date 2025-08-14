@@ -470,6 +470,7 @@ const FormPage = ({
         ) : element.type === FormTypes.date ? (
           <FormDate
             number={element.properties as DateValidation}
+            seq_number={element.seq_number}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.consent ? (
