@@ -514,6 +514,7 @@ const FormPage = ({
         ) : element.type === FormTypes.long_text ? (
           <FormLongText
             long_text={element.properties as LongTextValidation}
+            seq_number={element.seq_number}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.singleSelect ? (
