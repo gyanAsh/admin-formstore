@@ -60,6 +60,7 @@ CREATE TYPE form_element_types AS ENUM (
 );
 
 CREATE TABLE IF NOT EXISTS form_elements (
+	ID SERIAL PRIMARY KEY,
 	type form_element_types NOT NULL,
 	seq_number INTEGER NOT NULL,
 	label VARCHAR,
@@ -70,5 +71,23 @@ CREATE TABLE IF NOT EXISTS form_elements (
 	form_id INTEGER NOT NULL,
 	properties JSON,
 	FOREIGN KEY (form_id) REFERENCES forms(ID) ON DELETE CASCADE,
-	PRIMARY KEY (form_id, seq_number)
+	UNIQUE (form_id, seq_number)
+);
+
+CREATE TABLE IF NOT EXISTS form_submissions (
+	ID SERIAL PRIMARY KEY,
+	form_id INTEGER NOT NULL,
+	created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+	updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+	user_id INTEGER, -- user id can be null
+	FOREIGN KEY (form_id) REFERENCES forms(ID)
+);
+
+CREATE TABLE IF NOT EXISTS submission_entries (
+	ID SERIAL PRIMARY KEY,
+	form_submission_id INTEGER NOT NULL,
+	element_id INTEGER NOT NULL,
+	data VARCHAR NOT NULL,
+	FOREIGN KEY (form_submission_id) REFERENCES form_submissions(ID),
+	FOREIGN KEY (element_id) REFERENCES form_elements(ID)
 );

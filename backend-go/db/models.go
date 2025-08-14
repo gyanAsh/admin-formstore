@@ -124,6 +124,7 @@ type Form struct {
 }
 
 type FormElement struct {
+	ID          int32
 	Type        FormElementTypes
 	SeqNumber   int32
 	Label       pgtype.Text
@@ -133,6 +134,21 @@ type FormElement struct {
 	UpdatedAt   pgtype.Timestamptz
 	FormID      int32
 	Properties  []byte
+}
+
+type FormSubmission struct {
+	ID        int32
+	FormID    int32
+	CreatedAt pgtype.Timestamptz
+	UpdatedAt pgtype.Timestamptz
+	UserID    pgtype.Int4
+}
+
+type SubmissionEntry struct {
+	ID               int32
+	FormSubmissionID int32
+	ElementID        int32
+	Data             string
 }
 
 type User struct {
