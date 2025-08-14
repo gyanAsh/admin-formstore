@@ -1,4 +1,4 @@
-import { cn, delay } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { FormButton } from "../button";
 
 import { useEffect, useState } from "react";
@@ -18,7 +18,6 @@ export const FormNPS = ({
     (state) => state.getInputBySeqNumber
   );
   const validate = () => {
-    console.log({ selected });
     updateValue({
       seq_number: seq_number,
       value: selected,

@@ -6,9 +6,9 @@ import {
   Crown,
   Zap,
   Skull,
-  Check,
   X,
   Pizza,
+  CheckSquare2,
 } from "lucide-react";
 
 import type { RatingKey, RatingValue } from "../types/elements.types";
@@ -21,7 +21,7 @@ export const RatingValues: Record<RatingKey, RatingValue> = {
   crown: { value: "crown", name: "Crown", icon: Crown },
   lightning: { value: "lightning", name: "Lightning", icon: Zap },
   skull: { value: "skull", name: "Skull", icon: Skull },
-  check: { value: "check", name: "Check", icon: Check },
+  check: { value: "check", name: "Check", icon: CheckSquare2 },
   wrong: { value: "wrong", name: "Cross", icon: X },
   pizza: { value: "pizza", name: "Food", icon: Pizza },
 };
