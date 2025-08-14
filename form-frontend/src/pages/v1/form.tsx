@@ -464,6 +464,7 @@ const FormPage = ({
         ) : element.type === FormTypes.number ? (
           <FormNumber
             number={element.properties as NumberValidation}
+            seq_number={element.seq_number}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.date ? (
