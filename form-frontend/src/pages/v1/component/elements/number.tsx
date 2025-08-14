@@ -41,14 +41,15 @@ export const FormNumber = ({
   };
 
   const validate = () => {
-    const result = numberSchema.safeParse(inputState);
+    const result = numberSchema.safeParse(parseFloat(inputState));
     if (!result.success) {
       toast.warning(result.error.errors.at(0)?.message);
       return;
     }
+    console.log(result.data);
     updateValue({
       seq_number: seq_number,
-      value: inputState,
+      value: result.data,
       type: FormTypes.number,
     });
     goNextFunction();
