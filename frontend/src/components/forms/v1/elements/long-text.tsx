@@ -70,7 +70,7 @@ export const FormLongText = ({
         placeholder={long_text.placeholder}
         //   className="field-sizing-content max-h-29.5 min-h-0 resize-none py-1.75"
         className={cn(
-          "field-sizing-content min-h-10 md:min-h-14 resize-none w-full border-2 py-2.5 md:py-3 px-9 md:px-9.5 text-lg md:text-xl",
+          "field-sizing-content min-h-10 md:min-h-14 max-h-[50dvh] w-full border-2 py-2.5 md:py-3 px-9 md:px-9.5 text-lg md:text-xl",
           "text-[var(--text-color)] [font-family:var(--input-family)] border-[var(--border-color)]/60 placeholder:text-[var(--text-color)]/65 outline-0 focus:border-[var(--border-color)] w-full h-fit py-2 px-4 text-lg rounded-[25px] md:rounded-[28px] font-medium placeholder:italic bg-[var(--bg-color)]/[var(--transparant)]",
           { " backdrop-blur-xs": elDesign.variant === "glass" }
         )}

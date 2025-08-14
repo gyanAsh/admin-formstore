@@ -509,6 +509,7 @@ const FormPage = ({
         ) : element.type === FormTypes.text ? (
           <FormText
             text={element.properties as TextValidation}
+            seq_number={element.seq_number}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.long_text ? (

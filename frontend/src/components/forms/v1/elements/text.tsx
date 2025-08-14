@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { TextValidation } from "@/store/forms/form-elements.types";
-import { TextArea } from "react-aria-components";
+import { Input } from "react-aria-components";
 import { FormButton } from "../button";
 import { useState } from "react";
 import useAutoFocusOnVisible from "@/hooks/use-autofocus-on-visible";
@@ -21,7 +21,7 @@ export const FormText = ({
     msg: string;
   }>({ msg: "", show: false });
 
-  const { ref } = useAutoFocusOnVisible<HTMLTextAreaElement>(0.2);
+  const { ref } = useAutoFocusOnVisible<HTMLInputElement>(0.2);
 
   const elDesign = useStore($get_design_element);
 
@@ -50,8 +50,9 @@ export const FormText = ({
 
   return (
     <section className={cn(" max-w-150 flex flex-col gap-2.5 grow")}>
-      <TextArea
+          <Input
         id="element-description"
+        type="text"
         ref={ref}
         value={textState}
         onChange={(e) => {
