@@ -41,7 +41,7 @@ export const FormMultiSelect = ({
     updateValue({
       seq_number: seq_number,
       value: selectedOptions,
-      type: FormTypes.phone,
+      type: FormTypes.multiselect,
     });
     goNextFunction();
   };

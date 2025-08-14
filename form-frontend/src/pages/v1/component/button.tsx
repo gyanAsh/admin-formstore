@@ -24,7 +24,7 @@ export const FormButton = ({
   return (
     <button
       className={cn(
-        " min-w-25  md:min-w-[160px] w-fit",
+        " min-w-25  md:min-w-[160px] w-fit  disabled:grayscale-100",
         " px-2.5 md:px-3 py-2.5 md:py-3 cursor-pointer",
         " hover:contrast-75 hover:scale-[1.02] active:scale-95 duration-200 transition-colors",
 

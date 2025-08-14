@@ -25,7 +25,7 @@ export const FormYesNo = ({
     updateValue({
       seq_number: seq_number,
       value: val,
-      type: FormTypes.singleSelect,
+      type: FormTypes.yesno,
     });
     goNextFunction();
   };
@@ -54,7 +54,7 @@ export const FormYesNo = ({
       }
     }
   }, [seq_number]);
-  console.log({ selected });
+
   return (
     <section className={cn(" max-w-150 flex flex-col gap-2.5 grow")}>
       <div className="grid md:grid-cols-2 place-items-center gap-5">

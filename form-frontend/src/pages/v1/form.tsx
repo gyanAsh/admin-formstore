@@ -474,6 +474,7 @@ const FormPage = ({
         ) : element.type === FormTypes.consent ? (
           <FormConsent
             consent={element.properties as ConsentValidation}
+            seq_number={element.seq_number}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.address ? (
