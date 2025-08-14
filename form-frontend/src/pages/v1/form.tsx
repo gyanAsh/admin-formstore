@@ -522,6 +522,7 @@ const FormPage = ({
         ) : element.type === FormTypes.url ? (
           <FormWebsite
             url={element.properties as UrlValidation}
+            seq_number={element.seq_number}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.welcome ? (

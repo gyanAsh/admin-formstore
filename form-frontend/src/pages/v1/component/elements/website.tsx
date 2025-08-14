@@ -1,11 +1,11 @@
 import { cn } from "@/lib/utils";
 // import { Input } from "react-aria-components";
 import { FormButton } from "../button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 
 import { useFormV1Store } from "../../state/design";
-import type { UrlValidation } from "../../types/elements.types";
+import { FormTypes, type UrlValidation } from "../../types/elements.types";
 import useAutoFocusOnVisible from "@/hooks/use-autofocus-on-visible";
 import { toast } from "sonner";
 
@@ -15,9 +15,11 @@ const urlSchema = z
 
 export const FormWebsite = ({
   url,
+  seq_number,
   goNextFunction,
 }: {
   url: UrlValidation;
+  seq_number: number;
   goNextFunction: Function;
 }) => {
   const [inputState, setInputState] = useState("");
@@ -25,7 +27,10 @@ export const FormWebsite = ({
   const { ref } = useAutoFocusOnVisible<HTMLInputElement>(0.5);
 
   const { element: elDesign } = useFormV1Store((state) => state.design);
-
+  const updateValue = useFormV1Store((state) => state.updateInputState);
+  const getInputBySeqNumber = useFormV1Store(
+    (state) => state.getInputBySeqNumber
+  );
   const elStyle: Record<string, string> & React.CSSProperties = {
     "--text-color": elDesign.textColor,
     "--bg-color": elDesign.bgColor,
@@ -44,9 +49,21 @@ export const FormWebsite = ({
       toast.warning(result.error.errors.at(0)?.message);
       return;
     }
+    updateValue({
+      seq_number: seq_number,
+      value: result.data,
+      type: FormTypes.phone,
+    });
     goNextFunction();
   };
-
+  useEffect(() => {
+    if (typeof seq_number === "number") {
+      let oldinput = getInputBySeqNumber(seq_number);
+      if (oldinput !== undefined) {
+        setInputState(oldinput.value);
+      }
+    }
+  }, [seq_number]);
   return (
     <section className={cn(" max-w-150 flex flex-col gap-2.5 grow")}>
       <input
