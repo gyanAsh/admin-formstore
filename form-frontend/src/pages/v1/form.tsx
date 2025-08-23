@@ -56,6 +56,7 @@ import { FormPhone } from "./component/elements/phone";
 import { FormNumber } from "./component/elements/number";
 import { FormAddress } from "./component/elements/address";
 import { FormDate } from "./component/elements/date";
+import { defaultDesignState } from "./types/design.types";
 
 const variants = {
   enter: (direction: "prev" | "next") => ({
@@ -93,7 +94,7 @@ const PreviewFormPage = ({
           id: data.form.id,
           title: data.form.title,
           elements: data.elements,
-          design: data.form.design,
+          design: data.form.design || defaultDesignState,
         };
         setFormState(formData);
         await delay(2000);
