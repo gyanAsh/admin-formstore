@@ -4,7 +4,7 @@ import { FormElementIcon } from "@/store/forms/values";
 import { ClockArrowUp } from "lucide-react";
 import React from "react";
 
-export const SubmissionsAnalysis = ({submissions}: {submission: any}) => {
+export const SubmissionsAnalysis = ({submissions}: {submissions: any}) => {
   console.log({submissions});
   return (
     <section className="grid gap-2.5">
