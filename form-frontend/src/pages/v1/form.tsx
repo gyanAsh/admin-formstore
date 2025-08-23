@@ -90,16 +90,23 @@ const PreviewFormPage = ({
     queryFn: async () => {
       try {
         const data = await fetchForm(formId!);
+        let formDesign = data?.form?.design || {};
         let formData: Forms = {
           id: data.form.id,
           title: data.form.title,
           elements: data.elements,
-          design: data.form.design || defaultDesignState,
+          design: { ...defaultDesignState, ...formDesign },
         };
         setFormState(formData);
         await delay(2000);
         return data;
       } catch (err) {
+        setFormState({
+          id: "",
+          title: "",
+          elements: [],
+          design: defaultDesignState,
+        });
         console.error(err);
       }
       return [];
