@@ -23,47 +23,45 @@ interface UserFormInput {
 type FormStore = Forms & UserFormInput & DesignStoreActions;
 // Create a store with the persist middleware
 export const useFormV1Store = create<FormStore>()(
-  persist(
-    (set, get) => ({
-      id: "",
-      title: "",
-      elements: [],
-      design: defaultDesignState,
-      inputState: [],
+  (set, get) => ({
+    id: "",
+    title: "",
+    elements: [],
+    design: defaultDesignState,
+    inputState: [],
 
-      // Main function to update input state based on seq_number
-      updateInputState: (newElement) =>
-        set((state) => {
-          const currentArray = [...state.inputState];
-          const existingIndex = currentArray.findIndex(
-            (element) => element.seq_number === newElement.seq_number
-          );
-
-          if (existingIndex !== -1) {
-            // Update existing element
-            currentArray[existingIndex] = newElement;
-          } else {
-            // Add new element
-            currentArray.push(newElement);
-          }
-
-          // Sort array by seq_number to maintain order
-          currentArray.sort((a, b) => a.seq_number - b.seq_number);
-
-          return { inputState: currentArray };
-        }),
-      getInputBySeqNumber: (seqNumber) => {
-        const { inputState } = get();
-        return inputState.find(
-          (element: Input) => element.seq_number === seqNumber
+    // Main function to update input state based on seq_number
+    updateInputState: (newElement) =>
+      set((state) => {
+        const currentArray = [...state.inputState];
+        const existingIndex = currentArray.findIndex(
+          (element) => element.seq_number === newElement.seq_number,
         );
-      },
-      setFormState: (state) => set((prev) => ({ ...prev, ...state })),
-    }),
-    {
-      name: "current_form", // unique name for storage
-      // Use sessionStorage instead of the default localStorage
-      storage: createJSONStorage(() => sessionStorage),
-    }
-  )
+
+        if (existingIndex !== -1) {
+          // Update existing element
+          currentArray[existingIndex] = newElement;
+        } else {
+          // Add new element
+          currentArray.push(newElement);
+        }
+
+        // Sort array by seq_number to maintain order
+        currentArray.sort((a, b) => a.seq_number - b.seq_number);
+
+        return { inputState: currentArray };
+      }),
+    getInputBySeqNumber: (seqNumber) => {
+      const { inputState } = get();
+      return inputState.find(
+        (element: Input) => element.seq_number === seqNumber,
+      );
+    },
+    setFormState: (state) => set((prev) => ({ ...prev, ...state })),
+  }),
+  {
+    name: "current_form", // unique name for storage
+    // Use sessionStorage instead of the default localStorage
+    storage: createJSONStorage(() => sessionStorage),
+  },
 );
