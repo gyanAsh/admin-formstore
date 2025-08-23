@@ -96,13 +96,13 @@ export default function AnalyticsPage() {
                 <div className="flex content-center items-center gap-2 p-2">
                   URL:
                   <span className="border p-2">
-                    https://forms.the-formstore.com/form/cf2dd4d7-5ee3-4aef-af9a-69e4666683c6
+                    http://localhost:5174/form/cf2dd4d7-5ee3-4aef-af9a-69e4666683c6
                   </span>
                   <Button
                     onClick={() => {
                       // async function
                       navigator.clipboard.writeText(
-                        "https://forms.the-formstore.com/form/cf2dd4d7-5ee3-4aef-af9a-69e4666683c6"
+                        "http://localhost:5174/form/cf2dd4d7-5ee3-4aef-af9a-69e4666683c6"
                       );
                     }}
                   >
