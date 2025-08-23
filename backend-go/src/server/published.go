@@ -14,10 +14,16 @@ type PublishedFormData struct {
 	FormElements []FormElement `json:"elements"`
 }
 
-func parseFormDataPublished(rows []db.GetFormDataPublicRow) PublishedFormData {
+func parseFormDataPublished(rows []db.GetFormDataPublicRow) (PublishedFormData, error) {
 	var formData PublishedFormData
 	formData.FormElements = []FormElement{}
+	if len(rows) == 0 {
+		return formData, fmt.Errorf("no rows")
+	}
 	for i, row := range rows {
+		if row.ID == 0 {
+			return formData, fmt.Errorf("invalid form id returnd")
+		}
 		if i == 0 {
 			var form Form
 			form.ID = int64(row.ID)
@@ -42,7 +48,7 @@ func parseFormDataPublished(rows []db.GetFormDataPublicRow) PublishedFormData {
 		element.Required = row.Required
 		formData.FormElements = append(formData.FormElements, element)
 	}
-	return formData
+	return formData, nil
 }
 
 func (s *Service) PublishedFormDataHandler(w http.ResponseWriter, r *http.Request) {
@@ -59,7 +65,12 @@ func (s *Service) PublishedFormDataHandler(w http.ResponseWriter, r *http.Reques
 		log.Println(fmt.Errorf("query failed: %v", err))
 		return
 	}
-	formData := parseFormDataPublished(rows)
+	formData, err := parseFormDataPublished(rows)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		log.Println(fmt.Errorf("parsing form failed: %v", err))
+		return
+	}
 	if err = json.NewEncoder(w).Encode(formData); err != nil {
 		log.Println(fmt.Errorf("json write: %v", err))
 	}
