@@ -176,7 +176,18 @@ const PreviewFormPage = ({
     return ((currentSection + 1) / elements.length) * 100;
   }, [currentSection, elements.length]);
 
-  const currentElement = elements[currentSection];
+  useEffect(() => {
+    let lastElement = elements[elements.length - 1];
+    let isLastElement =
+      lastElement.type === FormTypes.exit
+        ? currentSection === elements.length - 2
+        : currentSection === elements.length - 1;
+    console.log("run broooo", { currentElement, isLastElement });
+  }, [currentSection, elements.length]);
+
+  const currentElement = useMemo(() => {
+    return elements[currentSection];
+  }, [elements, currentSection]);
   if (isLoading)
     return (
       <section
