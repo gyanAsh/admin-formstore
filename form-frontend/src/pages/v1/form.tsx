@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useLocation, useParams } from "react-router";
+import { useParams } from "react-router";
 
 import { AnimatePresence, motion } from "motion/react";
 import { FormTypes } from "@/pages/v1/types/elements.types";
@@ -336,12 +336,10 @@ const FormPage = ({
   goNextFunction: Function;
   element: FormElements;
 }) => {
-  const { pathname } = useLocation();
-  let isPreview = pathname.includes("preview");
   const elContianer = useRef<HTMLDivElement>(null);
   useEffect(() => {
     let el = elContianer.current;
-    if (!isPreview || !el) return;
+    if (!el) return;
 
     let canRun = true;
     let touchStartY = 0;
@@ -436,7 +434,8 @@ const FormPage = ({
       elContianer.current?.removeEventListener("touchstart", onTouchStart);
       elContianer.current?.removeEventListener("touchend", onTouchEnd);
     };
-  }, [isPreview]);
+  }, []);
+
   return (
     <FormCard
       ref={elContianer}
