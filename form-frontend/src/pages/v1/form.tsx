@@ -84,6 +84,7 @@ const PreviewFormPage = ({
 }) => {
   const { formId } = useParams();
   const setFormState = useFormV1Store((state) => state.setFormState);
+  const setLastElement = useFormV1Store((state) => state.setLastElement);
 
   const { isLoading, isError, error } = useQuery({
     queryKey: ["users"],
@@ -179,9 +180,10 @@ const PreviewFormPage = ({
   useEffect(() => {
     let lastElement = elements[elements.length - 1];
     let isLastElement =
-      lastElement.type === FormTypes.exit
+      lastElement?.type === FormTypes.exit
         ? currentSection === elements.length - 2
         : currentSection === elements.length - 1;
+    setLastElement(isLastElement);
     console.log("run broooo", { currentElement, isLastElement });
   }, [currentSection, elements.length]);
 

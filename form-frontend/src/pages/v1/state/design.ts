@@ -12,10 +12,12 @@ interface DesignStoreActions {
   setFormState: (design: Forms) => void;
   updateInputState: (data: Input) => void;
   getInputBySeqNumber: (data: number) => Input | undefined;
+  setLastElement: (data: boolean) => void;
 }
 
 interface UserFormInput {
   inputState: Input[];
+  isLastElement: boolean;
 }
 
 // Combine the state and actions interfaces to define the full store type
@@ -27,6 +29,7 @@ export const useFormV1Store = create<FormStore>()((set, get) => ({
   elements: [],
   design: defaultDesignState,
   inputState: [],
+  isLastElement: false,
 
   // Main function to update input state based on seq_number
   updateInputState: (newElement) =>
@@ -55,5 +58,7 @@ export const useFormV1Store = create<FormStore>()((set, get) => ({
       (element: Input) => element.seq_number === seqNumber
     );
   },
+  setLastElement: (state) =>
+    set((prev) => ({ ...prev, isLastElement: Boolean(state) })),
   setFormState: (state) => set((prev) => ({ ...prev, ...state })),
 }));
