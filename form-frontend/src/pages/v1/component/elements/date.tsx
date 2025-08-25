@@ -10,9 +10,11 @@ import { toast } from "sonner";
 export const FormDate = ({
   number,
   seq_number,
+  required,
   goNextFunction,
 }: {
   number: DateValidation;
+  required: Boolean;
   seq_number: number;
   goNextFunction: Function;
 }) => {
@@ -74,7 +76,6 @@ export const FormDate = ({
       value: inputState,
       type: FormTypes.date,
     });
-    goNextFunction();
   };
 
   useEffect(() => {
@@ -112,7 +113,13 @@ export const FormDate = ({
         }}
       />
       <div className="flex items-start justify-end gap-2.5">
-        <FormButton onClick={validate}>OK</FormButton>
+        <FormButton
+          validateFunction={validate}
+          required={required}
+          goNextFunction={goNextFunction}
+        >
+          OK
+        </FormButton>
       </div>
     </section>
   );

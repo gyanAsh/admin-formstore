@@ -9,9 +9,11 @@ import { toast } from "sonner";
 export const FormText = ({
   text,
   seq_number,
+  required,
   goNextFunction,
 }: {
   text: TextValidation;
+  required: Boolean;
   seq_number: number;
   goNextFunction: Function;
 }) => {
@@ -53,7 +55,6 @@ export const FormText = ({
       value: textState,
       type: FormTypes.text,
     });
-    goNextFunction();
   };
 
   useEffect(() => {
@@ -108,7 +109,13 @@ export const FormText = ({
           </p>
         </div>
 
-        <FormButton onClick={validate}>OK</FormButton>
+        <FormButton
+          validateFunction={validate}
+          required={required}
+          goNextFunction={goNextFunction}
+        >
+          OK
+        </FormButton>
       </div>
     </section>
   );

@@ -13,11 +13,12 @@ import {
 export const FormRating = ({
   rating,
   seq_number,
+  required,
   goNextFunction,
 }: {
   rating: RatingValidation;
   seq_number: number;
-
+  required: Boolean;
   goNextFunction: Function;
 }) => {
   const [hovered, setHovered] = useState<number | null>(null);
@@ -45,7 +46,6 @@ export const FormRating = ({
       value: selected,
       type: FormTypes.rating,
     });
-    goNextFunction();
   };
 
   useEffect(() => {
@@ -98,7 +98,13 @@ export const FormRating = ({
           })}
         </section>
         <section className="flex justify-end w-full">
-          <FormButton onClick={validate}>OK</FormButton>
+          <FormButton
+            goNextFunction={goNextFunction}
+            validateFunction={validate}
+            required={required}
+          >
+            OK
+          </FormButton>
         </section>
       </div>
     </section>

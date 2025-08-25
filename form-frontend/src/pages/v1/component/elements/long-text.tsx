@@ -9,9 +9,11 @@ import { toast } from "sonner";
 export const FormLongText = ({
   long_text,
   seq_number,
+  required,
   goNextFunction,
 }: {
   long_text: LongTextValidation;
+  required: Boolean;
   seq_number: number;
   goNextFunction: Function;
 }) => {
@@ -53,7 +55,6 @@ export const FormLongText = ({
       value: textState,
       type: FormTypes.long_text,
     });
-    goNextFunction();
   };
 
   useEffect(() => {
@@ -106,7 +107,13 @@ export const FormLongText = ({
           </p>
         </div>
 
-        <FormButton onClick={validate}>OK</FormButton>
+        <FormButton
+          validateFunction={validate}
+          required={required}
+          goNextFunction={goNextFunction}
+        >
+          OK
+        </FormButton>
       </div>
     </section>
   );

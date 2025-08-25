@@ -15,9 +15,11 @@ const phoneSchema = z.string().regex(/^\+\d+$/, {
 export const FormPhone = ({
   phone,
   seq_number,
+  required,
   goNextFunction,
 }: {
   phone: PhoneValidation;
+  required: Boolean;
   seq_number: number;
   goNextFunction: Function;
 }) => {
@@ -53,7 +55,6 @@ export const FormPhone = ({
       value: result.data,
       type: FormTypes.phone,
     });
-    goNextFunction();
   };
 
   useEffect(() => {
@@ -94,7 +95,13 @@ export const FormPhone = ({
         }}
       />
       <div className="flex items-start justify-end gap-2.5">
-        <FormButton onClick={validate}>OK</FormButton>
+        <FormButton
+          validateFunction={validate}
+          required={required}
+          goNextFunction={goNextFunction}
+        >
+          OK
+        </FormButton>
       </div>
     </section>
   );

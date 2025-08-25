@@ -16,10 +16,12 @@ const urlSchema = z
 export const FormWebsite = ({
   url,
   seq_number,
+  required,
   goNextFunction,
 }: {
   url: UrlValidation;
   seq_number: number;
+  required: Boolean;
   goNextFunction: Function;
 }) => {
   const [inputState, setInputState] = useState("");
@@ -54,7 +56,6 @@ export const FormWebsite = ({
       value: result.data,
       type: FormTypes.phone,
     });
-    goNextFunction();
   };
   useEffect(() => {
     if (typeof seq_number === "number") {
@@ -91,7 +92,13 @@ export const FormWebsite = ({
         }}
       />
       <div className="flex items-start justify-end gap-2.5">
-        <FormButton onClick={validate}>OK</FormButton>
+        <FormButton
+          validateFunction={validate}
+          required={required}
+          goNextFunction={goNextFunction}
+        >
+          OK
+        </FormButton>
       </div>
     </section>
   );

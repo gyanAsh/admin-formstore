@@ -12,9 +12,11 @@ import {
 export const FormSingleSelect = ({
   singleSelect,
   seq_number,
+  required,
   goNextFunction,
 }: {
   singleSelect: SingleSelectValidation;
+  required: Boolean;
   seq_number: number;
   goNextFunction: Function;
 }) => {
@@ -29,7 +31,6 @@ export const FormSingleSelect = ({
       value: selected,
       type: FormTypes.singleSelect,
     });
-    goNextFunction();
   };
   useEffect(() => {
     if (typeof seq_number === "number") {
@@ -70,7 +71,13 @@ export const FormSingleSelect = ({
         })}
       </div>
 
-      <FormButton onClick={validate}>OK</FormButton>
+      <FormButton
+        validateFunction={validate}
+        required={required}
+        goNextFunction={goNextFunction}
+      >
+        OK
+      </FormButton>
     </section>
   );
 };

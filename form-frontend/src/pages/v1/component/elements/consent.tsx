@@ -8,9 +8,11 @@ import { useFormV1Store } from "../../state/design";
 export const FormConsent = ({
   consent,
   seq_number,
+  required,
   goNextFunction,
 }: {
   consent: ConsentValidation;
+  required: Boolean;
   seq_number: number;
   goNextFunction: Function;
 }) => {
@@ -26,7 +28,6 @@ export const FormConsent = ({
       value: true,
       type: FormTypes.consent,
     });
-    goNextFunction();
   };
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -60,7 +61,13 @@ export const FormConsent = ({
             checked={checked}
             onClick={() => setChecked((e) => !e)}
           />
-          <FormButton className="w-full" onClick={validate} disabled={!checked}>
+          <FormButton
+            className="w-full"
+            disabled={!checked}
+            validateFunction={validate}
+            required={required}
+            goNextFunction={goNextFunction}
+          >
             {consent.acceptBtnText}
           </FormButton>
         </div>

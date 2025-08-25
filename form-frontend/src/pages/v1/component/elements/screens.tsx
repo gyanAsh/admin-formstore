@@ -9,14 +9,15 @@ export const FormWelcomeScreen = ({
   welcome: WelcomeValidation;
   goNextFunction: Function;
 }) => {
-  const validate = () => {
-    goNextFunction();
-  };
-
   return (
     <section className={cn(" max-w-150 flex flex-col gap-2.5 grow")}>
       <div className="grid  place-items-center gap-5">
-        <FormButton className="w-fit" onClick={validate}>
+        <FormButton
+          className="w-fit"
+          required={false}
+          validateFunction={() => {}}
+          goNextFunction={goNextFunction}
+        >
           {welcome.btnText}
         </FormButton>
       </div>
@@ -29,14 +30,16 @@ export const FormExitScreen = ({
 }: {
   goNextFunction: Function;
 }) => {
-  const validate = () => {
-    goNextFunction();
-  };
   return null;
   return (
     <section className={cn(" max-w-150 flex flex-col gap-2.5 grow")}>
       <div className="grid  place-items-center gap-5">
-        <FormButton className="w-fit" onClick={validate}>
+        <FormButton
+          className="w-fit"
+          required={false}
+          validateFunction={() => {}}
+          goNextFunction={goNextFunction}
+        >
           Finish
         </FormButton>
       </div>

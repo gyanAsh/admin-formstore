@@ -7,9 +7,11 @@ import { FormTypes } from "../../types/elements.types";
 
 export const FormNPS = ({
   seq_number,
+  required,
   goNextFunction,
 }: {
   seq_number: number;
+  required: Boolean;
   goNextFunction: Function;
 }) => {
   const [selected, setSelected] = useState<number | null>(null);
@@ -23,7 +25,6 @@ export const FormNPS = ({
       value: selected,
       type: FormTypes.nps,
     });
-    goNextFunction();
   };
 
   useEffect(() => {
@@ -64,7 +65,13 @@ export const FormNPS = ({
         })}
       </NPSContainer>
 
-      <FormButton onClick={validate}>OK</FormButton>
+      <FormButton
+        validateFunction={validate}
+        required={required}
+        goNextFunction={goNextFunction}
+      >
+        OK
+      </FormButton>
     </section>
   );
 };

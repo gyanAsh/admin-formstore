@@ -13,9 +13,11 @@ const numberSchema = z.number({ message: "Please enter a valid number" });
 export const FormNumber = ({
   number,
   seq_number,
+  required,
   goNextFunction,
 }: {
   number: NumberValidation;
+  required: Boolean;
   seq_number: number;
   goNextFunction: Function;
 }) => {
@@ -46,13 +48,11 @@ export const FormNumber = ({
       toast.warning(result.error.errors.at(0)?.message);
       return;
     }
-    console.log(result.data);
     updateValue({
       seq_number: seq_number,
       value: result.data,
       type: FormTypes.number,
     });
-    goNextFunction();
   };
 
   useEffect(() => {
@@ -88,7 +88,13 @@ export const FormNumber = ({
         }}
       />
       <div className="flex items-start justify-end gap-2.5">
-        <FormButton onClick={validate}>OK</FormButton>
+        <FormButton
+          validateFunction={validate}
+          required={required}
+          goNextFunction={goNextFunction}
+        >
+          OK
+        </FormButton>
       </div>
     </section>
   );

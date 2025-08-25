@@ -11,9 +11,11 @@ import * as motion from "motion/react-client";
 export const FormRanking = ({
   ranking,
   seq_number,
+  required,
   goNextFunction,
 }: {
   ranking: RankingValidation;
+  required: Boolean;
   seq_number: number;
   goNextFunction: Function;
 }) => {
@@ -101,7 +103,6 @@ export const FormRanking = ({
       value: { optionsList, selectedRanks },
       type: FormTypes.ranking,
     });
-    goNextFunction();
   };
 
   useEffect(() => {
@@ -181,7 +182,13 @@ export const FormRanking = ({
         </AnimatePresence>
       </div>
 
-      <FormButton onClick={validate}>OK</FormButton>
+      <FormButton
+        validateFunction={validate}
+        required={required}
+        goNextFunction={goNextFunction}
+      >
+        OK
+      </FormButton>
     </section>
   );
 };

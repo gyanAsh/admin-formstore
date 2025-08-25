@@ -4,7 +4,11 @@ import { useFormV1Store } from "../state/design";
 export const FormButton = ({
   className,
   ...props
-}: React.ComponentProps<"button">) => {
+}: React.ComponentProps<"button"> & {
+  validateFunction: Function;
+  required: Boolean;
+  goNextFunction: Function;
+}) => {
   const { element: elDesign, button: btnDesign } = useFormV1Store(
     (state) => state.design
   );
@@ -21,6 +25,7 @@ export const FormButton = ({
         ? "0%"
         : "100%",
   };
+
   return (
     <button
       className={cn(

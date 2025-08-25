@@ -472,36 +472,42 @@ const FormPage = ({
         {element.type === FormTypes.email ? (
           <FormEmail
             email={element.properties as EmailValidation}
+            required={!!element.required}
             seq_number={element.seq_number}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.phone ? (
           <FormPhone
             phone={element.properties as PhoneValidation}
+            required={!!element.required}
             seq_number={element.seq_number}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.number ? (
           <FormNumber
             number={element.properties as NumberValidation}
+            required={!!element.required}
             seq_number={element.seq_number}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.date ? (
           <FormDate
             number={element.properties as DateValidation}
+            required={!!element.required}
             seq_number={element.seq_number}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.consent ? (
           <FormConsent
             consent={element.properties as ConsentValidation}
+            required={!!element.required}
             seq_number={element.seq_number}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.address ? (
           <FormAddress
             address={element.properties as AddressValidation}
+            required={!!element.required}
             seq_number={element.seq_number}
             goNextFunction={goNextFunction}
           />
@@ -509,52 +515,61 @@ const FormPage = ({
           <FormYesNo
             yesno={element.properties as YesNoValidation}
             seq_number={element.seq_number}
+            required={!!element.required}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.ranking ? (
           <FormRanking
             ranking={element.properties as RankingValidation}
+            required={!!element.required}
             seq_number={element.seq_number}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.rating ? (
           <FormRating
             rating={element.properties as RatingValidation}
+            required={!!element.required}
             seq_number={element.seq_number}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.nps ? (
           <FormNPS
             goNextFunction={goNextFunction}
+            required={!!element.required}
             seq_number={element.seq_number}
           />
         ) : element.type === FormTypes.text ? (
           <FormText
             text={element.properties as TextValidation}
+            required={!!element.required}
             seq_number={element.seq_number}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.long_text ? (
           <FormLongText
             long_text={element.properties as LongTextValidation}
+            required={!!element.required}
             seq_number={element.seq_number}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.singleSelect ? (
           <FormSingleSelect
             singleSelect={element.properties as SingleSelectValidation}
+            required={!!element.required}
             seq_number={element.seq_number}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.multiselect ? (
           <FormMultiSelect
             multiSelect={element.properties as MultiSelectValidation}
+            required={!!element.required}
             seq_number={element.seq_number}
             goNextFunction={goNextFunction}
           />
         ) : element.type === FormTypes.url ? (
           <FormWebsite
             url={element.properties as UrlValidation}
+            required={!!element.required}
             seq_number={element.seq_number}
             goNextFunction={goNextFunction}
           />

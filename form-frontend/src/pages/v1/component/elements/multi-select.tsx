@@ -11,9 +11,11 @@ import {
 export const FormMultiSelect = ({
   multiSelect,
   seq_number,
+  required,
   goNextFunction,
 }: {
   multiSelect: MultiSelectValidation;
+  required: Boolean;
   seq_number: number;
   goNextFunction: Function;
 }) => {
@@ -43,7 +45,6 @@ export const FormMultiSelect = ({
       value: selectedOptions,
       type: FormTypes.multiselect,
     });
-    goNextFunction();
   };
   useEffect(() => {
     if (typeof seq_number === "number") {
@@ -85,7 +86,13 @@ export const FormMultiSelect = ({
         })}
       </div>
 
-      <FormButton onClick={validate}>OK</FormButton>
+      <FormButton
+        validateFunction={validate}
+        required={required}
+        goNextFunction={goNextFunction}
+      >
+        OK
+      </FormButton>
     </section>
   );
 };

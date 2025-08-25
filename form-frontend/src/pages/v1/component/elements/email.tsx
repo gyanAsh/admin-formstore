@@ -13,9 +13,11 @@ const emailSchema = z.string().email({ message: "Thats an invalid email." });
 export const FormEmail = ({
   email,
   seq_number,
+  required,
   goNextFunction,
 }: {
   email: EmailValidation;
+  required: Boolean;
   seq_number: number;
   goNextFunction: Function;
 }) => {
@@ -52,7 +54,6 @@ export const FormEmail = ({
       value: result.data,
       type: FormTypes.email,
     });
-    goNextFunction();
   };
 
   useEffect(() => {
@@ -89,7 +90,13 @@ export const FormEmail = ({
         }}
       />
       <div className="flex items-start justify-end gap-2.5">
-        <FormButton onClick={validate}>OK</FormButton>
+        <FormButton
+          validateFunction={validate}
+          required={required}
+          goNextFunction={goNextFunction}
+        >
+          OK
+        </FormButton>
       </div>
     </section>
   );

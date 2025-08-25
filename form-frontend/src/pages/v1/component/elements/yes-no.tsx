@@ -3,15 +3,17 @@ import { cn, delay } from "@/lib/utils";
 import { FormTypes, type YesNoValidation } from "../../types/elements.types";
 import React, { useEffect, useState } from "react";
 import { useFormV1Store } from "../../state/design";
+import { FormButton } from "../button";
 
 export const FormYesNo = ({
   yesno,
   seq_number,
+  required,
   goNextFunction,
 }: {
   yesno: YesNoValidation;
   seq_number: number;
-
+  required: boolean;
   goNextFunction: Function;
 }) => {
   const [selected, setSelected] = useState("");
@@ -27,7 +29,6 @@ export const FormYesNo = ({
       value: val,
       type: FormTypes.yesno,
     });
-    goNextFunction();
   };
 
   useEffect(() => {
@@ -86,6 +87,24 @@ export const FormYesNo = ({
         >
           {yesno.yesBtnText}
         </Options>
+      </div>
+      <div className="flex items-start justify-end gap-2.5">
+        <FormButton
+          validateFunction={async () => {
+            if (selected === "no" || selected === "yes") {
+              await delay(1000);
+              updateValue({
+                seq_number: seq_number,
+                value: selected,
+                type: FormTypes.yesno,
+              });
+            }
+          }}
+          required={required}
+          goNextFunction={goNextFunction}
+        >
+          OK
+        </FormButton>
       </div>
     </section>
   );

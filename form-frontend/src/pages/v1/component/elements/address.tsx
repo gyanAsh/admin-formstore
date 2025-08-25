@@ -8,9 +8,11 @@ import { FormTypes, type AddressValidation } from "../../types/elements.types";
 export const FormAddress = ({
   address,
   seq_number,
+  required,
   goNextFunction,
 }: {
   address: AddressValidation;
+  required: Boolean;
   seq_number: number;
   goNextFunction: Function;
 }) => {
@@ -56,8 +58,6 @@ export const FormAddress = ({
       toast.warning(`${address.zip.label} field looks empty.`);
     } else if (!!address.country.required && !inputCountry) {
       toast.warning(`${address.country.label} field looks empty.`);
-    } else {
-      goNextFunction();
     }
     updateValue({
       seq_number: seq_number,
@@ -270,7 +270,13 @@ export const FormAddress = ({
         </div>
       </div>
       <div className="flex items-start justify-end gap-2.5">
-        <FormButton onClick={validate}>OK</FormButton>
+        <FormButton
+          validateFunction={validate}
+          required={required}
+          goNextFunction={goNextFunction}
+        >
+          OK
+        </FormButton>
       </div>
     </section>
   );
