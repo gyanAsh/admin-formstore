@@ -1,13 +1,18 @@
-import { cn } from "@/lib/utils";
+import { cn, delay } from "@/lib/utils";
 import { useFormV1Store } from "../state/design";
 
 export const FormButton = ({
   className,
+  required,
+  validateFunction,
+  goNextFunction,
+  text,
   ...props
 }: React.ComponentProps<"button"> & {
   validateFunction: Function;
   required: Boolean;
   goNextFunction: Function;
+  text?: String;
 }) => {
   const { element: elDesign, button: btnDesign } = useFormV1Store(
     (state) => state.design
@@ -25,11 +30,23 @@ export const FormButton = ({
         ? "0%"
         : "100%",
   };
+  const validateGoNext = () => {
+    try {
+      if (!!required) {
+        validateFunction();
+        delay(300).then(() => goNextFunction());
+      } else {
+        goNextFunction();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <button
       className={cn(
-        " min-w-25  md:min-w-[160px] w-fit  disabled:grayscale-100",
+        " min-w-25  md:min-w-[160px] w-fit  zdisabled:grayscale-100",
         " px-2.5 md:px-3 py-2.5 md:py-3 cursor-pointer",
         " hover:contrast-75 hover:scale-[1.02] active:scale-95 duration-200 transition-colors",
 
@@ -37,8 +54,12 @@ export const FormButton = ({
         { " backdrop-blur-[1px]": elDesign.variant === "glass" },
         className
       )}
+      id="validateGoNext"
       style={elStyle}
+      onClick={validateGoNext}
       {...props}
-    />
+    >
+      {text || "Next"}
+    </button>
   );
 };

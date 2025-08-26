@@ -48,15 +48,25 @@ export const FormWebsite = ({
   const validate = () => {
     const result = urlSchema.safeParse(inputState);
     if (!result.success) {
-      toast.warning(result.error.errors.at(0)?.message);
-      return;
+      let error = result.error.errors.at(0)?.message;
+      toast.warning(error);
+      throw new Error(error);
     }
-    updateValue({
-      seq_number: seq_number,
-      value: result.data,
-      type: FormTypes.phone,
-    });
   };
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (typeof inputState === "string") {
+        updateValue({
+          seq_number: seq_number,
+          value: inputState,
+          type: FormTypes.url,
+        });
+      }
+    }, 500);
+
+    return () => clearTimeout(timeout); // cancel previous write
+  }, [inputState]);
+
   useEffect(() => {
     if (typeof seq_number === "number") {
       let oldinput = getInputBySeqNumber(seq_number);
@@ -87,18 +97,21 @@ export const FormWebsite = ({
         }}
         onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
           if (e.key === "Enter") {
-            validate();
+            const nextBtn = document.getElementById(
+              "validateGoNext"
+            ) as HTMLButtonElement;
+            if (!!nextBtn) {
+              nextBtn.click();
+            }
           }
         }}
       />
       <div className="flex items-start justify-end gap-2.5">
         <FormButton
           validateFunction={validate}
-          required={required}
+          required={required || inputState.length > 0}
           goNextFunction={goNextFunction}
-        >
-          OK
-        </FormButton>
+        />
       </div>
     </section>
   );

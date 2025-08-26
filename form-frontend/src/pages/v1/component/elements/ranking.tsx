@@ -7,6 +7,7 @@ import { FormTypes, type RankingValidation } from "../../types/elements.types";
 import { useFormV1Store } from "../../state/design";
 import { AnimatePresence, type HTMLMotionProps } from "motion/react";
 import * as motion from "motion/react-client";
+import { toast } from "sonner";
 
 export const FormRanking = ({
   ranking,
@@ -98,12 +99,24 @@ export const FormRanking = ({
   };
 
   const validate = () => {
-    updateValue({
-      seq_number: seq_number,
-      value: { optionsList, selectedRanks },
-      type: FormTypes.ranking,
-    });
+    if (selectedRanks.length !== optionsList.length) {
+      let error = "All options needs to be ranked";
+      toast.warning(error);
+      throw new Error(error);
+    }
   };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      updateValue({
+        seq_number: seq_number,
+        value: { optionsList, selectedRanks },
+        type: FormTypes.ranking,
+      });
+    }, 500);
+
+    return () => clearTimeout(timeout); // cancel previous write
+  }, [selectedRanks]);
 
   useEffect(() => {
     if (typeof seq_number === "number") {
@@ -184,11 +197,9 @@ export const FormRanking = ({
 
       <FormButton
         validateFunction={validate}
-        required={required}
+        required={required || selectedRanks.length > 0}
         goNextFunction={goNextFunction}
-      >
-        OK
-      </FormButton>
+      />
     </section>
   );
 };

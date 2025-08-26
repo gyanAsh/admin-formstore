@@ -16,12 +16,18 @@ export const FormAddress = ({
   seq_number: number;
   goNextFunction: Function;
 }) => {
-  const [inputLine1, setInputLine1] = useState("");
-  const [inputLine2, setInputLine2] = useState("");
-  const [inputCity, setInputCity] = useState("");
-  const [inputState, setInputState] = useState("");
-  const [inputZip, setInputZip] = useState("");
-  const [inputCountry, setInputCountry] = useState("");
+  type AddressInput = {
+    [K in keyof AddressValidation]: string;
+  };
+
+  const [inputAddress, setInputAddress] = useState<AddressInput>({
+    line1: "",
+    line2: "",
+    city: "",
+    state: "",
+    zip: "",
+    country: "",
+  });
 
   const { element: elDesign, description: desDesign } = useFormV1Store(
     (state) => state.design
@@ -46,44 +52,81 @@ export const FormAddress = ({
   };
 
   const validate = () => {
-    if (!!address.line1.required && !inputLine1) {
-      toast.warning(`${address.line1.label} field looks empty.`);
-    } else if (!!address.line2.required && !inputLine2) {
-      toast.warning(`${address.line2.label} field looks empty.`);
-    } else if (!!address.city.required && !inputCity) {
-      toast.warning(`${address.city.label} field looks empty.`);
-    } else if (!!address.state.required && !inputState) {
-      toast.warning(`${address.state.label} field looks empty.`);
-    } else if (!!address.zip.required && !inputZip) {
-      toast.warning(`${address.zip.label} field looks empty.`);
-    } else if (!!address.country.required && !inputCountry) {
-      toast.warning(`${address.country.label} field looks empty.`);
+    let error = "";
+    if (
+      (required && !!address.line1.show && !inputAddress.line1) ||
+      (!!address.line1.required && !inputAddress.line1)
+    ) {
+      error = `${address.line1.label} field looks empty.`;
+    } else if (
+      (required && !!address.line2.show && !inputAddress.line2) ||
+      (!!address.line2.required && !inputAddress.line2)
+    ) {
+      error = `${address.line2.label} field looks empty.`;
+    } else if (
+      (required && !!address.city.show && !inputAddress.city) ||
+      (!!address.city.required && !inputAddress.city)
+    ) {
+      error = `${address.city.label} field looks empty.`;
+    } else if (
+      (required && !!address.state.show && !inputAddress.state) ||
+      (!!address.state.required && !inputAddress.state)
+    ) {
+      error = `${address.state.label} field looks empty.`;
+    } else if (
+      (required && !!address.zip.show && !inputAddress.zip) ||
+      (!!address.zip.required && !inputAddress.zip)
+    ) {
+      error = `${address.zip.label} field looks empty.`;
+    } else if (
+      (required && !!address.country.show && !inputAddress.country) ||
+      (!!address.country.required && !inputAddress.country)
+    ) {
+      error = `${address.country.label} field looks empty.`;
+    } else {
+      error = "";
     }
-    updateValue({
-      seq_number: seq_number,
-      value: {
-        line1: inputLine1,
-        line2: inputLine2,
-        city: inputCity,
-        state: inputState,
-        zip: inputZip,
-        country: inputCountry,
-      },
-      type: FormTypes.address,
-    });
+
+    if (error.length > 0) {
+      toast.warning(error);
+      throw new Error(error);
+    }
   };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (Object.values(inputAddress).every((e) => typeof e === "string")) {
+        updateValue({
+          seq_number: seq_number,
+          value: {
+            line1: inputAddress.line1,
+            line2: inputAddress.line2,
+            city: inputAddress.city,
+            state: inputAddress.state,
+            zip: inputAddress.zip,
+            country: inputAddress.country,
+          },
+          type: FormTypes.address,
+        });
+      }
+    }, 500);
+
+    return () => clearTimeout(timeout); // cancel previous write
+  }, [inputAddress]);
 
   useEffect(() => {
     if (typeof seq_number === "number") {
       let oldinput = getInputBySeqNumber(seq_number);
       if (oldinput !== undefined) {
-        console.log({ oldinput });
-        setInputLine1(oldinput.value.line1);
-        setInputLine2(oldinput.value.line2);
-        setInputCity(oldinput.value.city);
-        setInputState(oldinput.value.state);
-        setInputZip(oldinput.value.zip);
-        setInputCountry(oldinput.value.country);
+        let vals: AddressInput = {
+          line1: oldinput.value.line1,
+          line2: oldinput.value.line2,
+          city: oldinput.value.city,
+          state: oldinput.value.state,
+          zip: oldinput.value.zip,
+          country: oldinput.value.country,
+        };
+        setInputAddress(vals);
       }
     }
   }, [seq_number]);
@@ -117,9 +160,20 @@ export const FormAddress = ({
           { " backdrop-blur-xs": elDesign.variant === "glass" }
         )}
         placeholder={address.line1.placeholder}
-        value={inputLine1}
+        value={inputAddress.line1}
         onChange={(e) => {
-          setInputLine1(e.target.value);
+          let val = e.target.value.trim();
+          setInputAddress((prev) => ({ ...prev, line1: val }));
+        }}
+        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          if (e.key === "Enter" || e.key === "ArrowDown") {
+            const nextField = document.getElementById(
+              "line2-element"
+            ) as HTMLInputElement;
+            if (!!nextField) {
+              nextField.focus();
+            }
+          }
         }}
       />
       <label
@@ -145,9 +199,27 @@ export const FormAddress = ({
           { " backdrop-blur-xs": elDesign.variant === "glass" }
         )}
         placeholder={address.line2.placeholder}
-        value={inputLine2}
+        value={inputAddress.line2}
         onChange={(e) => {
-          setInputLine2(e.target.value);
+          let val = e.target.value.trim();
+          setInputAddress((prev) => ({ ...prev, line2: val }));
+        }}
+        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          if (e.key === "Enter" || e.key === "ArrowDown") {
+            const nextField = document.getElementById(
+              "city-element"
+            ) as HTMLInputElement;
+            if (!!nextField) {
+              nextField.focus();
+            }
+          } else if (e.key === "ArrowUp") {
+            const nextField = document.getElementById(
+              "line1-element"
+            ) as HTMLInputElement;
+            if (!!nextField) {
+              nextField.focus();
+            }
+          }
         }}
       />
       <label
@@ -173,9 +245,27 @@ export const FormAddress = ({
           { " backdrop-blur-xs": elDesign.variant === "glass" }
         )}
         placeholder={address.city.placeholder}
-        value={inputCity}
+        value={inputAddress.city}
         onChange={(e) => {
-          setInputCity(e.target.value);
+          let val = e.target.value.trim();
+          setInputAddress((prev) => ({ ...prev, city: val }));
+        }}
+        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          if (e.key === "Enter" || e.key === "ArrowDown") {
+            const nextField = document.getElementById(
+              "state-element"
+            ) as HTMLInputElement;
+            if (!!nextField) {
+              nextField.focus();
+            }
+          } else if (e.key === "ArrowUp") {
+            const nextField = document.getElementById(
+              "line2-element"
+            ) as HTMLInputElement;
+            if (!!nextField) {
+              nextField.focus();
+            }
+          }
         }}
       />
       <label
@@ -201,9 +291,27 @@ export const FormAddress = ({
           { " backdrop-blur-xs": elDesign.variant === "glass" }
         )}
         placeholder={address.state.placeholder}
-        value={inputState}
+        value={inputAddress.state}
         onChange={(e) => {
-          setInputState(e.target.value);
+          let val = e.target.value.trim();
+          setInputAddress((prev) => ({ ...prev, state: val }));
+        }}
+        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          if (e.key === "Enter" || e.key === "ArrowDown") {
+            const nextField = document.getElementById(
+              "zip-element"
+            ) as HTMLInputElement;
+            if (!!nextField) {
+              nextField.focus();
+            }
+          } else if (e.key === "ArrowUp") {
+            const nextField = document.getElementById(
+              "city-element"
+            ) as HTMLInputElement;
+            if (!!nextField) {
+              nextField.focus();
+            }
+          }
         }}
       />
       <div className="grid sm:grid-cols-2 gap-2.5 sm:gap-3.5">
@@ -231,9 +339,27 @@ export const FormAddress = ({
               { " backdrop-blur-xs": elDesign.variant === "glass" }
             )}
             placeholder={address.zip.placeholder}
-            value={inputZip}
+            value={inputAddress.zip}
             onChange={(e) => {
-              setInputZip(e.target.value);
+              let val = e.target.value.trim();
+              setInputAddress((prev) => ({ ...prev, zip: val }));
+            }}
+            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+              if (e.key === "Enter" || e.key === "ArrowDown") {
+                const nextField = document.getElementById(
+                  "country-element"
+                ) as HTMLInputElement;
+                if (!!nextField) {
+                  nextField.focus();
+                }
+              } else if (e.key === "ArrowUp") {
+                const nextField = document.getElementById(
+                  "state-element"
+                ) as HTMLInputElement;
+                if (!!nextField) {
+                  nextField.focus();
+                }
+              }
             }}
           />
         </div>
@@ -262,9 +388,27 @@ export const FormAddress = ({
             )}
             style={elStyle}
             placeholder={address.country.placeholder}
-            value={inputCountry}
+            value={inputAddress.country}
             onChange={(e) => {
-              setInputCountry(e.target.value);
+              let val = e.target.value.trim();
+              setInputAddress((prev) => ({ ...prev, country: val }));
+            }}
+            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+              if (e.key === "Enter" || e.key === "ArrowDown") {
+                const nextBtn = document.getElementById(
+                  "validateGoNext"
+                ) as HTMLButtonElement;
+                if (!!nextBtn) {
+                  nextBtn.click();
+                }
+              } else if (e.key === "ArrowUp") {
+                const nextField = document.getElementById(
+                  "zip-element"
+                ) as HTMLInputElement;
+                if (!!nextField) {
+                  nextField.focus();
+                }
+              }
             }}
           />
         </div>
@@ -272,11 +416,11 @@ export const FormAddress = ({
       <div className="flex items-start justify-end gap-2.5">
         <FormButton
           validateFunction={validate}
-          required={required}
+          required={
+            required || Object.values(address).some((v) => !!v.required)
+          }
           goNextFunction={goNextFunction}
-        >
-          OK
-        </FormButton>
+        />
       </div>
     </section>
   );

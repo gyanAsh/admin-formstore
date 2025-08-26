@@ -69,14 +69,23 @@ export const FormDate = ({
 
     if (!result.success) {
       toast.warning(result.error.errors.at(0)?.message);
-      return;
+      throw new Error(result.error.errors.at(0)?.message);
     }
-    updateValue({
-      seq_number: seq_number,
-      value: inputState,
-      type: FormTypes.date,
-    });
   };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (typeof inputState === "string") {
+        updateValue({
+          seq_number: seq_number,
+          value: inputState,
+          type: FormTypes.date,
+        });
+      }
+    }, 500);
+
+    return () => clearTimeout(timeout); // cancel previous write
+  }, [inputState]);
 
   useEffect(() => {
     if (typeof seq_number === "number") {
@@ -115,11 +124,9 @@ export const FormDate = ({
       <div className="flex items-start justify-end gap-2.5">
         <FormButton
           validateFunction={validate}
-          required={required}
+          required={required || inputState.length > 0}
           goNextFunction={goNextFunction}
-        >
-          OK
-        </FormButton>
+        />
       </div>
     </section>
   );

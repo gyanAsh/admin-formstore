@@ -43,19 +43,29 @@ export const FormText = ({
   };
 
   const validate = () => {
+    let error = "";
     if (textState.length < text.minLength) {
-      toast.warning("Text too short.");
-      return;
+      error = "Text is too short.";
+      toast.warning(error);
+      throw new Error(error);
     } else if (textState.length > text.maxLength) {
-      toast.warning("Text too long.");
-      return;
+      error = "Text is too long.";
+      toast.warning(error);
+      throw new Error(error);
     }
-    updateValue({
-      seq_number: seq_number,
-      value: textState,
-      type: FormTypes.text,
-    });
   };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      updateValue({
+        seq_number: seq_number,
+        value: textState,
+        type: FormTypes.text,
+      });
+    }, 500);
+
+    return () => clearTimeout(timeout); // cancel previous write
+  }, [textState]);
 
   useEffect(() => {
     if (typeof seq_number === "number") {
@@ -81,41 +91,31 @@ export const FormText = ({
             setShowError((prev) => ({ ...prev, show: false }));
           }
         }}
-        // onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-        //   if (e.key === "Enter") {
-        //     validate();
-        //   }
-        // }}
+        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          if (e.key === "Enter" && e.ctrlKey == true) {
+            const nextBtn = document.getElementById(
+              "validateGoNext"
+            ) as HTMLButtonElement;
+            if (!!nextBtn) {
+              nextBtn.click();
+            }
+          }
+        }}
         placeholder={text.placeholder}
-        //   className="field-sizing-content max-h-29.5 min-h-0 resize-none py-1.75"
         className={cn(
           "w-full border-2 py-2.5 md:py-3 px-9 md:px-9.5 text-lg md:text-xl",
           "text-[var(--text-color)] [font-family:var(--input-family)] border-[var(--border-color)]/60 placeholder:text-[var(--text-color)]/65 outline-0 focus:border-[var(--border-color)] w-full h-fit py-2 px-4 text-lg rounded-[25px] md:rounded-[28px] font-medium placeholder:italic bg-[var(--bg-color)]/[var(--transparant)]",
-          { " backdrop-blur-xs": elDesign.variant === "glass" }
+          { " backdrop-blur-xs": elDesign.variant === "glass" },
+          { "!border-[#dc7609]": !!showError.show }
         )}
         style={elStyle}
       />
       <div className="flex items-start justify-end gap-2.5">
-        <div
-          className={cn(
-            "h-full flex items-center justify-center text-center transition-all duration-500 translate-y-0",
-            {
-              "opacity-0  -translate-y-3": !showError.show,
-            }
-          )}
-        >
-          <p className="text-yellow-600 bg-yellow-100/95 text-base p-2 rounded-lg  backdrop-blur-2xl ">
-            {showError.msg}
-          </p>
-        </div>
-
         <FormButton
           validateFunction={validate}
-          required={required}
+          required={required || textState.length > 0}
           goNextFunction={goNextFunction}
-        >
-          OK
-        </FormButton>
+        />
       </div>
     </section>
   );

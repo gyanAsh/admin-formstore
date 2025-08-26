@@ -4,6 +4,7 @@ import { FormTypes, type YesNoValidation } from "../../types/elements.types";
 import React, { useEffect, useState } from "react";
 import { useFormV1Store } from "../../state/design";
 import { FormButton } from "../button";
+import { toast } from "sonner";
 
 export const FormYesNo = ({
   yesno,
@@ -21,22 +22,34 @@ export const FormYesNo = ({
   const getInputBySeqNumber = useFormV1Store(
     (state) => state.getInputBySeqNumber
   );
-  const validate = async (val: "yes" | "no") => {
-    setSelected(val);
-    await delay(1000);
-    updateValue({
-      seq_number: seq_number,
-      value: val,
-      type: FormTypes.yesno,
-    });
+  const validate = () => {
+    if (selected.length < 1) {
+      let error = "Select an option between these options.";
+      toast.warning(error);
+      throw new Error(error);
+    }
   };
 
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key == "y") {
-        validate("yes");
-      } else if (event.key == "n") {
-        validate("no");
+    const handleKeyDown = async (event: KeyboardEvent) => {
+      if (event.key === "y" || event.key === "Y") {
+        setSelected("yes");
+        await delay(500);
+        const nextBtn = document.getElementById(
+          "validateGoNext"
+        ) as HTMLButtonElement;
+        if (!!nextBtn) {
+          nextBtn.click();
+        }
+      } else if (event.key === "n" || event.key === "N") {
+        setSelected("no");
+        await delay(500);
+        const nextBtn = document.getElementById(
+          "validateGoNext"
+        ) as HTMLButtonElement;
+        if (!!nextBtn) {
+          nextBtn.click();
+        }
       }
     };
 
@@ -47,6 +60,20 @@ export const FormYesNo = ({
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [validate]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (typeof selected === "string") {
+        updateValue({
+          seq_number: seq_number,
+          value: selected,
+          type: FormTypes.yesno,
+        });
+      }
+    }, 500);
+
+    return () => clearTimeout(timeout); // cancel previous write
+  }, [selected]);
   useEffect(() => {
     if (typeof seq_number === "number") {
       let oldinput = getInputBySeqNumber(seq_number);
@@ -59,18 +86,12 @@ export const FormYesNo = ({
   return (
     <section className={cn(" max-w-150 flex flex-col gap-2.5 grow")}>
       <div className="grid md:grid-cols-2 place-items-center gap-5">
-        {/* <FormButton className="w-full" onClick={validate}>
-          {yesno.noBtnText}
-        </FormButton>
-        <FormButton className="w-full" onClick={validate}>
-          {yesno.yesBtnText}
-        </FormButton> */}
         <Options
           aria-selected={"no" === selected}
           className="flex items-center justify-center gap-2"
           onClick={() => {
             if ("no" !== selected) {
-              validate("no");
+              setSelected("no");
             } else setSelected("");
           }}
         >
@@ -81,7 +102,7 @@ export const FormYesNo = ({
           className="flex items-center justify-center gap-2"
           onClick={() => {
             if ("yes" !== selected) {
-              validate("yes");
+              setSelected("yes");
             } else setSelected("");
           }}
         >
@@ -90,21 +111,10 @@ export const FormYesNo = ({
       </div>
       <div className="flex items-start justify-end gap-2.5">
         <FormButton
-          validateFunction={async () => {
-            if (selected === "no" || selected === "yes") {
-              await delay(1000);
-              updateValue({
-                seq_number: seq_number,
-                value: selected,
-                type: FormTypes.yesno,
-              });
-            }
-          }}
+          validateFunction={validate}
           required={required}
           goNextFunction={goNextFunction}
-        >
-          OK
-        </FormButton>
+        />
       </div>
     </section>
   );

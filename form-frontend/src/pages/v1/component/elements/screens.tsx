@@ -17,9 +17,8 @@ export const FormWelcomeScreen = ({
           required={false}
           validateFunction={() => {}}
           goNextFunction={goNextFunction}
-        >
-          {welcome.btnText}
-        </FormButton>
+          text={welcome.btnText}
+        />
       </div>
     </section>
   );

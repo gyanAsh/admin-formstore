@@ -4,6 +4,7 @@ import { FormTypes, type ConsentValidation } from "../../types/elements.types";
 import React, { useEffect, useState } from "react";
 import AnimatedCheckbox from "../checkbox";
 import { useFormV1Store } from "../../state/design";
+import { toast } from "sonner";
 
 export const FormConsent = ({
   consent,
@@ -21,19 +22,26 @@ export const FormConsent = ({
   const getInputBySeqNumber = useFormV1Store(
     (state) => state.getInputBySeqNumber
   );
-  const validate = async () => {
-    await delay(1000);
-    updateValue({
-      seq_number: seq_number,
-      value: true,
-      type: FormTypes.consent,
-    });
+  const validate = () => {
+    if (checked !== true) {
+      let error = "Consent is required before you proceed.";
+      toast.warning(error);
+      throw new Error(error);
+    }
   };
+
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key == "a") {
+      if (event.key === "a" || event.key === "A") {
         setChecked(true);
-        validate();
+        delay(500).then(() => {
+          const nextBtn = document.getElementById(
+            "validateGoNext"
+          ) as HTMLButtonElement;
+          if (!!nextBtn) {
+            nextBtn.click();
+          }
+        });
       }
     };
 
@@ -44,6 +52,21 @@ export const FormConsent = ({
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [validate]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (typeof checked === "boolean") {
+        updateValue({
+          seq_number: seq_number,
+          value: checked,
+          type: FormTypes.consent,
+        });
+      }
+    }, 500);
+
+    return () => clearTimeout(timeout); // cancel previous write
+  }, [checked]);
+
   useEffect(() => {
     if (typeof seq_number === "number") {
       let oldinput = getInputBySeqNumber(seq_number);
@@ -63,13 +86,11 @@ export const FormConsent = ({
           />
           <FormButton
             className="w-full"
-            disabled={!checked}
             validateFunction={validate}
             required={required}
             goNextFunction={goNextFunction}
-          >
-            {consent.acceptBtnText}
-          </FormButton>
+            text={consent.acceptBtnText}
+          />
         </div>
       </div>
     </section>

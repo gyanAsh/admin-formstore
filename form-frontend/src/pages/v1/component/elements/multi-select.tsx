@@ -7,6 +7,7 @@ import {
   FormTypes,
   type MultiSelectValidation,
 } from "../../types/elements.types";
+import { toast } from "sonner";
 
 export const FormMultiSelect = ({
   multiSelect,
@@ -37,15 +38,30 @@ export const FormMultiSelect = ({
   };
 
   const validate = () => {
-    let selectedOptions = multiSelect.options.filter((option) =>
-      selected.has(option.id)
-    );
-    updateValue({
-      seq_number: seq_number,
-      value: selectedOptions,
-      type: FormTypes.multiselect,
-    });
+    if (selected.size < 1) {
+      let error = "Atleat one option needs to be selected.";
+      toast.warning(error);
+      throw new Error(error);
+    }
   };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (multiSelect.options.length > 0) {
+        let selectedOptions = multiSelect.options.filter((option) =>
+          selected.has(option.id)
+        );
+        updateValue({
+          seq_number: seq_number,
+          value: selectedOptions,
+          type: FormTypes.multiselect,
+        });
+      }
+    }, 500);
+
+    return () => clearTimeout(timeout); // cancel previous write
+  }, [selected]);
+
   useEffect(() => {
     if (typeof seq_number === "number") {
       let oldinput = getInputBySeqNumber(seq_number);
@@ -90,9 +106,7 @@ export const FormMultiSelect = ({
         validateFunction={validate}
         required={required}
         goNextFunction={goNextFunction}
-      >
-        OK
-      </FormButton>
+      />
     </section>
   );
 };

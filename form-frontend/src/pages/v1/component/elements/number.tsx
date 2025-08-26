@@ -8,7 +8,17 @@ import { FormTypes, type NumberValidation } from "../../types/elements.types";
 import useAutoFocusOnVisible from "@/hooks/use-autofocus-on-visible";
 import { toast } from "sonner";
 
-const numberSchema = z.number({ message: "Please enter a valid number" });
+export const numSchema = z
+  .string()
+  .trim()
+  .refine(
+    (val) => {
+      const n = Number(val);
+      return !isNaN(n) && isFinite(n);
+    },
+    { message: "Invalid number" }
+  )
+  .transform((val) => Number(val));
 
 export const FormNumber = ({
   number,
@@ -43,17 +53,31 @@ export const FormNumber = ({
   };
 
   const validate = () => {
-    const result = numberSchema.safeParse(parseFloat(inputState));
+    const result = numSchema.safeParse(inputState);
     if (!result.success) {
       toast.warning(result.error.errors.at(0)?.message);
-      return;
+      throw new Error(result.error.errors.at(0)?.message);
     }
-    updateValue({
-      seq_number: seq_number,
-      value: result.data,
-      type: FormTypes.number,
-    });
+    //  else {
+    //   updateValue({
+    //     seq_number: seq_number,
+    //     value: result.data,
+    //     type: FormTypes.number,
+    //   });
+    // }
   };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      updateValue({
+        seq_number: seq_number,
+        value: inputState,
+        type: FormTypes.number,
+      });
+    }, 500);
+
+    return () => clearTimeout(timeout); // cancel previous write
+  }, [inputState]);
 
   useEffect(() => {
     if (typeof seq_number === "number") {
@@ -63,6 +87,7 @@ export const FormNumber = ({
       }
     }
   }, [seq_number]);
+
   return (
     <section className={cn(" max-w-150 flex flex-col gap-2.5 grow")}>
       <input
@@ -83,18 +108,21 @@ export const FormNumber = ({
         }}
         onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
           if (e.key === "Enter") {
-            validate();
+            const nextBtn = document.getElementById(
+              "validateGoNext"
+            ) as HTMLButtonElement;
+            if (!!nextBtn) {
+              nextBtn.click();
+            }
           }
         }}
       />
       <div className="flex items-start justify-end gap-2.5">
         <FormButton
           validateFunction={validate}
-          required={required}
+          required={required || inputState.length > 0}
           goNextFunction={goNextFunction}
-        >
-          OK
-        </FormButton>
+        />
       </div>
     </section>
   );

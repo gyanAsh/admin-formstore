@@ -4,6 +4,7 @@ import { FormButton } from "../button";
 import { useEffect, useState } from "react";
 import { useFormV1Store } from "../../state/design";
 import { FormTypes } from "../../types/elements.types";
+import { toast } from "sonner";
 
 export const FormNPS = ({
   seq_number,
@@ -20,13 +21,24 @@ export const FormNPS = ({
     (state) => state.getInputBySeqNumber
   );
   const validate = () => {
-    updateValue({
-      seq_number: seq_number,
-      value: selected,
-      type: FormTypes.nps,
-    });
+    if (typeof selected !== "number" || selected < 0 || selected > 10) {
+      let error = "A Net Promoter Score need to be given.";
+      toast.warning(error);
+      throw new Error(error);
+    }
   };
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      updateValue({
+        seq_number: seq_number,
+        value: selected,
+        type: FormTypes.nps,
+      });
+    }, 500);
+
+    return () => clearTimeout(timeout); // cancel previous write
+  }, [selected]);
   useEffect(() => {
     if (typeof seq_number === "number") {
       let oldinput = getInputBySeqNumber(seq_number);
@@ -56,7 +68,7 @@ export const FormNPS = ({
                 }
               )}
               onClick={async () => {
-                setSelected(e);
+                setSelected((prev) => (prev === e ? null : e));
               }}
             >
               {e}
@@ -69,9 +81,7 @@ export const FormNPS = ({
         validateFunction={validate}
         required={required}
         goNextFunction={goNextFunction}
-      >
-        OK
-      </FormButton>
+      />
     </section>
   );
 };

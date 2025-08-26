@@ -156,7 +156,7 @@ const PreviewFormPage = ({
         }
       } else if (event.key === "ArrowRight") {
         const nextBtn = document.getElementById(
-          "goNextForm"
+          "validateGoNext"
         ) as HTMLButtonElement;
         if (!!nextBtn) {
           nextBtn.focus();
@@ -184,7 +184,6 @@ const PreviewFormPage = ({
         ? currentSection === elements.length - 2
         : currentSection === elements.length - 1;
     setLastElement(isLastElement);
-    console.log("run broooo", { currentElement, isLastElement });
   }, [currentSection, elements.length]);
 
   const currentElement = useMemo(() => {
@@ -265,7 +264,15 @@ const PreviewFormPage = ({
               </FormNavBtn>
               <FormNavBtn
                 id="goNextForm"
-                onClick={() => paginate("next")}
+                onClick={() => {
+                  const nextBtn = document.getElementById(
+                    "validateGoNext"
+                  ) as HTMLButtonElement;
+                  if (!!nextBtn) {
+                    nextBtn.focus();
+                    nextBtn.click();
+                  }
+                }}
                 disabled={currentSection === elements.length - 1}
                 className="rounded-full px-2.5 py-1.5 text-[var(--label-text-color)] backdrop-blur-md bg-white/20 border-2 border-l-[1.5px] border-[var(--label-text-color)]/50 rounded-l-none"
               >
@@ -291,7 +298,15 @@ const PreviewFormPage = ({
               </FormNavBtn>
               <FormNavBtn
                 id="goNextForm"
-                onClick={() => paginate("next")}
+                onClick={() => {
+                  const nextBtn = document.getElementById(
+                    "validateGoNext"
+                  ) as HTMLButtonElement;
+                  if (!!nextBtn) {
+                    nextBtn.focus();
+                    nextBtn.click();
+                  }
+                }}
                 disabled={currentSection === elements.length - 1}
                 className="rounded-full flex items-center justify-center grow py-2 text-[var(--label-text-color)] backdrop-blur-md bg-white/20 border-2 border-l-[1.5px] border-[var(--label-text-color)]/50 rounded-l-none"
               >
@@ -377,7 +392,14 @@ const FormPage = ({
           "goPrevForm"
         ) as HTMLButtonElement;
         let isAtTop = el.scrollTop <= 2;
+        let activeEl = document.activeElement as HTMLElement;
 
+        if (
+          ["number-element", "long-text-element"].some(
+            (e) => activeEl?.id === e
+          )
+        )
+          return;
         if (prevBtn && isAtTop) {
           prevBtn.focus();
           prevBtn.click();
@@ -391,10 +413,16 @@ const FormPage = ({
         scrollNextCount = 0;
 
         const nextBtn = document.getElementById(
-          "goNextForm"
+          "validateGoNext"
         ) as HTMLButtonElement;
         let isAtBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 2;
-
+        let activeEl = document.activeElement as HTMLElement;
+        if (
+          ["number-element", "long-text-element"].some(
+            (e) => activeEl?.id === e
+          )
+        )
+          return;
         if (nextBtn && isAtBottom) {
           nextBtn.focus();
           nextBtn.click();

@@ -8,6 +8,7 @@ import {
   FormTypes,
   type SingleSelectValidation,
 } from "../../types/elements.types";
+import { toast } from "sonner";
 
 export const FormSingleSelect = ({
   singleSelect,
@@ -26,12 +27,27 @@ export const FormSingleSelect = ({
     (state) => state.getInputBySeqNumber
   );
   const validate = () => {
-    updateValue({
-      seq_number: seq_number,
-      value: selected,
-      type: FormTypes.singleSelect,
-    });
+    if (selected.length < 1) {
+      let error = "An option needs to be selected.";
+      toast.warning(error);
+      throw new Error(error);
+    }
   };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (singleSelect.options.length > 0) {
+        updateValue({
+          seq_number: seq_number,
+          value: selected,
+          type: FormTypes.singleSelect,
+        });
+      }
+    }, 500);
+
+    return () => clearTimeout(timeout); // cancel previous write
+  }, [selected]);
+
   useEffect(() => {
     if (typeof seq_number === "number") {
       let oldinput = getInputBySeqNumber(seq_number);
@@ -75,9 +91,7 @@ export const FormSingleSelect = ({
         validateFunction={validate}
         required={required}
         goNextFunction={goNextFunction}
-      >
-        OK
-      </FormButton>
+      />
     </section>
   );
 };

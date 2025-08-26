@@ -9,6 +9,7 @@ import {
   type RatingKey,
   type RatingValidation,
 } from "../../types/elements.types";
+import { toast } from "sonner";
 
 export const FormRating = ({
   rating,
@@ -41,13 +42,24 @@ export const FormRating = ({
   };
 
   const validate = () => {
-    updateValue({
-      seq_number: seq_number,
-      value: selected,
-      type: FormTypes.rating,
-    });
+    if (typeof selected !== "number" || selected < 0 || selected > 5) {
+      let error = "You need to give a rating.";
+      toast.warning(error);
+      throw new Error(error);
+    }
   };
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      updateValue({
+        seq_number: seq_number,
+        value: selected,
+        type: FormTypes.rating,
+      });
+    }, 500);
+
+    return () => clearTimeout(timeout); // cancel previous write
+  }, [selected]);
   useEffect(() => {
     if (typeof seq_number === "number") {
       let oldinput = getInputBySeqNumber(seq_number);
@@ -73,7 +85,7 @@ export const FormRating = ({
                 onMouseEnter={() => setHovered(index)}
                 onMouseLeave={() => setHovered(null)}
                 onClick={() => {
-                  setSelected(index);
+                  setSelected((prev) => (prev === index ? null : index));
                 }}
                 whileHover={{ scale: 1.2 }}
                 transition={{ type: "spring", stiffness: 300 }}
@@ -102,9 +114,7 @@ export const FormRating = ({
             goNextFunction={goNextFunction}
             validateFunction={validate}
             required={required}
-          >
-            OK
-          </FormButton>
+          />
         </section>
       </div>
     </section>
