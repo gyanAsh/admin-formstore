@@ -18,6 +18,8 @@ export const FormButton = ({
     (state) => state.design
   );
 
+  const isLastElement = useFormV1Store((state) => state.isLastElement);
+  const userInputState = useFormV1Store((state) => state.inputState);
   const buttonDesign = btnDesign || elDesign;
   const elStyle: Record<string, string> & React.CSSProperties = {
     "--text-color": buttonDesign.textColor,
@@ -34,13 +36,19 @@ export const FormButton = ({
     try {
       if (!!required) {
         validateFunction();
-        delay(300).then(() => goNextFunction());
+        if (!!isLastElement) {
+          runSubmitFunction().then(() => goNextFunction());
+        } else delay(300).then(() => goNextFunction());
       } else {
         goNextFunction();
       }
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const runSubmitFunction = async () => {
+    console.log({ userInputState });
   };
 
   return (
@@ -59,7 +67,7 @@ export const FormButton = ({
       onClick={validateGoNext}
       {...props}
     >
-      {text || "Next"}
+      {text ? text : isLastElement ? "Submit" : "Next"}
     </button>
   );
 };

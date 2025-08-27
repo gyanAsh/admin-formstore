@@ -85,7 +85,7 @@ const PreviewFormPage = ({
   const { formId } = useParams();
   const setFormState = useFormV1Store((state) => state.setFormState);
   const setLastElement = useFormV1Store((state) => state.setLastElement);
-
+  const isLastElement = useFormV1Store((state) => state.isLastElement);
   const { isLoading, isError, error } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
@@ -246,11 +246,12 @@ const PreviewFormPage = ({
             </AnimatePresence>
           </div>
 
-          {/* Navigation Buttons */}
+          {/*Large screen Navigation Buttons */}
           <div
             className={cn(
               "text-sm absolute bg-[var(--bg-color)] w-full flex items-center justify-center text-[var(--label-text-color)] pb-4 pt-1 bottom-0 right-0 space-x-2",
-              { "scale-85": !!formCardClassName }
+              { "scale-85": !!formCardClassName },
+              { hidden: currentElement.type === FormTypes.exit }
             )}
           >
             <div className={cn("flex items-center max-md:hidden")}>
@@ -273,18 +274,19 @@ const PreviewFormPage = ({
                     nextBtn.click();
                   }
                 }}
-                disabled={currentSection === elements.length - 1}
+                disabled={isLastElement}
                 className="rounded-full px-2.5 py-1.5 text-[var(--label-text-color)] backdrop-blur-md bg-white/20 border-2 border-l-[1.5px] border-[var(--label-text-color)]/50 rounded-l-none"
               >
                 <ChevronRight strokeWidth={3} className="size-5" />
               </FormNavBtn>
             </div>
           </div>
-          {/* Water Mark*/}
+          {/* Mobile Navigation Buttons*/}
           <div
             className={cn(
               "text-sm absolute max-md:bg-[var(--bg-color)] flex flex-col items-center justify-end max-md:w-full gap-1.5 text-[var(--label-text-color)] bottom-0 min-md:right-0 p-2 px-4 min-md:p-4 space-x-2",
-              { "scale-85": !!formCardClassName }
+              { "scale-85": !!formCardClassName },
+              { hidden: currentElement.type === FormTypes.exit }
             )}
           >
             <div className={cn("flex items-center w-full grow min-md:hidden")}>
@@ -307,12 +309,13 @@ const PreviewFormPage = ({
                     nextBtn.click();
                   }
                 }}
-                disabled={currentSection === elements.length - 1}
+                disabled={isLastElement}
                 className="rounded-full flex items-center justify-center grow py-2 text-[var(--label-text-color)] backdrop-blur-md bg-white/20 border-2 border-l-[1.5px] border-[var(--label-text-color)]/50 rounded-l-none"
               >
                 <ChevronRight strokeWidth={3} className="size-5" />
               </FormNavBtn>
             </div>
+            {/* Water Mark*/}
             <h2 className=" text-sm sm:text-base md:text-lg text-center tracking-tighter">
               Made with{" "}
               <b>
@@ -365,6 +368,8 @@ const FormPage = ({
   element: FormElements;
 }) => {
   const elContianer = useRef<HTMLDivElement>(null);
+  const isLastElement = useFormV1Store((state) => state.isLastElement);
+
   useEffect(() => {
     let el = elContianer.current;
     if (!el) return;
@@ -397,7 +402,8 @@ const FormPage = ({
         if (
           ["number-element", "long-text-element"].some(
             (e) => activeEl?.id === e
-          )
+          ) ||
+          element.type === FormTypes.exit
         )
           return;
         if (prevBtn && isAtTop) {
@@ -420,7 +426,9 @@ const FormPage = ({
         if (
           ["number-element", "long-text-element"].some(
             (e) => activeEl?.id === e
-          )
+          ) ||
+          isLastElement ||
+          element.type === FormTypes.exit
         )
           return;
         if (nextBtn && isAtBottom) {
