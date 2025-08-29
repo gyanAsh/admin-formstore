@@ -47,7 +47,7 @@ func HttpServiceStart() error {
 	defer pool.Close()
 	jwtSecretRaw := os.Getenv("JWT_SECRET")
 	if jwtSecretRaw == "" {
-		log.Fatal(fmt.Errorf("JWT_SECRET not found: ", err))
+		log.Fatal(fmt.Errorf("JWT_SECRET not found: %v", err))
 	}
 	jwtSecret, err := base64.StdEncoding.DecodeString(jwtSecretRaw)
 	if err != nil {
