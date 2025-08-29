@@ -28,8 +28,8 @@ func TestPublishedFormSubmit(t *testing.T) {
 	if resp.StatusCode != 200 && resp.StatusCode != 201 {
 		var errorMessage map[string]any
 		if err := json.NewDecoder(resp.Body).Decode(&errorMessage); err != nil {
-			log.Println(fmt.Errorf("json decoding error: %v", err))
+			t.Fatalf("json decoding error: %v", err)
 		}
-		log.Println(fmt.Errorf("error message: %v", errorMessage))
+		t.Fatalf("error message: %v", errorMessage)
 	}
 }
