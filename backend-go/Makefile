@@ -11,3 +11,7 @@ swagger:
 check:
 	go vet ./src/server
 	staticcheck ./src/server
+
+debug:
+	dlv debug cmd/http_server/main.go
+

@@ -15,7 +15,7 @@ export const FormButton = ({
   text?: String;
 }) => {
   const { element: elDesign, button: btnDesign } = useFormV1Store(
-    (state) => state.design
+    (state) => state.design,
   );
 
   const isLastElement = useFormV1Store((state) => state.isLastElement);
@@ -29,8 +29,8 @@ export const FormButton = ({
       buttonDesign.variant === "glass"
         ? "20%"
         : buttonDesign.variant === "outline"
-        ? "0%"
-        : "100%",
+          ? "0%"
+          : "100%",
   };
   const validateGoNext = () => {
     try {
@@ -48,6 +48,16 @@ export const FormButton = ({
   };
 
   const runSubmitFunction = async () => {
+    fetch(`/api/published/submit`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userInputState),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch((err) => console.error(err));
     console.log({ userInputState });
   };
 
@@ -60,7 +70,7 @@ export const FormButton = ({
 
         "rounded-full text-[var(--text-color)] [font-family:var(--input-family)] text-lg bg-[var(--bg-color)]/[var(--transparant)] border-2 border-[var(--border-color)] hover:text-[var(--text-color)] hover:bg-[var(--bg-color)]/[var(--transparant)]",
         { " backdrop-blur-[1px]": elDesign.variant === "glass" },
-        className
+        className,
       )}
       id="validateGoNext"
       style={elStyle}

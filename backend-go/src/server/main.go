@@ -80,6 +80,7 @@ func HttpServiceStart() error {
 	mux.HandleFunc("POST /api/signup", s.SignupHandler)
 	mux.HandleFunc("POST /api/form/publish", s.FormPublishHandler)
 	mux.HandleFunc("POST /api/form/save", s.FormSaveHandler)
+	mux.HandleFunc("POST /api/published/submit", s.PublishedFormSubmitHandler)
 
 	mux.HandleFunc("PUT /api/workspace", s.WorkspaceUpdateHandler)
 	mux.HandleFunc("PUT /api/form", s.FormUpdateHandler)
