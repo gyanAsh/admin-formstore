@@ -20,8 +20,11 @@ func (s *Service) PublishedFormSubmitHandler(w http.ResponseWriter, r *http.Requ
 		}
 		return
 	}
-	json.NewEncoder(w).Encode(map[string]any{
+	if err = json.NewEncoder(w).Encode(map[string]any{
 		"message": "form successfully submitted",
-	})
+	}); err != nil {
+		log.Println(fmt.Errorf("json encoding success message failed: %v"err))
+		return
+	}
 	log.Println(rawData)
 }
