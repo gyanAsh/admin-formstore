@@ -26,6 +26,18 @@ func loggingMiddleware(next http.Handler) http.Handler {
 	})
 }
 
+func authMiddleware(next http.Handler, JWT_SECRET []byte) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		userID, err := authenticate2(r, JWT_SECRET)
+		ctx := context.WithValue(r.Context(), "user_id", userID)
+		if err != nil {
+			w.WriteHeader(http.StatusUnauthorized)
+			log.Println(fmt.Errorf("unauthorized: %v", err))
+		}
+		next.ServeHTTP(w, r.WithContext(ctx))
+	})
+}
+
 func (s *Service) RootHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("the server is running"))
 }
@@ -47,7 +59,7 @@ func HttpServiceStart() error {
 	defer pool.Close()
 	jwtSecretRaw := os.Getenv("JWT_SECRET")
 	if jwtSecretRaw == "" {
-		log.Fatal(fmt.Errorf("JWT_SECRET not found: ", err))
+		log.Fatal(fmt.Errorf("JWT_SECRET not found: %v", err))
 	}
 	jwtSecret, err := base64.StdEncoding.DecodeString(jwtSecretRaw)
 	if err != nil {

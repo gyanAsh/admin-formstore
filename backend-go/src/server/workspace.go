@@ -42,7 +42,7 @@ func parseRowsToWorkspaces(rows []db.GetWorkspacesForUserRow, userID string) []W
 }
 
 func (s *Service) WorkspacesHandler(w http.ResponseWriter, r *http.Request) {
-	userID, err := s.authenticate(r)
+	userID, err := getUserID(r)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusUnauthorized)
