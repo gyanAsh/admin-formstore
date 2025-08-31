@@ -106,3 +106,6 @@ INNER JOIN workspaces ON forms.workspace_id = workspaces.ID
 INNER JOIN users ON workspaces.user_id = users.ID
 WHERE forms.ID = $1
 AND users.ID = $2;
+
+-- name: GetPublicIDForm :one
+SELECT public_id FROM forms WHERE ID = $1 AND status = 'published';

@@ -298,6 +298,17 @@ func (q *Queries) GetFormsInWorkspace(ctx context.Context, workspaceID int32) ([
 	return items, nil
 }
 
+const getPublicIDForm = `-- name: GetPublicIDForm :one
+SELECT public_id FROM forms WHERE ID = $1 AND status = 'published'
+`
+
+func (q *Queries) GetPublicIDForm(ctx context.Context, id int32) (pgtype.UUID, error) {
+	row := q.db.QueryRow(ctx, getPublicIDForm, id)
+	var public_id pgtype.UUID
+	err := row.Scan(&public_id)
+	return public_id, err
+}
+
 const getWorkspaceByID = `-- name: GetWorkspaceByID :one
 SELECT id, name, created_at, updated_at, deleted_at, user_id FROM workspaces WHERE ID = $1 AND workspaces.user_id = $2
 `

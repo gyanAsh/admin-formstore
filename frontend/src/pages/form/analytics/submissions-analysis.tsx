@@ -5,7 +5,6 @@ import { ClockArrowUp } from "lucide-react";
 import React from "react";
 
 export const SubmissionsAnalysis = ({submissions}: {submissions: any}) => {
-  console.log({submissions});
   return (
     <section className="grid gap-2.5">
       <div className=" grid grid-cols-5 gap-2.5 rounded-xl text-wrap w-full min-h-fit text-sm pt-1.5 pl-3 pr-6">

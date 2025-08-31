@@ -53,6 +53,17 @@ func (s *Service) FormAnalyticsDataHandler(w http.ResponseWriter, r *http.Reques
 		}
 		return
 	}
+	publicID, err := s.Queries.GetPublicIDForm(r.Context(), int32(formID));
+	if err != nil {
+		log.Println(fmt.Errorf("get public id: %v", err))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	if !publicID.Valid {
+		log.Println(fmt.Errorf("public id: invalid uuid"))
+		w.WriteHeader(http.StatusForbidden)
+		return
+	}
 	submissionsDBData, err := s.Queries.GetAnalyticsFormSubmissions(r.Context(), db.GetAnalyticsFormSubmissionsParams{
 		ID: int32(formID),
 		ID_2: userID,
@@ -60,6 +71,7 @@ func (s *Service) FormAnalyticsDataHandler(w http.ResponseWriter, r *http.Reques
 	submissions := parseSubmission(submissionsDBData)
 	if err := json.NewEncoder(w).Encode(map[string]any{
 		"submissions": submissions,
+		"public_id": publicID,
 	}); err != nil {
 		log.Println(fmt.Errorf("form analytics failed to write json: %v", err))
 		w.WriteHeader(http.StatusInternalServerError)

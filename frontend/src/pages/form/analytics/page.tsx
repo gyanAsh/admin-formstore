@@ -29,11 +29,12 @@ export default function AnalyticsPage() {
 
   const formAnalytics = useQuery({
     queryKey: ["api-analytics-formid"],
-    queryFn: () => fetch(`/api/analytics/${formId}`, {
-      headers: {
-        'Authorization': `Bearer ${getAuthToken()}`
-      }
-    }).then((res) => res.json()),
+    queryFn: () =>
+      fetch(`/api/analytics/${formId}`, {
+        headers: {
+          Authorization: `Bearer ${getAuthToken()}`,
+        },
+      }).then((res) => res.json()),
   });
 
   return (
@@ -93,22 +94,24 @@ export default function AnalyticsPage() {
                 </div>
               </section>
               <section>
-                <div className="flex content-center items-center gap-2 p-2">
-                  URL:
-                  <span className="border p-2">
-                    http://localhost:5174/form/cf2dd4d7-5ee3-4aef-af9a-69e4666683c6
-                  </span>
-                  <Button
-                    onClick={() => {
-                      // async function
-                      navigator.clipboard.writeText(
-                        "http://localhost:5174/form/cf2dd4d7-5ee3-4aef-af9a-69e4666683c6"
-                      );
-                    }}
-                  >
-                    copy
-                  </Button>
-                </div>
+                {formAnalytics.isSuccess && (
+                  <div className="flex content-center items-center gap-2 p-2">
+                    URL:
+                    <span className="border p-2">
+                      {`http://localhost:5174/form/${formAnalytics.data.public_id}`}
+                    </span>
+                    <Button
+                      onClick={() => {
+                        // async function
+                        navigator.clipboard.writeText(
+                          `http://localhost:5174/form/${formAnalytics.data.public_id}`
+                        );
+                      }}
+                    >
+                      copy
+                    </Button>
+                  </div>
+                )}
               </section>
               <AnalysisTabs submissions={formAnalytics?.data?.submissions} />
             </div>
@@ -127,7 +130,7 @@ export default function AnalyticsPage() {
   );
 }
 
-function AnalysisTabs({submissions}: {submissions: any}) {
+function AnalysisTabs({ submissions }: { submissions: any }) {
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
 
   return (
