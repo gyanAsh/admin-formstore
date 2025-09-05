@@ -1,0 +1,5 @@
+BEGIN;
+
+ALTER TABLE submission_entries ALTER COLUMN data TYPE VARCHAR;
+
+COMMIT;
