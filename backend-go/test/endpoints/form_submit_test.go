@@ -11,13 +11,48 @@ import (
 	"testing"
 )
 
-func createFormPublishAndSubmit(workspaceID int) error {
+func TestPublishedFormSubmit(t *testing.T) {
 	// steps
 	// 1. create the workspace (outside this function)
 	// 2. create the form
 	// 3. publish the form
 	// 4. finally submit one record for the form
         // 5. delete workspace (outside this function)
+
+	//
+	// create workspace
+	//
+	workspaceName := rand.Text()[:12]
+	workspaceData, err := json.Marshal(map[string]string{
+		"name": workspaceName,
+	})
+	if err != nil {
+		t.Fatalf("json marshal request data: %v\n", err)
+	}
+	r := httptest.NewRequest("POST", "http://localhost:4000/api/workspace", bytes.NewBuffer(workspaceData))
+	r.Header.Add("Content-Type", "application/json")
+	r.Header.Add("Authorization", fmt.Sprintf("Bearer %s", AUTH_TOKEN))
+	w := httptest.NewRecorder()
+
+	s.WorkspaceCreateHandler(w, r)
+
+	resp := w.Result()
+	var message map[string]any
+	if resp.StatusCode != 200 && resp.StatusCode != 201 {
+		t.Fatalf("status code %v", resp.StatusCode)
+	}
+	if err = json.NewDecoder(resp.Body).Decode(&message); err != nil {
+		t.Fatalf("json decoding response body: %v\n", err)
+	}
+	workspaceID_f, ok := message["id"].(float64)
+	if !ok {
+		t.Fatalf("workspace_id float conversion failed")
+	}
+	workspaceID := int(workspaceID_f)
+
+        //
+        // create, publish and submit form
+        //
 
 	//
 	// 2. create form
@@ -28,37 +63,37 @@ func createFormPublishAndSubmit(workspaceID int) error {
 		"title":        formTitle,
 	})
 	if err != nil {
-		return fmt.Errorf("form data json request object error: %v\n", err)
+		t.Errorf("form data json request object error: %v\n", err)
 	}
 
-        r := httptest.NewRequest("POST", "http://localhost:4000/api/form", bytes.NewBuffer(formData))
+        r = httptest.NewRequest("POST", "http://localhost:4000/api/form", bytes.NewBuffer(formData))
 	r.Header.Add("Content-Type", "application/json")
 	r.Header.Add("Authorization", fmt.Sprintf("Bearer %v", AUTH_TOKEN))
-        w := httptest.NewRecorder()
+        w = httptest.NewRecorder()
 
 	s.FormCreateHandler(w, r)
 
-        resp := w.Result()
+        resp = w.Result()
 	var respBody map[string]any
 	if resp.StatusCode != 200 && resp.StatusCode != 201 {
 		if err := json.NewDecoder(resp.Body).Decode(&respBody); err != nil {
-			return fmt.Errorf("incorrect status code: %d with body: %v", resp.StatusCode, respBody)
+			t.Errorf("incorrect status code: %d with body: %v", resp.StatusCode, respBody)
 		} else {
 			log.Println(err)
 			respBodyText, err := io.ReadAll(resp.Body)
 			if err != nil {
-				return fmt.Errorf("incorrect status code: %d with body: %v", resp.StatusCode, string(respBodyText))
+				t.Errorf("incorrect status code: %d with body: %v", resp.StatusCode, string(respBodyText))
 			} else {
-				return fmt.Errorf("incorrect status code: %d with no body", resp.StatusCode)
+				t.Errorf("incorrect status code: %d with no body", resp.StatusCode)
 			}
 		}
 	}
 	if err = json.NewDecoder(resp.Body).Decode(&respBody); err != nil {
-		return fmt.Errorf("json decode after success: %v", err)
+		t.Errorf("json decode after success: %v", err)
 	}
 	formID_f, ok := respBody["id"].(float64)
 	if !ok {
-		return fmt.Errorf("form id not found in response body: %v", respBody)
+		t.Errorf("form id not found in response body: %v", respBody)
 	}
 	formID := int(formID_f)
 
@@ -381,7 +416,7 @@ func createFormPublishAndSubmit(workspaceID int) error {
 }`
 	var formPublishDataMap map[string]any
 	if err = json.Unmarshal([]byte(formPublishPayload), &formPublishDataMap); err != nil {
-		return fmt.Errorf("failed to parse form payload string data: %v", err)
+		t.Errorf("failed to parse form payload string data: %v", err)
 	}
 	formPublishData, err := json.Marshal(map[string]any{
 		"form_id":  formID,
@@ -389,7 +424,7 @@ func createFormPublishAndSubmit(workspaceID int) error {
 		"elements": formPublishDataMap["elements"],
 	})
 	if err != nil {
-		return fmt.Errorf("form publish data marshal error: %v", err)
+		t.Errorf("form publish data marshal error: %v", err)
 	}
 
 	r = httptest.NewRequest("POST", "http://localhost:4000/api/form/publish", bytes.NewBuffer(formPublishData))
@@ -406,51 +441,8 @@ func createFormPublishAndSubmit(workspaceID int) error {
                 } else {
                         log.Println("json body: ", resposeBody)
                 }
-		return fmt.Errorf("form publish failed: %v", err)
+		t.Errorf("form publish failed: %v", err)
 	}
-
-	return nil
-}
-
-func TestPublishedFormSubmit(t *testing.T) {
-	//
-	// create workspace
-	//
-	workspaceName := rand.Text()[:12]
-	workspaceData, err := json.Marshal(map[string]string{
-		"name": workspaceName,
-	})
-	if err != nil {
-		t.Fatalf("json marshal request data: %v\n", err)
-	}
-	r := httptest.NewRequest("POST", "http://localhost:4000/api/workspace", bytes.NewBuffer(workspaceData))
-	r.Header.Add("Content-Type", "application/json")
-	r.Header.Add("Authorization", fmt.Sprintf("Bearer %s", AUTH_TOKEN))
-	w := httptest.NewRecorder()
-
-	s.WorkspaceCreateHandler(w, r)
-
-	resp := w.Result()
-	var message map[string]any
-	if resp.StatusCode != 200 && resp.StatusCode != 201 {
-		t.Fatalf("status code %v", resp.StatusCode)
-	}
-	if err = json.NewDecoder(resp.Body).Decode(&message); err != nil {
-		t.Fatalf("json decoding response body: %v\n", err)
-	}
-	workspaceID_f, ok := message["id"].(float64)
-	if !ok {
-		t.Fatalf("workspace_id float conversion failed")
-	}
-	workspaceID := int(workspaceID_f)
-
-        //
-        // create, publish and submit form
-        //
-        err = createFormPublishAndSubmit(workspaceID)
-        if err != nil {
-                t.Errorf("create form published submit failed with error: %v", err)
-        }
 
         //
         // delete workspace - upon test success or failure
