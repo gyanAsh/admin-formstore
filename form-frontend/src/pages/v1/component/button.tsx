@@ -1,5 +1,6 @@
 import { cn, delay } from "@/lib/utils";
 import { useFormV1Store } from "../state/design";
+import { useParams } from "react-router";
 
 export const FormButton = ({
   className,
@@ -17,6 +18,8 @@ export const FormButton = ({
   const { element: elDesign, button: btnDesign } = useFormV1Store(
     (state) => state.design,
   );
+
+  const { formId } = useParams();
 
   const isLastElement = useFormV1Store((state) => state.isLastElement);
   const userInputState = useFormV1Store((state) => state.inputState);
@@ -53,7 +56,10 @@ export const FormButton = ({
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(userInputState),
+      body: JSON.stringify({
+        public_id: formId,
+        elements: userInputState
+      }),
     })
       .then((res) => res.json())
       .then((data) => console.log(data))

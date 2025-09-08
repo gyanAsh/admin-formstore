@@ -7,15 +7,19 @@ import (
 	"net/http"
 )
 
-type FormSubmitData struct {
-	PublicID string `json:"public_id"`
-	SeqNo    int    `json:"seq_number"`
-	Type     string `json:"type"`
-	Value    string `json:"value"`
+type SubmitElement struct {
+	SeqNo int    `json:"seq_number"`
+	Type  string `json:"type"`
+	Value any    `json:"value"`
+}
+
+type SubmitForm struct {
+	PublicID       string          `json:"public_id"`
+	SubmitElements []SubmitElement `json:"elements"`
 }
 
 func (s *Service) PublishedFormSubmitHandler(w http.ResponseWriter, r *http.Request) {
-	var formData FormSubmitData
+	var formData SubmitForm
 	if err := json.NewDecoder(r.Body).Decode(&formData); err != nil {
 		log.Println(fmt.Errorf("json decoding form body %v", err))
 		w.WriteHeader(http.StatusBadRequest)
