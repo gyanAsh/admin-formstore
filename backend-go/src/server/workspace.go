@@ -82,7 +82,7 @@ func (s *Service) WorkspaceCreateHandler(w http.ResponseWriter, r *http.Request)
 	if err := json.NewDecoder(r.Body).Decode(&workspaceRequest); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
-		if err = json.NewEncoder(w).Encode(map[string]interface{}{
+		if err = json.NewEncoder(w).Encode(map[string]any{
 			"message": "failed to parse json data",
 		}); err != nil {
 			log.Println(err)
@@ -97,7 +97,7 @@ func (s *Service) WorkspaceCreateHandler(w http.ResponseWriter, r *http.Request)
 		&workspace.UpdatedAt); err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
-		if err = json.NewEncoder(w).Encode(map[string]interface{}{
+		if err = json.NewEncoder(w).Encode(map[string]any{
 			"message": "failed to create new workspace",
 		}); err != nil {
 			log.Println(err)

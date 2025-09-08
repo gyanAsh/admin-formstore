@@ -23,12 +23,12 @@ func TestPublishForm(t *testing.T) {
 	})(workspaceID)
 
 	formTitle := rand.Text()[:12]
-	formID, err := formApiCreate(workspaceID, formTitle)
+	formID, err := formCreate(workspaceID, formTitle)
 	if err != nil {
 		log.Println(fmt.Errorf("form db create: %v", err))
 	}
 	defer (func(formID int) {
-		if err := formApiDelete(formID); err != nil {
+		if err := formDelete(formID); err != nil {
 			log.Println(fmt.Errorf("form api delete: %v", err))
 		}
 	})(formID)
