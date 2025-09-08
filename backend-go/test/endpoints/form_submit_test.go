@@ -11,30 +11,6 @@ import (
 	"testing"
 )
 
-func deleteWorkspace(workspaceID int) error {
-        //
-        // delete workspace - upon test success or failure
-        //
-	r := httptest.NewRequest("DELETE", "http://localhost:4000/api/workspace/{workspace_id}", nil)
-	r.SetPathValue("workspace_id", fmt.Sprint(workspaceID))
-        r.Header.Add("Content-Type", "application/json")
-        r.Header.Add("Authorization", fmt.Sprintf("Bearer %v", AUTH_TOKEN))
-        w := httptest.NewRecorder()
-
-        s.WorkspaceDeleteHandler(w, r)
-
-        resp := w.Result()
-        if resp.StatusCode != 200 && resp.StatusCode != 201 {
-                return fmt.Errorf("failed to delete workspace: manual cleanup the data to bring it back to consistant state")
-        }
-        var responseBody map[string]any
-        if err := json.NewDecoder(resp.Body).Decode(&responseBody); err != nil {
-                log.Println("json decoding error:", err)
-        }
-        log.Println(responseBody)
-        return nil
-}
-
 func createFormPublishAndSubmit(workspaceID int) error {
 	// steps
 	// 1. create the workspace (outside this function)
@@ -468,17 +444,33 @@ func TestPublishedFormSubmit(t *testing.T) {
 	}
 	workspaceID := int(workspaceID_f)
 
+        //
+        // create, publish and submit form
+        //
         err = createFormPublishAndSubmit(workspaceID)
         if err != nil {
-                err1 := deleteWorkspace(workspaceID)
-                if err1 != nil {
-                        log.Println(err1)
-                }
-                t.Fatalf("create form published submit failed with error: %v", err)
-        } else {
-                err1 := deleteWorkspace(workspaceID)
-                if err1 != nil {
-                        t.Fatalf("failed to delete workspaces with error: %v", err1)
-                }
+                t.Errorf("create form published submit failed with error: %v", err)
         }
+
+        //
+        // delete workspace - upon test success or failure
+        //
+	r = httptest.NewRequest("DELETE", "http://localhost:4000/api/workspace/{workspace_id}", nil)
+	r.SetPathValue("workspace_id", fmt.Sprint(workspaceID))
+        r.Header.Add("Content-Type", "application/json")
+        r.Header.Add("Authorization", fmt.Sprintf("Bearer %v", AUTH_TOKEN))
+        w = httptest.NewRecorder()
+
+        s.WorkspaceDeleteHandler(w, r)
+
+        resp = w.Result()
+        if resp.StatusCode != 200 && resp.StatusCode != 201 {
+                t.Errorf("failed to delete workspace: manual cleanup the data to bring it back to consistant state")
+        }
+        var responseBody map[string]any
+        if err = json.NewDecoder(resp.Body).Decode(&responseBody); err != nil {
+                log.Println("json decoding error:", err)
+        }
+        log.Println(responseBody)
+
 }
