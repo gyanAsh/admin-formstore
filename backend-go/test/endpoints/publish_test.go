@@ -12,12 +12,12 @@ import (
 
 func TestPublishForm(t *testing.T) {
 	workspaceName := rand.Text()[:12]
-	workspaceID, err := workspaceDbCreate(workspaceName)
+	workspaceID, err := workspaceCreate(workspaceName)
 	if err != nil {
 		t.Fatal(fmt.Errorf("workspace create: %v", err))
 	}
 	defer (func(workspaceID int) {
-		if err := workspaceDbDelete(workspaceID); err != nil {
+		if err := workspaceDelete(workspaceID); err != nil {
 			t.Fatal(fmt.Errorf("workspace delete: %v", err))
 		}
 	})(workspaceID)
