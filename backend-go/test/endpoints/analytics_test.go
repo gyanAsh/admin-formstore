@@ -107,4 +107,10 @@ func TestAnalyticsPage(t *testing.T) {
 		}
 		t.Fatalf("failed to get analytics data, status: %v, body: %v", resp.Status, responseBody)
 	}
+
+	var data map[string]any
+	if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
+		t.Fatalf("failed to decode response body: %v", err)
+	}
+	t.Fatalf("fix the analytis function, data: %v", data)
 }
