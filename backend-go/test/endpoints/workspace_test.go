@@ -182,3 +182,37 @@ func TestWorkpaceDeleteUnauthorized(t *testing.T) {
 		log.Printf("response body: %v\n", responseBody)
 	}
 }
+
+func TestWorkspaceQuery(t *testing.T) {
+	retry := 0
+	for retry < 2 {
+		r := httptest.NewRequest("GET", "http://localhost:4000/api/workspaces", nil)
+		r.Header.Add("Authorization", fmt.Sprintf("Bearer %s", AUTH_TOKEN))
+		w := httptest.NewRecorder()
+		s.WorkspacesHandler(w, r)
+		resp := w.Result()
+
+		if resp.StatusCode != 200 && resp.StatusCode != 201 {
+			var responseBody map[string]any
+			if err := json.NewDecoder(resp.Body).Decode(&responseBody); err != nil {
+				log.Println("json decoding:", err)
+			}
+			t.Fatalf("failed to query workspaces with body: %v", responseBody)
+			return
+		}
+
+		var workspaces []map[string]any
+		if err := json.NewDecoder(resp.Body).Decode(&workspaces); err != nil {
+			t.Fatalf("json decode response bode failed: %v", err)
+		}
+		if len(workspaces) == 0 {
+			workspaceName := rand.Text()[:12]
+			if _, err := workspaceCreate(workspaceName); err != nil {
+				t.Fatalf("new workspace creation failed: %v", err)
+			}
+			retry += 1
+		} else {
+			retry += 2
+		}
+	}
+}
