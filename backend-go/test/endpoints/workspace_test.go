@@ -158,3 +158,27 @@ func TestWorkpaceCreateUnauthorized(t *testing.T) {
 		log.Printf("response body: %v\n", responseBody)
 	}
 }
+
+func TestWorkpaceDeleteUnauthorized(t *testing.T) {
+	workspaceName := rand.Text()[:12]
+	workspaceID, err := workspaceCreate(workspaceName)
+	if err != nil {
+		t.Fatalf("failed to create workspace: %v", err)
+	}
+
+	r := httptest.NewRequest("DELETE", "http://localhost:4000/api/workspace/{workspace_id}", nil)
+	r.SetPathValue("workspace_id", fmt.Sprint(workspaceID))
+	w := httptest.NewRecorder()
+
+	s.WorkspaceDeleteHandler(w, r)
+
+	resp := w.Result()
+	if resp.StatusCode != 401 && resp.StatusCode != 403 {
+		t.Errorf("creating workspace unauthorized should not be allowed\nactually response status: %v", resp.Status)
+		var responseBody map[string]any
+		if err := json.NewDecoder(resp.Body).Decode(&responseBody); err != nil {
+			log.Printf("json decoding resposne body: %v\n", err)
+		}
+		log.Printf("response body: %v\n", responseBody)
+	}
+}
