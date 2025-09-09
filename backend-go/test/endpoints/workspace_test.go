@@ -231,3 +231,34 @@ func TestWorkspaceQueryUnauthorized(t *testing.T) {
 		t.Fatalf("workspaces unauthorized query: %v", responseBody)
 	}
 }
+
+func TestWorkspaceQuerySingle(t *testing.T) {
+	r := httptest.NewRequest("GET", "http://localhost:4000/api/workspace", nil)
+	r.Header.Add("Authorization", fmt.Sprintf("Bearer %s", AUTH_TOKEN))
+	w := httptest.NewRecorder()
+	s.WorkspacesHandler(w, r)
+	resp := w.Result()
+
+	if resp.StatusCode != 200 {
+		responseBody, err := io.ReadAll(resp.Body)
+		if err != nil {
+			log.Printf("response body decoding failed: %v", err)
+		}
+		t.Fatalf("workspace query single failed with status: %v, body: %v", resp.Status, string(responseBody))
+	}
+}
+
+func TestWorkspaceQuerySingleUnauthorized(t *testing.T) {
+	r := httptest.NewRequest("GET", "http://localhost:4000/api/workspace", nil)
+	w := httptest.NewRecorder()
+	s.WorkspacesHandler(w, r)
+	resp := w.Result()
+
+	if resp.StatusCode != 401 && resp.StatusCode != 403 {
+		responseBody, err := io.ReadAll(resp.Body)
+		if err != nil {
+			log.Printf("response body decoding failed: %v", err)
+		}
+		t.Fatalf("unauthorzied workspace query single status: %v, body: %v", resp.Status, string(responseBody))
+	}
+}
