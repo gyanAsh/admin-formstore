@@ -440,8 +440,6 @@ func TestPublishedFormSubmit(t *testing.T) {
 	var responseBody map[string]any
 	if err := json.NewDecoder(resp.Body).Decode(&responseBody); err != nil {
 		log.Println("json body error: ", err)
-	} else {
-		log.Println("json body: ", responseBody)
 	}
 
 	publicID := responseBody["public_id"].(string)

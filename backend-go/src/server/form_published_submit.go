@@ -14,8 +14,8 @@ type SubmitElement struct {
 }
 
 type SubmitForm struct {
-	PublicID       string          `json:"public_id"`
-	SubmitElements []SubmitElement `json:"elements"`
+	PublicID string          `json:"public_id"`
+	Elements []SubmitElement `json:"elements"`
 }
 
 func (s *Service) PublishedFormSubmitHandler(w http.ResponseWriter, r *http.Request) {
@@ -41,19 +41,33 @@ func (s *Service) PublishedFormSubmitHandler(w http.ResponseWriter, r *http.Requ
 		}
 		return
 	}
-	if _, err := s.Conn.Exec(r.Context(), `
+	row := s.Conn.QueryRow(r.Context(), `
 		INSERT INTO form_submissions (form_id)
 		SELECT ID FROM forms
-		WHERE public_id = $1 AND status = 'published'`, formData.PublicID); err != nil {
+		WHERE public_id = $1 AND status = 'published' 
+		RETURNING ID`, formData.PublicID)
+	var submissionID int
+	if err := row.Scan(&submissionID); err != nil {
 		log.Println(fmt.Errorf("submit form db insert query: %v", err))
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	if err := json.NewEncoder(w).Encode(map[string]any{
-		"message": "form successfully submitted",
-	}); err != nil {
-		log.Println(fmt.Errorf("json encoding success message failed: %v", err))
-		return
+
+	for _, element := range formData.Elements {
+		s.Conn.Exec(r.Context(), `
+			INSERT INTO submission_entries (form_submission_id, element_id, data)
+			VALUES (
+				$1,
+				SELECT * FROM form_elements 
+				WHERE form_id = (SELECT ID FROM forms WHERE public_id = $2)
+				AND seq_number = $3,
+				$4
+			);`, submissionID, formData.PublicID, element.SeqNo, element.Value)
+		if err := json.NewEncoder(w).Encode(map[string]any{
+			"message": "form successfully submitted",
+		}); err != nil {
+			log.Println(fmt.Errorf("json encoding success message failed: %v", err))
+			return
+		}
 	}
-	log.Println(formData)
 }
