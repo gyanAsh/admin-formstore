@@ -58,11 +58,6 @@ func TestFormCreate(t *testing.T) {
 	if err != nil {
 		t.Fatal(fmt.Errorf("workspace db create: %v", err))
 	}
-	defer func(workspaceID int) {
-		if err := workspaceDelete(workspaceID); err != nil {
-			t.Fatal(fmt.Errorf("workspace delete: %v", err))
-		}
-	}(workspaceID)
 
 	formTitle := rand.Text()[:12]
 	if formID, err := formCreate(workspaceID, formTitle); err != nil {
@@ -104,11 +99,6 @@ func TestFormDelete(t *testing.T) {
 	if err != nil {
 		t.Fatal(fmt.Errorf("workspace db create: %v", err))
 	}
-	defer func(workspaceID int) {
-		if err := workspaceDelete(workspaceID); err != nil {
-			t.Fatal(fmt.Errorf("workspace delete: %v", err))
-		}
-	}(workspaceID)
 
 	formTitle := rand.Text()[:12]
 	formID, err := formCreate(workspaceID, formTitle)

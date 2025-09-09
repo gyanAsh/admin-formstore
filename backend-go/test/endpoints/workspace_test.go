@@ -60,7 +60,7 @@ func workspaceDelete(workspaceID int) error {
 	return nil
 }
 
-func workspaceApiUpdate(workspaceID int, workspaceName string) error {
+func workspaceUpdate(workspaceID int, workspaceName string) error {
 	workspacedat, err := json.Marshal(map[string]any{
 		"id":   workspaceID,
 		"name": workspaceName,
@@ -95,13 +95,9 @@ func workspaceApiUpdate(workspaceID int, workspaceName string) error {
 
 func TestWorkspaceCreate(t *testing.T) {
 	workspaceName := rand.Text()[:12]
-	workspaceID, err := workspaceCreate(workspaceName)
+	_, err := workspaceCreate(workspaceName)
 	if err != nil {
 		t.Fatalf("workspace api create: %v\n", err)
-	}
-
-	if err = workspaceDelete(workspaceID); err != nil {
-		t.Fatalf("workspace db delete: %v\n", err)
 	}
 }
 
@@ -133,11 +129,7 @@ func TestWorkspaceUpdate(t *testing.T) {
 	}
 
 	workspaceName2 := rand.Text()[:16]
-	if err := workspaceApiUpdate(workspaceID, workspaceName2); err != nil {
+	if err := workspaceUpdate(workspaceID, workspaceName2); err != nil {
 		t.Fatalf("workspace api update: %v\n", err)
-	}
-
-	if err := workspaceDelete(workspaceID); err != nil {
-		t.Fatalf("workspace db delete: %v\n", err)
 	}
 }
