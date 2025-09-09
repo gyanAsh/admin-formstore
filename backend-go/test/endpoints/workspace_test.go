@@ -133,3 +133,28 @@ func TestWorkspaceUpdate(t *testing.T) {
 		t.Fatalf("workspace api update: %v\n", err)
 	}
 }
+
+func TestWorkpaceCreateUnauthorized(t *testing.T) {
+	workspaceName := rand.Text()[:12]
+
+	workspaceData, err := json.Marshal(map[string]string{
+		"name": workspaceName,
+	})
+	if err != nil {
+		log.Printf("json encoding: %v\n", err)
+	}
+	r := httptest.NewRequest("POST", "http://localhost:4000/api/workspace", bytes.NewBuffer(workspaceData))
+	w := httptest.NewRecorder()
+
+	s.WorkspaceCreateHandler(w, r)
+
+	resp := w.Result()
+	if resp.StatusCode != 401 && resp.StatusCode != 403 {
+		t.Errorf("creating workspace unauthorized should not be allowed\nactually response status: %v", resp.Status)
+		var responseBody map[string]any
+		if err := json.NewDecoder(resp.Body).Decode(&responseBody); err != nil {
+			log.Printf("json decoding resposne body: %v\n", err)
+		}
+		log.Printf("response body: %v\n", responseBody)
+	}
+}
