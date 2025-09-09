@@ -109,3 +109,26 @@ func TestFormDelete(t *testing.T) {
 		log.Println(fmt.Errorf("form api delete: %v", err))
 	}
 }
+
+func TestFormCreateUnauthorized(t *testing.T) {
+	formName := rand.Text()[:12]
+	formData, err := json.Marshal(map[string]string{
+		"name": formName,
+	})
+	if err != nil {
+		t.Fatalf("failed to encoder request body: %v", err)
+	}
+	r := httptest.NewRequest("POST", "http://localhost:4000/api/form", bytes.NewBuffer(formData))
+	r.Header.Add("Content-Type", "application/json")
+	w := httptest.NewRecorder()
+	s.FormCreateHandler(w, r)
+	resp := w.Result()
+
+	if resp.StatusCode != 401 && resp.StatusCode != 403 {
+		responseBody, err := io.ReadAll(resp.Body)
+		if err != nil {
+			log.Printf("decoding response body failed: %v", err)
+		}
+		t.Fatalf("unauthorized form create status: %v, body: %v", resp.Status, responseBody)
+	}
+}
