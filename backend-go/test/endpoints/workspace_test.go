@@ -216,3 +216,18 @@ func TestWorkspaceQuery(t *testing.T) {
 		}
 	}
 }
+
+func TestWorkspaceQueryUnauthorized(t *testing.T) {
+	r := httptest.NewRequest("GET", "http://localhost:4000/api/workspaces", nil)
+	w := httptest.NewRecorder()
+	s.WorkspacesHandler(w, r)
+	resp := w.Result()
+
+	if resp.StatusCode != 401 && resp.StatusCode != 403 {
+		var responseBody any
+		if err := json.NewDecoder(resp.Body).Decode(&responseBody); err != nil {
+			log.Println("json decoding:", err)
+		}
+		t.Fatalf("workspaces unauthorized query: %v", responseBody)
+	}
+}
