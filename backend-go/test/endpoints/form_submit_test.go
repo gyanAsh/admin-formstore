@@ -17,7 +17,7 @@ func TestPublishedFormSubmit(t *testing.T) {
 	// 2. create the form
 	// 3. publish the form
 	// 4. finally submit one record for the form
-        // 5. delete workspace (outside this function)
+	// 5. delete workspace (outside this function)
 
 	//
 	// create workspace
@@ -50,9 +50,9 @@ func TestPublishedFormSubmit(t *testing.T) {
 	}
 	workspaceID := int(workspaceID_f)
 
-        //
-        // create, publish and submit form
-        //
+	//
+	// create, publish and submit form
+	//
 
 	//
 	// 2. create form
@@ -66,14 +66,14 @@ func TestPublishedFormSubmit(t *testing.T) {
 		t.Errorf("form data json request object error: %v\n", err)
 	}
 
-        r = httptest.NewRequest("POST", "http://localhost:4000/api/form", bytes.NewBuffer(formData))
+	r = httptest.NewRequest("POST", "http://localhost:4000/api/form", bytes.NewBuffer(formData))
 	r.Header.Add("Content-Type", "application/json")
 	r.Header.Add("Authorization", fmt.Sprintf("Bearer %v", AUTH_TOKEN))
-        w = httptest.NewRecorder()
+	w = httptest.NewRecorder()
 
 	s.FormCreateHandler(w, r)
 
-        resp = w.Result()
+	resp = w.Result()
 	var respBody map[string]any
 	if resp.StatusCode != 200 && resp.StatusCode != 201 {
 		if err := json.NewDecoder(resp.Body).Decode(&respBody); err != nil {
@@ -435,34 +435,161 @@ func TestPublishedFormSubmit(t *testing.T) {
 	s.FormPublishHandler(w, r)
 	resp = w.Result()
 	if resp.StatusCode != 200 && resp.StatusCode != 201 {
-                var resposeBody map[string]any
-                if err := json.NewDecoder(resp.Body).Decode(&resposeBody); err != nil {
-                        log.Println("json body error: ", err)
-                } else {
-                        log.Println("json body: ", resposeBody)
-                }
 		t.Errorf("form publish failed: %v", err)
 	}
+	var responseBody map[string]any
+	if err := json.NewDecoder(resp.Body).Decode(&responseBody); err != nil {
+		log.Println("json body error: ", err)
+	} else {
+		log.Println("json body: ", responseBody)
+	}
 
-        //
-        // delete workspace - upon test success or failure
-        //
+	publicID := responseBody["public_id"].(string)
+
+	//
+	// submit form
+	//
+	submitFormElementsPayload := `[
+  {
+    "seq_number": 2,
+    "value": "foo@mail.com",
+    "type": "email"
+  },
+  {
+    "seq_number": 3,
+    "value": {
+      "line1": "dodod",
+      "line2": "dadad",
+      "city": "abc",
+      "state": "cde",
+      "zip": "1234",
+      "country": "indian"
+    },
+    "type": "address"
+  },
+  {
+    "seq_number": 4,
+    "value": "+911234567890",
+    "type": "phone"
+  },
+  {
+    "seq_number": 5,
+    "value": "http://localhost.fire.com",
+    "type": "website"
+  },
+  {
+    "seq_number": 6,
+    "value": "hey buddy\nhow are you?",
+    "type": "longtext"
+  },
+  {
+    "seq_number": 7,
+    "value": "hello???",
+    "type": "text"
+  },
+  {
+    "seq_number": 8,
+    "value": [
+      {
+        "id": "eVCXdnMDdzqZ",
+        "text": "Option 1"
+      }
+    ],
+    "type": "multiselect"
+  },
+  {
+    "seq_number": 9,
+    "value": "RoTRccXWkC46",
+    "type": "singleselect"
+  },
+  {
+    "seq_number": 10,
+    "value": "yes",
+    "type": "boolean"
+  },
+  {
+    "seq_number": 11,
+    "value": true,
+    "type": "consent"
+  },
+  {
+    "seq_number": 12,
+    "value": "36",
+    "type": "number"
+  },
+  {
+    "seq_number": 13,
+    "value": "2025-08-31",
+    "type": "date"
+  },
+  {
+    "seq_number": 14,
+    "value": 6,
+    "type": "nps"
+  },
+  {
+    "seq_number": 15,
+    "value": 3,
+    "type": "rating"
+  },
+  {
+    "seq_number": 16,
+    "value": {
+      "optionsList": [
+        {
+          "id": "a2iell24UasT",
+          "text": "Option 1"
+        }
+      ],
+      "selectedRanks": [
+        "Option 1"
+      ]
+    },
+    "type": "ranking"
+  }
+]`
+
+	var submitFormElements any
+	if err = json.Unmarshal([]byte(submitFormElementsPayload), &submitFormElements); err != nil {
+		t.Errorf("json unmarshel submit form element payload: %v", err)
+	}
+	submitFormData, err := json.Marshal(map[string]any{
+		"public_id": publicID,
+		"elements":  submitFormElements,
+	})
+	if err != nil {
+		t.Errorf("json marshal failed: submit form data: %v", err)
+	}
+	r = httptest.NewRequest("POST", "/api/published/submit", bytes.NewBuffer(submitFormData))
+	r.Header.Add("Content-Type", "application/json")
+	r.Header.Add("Authorization", fmt.Sprintf("Bearer %v", AUTH_TOKEN))
+	w = httptest.NewRecorder()
+
+	s.PublishedFormSubmitHandler(w, r)
+
+	resp = w.Result()
+	if resp.StatusCode != 200 {
+		t.Errorf("failed to submit form data")
+	}
+
+	//
+	// delete workspace - upon test success or failure
+	//
 	r = httptest.NewRequest("DELETE", "http://localhost:4000/api/workspace/{workspace_id}", nil)
 	r.SetPathValue("workspace_id", fmt.Sprint(workspaceID))
-        r.Header.Add("Content-Type", "application/json")
-        r.Header.Add("Authorization", fmt.Sprintf("Bearer %v", AUTH_TOKEN))
-        w = httptest.NewRecorder()
+	r.Header.Add("Content-Type", "application/json")
+	r.Header.Add("Authorization", fmt.Sprintf("Bearer %v", AUTH_TOKEN))
+	w = httptest.NewRecorder()
 
-        s.WorkspaceDeleteHandler(w, r)
+	s.WorkspaceDeleteHandler(w, r)
 
-        resp = w.Result()
-        if resp.StatusCode != 200 && resp.StatusCode != 201 {
-                t.Errorf("failed to delete workspace: manual cleanup the data to bring it back to consistant state")
-        }
-        var responseBody map[string]any
-        if err = json.NewDecoder(resp.Body).Decode(&responseBody); err != nil {
-                log.Println("json decoding error:", err)
-        }
-        log.Println(responseBody)
+	resp = w.Result()
+	if resp.StatusCode != 200 && resp.StatusCode != 201 {
+		t.Errorf("failed to delete workspace: manual cleanup the data to bring it back to consistant state")
+	}
+	if err = json.NewDecoder(resp.Body).Decode(&responseBody); err != nil {
+		log.Println("json decoding error:", err)
+	}
+	log.Println(responseBody)
 
 }
