@@ -11,15 +11,15 @@ import (
 )
 
 type Submission struct {
-	ID int32 `json:"id"`
+	ID   int32  `json:"id"`
 	Data string `json:"data"`
 }
 
 func parseSubmission(dataDB []db.GetAnalyticsFormSubmissionsRow) []Submission {
 	var data []Submission = []Submission{}
 	for _, x := range dataDB {
-		data = append(data, Submission {
-			ID: x.ID,
+		data = append(data, Submission{
+			ID:   x.ID,
 			Data: x.Data,
 		})
 	}
@@ -53,7 +53,7 @@ func (s *Service) FormAnalyticsDataHandler(w http.ResponseWriter, r *http.Reques
 		}
 		return
 	}
-	publicID, err := s.Queries.GetPublicIDForm(r.Context(), int32(formID));
+	publicID, err := s.Queries.GetPublicIDForm(r.Context(), int32(formID))
 	if err != nil {
 		log.Println(fmt.Errorf("get public id: %v", err))
 		w.WriteHeader(http.StatusInternalServerError)
@@ -65,13 +65,13 @@ func (s *Service) FormAnalyticsDataHandler(w http.ResponseWriter, r *http.Reques
 		return
 	}
 	submissionsDBData, err := s.Queries.GetAnalyticsFormSubmissions(r.Context(), db.GetAnalyticsFormSubmissionsParams{
-		ID: int32(formID),
+		ID:   int32(formID),
 		ID_2: userID,
 	})
 	submissions := parseSubmission(submissionsDBData)
 	if err := json.NewEncoder(w).Encode(map[string]any{
 		"submissions": submissions,
-		"public_id": publicID,
+		"public_id":   publicID,
 	}); err != nil {
 		log.Println(fmt.Errorf("form analytics failed to write json: %v", err))
 		w.WriteHeader(http.StatusInternalServerError)
