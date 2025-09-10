@@ -723,7 +723,11 @@ func TestAnalyticsData(t *testing.T) {
         if !ok {
                 t.Fatalf("analytics complex test failed: failed to parse submissions, data: %v", data)
         }
+        jsonData, err := json.Marshal(data)
+        if err != nil {
+                log.Printf("data is not json data: %v", data)
+        }
         if len(submissions) != 2 {
-                t.Fatalf("analytics complex test failed: submission should have only two entries, data: %v", data)
+                t.Fatalf("analytics complex test failed: submission should have only two entries, data: %v", string(jsonData))
         }
 }

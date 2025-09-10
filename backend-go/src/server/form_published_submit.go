@@ -54,14 +54,30 @@ func (s *Service) PublishedFormSubmitHandler(w http.ResponseWriter, r *http.Requ
 	}
 
 	for _, element := range formData.Elements {
-		_, err := s.Conn.Exec(r.Context(), `
+		var elementValue map[string]any
+		elementValueString, ok := element.Value.(string)
+		if ok {
+			elementValue = map[string]any{
+				"value": elementValueString,
+			}
+		} else {
+			elementValue = map[string]any{
+				"value": element.Value,
+			}
+		}
+		elementValueJson, err := json.Marshal(elementValue)
+		if err != nil {
+			log.Println("failed to marshal element value to json, element value: %v", elementValue)
+			continue
+		}
+		_, err = s.Conn.Exec(r.Context(), `
 			INSERT INTO submission_entries (form_submission_id, element_id, data)
 			VALUES (
 				$1,
 				(SELECT ID FROM form_elements
 				WHERE form_id = (SELECT ID FROM forms WHERE public_id = $2 AND seq_number = $3)),
 				$4
-			)`, submissionID, formData.PublicID, element.SeqNo, map[string]any{"value": element.Value})
+			)`, submissionID, formData.PublicID, element.SeqNo, elementValueJson)
 		if err != nil {
 			log.Printf("failed to insert submission entry with error: %v", err)
 		}
