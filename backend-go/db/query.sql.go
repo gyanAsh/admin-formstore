@@ -41,7 +41,7 @@ func (q *Queries) DeleteFormElements(ctx context.Context, formID int32) error {
 }
 
 const getAnalyticsFormSubmissions = `-- name: GetAnalyticsFormSubmissions :many
-SELECT submission_elements.ID, data FROM submission_elements
+SELECT submission_elements.ID, form_submission_id, data FROM submission_elements
 INNER JOIN form_submissions ON form_submission_id = form_submissions.ID
 INNER JOIN forms ON form_submissions.form_id = forms.ID
 INNER JOIN workspaces ON forms.workspace_id = workspaces.ID
@@ -56,8 +56,9 @@ type GetAnalyticsFormSubmissionsParams struct {
 }
 
 type GetAnalyticsFormSubmissionsRow struct {
-	ID   int32
-	Data []byte
+	ID               int32
+	FormSubmissionID int32
+	Data             []byte
 }
 
 func (q *Queries) GetAnalyticsFormSubmissions(ctx context.Context, arg GetAnalyticsFormSubmissionsParams) ([]GetAnalyticsFormSubmissionsRow, error) {
@@ -69,7 +70,7 @@ func (q *Queries) GetAnalyticsFormSubmissions(ctx context.Context, arg GetAnalyt
 	var items []GetAnalyticsFormSubmissionsRow
 	for rows.Next() {
 		var i GetAnalyticsFormSubmissionsRow
-		if err := rows.Scan(&i.ID, &i.Data); err != nil {
+		if err := rows.Scan(&i.ID, &i.FormSubmissionID, &i.Data); err != nil {
 			return nil, err
 		}
 		items = append(items, i)

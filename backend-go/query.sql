@@ -99,7 +99,7 @@ WHERE forms.ID = $1 AND workspaces.user_id = $2;
 UPDATE forms SET design = $1 WHERE ID = $2;
 
 -- name: GetAnalyticsFormSubmissions :many
-SELECT submission_elements.ID, data FROM submission_elements
+SELECT submission_elements.ID, form_submission_id, data FROM submission_elements
 INNER JOIN form_submissions ON form_submission_id = form_submissions.ID
 INNER JOIN forms ON form_submissions.form_id = forms.ID
 INNER JOIN workspaces ON forms.workspace_id = workspaces.ID
