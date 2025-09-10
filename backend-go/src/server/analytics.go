@@ -10,13 +10,17 @@ import (
 	"local.formstore.admin/db"
 )
 
-type Submission struct {
-	Data map[string]any `json:"data"`
+type SubmissionElement struct {
+	Value any `json:"value"`
 }
 
-func parseSubmission(dataDB []db.GetAnalyticsFormSubmissionsRow) []map[string]any {
-	submissionEntries := make(map[int32][]Submission)
-	// var data []Submission = []Submission{}
+type Submission struct {
+	ID       int                 `json:"id"`
+	Elements []SubmissionElement `json:"elements"`
+}
+
+func parseSubmission(dataDB []db.GetAnalyticsFormSubmissionsRow) []Submission {
+	entries := make(map[int32][][]byte)
 	for _, x := range dataDB {
 		var val map[string]any
 		err := json.Unmarshal(x.Data, &val)
@@ -24,23 +28,28 @@ func parseSubmission(dataDB []db.GetAnalyticsFormSubmissionsRow) []map[string]an
 			log.Printf("failed to parse json data with error: %v", err)
 			continue
 		}
-		if submissionEntries[x.FormSubmissionID] == nil {
-			submissionEntries[x.FormSubmissionID] = []Submission{}
+		if entries[x.FormSubmissionID] == nil {
+			entries[x.FormSubmissionID] = make([][]byte, 0)
 		}
-		submissionEntries[x.FormSubmissionID] = append(submissionEntries[x.FormSubmissionID], Submission{
-			Data: val,
-		})
+		entries[x.FormSubmissionID] = append(entries[x.FormSubmissionID], x.Data)
 	}
 
-	data := make([]map[string]any, 0)
-	for key, val := range submissionEntries {
-		elements := make([]any, 0)
+	data := make([]Submission, 0)
+	for key, val := range entries {
+		elements := make([]SubmissionElement, 0)
 		for _, sub := range val {
-			elements = append(elements, sub.Data["value"])
+			var jsonSub map[string]any
+			if err := json.Unmarshal(sub, &jsonSub); err != nil {
+				log.Printf("json unmarshal submission entry error: %v", err)
+				continue
+			}
+			elements = append(elements, SubmissionElement{
+				Value: jsonSub["value"],
+			})
 		}
-		data = append(data, map[string]any {
-			"submission_id": key,
-			"elements": elements,
+		data = append(data, Submission{
+			ID:       int(key),
+			Elements: elements,
 		})
 	}
 
