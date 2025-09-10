@@ -447,7 +447,7 @@ func TestAnalyticsData(t *testing.T) {
 	publicID := responseBody["public_id"].(string)
 
 	//
-	// submit form
+	// 1st submit form
 	//
 	submitFormElementsPayload := `[
   {
@@ -554,6 +554,131 @@ func TestAnalyticsData(t *testing.T) {
 		t.Errorf("json unmarshel submit form element payload: %v", err)
 	}
 	submitFormData, err := json.Marshal(map[string]any{
+		"public_id": publicID,
+		"elements":  submitFormElements,
+	})
+	if err != nil {
+		t.Errorf("json marshal failed: submit form data: %v", err)
+	}
+	r = httptest.NewRequest("POST", "/api/published/submit", bytes.NewBuffer(submitFormData))
+	r.Header.Add("Content-Type", "application/json")
+	r.Header.Add("Authorization", fmt.Sprintf("Bearer %v", AUTH_TOKEN))
+	w = httptest.NewRecorder()
+
+	s.PublishedFormSubmitHandler(w, r)
+
+	resp = w.Result()
+	if resp.StatusCode != 200 && resp.StatusCode != 201 {
+		t.Errorf("failed to submit form data")
+	}
+
+	//
+	// 2nd submit form
+	//
+	submitFormElementsPayload2 := `[
+  {
+    "seq_number": 2,
+    "value": "bar@mail.com",
+    "type": "email"
+  },
+  {
+    "seq_number": 3,
+    "value": {
+      "line1": "abc",
+      "line2": "def",
+      "city": "abc",
+      "state": "cde",
+      "zip": "124",
+      "country": "india"
+    },
+    "type": "address"
+  },
+  {
+    "seq_number": 4,
+    "value": "+911434987890",
+    "type": "phone"
+  },
+  {
+    "seq_number": 5,
+    "value": "http://localhost.firefly.com",
+    "type": "website"
+  },
+  {
+    "seq_number": 6,
+    "value": "hey buddy\nhow are you?",
+    "type": "longtext"
+  },
+  {
+    "seq_number": 7,
+    "value": "hello???",
+    "type": "text"
+  },
+  {
+    "seq_number": 8,
+    "value": [
+      {
+        "id": "eVCXdnMDdzqZ",
+        "text": "Option 1"
+      }
+    ],
+    "type": "multiselect"
+  },
+  {
+    "seq_number": 9,
+    "value": "RoTRccXWkC46",
+    "type": "singleselect"
+  },
+  {
+    "seq_number": 10,
+    "value": "yes",
+    "type": "boolean"
+  },
+  {
+    "seq_number": 11,
+    "value": true,
+    "type": "consent"
+  },
+  {
+    "seq_number": 12,
+    "value": "48",
+    "type": "number"
+  },
+  {
+    "seq_number": 13,
+    "value": "2025-08-31",
+    "type": "date"
+  },
+  {
+    "seq_number": 14,
+    "value": 6,
+    "type": "nps"
+  },
+  {
+    "seq_number": 15,
+    "value": 3,
+    "type": "rating"
+  },
+  {
+    "seq_number": 16,
+    "value": {
+      "optionsList": [
+        {
+          "id": "a2iell24UasT",
+          "text": "Option 1"
+        }
+      ],
+      "selectedRanks": [
+        "Option 1"
+      ]
+    },
+    "type": "ranking"
+  }
+]`
+
+	if err = json.Unmarshal([]byte(submitFormElementsPayload2), &submitFormElements); err != nil {
+		t.Errorf("json unmarshel submit form element payload: %v", err)
+	}
+	submitFormData, err = json.Marshal(map[string]any{
 		"public_id": publicID,
 		"elements":  submitFormElements,
 	})
