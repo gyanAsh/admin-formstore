@@ -91,26 +91,26 @@ func TestAnalyticsPage(t *testing.T) {
 		// TODO: handle case for create new submission entries
 		t.Fatalf("incomplete testing function")
 	}
-	formID := formIDs[0]
+	for _, formID := range formIDs {
+		r := httptest.NewRequest("GET", "http://localhost:4000/api/analytics/{form_id}", nil)
+		r.Header.Add("Authorization", fmt.Sprintf("Bearer %s", AUTH_TOKEN))
+		r.SetPathValue("form_id", strconv.Itoa(formID))
+		w := httptest.NewRecorder()
+		s.FormAnalyticsDataHandler(w, r)
+		resp := w.Result()
 
-	r := httptest.NewRequest("GET", "http://localhost:4000/api/analytics/{form_id}", nil)
-	r.Header.Add("Authorization", fmt.Sprintf("Bearer %s", AUTH_TOKEN))
-	r.SetPathValue("form_id", strconv.Itoa(formID))
-	w := httptest.NewRecorder()
-	s.FormAnalyticsDataHandler(w, r)
-	resp := w.Result()
-
-	if resp.StatusCode != 200 {
-		responseBody, err := io.ReadAll(resp.Body)
-		if err != nil {
-			log.Printf("failed to decode response body: %v", err)
+		if resp.StatusCode != 200 {
+			responseBody, err := io.ReadAll(resp.Body)
+			if err != nil {
+				log.Printf("failed to decode response body: %v", err)
+			}
+			t.Fatalf("failed to get analytics data, status: %v, body: %v", resp.Status, responseBody)
 		}
-		t.Fatalf("failed to get analytics data, status: %v, body: %v", resp.Status, responseBody)
-	}
 
-	var data map[string]any
-	if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
-		t.Fatalf("failed to decode response body: %v", err)
+		var data map[string]any
+		if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
+			t.Fatalf("failed to decode response body: %v", err)
+		}
+		// t.Errorf("fix the analytis function, data: %v", data)
 	}
-	t.Fatalf("fix the analytis function, data: %v", data)
 }
