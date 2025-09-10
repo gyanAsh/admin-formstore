@@ -54,16 +54,18 @@ func (s *Service) PublishedFormSubmitHandler(w http.ResponseWriter, r *http.Requ
 	}
 
 	for _, element := range formData.Elements {
-		s.Conn.Exec(r.Context(), `
+		_, err := s.Conn.Exec(r.Context(), `
 			INSERT INTO submission_entries (form_submission_id, element_id, data)
 			VALUES (
 				$1,
-				SELECT * FROM form_elements 
-				WHERE form_id = (SELECT ID FROM forms WHERE public_id = $2)
-				AND seq_number = $3,
+				(SELECT ID FROM form_elements
+				WHERE form_id = (SELECT ID FROM forms WHERE public_id = $2 AND seq_number = $3)),
 				$4
-			);`, submissionID, formData.PublicID, element.SeqNo, element.Value)
-		if err := json.NewEncoder(w).Encode(map[string]any{
+			)`, submissionID, formData.PublicID, element.SeqNo, map[string]any{"value": element.Value})
+		if err != nil {
+			log.Printf("failed to insert submission entry with error: %v", err)
+		}
+		if err = json.NewEncoder(w).Encode(map[string]any{
 			"message": "form successfully submitted",
 		}); err != nil {
 			log.Println(fmt.Errorf("json encoding success message failed: %v", err))
