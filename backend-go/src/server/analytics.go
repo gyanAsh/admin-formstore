@@ -11,16 +11,18 @@ import (
 )
 
 type Submission struct {
-	ID   int32  `json:"id"`
-	Data string `json:"data"`
+	ID   int32          `json:"id"`
+	Data map[string]any `json:"data"`
 }
 
 func parseSubmission(dataDB []db.GetAnalyticsFormSubmissionsRow) []Submission {
 	var data []Submission = []Submission{}
 	for _, x := range dataDB {
+		var val map[string]any
+		_ = json.Unmarshal(x.Data, &val)
 		data = append(data, Submission{
 			ID:   x.ID,
-			Data: string(x.Data),
+			Data: val,
 		})
 	}
 	return data
