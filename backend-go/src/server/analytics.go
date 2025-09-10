@@ -11,20 +11,39 @@ import (
 )
 
 type Submission struct {
-	ID   int32          `json:"id"`
 	Data map[string]any `json:"data"`
 }
 
-func parseSubmission(dataDB []db.GetAnalyticsFormSubmissionsRow) []Submission {
-	var data []Submission = []Submission{}
+func parseSubmission(dataDB []db.GetAnalyticsFormSubmissionsRow) []map[string]any {
+	submissionEntries := make(map[int32][]Submission)
+	// var data []Submission = []Submission{}
 	for _, x := range dataDB {
 		var val map[string]any
-		_ = json.Unmarshal(x.Data, &val)
-		data = append(data, Submission{
-			ID:   x.ID,
+		err := json.Unmarshal(x.Data, &val)
+		if err != nil {
+			log.Printf("failed to parse json data with error: %v", err)
+			continue
+		}
+		if submissionEntries[x.FormSubmissionID] == nil {
+			submissionEntries[x.FormSubmissionID] = []Submission{}
+		}
+		submissionEntries[x.FormSubmissionID] = append(submissionEntries[x.FormSubmissionID], Submission{
 			Data: val,
 		})
 	}
+
+	data := make([]map[string]any, 0)
+	for key, val := range submissionEntries {
+		elements := make([]any, 0)
+		for _, sub := range val {
+			elements = append(elements, sub.Data["value"])
+		}
+		data = append(data, map[string]any {
+			"submission_id": key,
+			"elements": elements,
+		})
+	}
+
 	return data
 }
 
