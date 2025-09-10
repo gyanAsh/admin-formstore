@@ -71,7 +71,7 @@ func (s *Service) PublishedFormSubmitHandler(w http.ResponseWriter, r *http.Requ
 			continue
 		}
 		_, err = s.Conn.Exec(r.Context(), `
-			INSERT INTO submission_entries (form_submission_id, element_id, data)
+			INSERT INTO submission_elements (form_submission_id, element_id, data)
 			VALUES (
 				$1,
 				(SELECT ID FROM form_elements

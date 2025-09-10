@@ -20,7 +20,7 @@ func parseSubmission(dataDB []db.GetAnalyticsFormSubmissionsRow) []Submission {
 	for _, x := range dataDB {
 		data = append(data, Submission{
 			ID:   x.ID,
-			Data: x.Data,
+			Data: string(x.Data),
 		})
 	}
 	return data

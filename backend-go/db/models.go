@@ -144,11 +144,11 @@ type FormSubmission struct {
 	UserID    pgtype.Int4
 }
 
-type SubmissionEntry struct {
+type SubmissionElement struct {
 	ID               int32
 	FormSubmissionID int32
 	ElementID        int32
-	Data             string
+	Data             []byte
 }
 
 type User struct {
