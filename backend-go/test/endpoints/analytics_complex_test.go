@@ -551,13 +551,13 @@ func TestAnalyticsData(t *testing.T) {
   }
 ]`
 
-	var submitFormElements any
-	if err = json.Unmarshal([]byte(submitFormElementsPayload), &submitFormElements); err != nil {
+	var submitFormElements1 any
+	if err = json.Unmarshal([]byte(submitFormElementsPayload), &submitFormElements1); err != nil {
 		t.Errorf("json unmarshel submit form element payload: %v", err)
 	}
 	submitFormData, err := json.Marshal(map[string]any{
 		"public_id": publicID,
-		"elements":  submitFormElements,
+		"elements":  submitFormElements1,
 	})
 	if err != nil {
 		t.Errorf("json marshal failed: submit form data: %v", err)
@@ -677,12 +677,13 @@ func TestAnalyticsData(t *testing.T) {
   }
 ]`
 
-	if err = json.Unmarshal([]byte(submitFormElementsPayload2), &submitFormElements); err != nil {
+        var submitFormElements2 any
+	if err = json.Unmarshal([]byte(submitFormElementsPayload2), &submitFormElements2); err != nil {
 		t.Errorf("json unmarshel submit form element payload: %v", err)
 	}
 	submitFormData, err = json.Marshal(map[string]any{
 		"public_id": publicID,
-		"elements":  submitFormElements,
+		"elements":  submitFormElements2,
 	})
 	if err != nil {
 		t.Errorf("json marshal failed: submit form data: %v", err)
@@ -723,11 +724,11 @@ func TestAnalyticsData(t *testing.T) {
 	}
 	var data ResponseData
 	if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
-                responseBody, err := io.ReadAll(resp.Body)
-                if err != nil {
-                        log.Printf("failed to decode response body with error: %v", err)
-                }
-                t.Fatalf("failed to decode response body with error: %v, body: %v", err, responseBody)
+		responseBody, err := io.ReadAll(resp.Body)
+		if err != nil {
+			log.Printf("failed to decode response body with error: %v", err)
+		}
+		t.Fatalf("failed to decode response body with error: %v, body: %v", err, responseBody)
 	}
 	if len(data.Submissions) != 2 {
 		t.Fatalf("analytics complex test failed: submission should have only two entries, data: %v", data.Submissions)
