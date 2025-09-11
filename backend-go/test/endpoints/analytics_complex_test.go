@@ -10,6 +10,8 @@ import (
 	"net/http/httptest"
 	"strconv"
 	"testing"
+
+	"local.formstore.admin/src/server"
 )
 
 func TestAnalyticsData(t *testing.T) {
@@ -19,7 +21,7 @@ func TestAnalyticsData(t *testing.T) {
 	// 3. publish the form
 	// 4. submit 1st record
 	// 5. submit 2nd record
-        // 6. query analytics page
+	// 6. query analytics page
 
 	//
 	// create workspace
@@ -441,7 +443,7 @@ func TestAnalyticsData(t *testing.T) {
 	}
 	var responseBody map[string]any
 	if err := json.NewDecoder(resp.Body).Decode(&responseBody); err != nil {
-		log.Println("json body error: ", err)
+		log.Printf("json body error: %v", err)
 	}
 
 	publicID := responseBody["public_id"].(string)
@@ -697,37 +699,37 @@ func TestAnalyticsData(t *testing.T) {
 		t.Errorf("failed to submit form data")
 	}
 
-        ///
-        /// query analytics page
-        ///
-        r = httptest.NewRequest("GET", "http://localhost:4000/api/analytics/{form_id}", nil)
-        r.Header.Add("Authorization", fmt.Sprintf("Bearer %s", AUTH_TOKEN))
-        r.SetPathValue("form_id", strconv.Itoa(formID))
-        w = httptest.NewRecorder()
-        s.FormAnalyticsDataHandler(w, r)
-        resp = w.Result()
+	///
+	/// query analytics page
+	///
+	r = httptest.NewRequest("GET", "http://localhost:4000/api/analytics/{form_id}", nil)
+	r.Header.Add("Authorization", fmt.Sprintf("Bearer %s", AUTH_TOKEN))
+	r.SetPathValue("form_id", strconv.Itoa(formID))
+	w = httptest.NewRecorder()
+	s.FormAnalyticsDataHandler(w, r)
+	resp = w.Result()
 
-        if resp.StatusCode != 200 {
+	if resp.StatusCode != 200 {
+		responseBody, err := io.ReadAll(resp.Body)
+		if err != nil {
+			log.Printf("failed to decode response body: %v", err)
+		}
+		t.Fatalf("failed to get analytics data, status: %v, body: %v", resp.Status, responseBody)
+	}
+
+	type ResponseData struct {
+		PublicID    string              `json:"public_id"`
+		Submissions []server.Submission `json:"submissions"`
+	}
+	var data ResponseData
+	if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
                 responseBody, err := io.ReadAll(resp.Body)
                 if err != nil {
-                        log.Printf("failed to decode response body: %v", err)
+                        log.Printf("failed to decode response body with error: %v", err)
                 }
-                t.Fatalf("failed to get analytics data, status: %v, body: %v", resp.Status, responseBody)
-        }
-
-        var data map[string]any
-        if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
-                t.Fatalf("failed to decode response body: %v", err)
-        }
-        submissions, ok := data["submissions"].([]any)
-        if !ok {
-                t.Fatalf("analytics complex test failed: failed to parse submissions, data: %v", data)
-        }
-        jsonData, err := json.Marshal(data)
-        if err != nil {
-                log.Printf("data is not json data: %v", data)
-        }
-        if len(submissions) != 2 {
-                t.Fatalf("analytics complex test failed: submission should have only two entries, data: %v", string(jsonData))
-        }
+                t.Fatalf("failed to decode response body with error: %v, body: %v", err, responseBody)
+	}
+	if len(data.Submissions) != 2 {
+		t.Fatalf("analytics complex test failed: submission should have only two entries, data: %v", data.Submissions)
+	}
 }
