@@ -67,7 +67,7 @@ func (s *Service) PublishedFormSubmitHandler(w http.ResponseWriter, r *http.Requ
 		}
 		elementValueJson, err := json.Marshal(elementValue)
 		if err != nil {
-			log.Println("failed to marshal element value to json, element value: %v", elementValue)
+			log.Printf("failed to marshal element value to json, element value: %v", elementValue)
 			continue
 		}
 		_, err = s.Conn.Exec(r.Context(), `
