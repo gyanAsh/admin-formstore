@@ -11,7 +11,8 @@ import (
 )
 
 type SubmissionElement struct {
-	Value any `json:"value"`
+	Type  string `json:"type"`
+	Value any    `json:"value"`
 }
 
 type Submission struct {
@@ -20,7 +21,7 @@ type Submission struct {
 }
 
 func parseSubmission(dataDB []db.GetAnalyticsFormSubmissionsRow) []Submission {
-	entries := make(map[int32][][]byte)
+	entries := make(map[int32][]SubmissionElement)
 	for _, x := range dataDB {
 		var val map[string]any
 		err := json.Unmarshal(x.Data, &val)
@@ -29,27 +30,26 @@ func parseSubmission(dataDB []db.GetAnalyticsFormSubmissionsRow) []Submission {
 			continue
 		}
 		if entries[x.FormSubmissionID] == nil {
-			entries[x.FormSubmissionID] = make([][]byte, 0)
+			entries[x.FormSubmissionID] = make([]SubmissionElement, 0)
 		}
-		entries[x.FormSubmissionID] = append(entries[x.FormSubmissionID], x.Data)
+
+		var sub map[string]any
+		if err = json.Unmarshal(x.Data, &sub); err != nil {
+			log.Println("json unmashal for data failed: %v", err)
+			continue
+		}
+		element := SubmissionElement {
+			Value: sub["value"],
+			Type: string(x.Type),
+		}
+		entries[x.FormSubmissionID] = append(entries[x.FormSubmissionID], element)
 	}
 
 	data := make([]Submission, 0)
 	for key, val := range entries {
-		elements := make([]SubmissionElement, 0)
-		for _, sub := range val {
-			var jsonSub map[string]any
-			if err := json.Unmarshal(sub, &jsonSub); err != nil {
-				log.Printf("json unmarshal submission entry error: %v", err)
-				continue
-			}
-			elements = append(elements, SubmissionElement{
-				Value: jsonSub["value"],
-			})
-		}
 		data = append(data, Submission{
 			ID:       int(key),
-			Elements: elements,
+			Elements: val,
 		})
 	}
 

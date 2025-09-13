@@ -733,4 +733,21 @@ func TestAnalyticsData(t *testing.T) {
 	if len(data.Submissions) != 2 {
 		t.Fatalf("analytics complex test failed: submission should have only two entries, data: %v", data.Submissions)
 	}
+	respSubmissionData1, err := json.Marshal(data.Submissions[0].Elements)
+	if err != nil {
+		t.Fatalf("failed to convert submission data back to json with error: %v", err)
+	}
+	respExpectedSubmissionData1 := `[{"type":"email","value":"foo@mail.com"},{"type":"address","value":{"city":"abc","country":"indian","line1":"dodod","line2":"dadad","state":"cde","zip":"1234"}},{"type":"phone","value":"+911234567890"},{"type":"website","value":"http://localhost.fire.com"},{"type":"longtext","value":"hey buddy\nhow are you?"},{"type":"text","value":"hello???"},{"type":"multiselect","value":[{"id":"eVCXdnMDdzqZ","text":"Option 1"}]},{"type":"singleselect","value":"RoTRccXWkC46"},{"type":"boolean","value":"yes"},{"type":"consent","value":true},{"type":"number","value":"36"},{"type":"date","value":"2025-08-31"},{"type":"nps","value":6},{"type":"rating","value":3},{"type":"ranking","value":{"optionsList":[{"id":"a2iell24UasT","text":"Option 1"}],"selectedRanks":["Option 1"]}}]`
+	if string(respSubmissionData1) != respExpectedSubmissionData1 {
+		t.Fatalf("assert failed with actual: %v, expected: %v", string(respSubmissionData1), respExpectedSubmissionData1)
+	}
+
+	respSubmissionData2, err := json.Marshal(data.Submissions[1].Elements)
+	if err != nil {
+		t.Fatalf("failed to convert submission data back to json with error: %v", err)
+	}
+	respExpectedSubmissionData2 := `[{"type":"email","value":"bar@mail.com"},{"type":"address","value":{"city":"abc","country":"india","line1":"abc","line2":"def","state":"cde","zip":"124"}},{"type":"phone","value":"+911434987890"},{"type":"website","value":"http://localhost.firefly.com"},{"type":"longtext","value":"hey buddy\nhow are you?"},{"type":"text","value":"hello???"},{"type":"multiselect","value":[{"id":"eVCXdnMDdzqZ","text":"Option 1"}]},{"type":"singleselect","value":"RoTRccXWkC46"},{"type":"boolean","value":"yes"},{"type":"consent","value":true},{"type":"number","value":"48"},{"type":"date","value":"2025-08-31"},{"type":"nps","value":6},{"type":"rating","value":3},{"type":"ranking","value":{"optionsList":[{"id":"a2iell24UasT","text":"Option 1"}],"selectedRanks":["Option 1"]}}]`
+	if string(respSubmissionData2) != respExpectedSubmissionData2 {
+		t.Fatalf("assert failed with actual: %v, expected: %v", string(respSubmissionData2), respExpectedSubmissionData2)
+	}
 }
