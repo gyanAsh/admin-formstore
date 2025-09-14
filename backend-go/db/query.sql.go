@@ -41,7 +41,9 @@ func (q *Queries) DeleteFormElements(ctx context.Context, formID int32) error {
 }
 
 const getAnalyticsFormSubmissions = `-- name: GetAnalyticsFormSubmissions :many
-SELECT submission_elements.ID, form_submission_id, data, form_elements.type FROM submission_elements
+SELECT submission_elements.ID, form_submission_id, data, form_elements.type, 
+	form_submissions.created_at
+FROM submission_elements
 INNER JOIN form_submissions ON form_submission_id = form_submissions.ID
 INNER JOIN form_elements ON submission_elements.element_id = form_elements.ID
 INNER JOIN forms ON form_submissions.form_id = forms.ID
@@ -61,6 +63,7 @@ type GetAnalyticsFormSubmissionsRow struct {
 	FormSubmissionID int32
 	Data             []byte
 	Type             FormElementTypes
+	CreatedAt        pgtype.Timestamptz
 }
 
 func (q *Queries) GetAnalyticsFormSubmissions(ctx context.Context, arg GetAnalyticsFormSubmissionsParams) ([]GetAnalyticsFormSubmissionsRow, error) {
@@ -77,6 +80,7 @@ func (q *Queries) GetAnalyticsFormSubmissions(ctx context.Context, arg GetAnalyt
 			&i.FormSubmissionID,
 			&i.Data,
 			&i.Type,
+			&i.CreatedAt,
 		); err != nil {
 			return nil, err
 		}

@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 
 	"local.formstore.admin/db"
 )
@@ -16,12 +17,13 @@ type SubmissionElement struct {
 }
 
 type Submission struct {
-	ID       int                 `json:"id"`
-	Elements []SubmissionElement `json:"elements"`
+	ID        int                 `json:"id"`
+	CreatedAt string              `json:"created_at"`
+	Elements  []SubmissionElement `json:"elements"`
 }
 
 func parseSubmission(dataDB []db.GetAnalyticsFormSubmissionsRow) []Submission {
-	entries := make(map[int32][]SubmissionElement)
+	entries := make(map[int32]Submission)
 	for _, x := range dataDB {
 		var val map[string]any
 		err := json.Unmarshal(x.Data, &val)
@@ -29,27 +31,29 @@ func parseSubmission(dataDB []db.GetAnalyticsFormSubmissionsRow) []Submission {
 			log.Printf("failed to parse json data with error: %v", err)
 			continue
 		}
-		if entries[x.FormSubmissionID] == nil {
-			entries[x.FormSubmissionID] = make([]SubmissionElement, 0)
-		}
 
 		var sub map[string]any
 		if err = json.Unmarshal(x.Data, &sub); err != nil {
 			log.Println("json unmashal for data failed: %v", err)
 			continue
 		}
-		element := SubmissionElement {
+		element := SubmissionElement{
 			Value: sub["value"],
-			Type: string(x.Type),
+			Type:  string(x.Type),
 		}
-		entries[x.FormSubmissionID] = append(entries[x.FormSubmissionID], element)
+		elements := append(entries[x.FormSubmissionID].Elements, element)
+		entries[x.FormSubmissionID] = Submission {
+			CreatedAt: x.CreatedAt.Time.Format(time.RFC3339),
+			Elements: elements,
+		}
 	}
 
 	data := make([]Submission, 0)
 	for key, val := range entries {
 		data = append(data, Submission{
-			ID:       int(key),
-			Elements: val,
+			ID:        int(key),
+			CreatedAt: val.CreatedAt,
+			Elements:  val.Elements,
 		})
 	}
 
