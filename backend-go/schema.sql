@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS form_submissions (
 	created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
 	updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
 	user_id INTEGER, -- user id can be null
-	FOREIGN KEY (form_id) REFERENCES forms(ID)
+	FOREIGN KEY (form_id) REFERENCES forms(ID) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS submission_elements (
@@ -88,6 +88,6 @@ CREATE TABLE IF NOT EXISTS submission_elements (
 	form_submission_id INTEGER NOT NULL,
 	element_id INTEGER NOT NULL,
 	data JSON,
-	FOREIGN KEY (form_submission_id) REFERENCES form_submissions(ID),
+	FOREIGN KEY (form_submission_id) REFERENCES form_submissions(ID) ON DELETE CASCADE,
 	FOREIGN KEY (element_id) REFERENCES form_elements(ID)
 );
