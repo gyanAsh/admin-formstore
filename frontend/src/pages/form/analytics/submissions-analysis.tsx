@@ -41,8 +41,8 @@ export const SubmissionsAnalysis = ({ submissions }: { submissions: any }) => {
           {/* </div> */}
         </div>
 
-        {submissions.map((sub) => (
-          <div className="border-muted-foreground/30 hover:border-primary grid min-h-fit w-full grid-cols-5 gap-2.5 rounded-xl border-[1.5px] bg-slate-50 px-6 py-2 text-sm text-wrap transition-all duration-75 dark:bg-slate-900/80">
+        {submissions.map((sub, i) => (
+          <div key={i} className="border-muted-foreground/30 hover:border-primary grid min-h-fit w-full grid-cols-5 gap-2.5 rounded-xl border-[1.5px] bg-slate-50 px-6 py-2 text-sm text-wrap transition-all duration-75 dark:bg-slate-900/80">
             <p className="flex items-center font-medium break-all">1</p>
             <p className="flex items-center font-medium break-all">
               {sub?.createdAt ?? "Jun 5th 2025"}
@@ -50,8 +50,8 @@ export const SubmissionsAnalysis = ({ submissions }: { submissions: any }) => {
             <p className="flex items-center font-medium break-all">
               {sub?.username ?? "N.A."}
             </p>
-            {sub.elements.map((elem) => (
-              <p className="flex items-center font-medium break-all">
+            {sub.elements.map((elem, i) => (
+              <p key={i} className="flex items-center font-medium break-all">
                 {elem.value}
               </p>
             ))}
