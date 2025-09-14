@@ -157,7 +157,6 @@ export default function Workspace() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-3">
               {/* Only the visible items in the virtualizer, manually positioned to be in view */}
               {formsData?.forms?.map((form: any) => {
-                console.log({ form });
                 return (
                   <Card
                     key={form.id}
