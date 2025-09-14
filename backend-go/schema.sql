@@ -89,5 +89,5 @@ CREATE TABLE IF NOT EXISTS submission_elements (
 	element_id INTEGER NOT NULL,
 	data JSON,
 	FOREIGN KEY (form_submission_id) REFERENCES form_submissions(ID) ON DELETE CASCADE,
-	FOREIGN KEY (element_id) REFERENCES form_elements(ID)
+	FOREIGN KEY (element_id) REFERENCES form_elements(ID) ON DELETE CASCADE
 );
